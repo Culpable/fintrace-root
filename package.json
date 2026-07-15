@@ -1,0 +1,47 @@
+{
+  "name": "fintrace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FinTrace brand design lab - six candidate homepage designs for the forensic bank-statement analysis service",
+  "engines": {
+    "node": ">=22.23.1 <23"
+  },
+  "scripts": {
+    "dev": "next dev -p 3004",
+    "build": "next build",
+    "start": "next start -p 3004",
+    "lint": "eslint"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 120,
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ],
+    "tailwindStylesheet": "./src/app/globals.css",
+    "tailwindFunctions": [
+      "clsx"
+    ]
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "next": "^16.1.5",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "three": "^0.182.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.182.0",
+    "eslint": "^9",
+    "eslint-config-next": "^16.1.5",
+    "prettier": "^3.3.2",
+    "prettier-plugin-tailwindcss": "^0.6.5",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5"
+  }
+}

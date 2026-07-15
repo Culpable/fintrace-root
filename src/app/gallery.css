@@ -1,0 +1,78 @@
+/*
+ * FinTrace Design Lab — gallery index styles.
+ *
+ * The gallery is deliberately neutral (deep graphite, no brand colour)
+ * so it never biases the comparison between the six candidate designs.
+ * Every rule is scoped under .dsn-gallery to stay isolated from the
+ * design routes, which own their complete visual systems.
+ */
+
+.dsn-gallery {
+  /* Neutral lab palette — graphite field, chalk text, muted annotations */
+  --lab-bg: #0f1012;
+  --lab-ink: #e8e6e1;
+  --lab-muted: #8a8781;
+  --lab-line: rgba(232, 230, 225, 0.14);
+}
+
+/* Subtle photographic grain so the neutral field still has material depth */
+.dsn-gallery::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Staggered settle-in for the index rows on first paint */
+@keyframes lab-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lab-rise {
+  opacity: 0;
+  animation: lab-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Row hover: tint the row with the design's dominant colour and slide the arrow */
+.lab-row {
+  border-top: 1px solid var(--lab-line);
+  transition:
+    background-color 0.35s ease,
+    padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lab-row:hover {
+  background-color: var(--row-tint, rgba(232, 230, 225, 0.04));
+  padding-left: 0.75rem;
+}
+
+.lab-row .lab-arrow {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease;
+  opacity: 0.35;
+}
+
+.lab-row:hover .lab-arrow {
+  transform: translateX(0.5rem);
+  opacity: 1;
+}
+
+/* Concept name gains an italic lean on hover — a nod to a curator's hand */
+.lab-row .lab-name {
+  transition: color 0.35s ease;
+}
+
+.lab-row:hover .lab-name {
+  color: var(--row-accent, var(--lab-ink));
+}

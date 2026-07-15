@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+
+/*
+ * FinTrace design lab - shared base styles only.
+ *
+ * Deliberately minimal: every design route (/ledger, /trace, /clarity,
+ * /engine, /exhibit, /chambers) owns its complete visual system in a
+ * colocated CSS file so the six brand explorations never bleed into
+ * one another. Only true globals live here.
+ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Prevent accidental horizontal scroll from decorative offscreen elements */
+html,
+body {
+  overflow-x: clip;
+}

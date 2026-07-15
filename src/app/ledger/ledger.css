@@ -1,0 +1,992 @@
+/*
+ * “The Ledger” — light editorial broadsheet design system.
+ *
+ * Every rule is scoped under .dsn-ledger so this visual system cannot
+ * collide with the other five FinTrace design explorations. The palette,
+ * rhythm and ornament all reference two artefacts: the financial pages of
+ * a broadsheet newspaper, and a hand-ruled accounting ledger.
+ */
+
+.dsn-ledger {
+  /* ---- Palette ------------------------------------------------------ */
+  --paper: #f7f3ea;        /* warm ivory page */
+  --paper-deep: #efe9da;   /* recessed panels, table headers */
+  --ink: #1a1712;          /* primary ink */
+  --ink-soft: #4c463b;     /* secondary text */
+  --ink-faint: #8c8471;    /* captions, folios */
+  --rule: #d9d1bf;         /* hairline rules */
+  --rule-dark: #b9b09a;    /* emphasised rules */
+  --red: #b3231f;          /* oxide red — flags and key accents ONLY */
+  --forest: #23402f;       /* deep forest ink — credits, quiet accents */
+
+  /* ---- Type families ------------------------------------------------- */
+  --display: var(--font-fraunces), 'Iowan Old Style', serif;
+  --body: var(--font-newsreader), Georgia, serif;
+  --mono: var(--font-spline-mono), 'Courier New', monospace;
+
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  position: relative;
+}
+
+/* Faint paper grain: a static feTurbulence layer keeps the page from
+   reading as flat digital white without costing anything at runtime. */
+.dsn-ledger::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.42 0 0 0 0 0.39 0 0 0 0 0.32 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Stack all real content above the grain layer. */
+.dsn-ledger > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Shared layout ---------------------------------------------------- */
+
+.lg-shell {
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* Small-caps mono label used for section departments and metadata. */
+.lg-label {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Numbered broadsheet department header: “01 · The method”. */
+.lg-dept {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+}
+
+.lg-dept-no {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  color: var(--red);
+}
+
+/* Double rule beneath department headers — the ledger’s signature ornament. */
+.lg-dept-rule {
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  height: 4px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+
+.lg-reveal.is-inview .lg-dept-rule {
+  transform: scaleX(1);
+}
+
+/* Generic fade-up applied to revealed content blocks. */
+.lg-rise {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.9s ease 0.15s,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+
+.lg-reveal.is-inview .lg-rise {
+  opacity: 1;
+  transform: none;
+}
+
+/* Staggered children — set --stagger-i on each child. */
+.lg-reveal.is-inview .lg-rise-child {
+  opacity: 1;
+  transform: none;
+}
+
+.lg-rise-child {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.8s ease calc(0.12s + var(--stagger-i, 0) * 0.12s),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) calc(0.12s + var(--stagger-i, 0) * 0.12s);
+}
+
+/* ---- Masthead ---------------------------------------------------------- */
+
+.lg-masthead {
+  border-bottom: 1px solid var(--ink);
+  position: relative;
+}
+
+/* Thick-thin newspaper rule across the very top of the page. */
+.lg-masthead::before {
+  content: '';
+  display: block;
+  border-top: 3px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  height: 6px;
+  margin-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+.lg-masthead-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1.1rem;
+}
+
+/* Bespoke logotype: upright “Fin”, italic “Trace”, hairline underscore. */
+.lg-logotype {
+  font-family: var(--display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.lg-logotype em {
+  font-style: italic;
+  font-weight: 430;
+}
+
+.lg-logotype .lg-logotype-tick {
+  color: var(--red);
+}
+
+.lg-masthead-line {
+  display: none;
+}
+
+.lg-masthead-cta {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid var(--ink);
+  padding: 0.55rem 0.95rem;
+  white-space: nowrap;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.lg-masthead-cta:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+@media (min-width: 900px) {
+  .lg-masthead-line {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+}
+
+/* ---- Hero --------------------------------------------------------------- */
+
+.lg-hero {
+  padding-block: clamp(3rem, 7vw, 5.5rem) clamp(3.5rem, 7vw, 6rem);
+}
+
+.lg-hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+
+.lg-hero-kicker::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--rule-dark);
+}
+
+.lg-hero-headline {
+  font-family: var(--display);
+  font-weight: 560;
+  font-size: clamp(2.75rem, 7.2vw, 5.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.028em;
+  max-width: 18ch;
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* Single red full stop — the one permitted flourish in the headline. */
+.lg-hero-headline .lg-full-stop {
+  color: var(--red);
+}
+
+.lg-hero-deck {
+  font-size: clamp(1.125rem, 1.9vw, 1.375rem);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 46ch;
+  margin-top: 1.6rem;
+}
+
+.lg-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 2.25rem;
+}
+
+.lg-btn {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.85rem 1.4rem;
+  border: 1px solid var(--ink);
+  color: var(--paper);
+  background: var(--ink);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.lg-btn:hover {
+  background: transparent;
+  color: var(--ink);
+}
+
+.lg-btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.lg-btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Staggered entrance for the hero stack on first paint. */
+.lg-hero .lg-enter {
+  opacity: 0;
+  transform: translateY(22px);
+  animation: lg-enter 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--enter-i, 0) * 0.14s);
+}
+
+@keyframes lg-enter {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Signature set-piece: the self-reconciling ledger ------------------- */
+
+.lg-ledger {
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+  border-top: 3px solid var(--ink);
+  position: relative;
+}
+
+.lg-ledger-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: 0.7rem;
+  border-bottom: 1px solid var(--ink);
+}
+
+/* Rotating status caption: entering → categorising → reconciled. The three
+   phases are stacked and keyed to the same clock as the table animation. */
+.lg-ledger-status {
+  position: relative;
+  height: 1.1rem;
+  min-width: 18ch;
+  text-align: right;
+}
+
+.lg-ledger-status span {
+  position: absolute;
+  inset: 0;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.is-run .lg-status-1 {
+  animation: lg-status-hold 3.1s linear 0.2s forwards;
+}
+
+.is-run .lg-status-2 {
+  animation: lg-status-hold 2.8s linear 3.3s forwards;
+}
+
+.is-run .lg-status-3 {
+  animation: lg-status-stay 0.4s linear 6.1s forwards;
+  color: var(--red);
+}
+
+@keyframes lg-status-hold {
+  0% { opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes lg-status-stay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Table grid: date | description | amount | balance | category. */
+.lg-row {
+  display: grid;
+  grid-template-columns: 6.2rem minmax(0, 1fr) 7.2rem 7.6rem 9.5rem;
+  gap: 0 1.25rem;
+  align-items: baseline;
+  padding: 0.72rem 0.25rem;
+}
+
+.lg-row-head {
+  border-bottom: 1px solid var(--ink);
+  background: transparent;
+}
+
+.lg-row-head > div {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.lg-row-wrap {
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Ruled-ledger feel: rows sit on hairlines; data uses tabular mono. */
+.lg-cell-date,
+.lg-cell-amount,
+.lg-cell-balance {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.lg-cell-date {
+  color: var(--ink-faint);
+}
+
+.lg-cell-desc {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lg-cell-amount {
+  text-align: right;
+}
+
+.lg-cell-amount.is-credit {
+  color: var(--forest);
+}
+
+.lg-cell-balance {
+  text-align: right;
+  color: var(--ink-soft);
+}
+
+/* Row entrance: each line is “entered” into the ledger in sequence. */
+.lg-ledger .lg-row-data {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.is-run .lg-row-data {
+  animation: lg-row-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.25s + var(--i) * 0.4s);
+}
+
+@keyframes lg-row-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Category chip: stamps onto the row after all lines are entered. */
+.lg-chip {
+  justify-self: start;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 1px solid var(--rule-dark);
+  color: var(--ink-soft);
+  padding: 0.18rem 0.5rem;
+  opacity: 0;
+  transform: scale(1.5) rotate(-5deg);
+}
+
+.is-run .lg-chip {
+  animation: lg-stamp 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: calc(3.35s + var(--i) * 0.24s);
+}
+
+.lg-chip.is-flag-chip {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+@keyframes lg-stamp {
+  0% {
+    opacity: 0;
+    transform: scale(1.5) rotate(-5deg);
+  }
+  62% {
+    opacity: 1;
+    transform: scale(0.94) rotate(1.2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Flagged row: a red rule draws itself around the suspicious line. */
+.lg-flag-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.lg-flag-svg rect {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.is-run .lg-flag-svg rect {
+  animation: lg-draw 0.9s cubic-bezier(0.65, 0, 0.35, 1) 6.15s forwards;
+}
+
+@keyframes lg-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Soft red wash behind the flagged line, arriving with the rule. */
+.is-run .lg-row-wrap.is-flagged .lg-row-data {
+  transition: background-color 0.6s ease 6.3s;
+  background-color: rgba(179, 35, 31, 0.05);
+}
+
+/* Marginal annotation in the editor’s red italic hand. */
+.lg-flag-note {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 480;
+  font-size: 0.9rem;
+  color: var(--red);
+  padding: 0.15rem 0.25rem 0.6rem;
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.is-run .lg-flag-note {
+  animation: lg-row-in 0.6s ease 6.75s forwards;
+}
+
+/* Closing total: double-ruled, stamped once the ledger reconciles. */
+.lg-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.8rem 0.25rem;
+  border-top: 1px solid var(--ink);
+  border-bottom: 3px double var(--ink);
+  opacity: 0;
+}
+
+.is-run .lg-total {
+  animation: lg-row-in 0.6s ease 7.3s forwards;
+}
+
+.lg-total-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.lg-total-value {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.lg-ledger-caption {
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-faint);
+  padding-block: 0.8rem;
+}
+
+/* Compact ledger for small screens: drop the balance column, tighten gaps. */
+@media (max-width: 700px) {
+  .lg-row {
+    grid-template-columns: 4.6rem minmax(0, 1fr) 5.8rem;
+    gap: 0 0.7rem;
+  }
+
+  .lg-cell-balance,
+  .lg-row-head .lg-cell-balance {
+    display: none;
+  }
+
+  .lg-chip {
+    grid-column: 2 / -1;
+    margin-top: 0.35rem;
+  }
+
+  .lg-cell-date,
+  .lg-cell-desc,
+  .lg-cell-amount {
+    font-size: 0.72rem;
+  }
+}
+
+/* ---- Editorial sections -------------------------------------------------- */
+
+.lg-section {
+  padding-block: clamp(3.25rem, 7vw, 5.5rem);
+}
+
+.lg-section + .lg-section {
+  padding-top: 0;
+}
+
+/* Drop cap opens the narrative like a broadsheet feature. */
+.lg-dropcap::first-letter {
+  font-family: var(--display);
+  font-weight: 600;
+  float: left;
+  font-size: 4.4rem;
+  line-height: 0.82;
+  padding-right: 0.65rem;
+  padding-top: 0.35rem;
+  color: var(--ink);
+}
+
+.lg-narrative {
+  max-width: 62ch;
+  font-size: 1.125rem;
+}
+
+.lg-method-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--rule-dark);
+}
+
+@media (min-width: 900px) {
+  .lg-method-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.lg-method-item {
+  border-bottom: 1px solid var(--rule-dark);
+  padding: 1.5rem 1.25rem 1.75rem 0;
+}
+
+@media (min-width: 900px) {
+  .lg-method-item {
+    border-bottom: none;
+    border-right: 1px solid var(--rule-dark);
+    padding-right: 1.5rem;
+  }
+
+  .lg-method-item:last-child {
+    border-right: none;
+  }
+}
+
+.lg-method-no {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+}
+
+.lg-method-title {
+  font-family: var(--display);
+  font-weight: 590;
+  font-size: 1.3rem;
+  letter-spacing: -0.01em;
+  margin-top: 0.9rem;
+}
+
+.lg-method-body {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-top: 0.6rem;
+}
+
+/* ---- Findings index -------------------------------------------------------- */
+
+.lg-finding {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: 1rem;
+  padding-block: 1.4rem;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  cursor: default;
+}
+
+@media (min-width: 900px) {
+  .lg-finding {
+    grid-template-columns: 6rem minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Red index marker slides in from the left margin on hover. */
+.lg-finding::before {
+  content: '';
+  position: absolute;
+  left: -1.1rem;
+  top: 1.7rem;
+  width: 0.55rem;
+  border-top: 2px solid var(--red);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lg-finding:hover::before {
+  opacity: 1;
+  transform: none;
+}
+
+.lg-finding-index {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  transition: color 0.3s ease;
+}
+
+.lg-finding:hover .lg-finding-index {
+  color: var(--red);
+}
+
+.lg-finding-title {
+  font-family: var(--display);
+  font-weight: 580;
+  font-size: 1.45rem;
+  letter-spacing: -0.015em;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lg-finding:hover .lg-finding-title {
+  transform: translateX(6px);
+}
+
+.lg-finding-body {
+  color: var(--ink-soft);
+  font-size: 0.99rem;
+  margin-top: 0.45rem;
+  max-width: 52ch;
+}
+
+.lg-finding-note {
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--ink-faint);
+  align-self: start;
+}
+
+@media (max-width: 899px) {
+  .lg-finding-note {
+    grid-column: 2;
+  }
+}
+
+/* ---- Proof band ------------------------------------------------------------- */
+
+.lg-proof {
+  background: var(--paper-deep);
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+
+.lg-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-left: 1px solid var(--rule-dark);
+}
+
+@media (min-width: 900px) {
+  .lg-stat-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.lg-stat {
+  border-right: 1px solid var(--rule-dark);
+  border-bottom: 1px solid var(--rule-dark);
+  padding: 1.75rem 1.5rem 1.9rem;
+}
+
+@media (min-width: 900px) {
+  .lg-stat {
+    border-bottom: none;
+  }
+}
+
+.lg-stat-value {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(2.6rem, 4.5vw, 3.8rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.lg-stat-value .lg-stat-unit {
+  font-size: 0.45em;
+  letter-spacing: 0;
+}
+
+.lg-stat-label {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 0.8rem;
+  line-height: 1.7;
+}
+
+.lg-pull {
+  font-family: var(--display);
+  font-weight: 470;
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  max-width: 34ch;
+  margin-top: 3rem;
+}
+
+.lg-footnote {
+  display: flex;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--ink-faint);
+  max-width: 60ch;
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule-dark);
+}
+
+.lg-footnote-mark {
+  color: var(--red);
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+/* ---- Readership --------------------------------------------------------------- */
+
+.lg-reader-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 2.25rem;
+  border-top: 1px solid var(--rule-dark);
+}
+
+@media (min-width: 900px) {
+  .lg-reader-grid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 4rem;
+  }
+}
+
+.lg-reader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: 1.3rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.lg-reader-title {
+  font-family: var(--display);
+  font-weight: 570;
+  font-size: 1.25rem;
+}
+
+.lg-reader-body {
+  grid-column: 1 / -1;
+  color: var(--ink-soft);
+  font-size: 0.97rem;
+  max-width: 52ch;
+}
+
+.lg-reader-tag {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.lg-reader-tag.is-lead {
+  color: var(--red);
+}
+
+/* ---- Closing CTA ----------------------------------------------------------------- */
+
+.lg-cta {
+  text-align: center;
+  border-top: 3px solid var(--ink);
+}
+
+.lg-cta-headline {
+  font-family: var(--display);
+  font-weight: 560;
+  font-size: clamp(2.2rem, 5vw, 3.9rem);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  max-width: 22ch;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+
+.lg-cta-body {
+  color: var(--ink-soft);
+  max-width: 52ch;
+  margin: 1.5rem auto 0;
+  font-size: 1.08rem;
+}
+
+/* ---- Footer -------------------------------------------------------------------- */
+
+.lg-footer {
+  border-top: 1px solid var(--ink);
+  padding-block: 2.25rem 2.75rem;
+}
+
+.lg-footer::before {
+  content: '';
+  display: block;
+  border-top: 3px solid var(--ink);
+  margin-bottom: 2px;
+  transform: translateY(-5px);
+}
+
+.lg-footer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.25rem;
+}
+
+.lg-footer a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-dark);
+  transition: border-color 0.25s ease;
+}
+
+.lg-footer a:hover {
+  border-color: var(--red);
+}
+
+.lg-footer-small {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ---- Design-lab return chip -------------------------------------------------------- */
+
+.lg-lab-chip {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 50;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid var(--rule-dark);
+  padding: 0.45rem 0.75rem;
+  text-decoration: none;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.lg-lab-chip:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
