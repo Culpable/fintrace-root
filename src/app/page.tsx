@@ -95,6 +95,47 @@ const DESIGNS = [
   },
 ]
 
+/** Register of the Evidence Engine variations built after round-one feedback
+ *  chose /engine/ as the base direction. The base stays untouched for
+ *  reference; each variation changes a controlled set of variables. */
+const ENGINE_VARIATIONS = [
+  {
+    number: 'V1',
+    name: 'Refined',
+    href: '/engine-refined/',
+    voice: 'The control — documents become a ledger-row lattice; interaction polish throughout.',
+    mode: 'Dark',
+  },
+  {
+    number: 'V2',
+    name: 'Trace',
+    href: '/engine-trace/',
+    voice: 'Evidence-card hero, gold account-network trace, cross-currency match reconstructed.',
+    mode: 'Dark',
+  },
+  {
+    number: 'V3',
+    name: 'Ledger',
+    href: '/engine-ledger/',
+    voice: 'Spreadsheet-plane hero; the reconciling statement table, engine edition.',
+    mode: 'Dark',
+  },
+  {
+    number: 'V4',
+    name: 'Serif',
+    href: '/engine-serif/',
+    voice: 'Fraunces display on the same bones — the typography A/B.',
+    mode: 'Dark',
+  },
+  {
+    number: 'V5',
+    name: 'Light',
+    href: '/engine-light/',
+    voice: 'Parchment inversion — bronze structure, obsidian text, re-lit scene.',
+    mode: 'Light',
+  },
+]
+
 export default function DesignLabIndex() {
   return (
     <main
@@ -196,6 +237,68 @@ export default function DesignLabIndex() {
           ))}
         </div>
 
+        {/* Evidence Engine variations — round two, built from the chosen base */}
+        <section className="mt-16">
+          <div className="lab-rise flex flex-wrap items-baseline justify-between gap-3" style={{ animationDelay: '700ms' }}>
+            <h2 className="text-2xl italic" style={{ fontFamily: 'var(--font-newsreader)' }}>
+              The Evidence Engine — variations
+            </h2>
+            <span
+              className="text-[10px] tracking-[0.25em] uppercase"
+              style={{ fontFamily: 'var(--font-spline-mono)', color: 'var(--lab-muted)' }}
+            >
+              Round two · base kept as reference
+            </span>
+          </div>
+          <div className="mt-6">
+            {ENGINE_VARIATIONS.map((variation, index) => (
+              <Link
+                key={variation.href}
+                href={variation.href}
+                className="lab-row lab-rise group block py-5"
+                style={
+                  {
+                    animationDelay: `${790 + index * 80}ms`,
+                    '--row-tint': 'rgba(212, 169, 78, 0.07)',
+                    '--row-accent': '#d4a94e',
+                  } as React.CSSProperties
+                }
+              >
+                <div className="flex items-baseline gap-5 sm:gap-8">
+                  <span
+                    className="text-sm tabular-nums"
+                    style={{ fontFamily: 'var(--font-spline-mono)', color: 'var(--lab-muted)' }}
+                  >
+                    {variation.number}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                      <h3 className="lab-name text-2xl leading-tight" style={{ fontFamily: 'var(--font-newsreader)' }}>
+                        {variation.name}
+                      </h3>
+                      <span
+                        className="text-[10px] tracking-[0.25em] uppercase"
+                        style={{ fontFamily: 'var(--font-spline-mono)', color: 'var(--lab-muted)' }}
+                      >
+                        {variation.mode}
+                      </span>
+                    </div>
+                    <p
+                      className="mt-1.5 max-w-xl text-[13px] leading-relaxed"
+                      style={{ fontFamily: 'var(--font-spline-mono)', color: 'var(--lab-muted)' }}
+                    >
+                      {variation.voice}
+                    </p>
+                  </div>
+                  <span className="lab-arrow hidden text-xl sm:block" style={{ fontFamily: 'var(--font-newsreader)' }}>
+                    →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {/* Lab footer */}
         <footer
           className="lab-rise mt-16 flex flex-wrap items-center justify-between gap-3 border-t pt-6 text-[11px] tracking-[0.15em] uppercase"
@@ -203,7 +306,7 @@ export default function DesignLabIndex() {
             fontFamily: 'var(--font-spline-mono)',
             color: 'var(--lab-muted)',
             borderColor: 'var(--lab-line)',
-            animationDelay: '760ms',
+            animationDelay: '1220ms',
           }}
         >
           <span>Static Next.js export — localhost:3004</span>

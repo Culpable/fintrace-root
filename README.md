@@ -19,6 +19,18 @@ npm run dev        # serves http://localhost:3004
 | `/exhibit` | The Exhibit | Light | Brutalist court exhibit — “No finding without a source.” |
 | `/chambers` | Chambers | Dark | Quiet luxury, engraved discretion |
 
+### Evidence Engine variations (round two)
+
+`/engine/` was chosen as the base direction and is kept untouched as the reference. Each variation changes a controlled set of variables (all include a structured-records hero in place of the point burst, plus a better-ui interaction pass):
+
+| Route | Variant | Mode | Variables |
+| --- | --- | --- | --- |
+| `/engine-refined` | Refined | Dark | Control — ledger-row lattice hero, interaction polish only |
+| `/engine-trace` | Trace | Dark | Evidence-card hero; gold account-network trace + cross-currency match set-pieces |
+| `/engine-ledger` | Ledger | Dark | Spreadsheet-plane hero; the reconciling statement table, engine edition |
+| `/engine-serif` | Serif | Dark | Fraunces display on the refined bones — typography A/B |
+| `/engine-light` | Light | Light | Parchment inversion — bronze structure, re-lit scene |
+
 ## Stack
 
 - Next.js 16 (App Router) — **static export** (`output: 'export'` → `out/`)
