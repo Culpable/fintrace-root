@@ -1,0 +1,1080 @@
+/*
+ * Design 02 — "Follow the Money" · complete visual system.
+ *
+ * Every rule is scoped under .dsn-trace so this concept cannot leak into
+ * the other five designs in the lab. Palette: deep ink navy, cool paper
+ * white, ONE evidence red for the traced route, restrained amber for
+ * money. Type: Archivo (wide display caps) + IBM Plex Mono (all data).
+ */
+
+.dsn-trace {
+  /* ---- Design tokens ---- */
+  --ink: #0a0e18;
+  --ink-raised: #0e1524;
+  --ink-panel: #0c1220;
+  --line: rgba(154, 165, 193, 0.14);
+  --paper: #e8ecf6;
+  --dim: #8b96b4;
+  --thread: #d92b2b;
+  --amber: #d9a441;
+
+  background-color: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-archivo), sans-serif;
+  overflow-x: clip;
+}
+
+.dsn-trace ::selection {
+  background: var(--thread);
+  color: var(--ink);
+}
+
+.dsn-trace :is(a, button):focus-visible {
+  outline: 1px solid var(--thread);
+  outline-offset: 3px;
+}
+
+/* Shared page gutter */
+.dsn-trace .ctn {
+  margin-inline: auto;
+  max-width: 76rem;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .dsn-trace .ctn {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* ---- Case-file kickers ---- */
+.dsn-trace .kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+
+.dsn-trace .kicker-dash {
+  display: inline-block;
+  width: 1.4rem;
+  height: 2px;
+  background: var(--thread);
+  flex: none;
+}
+
+.dsn-trace .kicker-centre {
+  justify-content: center;
+}
+
+/* ---- Buttons ---- */
+.dsn-trace .btn-primary {
+  display: inline-block;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #f2b8b8;
+  border: 1px solid rgba(217, 43, 43, 0.65);
+  border-radius: 2px;
+  padding: 0.85rem 1.4rem;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.dsn-trace .btn-primary:hover {
+  background: var(--thread);
+  border-color: var(--thread);
+  color: var(--ink);
+}
+
+.dsn-trace .btn-ghost {
+  display: inline-block;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 0.85rem 0.25rem;
+  transition: color 0.25s ease;
+}
+
+.dsn-trace .btn-ghost:hover {
+  color: var(--paper);
+}
+
+/* ---- Design-lab return chip ---- */
+.dsn-trace .lab-chip {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  background: rgba(14, 21, 36, 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.5rem 0.85rem;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.dsn-trace .lab-chip:hover {
+  color: var(--paper);
+  border-color: rgba(217, 43, 43, 0.6);
+}
+
+/* ---- Header ---- */
+.dsn-trace .tr-header {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  z-index: 40;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(10, 14, 24, 0.75), rgba(10, 14, 24, 0));
+}
+
+.dsn-trace .tr-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4.25rem;
+}
+
+.dsn-trace .tr-logo {
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 800;
+  font-stretch: 125%;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  color: var(--paper);
+}
+
+/* The bespoke wordmark: TRACE carries the red thread, which redraws on hover */
+.dsn-trace .tr-logo-trace {
+  position: relative;
+  color: var(--paper);
+}
+
+.dsn-trace .tr-logo-trace::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.18em;
+  height: 2px;
+  background: var(--thread);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.dsn-trace .tr-logo:hover .tr-logo-trace::after {
+  transform: scaleX(0);
+  transform-origin: right;
+  transition-duration: 0.25s;
+}
+
+.dsn-trace .tr-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.dsn-trace .tr-header-mail {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--dim);
+  transition: color 0.25s ease;
+  display: none;
+}
+
+.dsn-trace .tr-header-mail:hover {
+  color: var(--paper);
+}
+
+@media (min-width: 768px) {
+  .dsn-trace .tr-header-mail {
+    display: inline;
+  }
+}
+
+/* ---- Hero ---- */
+.dsn-trace .tr-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: clip;
+  /* Faint survey grid + a whisper of red in the graph zone for atmosphere */
+  background-image:
+    radial-gradient(1100px 700px at 72% 42%, rgba(217, 43, 43, 0.055), transparent 62%),
+    linear-gradient(rgba(154, 165, 193, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154, 165, 193, 0.05) 1px, transparent 1px);
+  background-size:
+    auto,
+    56px 56px,
+    56px 56px;
+}
+
+/* Canvas + labels live together in one parallax layer */
+.dsn-trace .tn-root {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.dsn-trace .tn-parallax {
+  position: absolute;
+  inset: -28px;
+  will-change: transform;
+}
+
+.dsn-trace .tn-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.dsn-trace .tn-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.dsn-trace .tn-label {
+  position: absolute;
+  transform: translate(-50%, -160%);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  color: rgba(232, 236, 246, 0.55);
+  transition: color 0.4s ease;
+  display: none;
+}
+
+.dsn-trace .tn-label.is-hot {
+  color: var(--thread);
+}
+
+.dsn-trace .tn-note {
+  position: absolute;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  color: var(--paper);
+  background: rgba(14, 21, 36, 0.88);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--thread);
+  padding: 0.2rem 0.5rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  pointer-events: none;
+  display: none;
+}
+
+.dsn-trace .tn-note.is-on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Labels stay hidden on small screens except the traced route itself */
+.dsn-trace .tn-label:not(.tn-md-only),
+.dsn-trace .tn-note:not(.tn-md-only) {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .dsn-trace .tn-label,
+  .dsn-trace .tn-note {
+    display: block;
+  }
+}
+
+/* Readability scrim between the graph and the headline */
+.dsn-trace .tr-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(10, 14, 24, 0.94) 0%, rgba(10, 14, 24, 0.72) 36%, rgba(10, 14, 24, 0.18) 62%, rgba(10, 14, 24, 0.02) 100%),
+    linear-gradient(180deg, rgba(10, 14, 24, 0) 70%, rgba(10, 14, 24, 0.85) 100%);
+  pointer-events: none;
+}
+
+.dsn-trace .tr-hero-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+/* Staggered rise of kicker → headline → sub → CTAs on page load */
+@keyframes trRise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dsn-trace .tr-hero-inner > * {
+  animation: trRise 0.9s cubic-bezier(0.2, 0.65, 0.2, 1) both;
+}
+
+.dsn-trace .tr-hero-inner > :nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.dsn-trace .tr-hero-inner > :nth-child(2) {
+  animation-delay: 0.24s;
+}
+
+.dsn-trace .tr-hero-inner > :nth-child(3) {
+  animation-delay: 0.38s;
+}
+
+.dsn-trace .tr-hero-inner > :nth-child(4) {
+  animation-delay: 0.52s;
+}
+
+.dsn-trace .tr-h1 {
+  margin-top: 1.5rem;
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 800;
+  font-stretch: 125%;
+  font-size: clamp(2.9rem, 8vw, 6.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+
+/* The red thread underlines the operative word, drawing itself on */
+.dsn-trace .tr-h1-thread {
+  position: relative;
+  display: inline-block;
+}
+
+@keyframes trUnderline {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.dsn-trace .tr-h1-thread::after {
+  content: '';
+  position: absolute;
+  left: 0.02em;
+  right: 0.06em;
+  bottom: 0.02em;
+  height: 0.055em;
+  background: var(--thread);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: trUnderline 0.9s cubic-bezier(0.7, 0, 0.2, 1) 1s forwards;
+}
+
+.dsn-trace .tr-hero-sub {
+  margin-top: 1.75rem;
+  max-width: 33rem;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--dim);
+}
+
+.dsn-trace .tr-hero-ctas {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* Mono status strip pinned to the hero's base */
+.dsn-trace .tr-hero-meta {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 2;
+  border-top: 1px solid var(--line);
+  background: rgba(10, 14, 24, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.dsn-trace .tr-hero-meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.8rem;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  color: var(--dim);
+}
+
+.dsn-trace .tr-md-only {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .dsn-trace .tr-md-only {
+    display: inline;
+  }
+}
+
+/* ---- Section scaffolding ---- */
+.dsn-trace .tr-section {
+  padding-block: 4.5rem;
+}
+
+@media (min-width: 768px) {
+  .dsn-trace .tr-section {
+    padding-block: 7.5rem;
+  }
+}
+
+.dsn-trace .tr-section-raised {
+  background: var(--ink-panel);
+  border-block: 1px solid var(--line);
+}
+
+.dsn-trace .tr-h2 {
+  margin-top: 1.4rem;
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 700;
+  font-stretch: 118%;
+  font-size: clamp(1.8rem, 3.6vw, 2.9rem);
+  line-height: 1.06;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  max-width: 54rem;
+  color: var(--paper);
+}
+
+/* ---- Scroll reveals (armed by the Reveal component) ---- */
+.dsn-trace .rv {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1) var(--rv-delay, 0ms),
+    transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1) var(--rv-delay, 0ms);
+}
+
+.dsn-trace .rv.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Method steps ---- */
+.dsn-trace .tr-steps {
+  margin-top: 3.5rem;
+  display: grid;
+  gap: 2.75rem 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .dsn-trace .tr-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.dsn-trace .tr-step {
+  border-top: 1px solid var(--line);
+  padding-top: 1.4rem;
+}
+
+.dsn-trace .tr-step-n {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--thread);
+}
+
+.dsn-trace .tr-step-title {
+  margin-top: 0.8rem;
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 600;
+  font-stretch: 115%;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.dsn-trace .tr-step-body {
+  margin-top: 0.6rem;
+  font-size: 0.94rem;
+  line-height: 1.7;
+  color: var(--dim);
+  max-width: 30rem;
+}
+
+/* ---- Money-flow band ---- */
+.dsn-trace .tr-mf-band {
+  margin-top: 4.5rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--ink-panel);
+  padding: 2rem 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .dsn-trace .tr-mf-band {
+    padding: 2.75rem 3rem;
+  }
+}
+
+.dsn-trace .mf-wrap {
+  max-width: 46rem;
+  margin: 1.75rem auto 0;
+}
+
+.dsn-trace .mf {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.15s;
+}
+
+.dsn-trace .is-in .mf {
+  opacity: 1;
+}
+
+.dsn-trace .mf text {
+  font-family: var(--font-plex-mono), monospace;
+}
+
+/* Dotted route with dashes marching in the money's direction of travel */
+.dsn-trace .mf-path {
+  stroke: rgba(217, 164, 65, 0.5);
+  stroke-width: 1.4;
+  stroke-dasharray: 2 7;
+  stroke-linecap: round;
+}
+
+@keyframes mfMarch {
+  to {
+    stroke-dashoffset: -9;
+  }
+}
+
+.dsn-trace .is-in .mf-path {
+  animation: mfMarch 0.9s linear infinite;
+}
+
+.dsn-trace .mf-dot {
+  fill: var(--dim);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.dsn-trace .mf-ring {
+  fill: none;
+  stroke: rgba(154, 165, 193, 0.3);
+  stroke-width: 1;
+}
+
+.dsn-trace .mf-name {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  fill: rgba(232, 236, 246, 0.82);
+}
+
+.dsn-trace .mf-sub {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  fill: var(--dim);
+}
+
+/* The travelling amount chip - motion path in SVG user units so it scales */
+.dsn-trace .mf-chip {
+  offset-path: path('M 46 96 Q 153 30 260 96 Q 367 30 474 96');
+  offset-rotate: 0deg;
+  opacity: 0;
+}
+
+@keyframes mfChip {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  10% {
+    offset-distance: 0%;
+  }
+  40% {
+    offset-distance: 50%;
+  }
+  56% {
+    offset-distance: 50%;
+  }
+  96% {
+    offset-distance: 100%;
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 1;
+  }
+}
+
+.dsn-trace .is-in .mf-chip {
+  animation: mfChip 6.4s cubic-bezier(0.45, 0.05, 0.3, 0.95) 0.5s forwards;
+}
+
+.dsn-trace .mf-chip rect {
+  fill: #101a2e;
+  stroke: rgba(217, 164, 65, 0.45);
+  stroke-width: 1;
+}
+
+.dsn-trace .mf-amt {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  fill: var(--amber);
+}
+
+/* Currency swap: rupees fade out at the Wise dwell, dollars fade in */
+.dsn-trace .mf-amt-inr {
+  opacity: 1;
+}
+
+@keyframes mfInr {
+  0%,
+  44% {
+    opacity: 1;
+  }
+  52%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.dsn-trace .is-in .mf-amt-inr {
+  animation: mfInr 6.4s linear 0.5s forwards;
+}
+
+.dsn-trace .mf-amt-aud {
+  opacity: 0;
+}
+
+@keyframes mfAud {
+  0%,
+  46% {
+    opacity: 0;
+  }
+  54%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.dsn-trace .is-in .mf-amt-aud {
+  animation: mfAud 6.4s linear 0.5s forwards;
+}
+
+/* Station dots pulse as the chip arrives (delays match the chip keyframes) */
+@keyframes mfPulse {
+  40% {
+    transform: scale(1.9);
+    fill: var(--amber);
+  }
+}
+
+.dsn-trace .is-in .mf-st2 .mf-dot {
+  animation: mfPulse 0.8s 3.1s both;
+}
+
+.dsn-trace .is-in .mf-st3 .mf-dot {
+  animation: mfPulse 0.8s 6.6s both;
+}
+
+/* MATCHED verdict stamps in once the money lands */
+.dsn-trace .mf-match {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+@keyframes mfMatchIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dsn-trace .is-in .mf-match {
+  animation: mfMatchIn 0.5s ease 7s forwards;
+}
+
+.dsn-trace .mf-match rect {
+  fill: rgba(217, 164, 65, 0.08);
+  stroke: rgba(217, 164, 65, 0.55);
+  stroke-width: 1;
+}
+
+.dsn-trace .mf-match text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  fill: var(--amber);
+}
+
+.dsn-trace .mf-caption {
+  margin-top: 1rem;
+  text-align: center;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* ---- Findings cards ---- */
+.dsn-trace .tr-cards {
+  margin-top: 3.5rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .dsn-trace .tr-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .dsn-trace .tr-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.dsn-trace .tr-card {
+  position: relative;
+  background: var(--ink-raised);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1.75rem;
+  /* Cards reveal by staggered fade only: transform is reserved for the
+     hover lift, so this later rule deliberately overrides .rv's transform. */
+  transform: none;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.6, 0.2, 1),
+    border-color 0.35s ease,
+    opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1) var(--rv-delay, 0ms);
+  overflow: clip;
+}
+
+/* Red index hairline that sweeps across the card top on hover */
+.dsn-trace .tr-card::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  background: var(--thread);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.dsn-trace .tr-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217, 43, 43, 0.4);
+}
+
+.dsn-trace .tr-card:hover::before {
+  transform: scaleX(1);
+}
+
+.dsn-trace .tr-card-id {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--thread);
+}
+
+.dsn-trace .tr-card-title {
+  margin-top: 0.9rem;
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 600;
+  font-stretch: 112%;
+  font-size: 1.12rem;
+  letter-spacing: 0.01em;
+}
+
+.dsn-trace .tr-card-body {
+  margin-top: 0.55rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--dim);
+}
+
+/* Mock source reference surfaces on hover - traceability as a motif */
+.dsn-trace .tr-card-src {
+  display: block;
+  margin-top: 1.1rem;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  color: var(--dim);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.dsn-trace .tr-card:hover .tr-card-src {
+  opacity: 0.75;
+  transform: translateY(0);
+}
+
+/* ---- Proof band ---- */
+.dsn-trace .tr-proof {
+  text-align: center;
+}
+
+.dsn-trace .tr-proof-display {
+  margin-top: 2.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.6em 1.1rem;
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 800;
+  font-stretch: 125%;
+  font-size: clamp(1.9rem, 5.6vw, 4.4rem);
+  line-height: 1;
+}
+
+.dsn-trace .tr-proof-est {
+  position: relative;
+  color: var(--dim);
+}
+
+/* The estimate is struck through in red once the band scrolls into view */
+@keyframes trStrike {
+  to {
+    transform: rotate(-3deg) scaleX(1);
+  }
+}
+
+.dsn-trace .tr-strike {
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  top: 52%;
+  height: 0.07em;
+  background: var(--thread);
+  transform: rotate(-3deg) scaleX(0);
+  transform-origin: left;
+}
+
+.dsn-trace .is-in .tr-strike {
+  animation: trStrike 0.55s cubic-bezier(0.7, 0, 0.2, 1) 0.55s forwards;
+}
+
+.dsn-trace .tr-proof-arrow {
+  color: var(--thread);
+}
+
+.dsn-trace .tr-proof-done {
+  color: var(--paper);
+}
+
+.dsn-trace .tr-proof-copy {
+  margin: 2rem auto 0;
+  max-width: 40rem;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: var(--dim);
+}
+
+.dsn-trace .tr-proof-stats {
+  margin-top: 3.75rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .dsn-trace .tr-proof-stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.dsn-trace .tr-proof-stat-n {
+  display: block;
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 700;
+  font-stretch: 120%;
+  font-size: 1.9rem;
+  color: var(--paper);
+}
+
+.dsn-trace .tr-proof-stat-l {
+  display: block;
+  margin-top: 0.5rem;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: var(--dim);
+}
+
+/* ---- Audience register ---- */
+.dsn-trace .tr-aud {
+  margin-top: 3rem;
+}
+
+.dsn-trace .tr-aud-row {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  grid-template-areas:
+    'id title'
+    'id body';
+  column-gap: 1rem;
+  row-gap: 0.35rem;
+  border-top: 1px solid var(--line);
+  padding: 1.3rem 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+@media (min-width: 900px) {
+  .dsn-trace .tr-aud-row {
+    grid-template-columns: 5rem 18rem 1fr;
+    grid-template-areas: 'id title body';
+    align-items: baseline;
+    column-gap: 2rem;
+  }
+}
+
+.dsn-trace .tr-aud-row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.dsn-trace .tr-aud-row:hover {
+  background: rgba(154, 165, 193, 0.05);
+}
+
+.dsn-trace .tr-aud-id {
+  grid-area: id;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--dim);
+  transition: color 0.3s ease;
+}
+
+.dsn-trace .tr-aud-row:hover .tr-aud-id {
+  color: var(--thread);
+}
+
+.dsn-trace .tr-aud-title {
+  grid-area: title;
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 600;
+  font-stretch: 112%;
+  font-size: 1.05rem;
+}
+
+.dsn-trace .tr-aud-body {
+  grid-area: body;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--dim);
+}
+
+/* ---- Final CTA ---- */
+.dsn-trace .tr-cta {
+  text-align: center;
+}
+
+.dsn-trace .tr-cta-inner {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.dsn-trace .tr-cta-h {
+  margin-top: 1.6rem;
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 800;
+  font-stretch: 125%;
+  font-size: clamp(2.1rem, 5.6vw, 4.4rem);
+  line-height: 1.02;
+}
+
+.dsn-trace .tr-cta-copy {
+  margin: 1.75rem auto 0;
+  max-width: 40rem;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: var(--dim);
+}
+
+.dsn-trace .tr-cta-ctas {
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+.dsn-trace .tr-cta .tr-header-mail {
+  display: inline;
+}
+
+/* ---- Footer ---- */
+.dsn-trace .tr-footer {
+  border-top: 1px solid var(--line);
+  padding-block: 2rem;
+}
+
+.dsn-trace .tr-footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.dsn-trace .tr-logo-sm {
+  font-size: 0.9rem;
+}
+
+.dsn-trace .tr-footer-note,
+.dsn-trace .tr-footer-meta {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}

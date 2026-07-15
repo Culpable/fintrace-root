@@ -1,0 +1,405 @@
+/*
+ * “Chambers” — design system for /chambers.
+ *
+ * Quiet luxury of established legal chambers: deep green fields, parchment
+ * plates, aged-gold hairlines, engraved labels. Every class is prefixed
+ * `ch-` and every rule is scoped beneath `.dsn-chambers` so this system
+ * can never leak into the other five design routes.
+ */
+
+.dsn-chambers {
+  /* ---- Palette -------------------------------------------------------- */
+  --ch-green: #0e2a1e; /* dominant field */
+  --ch-green-deep: #092017; /* footer and shaded panels */
+  --ch-green-panel: #143526; /* raised panel tone on green */
+  --ch-parchment: #f2ecdd; /* light sections and plates */
+  --ch-parchment-soft: #eae1cb; /* alternate parchment tone */
+  --ch-gold: #c2a35c; /* hairlines, labels, borders */
+  --ch-gold-bright: #d9bd7d; /* hover states on dark fields */
+  --ch-gold-faint: rgba(194, 163, 92, 0.38);
+  --ch-ink: #24342b; /* body text on parchment */
+  --ch-ink-soft: #55634f; /* muted text on parchment */
+  --ch-cream: #ede5cf; /* body text on green */
+  --ch-cream-muted: rgba(237, 229, 207, 0.66);
+  --ch-oxblood: #63292a; /* single reserved accent */
+
+  /* ---- Base ------------------------------------------------------------ */
+  font-family: var(--font-ch-body), Georgia, serif;
+  background-color: var(--ch-green);
+  color: var(--ch-cream);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+/* Gold selection keeps even a text highlight on-brand */
+.dsn-chambers ::selection {
+  background: rgba(194, 163, 92, 0.35);
+  color: inherit;
+}
+
+.dsn-chambers :focus-visible {
+  outline: 1px solid var(--ch-gold);
+  outline-offset: 3px;
+}
+
+/* ---- Typographic voices ------------------------------------------------ */
+
+/* Display serif for headlines and grand numerals */
+.ch-display {
+  font-family: var(--font-ch-display), Georgia, serif;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: 0.005em;
+}
+
+/* Engraved uppercase labels — Cinzel, always letterspaced, never sentences */
+.ch-label {
+  font-family: var(--font-ch-engraved), serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--ch-gold);
+}
+
+/* Muted body tones for each field colour */
+.ch-muted-on-green {
+  color: var(--ch-cream-muted);
+}
+
+.ch-muted-on-parchment {
+  color: var(--ch-ink-soft);
+}
+
+/* ---- Grain: barely-there parchment texture ---------------------------- */
+
+/* Speckle the surface with an inline SVG noise tile at whisper opacity;
+ * dark grain suits parchment, light grain suits the green fields. */
+.ch-grain-dark::after,
+.ch-grain-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.ch-grain-light::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- Hairlines and dividers ------------------------------------------- */
+
+/* Centre-fading gold hairline, the signature rule of the identity */
+.ch-hairline {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--ch-gold) 30%, var(--ch-gold) 70%, transparent);
+}
+
+/* Divider with a single engraved lozenge between fading rules */
+.ch-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.ch-divider::before,
+.ch-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--ch-gold-faint));
+}
+
+.ch-divider::after {
+  background: linear-gradient(to left, transparent, var(--ch-gold-faint));
+}
+
+.ch-divider > span {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--ch-gold);
+  transform: rotate(45deg);
+  flex: none;
+}
+
+/* ---- Wordmark ----------------------------------------------------------- */
+
+.ch-wordmark-name {
+  font-family: var(--font-ch-engraved), serif;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.ch-wordmark-sub {
+  font-family: var(--font-ch-engraved), serif;
+  font-size: 0.5rem;
+  font-weight: 400;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--ch-gold);
+}
+
+.ch-wordmark-rule {
+  height: 1px;
+  background: var(--ch-gold);
+  opacity: 0.75;
+}
+
+/* ---- Buttons ------------------------------------------------------------ */
+
+.ch-btn {
+  display: inline-block;
+  font-family: var(--font-ch-engraved), serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 1.05rem 2.1rem;
+  border: 1px solid var(--ch-gold);
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease,
+    transform 0.45s ease;
+}
+
+.ch-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Bordered gold button for use on green fields */
+.ch-btn--on-green {
+  color: var(--ch-gold-bright);
+}
+
+.ch-btn--on-green:hover {
+  background-color: rgba(194, 163, 92, 0.12);
+}
+
+/* Solid green button for use on parchment plates */
+.ch-btn--solid {
+  background-color: var(--ch-green);
+  border-color: var(--ch-green);
+  color: var(--ch-cream);
+}
+
+.ch-btn--solid:hover {
+  background-color: var(--ch-green-deep);
+}
+
+/* Quiet inline text link with a gold underline that thickens on hover */
+.ch-textlink {
+  font-family: var(--font-ch-engraved), serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ch-cream);
+  border-bottom: 1px solid var(--ch-gold-faint);
+  padding-bottom: 0.35rem;
+  transition:
+    border-color 0.4s ease,
+    color 0.4s ease;
+}
+
+.ch-textlink:hover {
+  border-color: var(--ch-gold);
+  color: var(--ch-gold-bright);
+}
+
+/* ---- Hero: letterpress reveal ------------------------------------------ */
+
+/* Press each hero element into the page: rise, sharpen, settle */
+.ch-press {
+  opacity: 0;
+  animation: ch-letterpress 1.05s cubic-bezier(0.23, 0.75, 0.28, 1) forwards;
+}
+
+@keyframes ch-letterpress {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(1.012);
+    filter: blur(7px);
+  }
+  70% {
+    filter: blur(0.4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Twin hairlines draw outward from the centre of the composition */
+.ch-rule-draw {
+  transform: scaleX(0);
+  transform-origin: center;
+  animation: ch-rule-out 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes ch-rule-out {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* The wax-seal emblem rotates and settles with a slight, dignified overshoot */
+.ch-seal {
+  opacity: 0;
+  animation: ch-seal-settle 1.25s cubic-bezier(0.34, 1.3, 0.44, 1) forwards;
+}
+
+@keyframes ch-seal-settle {
+  from {
+    opacity: 0;
+    transform: rotate(-9deg) scale(1.14);
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+/* Candle-warm radial light breathing slowly behind the hero composition */
+.ch-candle {
+  position: absolute;
+  inset: -12% -8%;
+  pointer-events: none;
+  background: radial-gradient(ellipse 62% 46% at 50% 36%, rgba(224, 186, 116, 0.16), transparent 70%);
+  animation: ch-candle 9s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+@keyframes ch-candle {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.05);
+  }
+}
+
+/* ---- Scroll reveals ------------------------------------------------------ */
+
+/* Default reveal: rise and settle once the element enters the viewport */
+.ch-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 1s cubic-bezier(0.22, 0.61, 0.21, 1),
+    transform 1s cubic-bezier(0.22, 0.61, 0.21, 1);
+}
+
+.ch-reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Rule variant: gold hairlines draw open instead of rising */
+.ch-reveal--rule {
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 1.3s cubic-bezier(0.19, 1, 0.22, 1);
+  opacity: 1;
+}
+
+.ch-reveal--rule.is-revealed {
+  transform: scaleX(1);
+}
+
+/* ---- Engagement steps ---------------------------------------------------- */
+
+/* Grand roman numerals set in the display serif’s lightest weight */
+.ch-numeral {
+  font-family: var(--font-ch-display), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(3rem, 5vw, 4.4rem);
+  line-height: 1;
+  color: var(--ch-gold);
+}
+
+/* ---- Case-record plate ---------------------------------------------------- */
+
+/* Parchment plate with a double gold border, like an engraved presentation
+ * plaque; the inner border is drawn with an inset pseudo-element. */
+.ch-plate {
+  position: relative;
+  background-color: var(--ch-parchment);
+  border: 1px solid var(--ch-gold);
+  box-shadow: 0 30px 60px rgba(4, 14, 10, 0.35);
+}
+
+.ch-plate::before {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  border: 1px solid var(--ch-gold-faint);
+  pointer-events: none;
+}
+
+.ch-stat-number {
+  font-family: var(--font-ch-display), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(3.4rem, 6vw, 5.2rem);
+  line-height: 1;
+  color: var(--ch-ink);
+}
+
+/* ---- Citation slip --------------------------------------------------------- */
+
+/* A parchment excerpt card, set a fraction off-square as if laid on a desk */
+.ch-citation {
+  background-color: var(--ch-parchment);
+  color: var(--ch-ink);
+  border: 1px solid var(--ch-gold-faint);
+  box-shadow: 0 22px 44px rgba(4, 14, 10, 0.4);
+  transform: rotate(-0.6deg);
+}
+
+/* ---- Directory rows (whom we serve) ---------------------------------------- */
+
+.ch-directory-row {
+  border-top: 1px solid rgba(36, 52, 43, 0.16);
+  transition: background-color 0.5s ease;
+}
+
+.ch-directory-row:last-child {
+  border-bottom: 1px solid rgba(36, 52, 43, 0.16);
+}
+
+.ch-directory-row:hover {
+  background-color: rgba(194, 163, 92, 0.12);
+}
+
+/* ---- Design-lab chip --------------------------------------------------------- */
+
+/* Small fixed return link to the gallery index, styled as a parchment tab */
+.ch-lab-chip {
+  position: fixed;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  z-index: 60;
+  font-family: var(--font-ch-engraved), serif;
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ch-ink);
+  background-color: rgba(242, 236, 221, 0.94);
+  border: 1px solid var(--ch-gold);
+  padding: 0.6rem 0.95rem;
+  transition: transform 0.35s ease;
+}
+
+.ch-lab-chip:hover {
+  transform: translateY(-2px);
+}

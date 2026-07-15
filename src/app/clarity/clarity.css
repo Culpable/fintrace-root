@@ -1,0 +1,575 @@
+/*
+ * Design 3 — “From Chaos to Clarity”
+ * Swiss International Style: ruthless grid, luminous white space, one
+ * electric cobalt, and a signature hero where strewn statement pages
+ * fly into a pristine spreadsheet.
+ *
+ * Every rule is scoped under .dsn-clarity so this design system cannot
+ * bleed into the other five concepts in the lab.
+ */
+
+.dsn-clarity {
+  /* Core palette: white paper, cool greys, near-black ink, one cobalt. */
+  --paper: #ffffff;
+  --panel: #eef0f2;
+  --ink: #14171a;
+  --muted: #52585f;
+  --hairline: #d9dde2;
+  --cobalt: #1743e8;
+  --cobalt-deep: #0f2fae;
+  /* Amber is reserved exclusively for “flagged” evidence states. */
+  --amber: #8a5f00;
+  --amber-fill: #fdf3dc;
+  --amber-edge: #c98a00;
+
+  font-family: var(--font-familjen), 'Helvetica Neue', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------------ */
+/* Shared primitives                                                    */
+/* ------------------------------------------------------------------ */
+
+/* Mono is used for every figure, label and data cell. */
+.dsn-clarity .cl-mono {
+  font-family: var(--font-spline-mono), monospace;
+}
+
+/* Uppercase micro-label: the system’s smallest typographic unit. */
+.dsn-clarity .cl-microlabel {
+  font-family: var(--font-spline-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Faint 8px baseline ruling, used inside panels to expose the grid. */
+.dsn-clarity .cl-ruled {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(20, 23, 26, 0.04) 0 1px,
+    transparent 1px 8px
+  );
+}
+
+/* Primary cobalt action button. */
+.dsn-clarity .cl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--cobalt);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.8rem 1.5rem;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s cubic-bezier(0.2, 1, 0.4, 1);
+}
+
+.dsn-clarity .cl-btn:hover {
+  background: var(--cobalt-deep);
+  transform: translateY(-1px);
+}
+
+/* Quiet secondary action: text + arrow that nudges on hover. */
+.dsn-clarity .cl-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.dsn-clarity .cl-btn-ghost:hover {
+  color: var(--cobalt);
+  border-color: var(--cobalt);
+}
+
+.dsn-clarity .cl-btn-ghost .cl-arrow {
+  transition: transform 0.25s cubic-bezier(0.2, 1, 0.4, 1);
+}
+
+.dsn-clarity .cl-btn-ghost:hover .cl-arrow {
+  transform: translateX(4px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Scroll-reveal utilities (driven by data-inview from <Reveal/>)       */
+/* ------------------------------------------------------------------ */
+
+/* Base rise-in used across sections; stagger via --d per element. */
+.dsn-clarity .cl-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d, 0ms);
+}
+
+.dsn-clarity [data-inview='true'] .cl-reveal,
+.dsn-clarity .cl-reveal[data-inview='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Cobalt rule that draws left→right when its section enters view. */
+.dsn-clarity .cl-rule {
+  height: 2px;
+  background: var(--cobalt);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1s cubic-bezier(0.25, 1, 0.3, 1);
+  transition-delay: var(--d, 0ms);
+}
+
+.dsn-clarity [data-inview='true'] .cl-rule {
+  transform: scaleX(1);
+}
+
+/* Capability cards straighten from a slight tilt as they reveal. */
+.dsn-clarity .cl-card {
+  opacity: 0;
+  transform: rotate(-1.6deg) translateY(14px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.75s cubic-bezier(0.22, 1.2, 0.36, 1);
+  transition-delay: var(--d, 0ms);
+}
+
+.dsn-clarity [data-inview='true'] .cl-card {
+  opacity: 1;
+  transform: none;
+}
+
+/* Masked numeral reveal: digits slide up from behind an overflow clip. */
+.dsn-clarity .cl-maskline {
+  overflow: hidden;
+}
+
+.dsn-clarity .cl-maskline > span {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d, 0ms);
+}
+
+.dsn-clarity [data-inview='true'] .cl-maskline > span {
+  transform: translateY(0);
+}
+
+/* Proof bars: proportional hours drawn to scale, origin left. */
+.dsn-clarity .cl-bar {
+  height: 44px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.1s cubic-bezier(0.25, 1, 0.3, 1);
+  transition-delay: var(--d, 0ms);
+}
+
+.dsn-clarity [data-inview='true'] .cl-bar {
+  transform: scaleX(1);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero set-piece: the chaos→clarity transformation stage               */
+/* ------------------------------------------------------------------ */
+
+.dsn-clarity .cl-stage {
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  padding: 1.25rem;
+}
+
+/* Kill every transition while the stage snaps back for a replay. */
+.dsn-clarity .cl-noanim,
+.dsn-clarity .cl-noanim * {
+  transition: none !important;
+}
+
+.dsn-clarity .cl-stage-body {
+  position: relative;
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Desktop: pile zone on the left, spreadsheet on the right. */
+@media (min-width: 768px) {
+  .dsn-clarity .cl-stage-body {
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+}
+
+/* --- The pile of scanned statement pages ------------------------- */
+
+.dsn-clarity .cl-pile {
+  position: relative;
+  min-height: 200px;
+}
+
+@media (min-width: 768px) {
+  .dsn-clarity .cl-pile {
+    min-height: 380px;
+  }
+}
+
+/* A single strewn statement page. Chaos pose = left/top + --rot;
+   flight = translate to the docking point computed at runtime. */
+.dsn-clarity .cl-page {
+  position: absolute;
+  width: 68px;
+  height: 88px;
+  background: #fff;
+  border: 1px solid var(--hairline);
+  box-shadow: 0 6px 18px rgba(20, 23, 26, 0.09);
+  padding: 7px 6px;
+  transform: rotate(var(--rot, 0deg));
+  transition:
+    transform 0.85s cubic-bezier(0.3, 1.35, 0.35, 1),
+    opacity 0.3s linear;
+  /* Fly first (--d stagger), fade only on landing (+0.66s). */
+  transition-delay: var(--d, 0ms), calc(var(--d, 0ms) + 0.66s);
+  will-change: transform;
+}
+
+@media (min-width: 768px) {
+  .dsn-clarity .cl-page {
+    width: 96px;
+    height: 124px;
+    padding: 10px 9px;
+  }
+}
+
+/* Once the run starts, every page travels to its row and dissolves. */
+.dsn-clarity .cl-stage:not([data-phase='idle']) .cl-page {
+  transform: translate(var(--tx, 0px), var(--ty, 0px)) rotate(0deg) scale(0.3);
+  opacity: 0;
+}
+
+/* Page anatomy: bank header bar, ruled body text, statement table. */
+.dsn-clarity .cl-page-head {
+  height: 9px;
+  width: 62%;
+  background: #c7ccd2;
+  margin-bottom: 7px;
+}
+
+.dsn-clarity .cl-page-lines {
+  height: 46%;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #d3d8dd 0 2px,
+    transparent 2px 7px
+  );
+}
+
+.dsn-clarity .cl-page-table {
+  margin-top: 7px;
+  height: 22%;
+  background-image:
+    repeating-linear-gradient(to right, #ccd1d7 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(to bottom, #dbe0e5 0 1px, transparent 1px 6px);
+  border: 1px solid #d3d8dd;
+}
+
+/* Variant 2: warm scanned photocopy with slightly skewed body text. */
+.dsn-clarity .cl-page--v2 {
+  background: #fbf9f4;
+  filter: contrast(0.96);
+}
+
+.dsn-clarity .cl-page--v2 .cl-page-lines {
+  transform: skewY(-2.2deg) translateY(2px);
+}
+
+/* Variant 3: noisy fax-grade scan with a dog-eared corner. */
+.dsn-clarity .cl-page--v3 {
+  background: #f8f7f3;
+}
+
+.dsn-clarity .cl-page--v3::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(20, 23, 26, 0.05) 0 1px,
+    transparent 1px 3px
+  );
+  pointer-events: none;
+}
+
+.dsn-clarity .cl-page--v3::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  /* Fold the corner: paper-coloured triangle over a shadowed notch. */
+  border-style: solid;
+  border-width: 0 14px 14px 0;
+  border-color: var(--panel) var(--panel) #d8dce0 #d8dce0;
+}
+
+/* Note that fades up in the emptied pile zone after the pages leave. */
+.dsn-clarity .cl-pile-note {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: 1.55s;
+}
+
+.dsn-clarity .cl-stage:not([data-phase='idle']) .cl-pile-note {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- The spreadsheet the pages snap into -------------------------- */
+
+.dsn-clarity .cl-sheetwrap {
+  background: #fff;
+  border: 1px solid var(--hairline);
+  box-shadow: 0 10px 30px rgba(20, 23, 26, 0.06);
+  overflow: hidden;
+  align-self: start;
+}
+
+.dsn-clarity .cl-sheet {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.dsn-clarity .cl-sheet th {
+  font-family: var(--font-spline-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--muted);
+  font-weight: 500;
+  padding: 10px 10px 8px;
+  border-bottom: 1px solid var(--ink);
+  white-space: nowrap;
+}
+
+.dsn-clarity .cl-sheet td {
+  font-size: 12px;
+  padding: 0 10px;
+  height: 46px;
+  border-bottom: 1px solid var(--hairline);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Right-align every monetary column, spreadsheet-style. */
+.dsn-clarity .cl-sheet .cl-td-num,
+.dsn-clarity .cl-sheet .cl-th-num {
+  text-align: right;
+  font-family: var(--font-spline-mono), monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.dsn-clarity .cl-sheet .cl-td-date,
+.dsn-clarity .cl-sheet .cl-td-src {
+  font-family: var(--font-spline-mono), monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Hide desktop-only columns on phones; show the merged amount column. */
+@media (max-width: 767px) {
+  .dsn-clarity .cl-col-desk {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .dsn-clarity .cl-col-mob {
+    display: none;
+  }
+}
+
+/* Rows arrive only as their page docks: rise + fade with stagger.
+   Cell content is wrapped in .cl-cell spans so the chip can keep its
+   own independent stamp-in transition without specificity clashes. */
+.dsn-clarity .cl-tr .cl-cell {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  opacity: 0;
+  transform: translateY(7px);
+  transition:
+    opacity 0.45s ease,
+    transform 0.5s cubic-bezier(0.2, 1.4, 0.4, 1);
+  transition-delay: calc(var(--d, 0ms) + 0.6s);
+}
+
+.dsn-clarity .cl-stage:not([data-phase='idle']) .cl-tr .cl-cell {
+  opacity: 1;
+  transform: none;
+}
+
+/* Category chip stamps in slightly later with a small overshoot. */
+.dsn-clarity .cl-chip {
+  display: inline-block;
+  font-family: var(--font-spline-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  border: 1px solid currentColor;
+  padding: 2px 7px;
+  transform: scale(0.55);
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    transform 0.45s cubic-bezier(0.2, 1.6, 0.4, 1);
+  transition-delay: calc(var(--d, 0ms) + 0.82s) !important;
+}
+
+.dsn-clarity .cl-stage:not([data-phase='idle']) .cl-chip {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* --- Flagged row: the payoff of the whole sequence ----------------- */
+
+.dsn-clarity .cl-tr--flag {
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.dsn-clarity .cl-stage[data-phase='flagged'] .cl-tr--flag {
+  background: var(--amber-fill);
+  box-shadow: inset 3px 0 0 var(--amber-edge);
+}
+
+/* The amber “flagged” tag pops in after the row fills. */
+.dsn-clarity .cl-flagtag {
+  display: inline-block;
+  font-family: var(--font-spline-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+  border: 1px solid var(--amber-edge);
+  background: #fff;
+  padding: 2px 6px;
+  margin-left: 8px;
+  vertical-align: 1px;
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.2, 1.6, 0.4, 1);
+  transition-delay: 0.18s;
+}
+
+.dsn-clarity .cl-stage[data-phase='flagged'] .cl-flagtag {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* On phones the tag drops below the description on its own line so the
+   flagged payoff is never clipped by the narrow description column. */
+@media (max-width: 767px) {
+  .dsn-clarity .cl-flagtag {
+    display: block;
+    width: max-content;
+    margin-left: 0;
+    margin-top: 4px;
+  }
+}
+
+/* Replay control, styled as a lab instrument toggle. */
+.dsn-clarity .cl-replay {
+  font-family: var(--font-spline-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--hairline);
+  background: #fff;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.dsn-clarity .cl-replay:hover {
+  color: var(--cobalt);
+  border-color: var(--cobalt);
+}
+
+/* ------------------------------------------------------------------ */
+/* Section furniture                                                    */
+/* ------------------------------------------------------------------ */
+
+/* Sticky header with a hairline base. */
+.dsn-clarity .cl-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* Audience index rows: hairline separators, cobalt index numerals. */
+.dsn-clarity .cl-audience-row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.35rem 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+@media (min-width: 768px) {
+  .dsn-clarity .cl-audience-row {
+    grid-template-columns: 88px minmax(0, 2fr) minmax(0, 3fr);
+    gap: 2rem;
+  }
+}
+
+/* Fixed design-lab chip, styled to this system. */
+.dsn-clarity .cl-labchip {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 50;
+  font-family: var(--font-spline-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: #fff;
+  border: 1px solid var(--hairline);
+  padding: 8px 12px;
+  box-shadow: 0 4px 14px rgba(20, 23, 26, 0.08);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.dsn-clarity .cl-labchip:hover {
+  color: var(--cobalt);
+  border-color: var(--cobalt);
+}
