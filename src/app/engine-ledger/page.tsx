@@ -4,6 +4,7 @@ import Link from 'next/link'
 import clsx from 'clsx'
 import './engine-ledger.css'
 import { bricolage, fragmentMono } from './fonts'
+import CurrencyMatch from './CurrencyMatch'
 import Hero from './Hero'
 import LedgerPlate from './LedgerPlate'
 import Reveal from './Reveal'
@@ -12,13 +13,15 @@ import Stat from './Stat'
 /**
  * Evidence Engine variant — "Ledger" (/engine-ledger).
  *
- * The chosen obsidian-and-gold system with two controlled changes:
- *   1. Hero output: documents passing the golden gate now dissolve into cells
- *      that tile onto ONE unified glowing spreadsheet plane — the post-gate
- *      "dust" replaced with unmistakably structured data.
- *   2. A new centrepiece section: the reconciling statement table (proven on
+ * The chosen obsidian-and-gold system with three controlled changes:
+ *   1. Hero output: documents passing the golden gate are entered onto ONE
+ *      large spreadsheet — headers, gridlines, row numbers, transaction rows
+ *      landing line by line — so the right-hand side reads unmistakably as
+ *      a ledger being filled.
+ *   2. A centrepiece section: the reconciling statement table (proven on
  *      /ledger/) reborn entirely in engine language, with a flawless
  *      flag-draw treatment.
+ *   3. The cross-currency match set-piece, reconstructed in engine gold.
  * The /engine/ base remains untouched for comparison.
  */
 export const metadata: Metadata = {
@@ -193,6 +196,25 @@ export default function EngineLedgerPage() {
             </Reveal>
             <Reveal delay={120}>
               <LedgerPlate />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ----------------------- Cross-currency match --------------------- */}
+        <section className="eng-section eng-cv" id="match">
+          <div className="eng-container">
+            <Reveal className="eng-section-head">
+              <p className="eng-kicker">Traced across currencies</p>
+              <h2 className="eng-h2">
+                Same funds, two currencies. <span className="eng-gold-text">One match.</span>
+              </h2>
+              <p className="eng-lede">
+                Money that changes currency does not change identity. Rupees leaving an overseas account are matched
+                to the dollars that landed here — with source pages cited for both sides.
+              </p>
+            </Reveal>
+            <Reveal className="eng-plate eng-ecm-plate" delay={120}>
+              <CurrencyMatch />
             </Reveal>
           </div>
         </section>

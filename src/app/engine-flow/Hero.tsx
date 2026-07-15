@@ -23,14 +23,44 @@ export default function Hero() {
 
   return (
     <section className="eng-hero" id="top">
-      {/* Static fallback: obsidian vignette + a faint SVG echo of the gate.
-          Visible for the first few hundred milliseconds, then the live scene
-          fades in over it — first paint never waits on WebGL. */}
+      {/* Static fallback: obsidian vignette + a faint SVG echo of the gate
+          and the three diverging money trails. Visible for the first few
+          hundred milliseconds, then the live scene fades in over it — first
+          paint never waits on WebGL. */}
       <div className="eng-hero-fallback" aria-hidden="true">
         <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
           <circle cx="905" cy="430" r="150" fill="none" stroke="#d4a94e" strokeOpacity="0.28" strokeWidth="1" />
           <circle cx="905" cy="430" r="132" fill="none" stroke="#d4a94e" strokeOpacity="0.12" strokeWidth="1" />
           <line x1="0" y1="430" x2="1440" y2="430" stroke="url(#eng-fallback-line)" strokeWidth="1" />
+          {/* The three trace routes, dotted, fanning mostly vertically to
+              mirror the live scene's frustum-safe layout */}
+          <path
+            d="M 1008 425 Q 1105 365 1165 290"
+            fill="none"
+            stroke="#d4a94e"
+            strokeOpacity="0.26"
+            strokeWidth="1"
+            strokeDasharray="3 6"
+          />
+          <path
+            d="M 1008 431 Q 1110 428 1195 420"
+            fill="none"
+            stroke="#d4a94e"
+            strokeOpacity="0.26"
+            strokeWidth="1"
+            strokeDasharray="3 6"
+          />
+          <path
+            d="M 1008 437 Q 1090 535 1140 575"
+            fill="none"
+            stroke="#d4a94e"
+            strokeOpacity="0.26"
+            strokeWidth="1"
+            strokeDasharray="3 6"
+          />
+          <circle cx="1165" cy="290" r="6" fill="none" stroke="#d4a94e" strokeOpacity="0.35" strokeWidth="1" />
+          <circle cx="1195" cy="420" r="6" fill="none" stroke="#d4a94e" strokeOpacity="0.35" strokeWidth="1" />
+          <circle cx="1140" cy="575" r="6" fill="none" stroke="#d4a94e" strokeOpacity="0.35" strokeWidth="1" />
           <defs>
             <linearGradient id="eng-fallback-line" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0" stopColor="#d4a94e" stopOpacity="0" />

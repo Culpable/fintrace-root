@@ -94,90 +94,160 @@ function makeDotTexture(): THREE.CanvasTexture {
   return new THREE.CanvasTexture(canvas)
 }
 
+/* ---------------------------------------------------------------------------
+ * The spreadsheet the gate writes into.
+ * ------------------------------------------------------------------------- */
+
 /**
- * Bake one spreadsheet-row cell: a dark glassy panel carrying gold ledger
- * marks — a date stub, description dashes and a bright right-aligned amount —
- * plus a hairline base rule. At hero distance the marks read as tabular data
- * without needing legible (and expensive) real text.
+ * Ledger rows entered onto the sheet, in landing order. Grounded in what the
+ * product actually finds: auto-categorised groceries and fuel, salary, a Wise
+ * cross-currency transfer, gambling — and the flagged ATM withdrawal at index
+ * 2, drawn in crimson as the anomaly the engine catches.
  */
-function makeCellTexture(): THREE.CanvasTexture {
-  const canvas = document.createElement('canvas')
-  canvas.width = 128
-  canvas.height = 40
-  const ctx = canvas.getContext('2d')!
+const SHEET_ROWS = [
+  { date: '03 MAR', desc: 'WOOLWORTHS 1224 CHATSWOOD', debit: '214.63', credit: '', tag: 'GROCERIES', flag: false },
+  { date: '04 MAR', desc: 'SALARY — MERIDIAN PTY LTD', debit: '', credit: '8,412.90', tag: 'INCOME', flag: false },
+  { date: '07 MAR', desc: 'ATM WITHDRAWAL — CROWS NEST', debit: '9,500.00', credit: '', tag: 'CASH', flag: true },
+  { date: '09 MAR', desc: 'BP CONNECT MOSMAN', debit: '86.40', credit: '', tag: 'FUEL', flag: false },
+  { date: '11 MAR', desc: 'TRANSFER — J SACINO ****4417', debit: '3,000.00', credit: '', tag: 'INTERNAL', flag: false },
+  { date: '13 MAR', desc: 'WISE AUD→INR REF 8841', debit: '5,200.00', credit: '', tag: 'CROSS-CCY', flag: false },
+  { date: '14 MAR', desc: 'SPORTSBET DEPOSIT', debit: '500.00', credit: '', tag: 'GAMBLING', flag: false },
+  { date: '15 MAR', desc: 'RENT RECEIVED — NEUTRAL BAY', debit: '', credit: '650.00', tag: 'INCOME', flag: false },
+]
 
-  // Glassy obsidian panel with a faint top light
-  const panel = ctx.createLinearGradient(0, 0, 0, 40)
-  panel.addColorStop(0, 'rgba(32, 26, 18, 0.92)')
-  panel.addColorStop(1, 'rgba(20, 16, 11, 0.92)')
-  ctx.fillStyle = panel
-  ctx.fillRect(0, 0, 128, 40)
+// Canvas layout for the baked sheet. 1024x330 matches the 8.4:2.7 plane, so
+// text renders without stretch. One header band plus eight 36px row bands.
+const SHEET_W = 1024
+const SHEET_H = 330
+const HEADER_H = 42
+const ROW_H = 36
+const GUTTER_W = 40
+// Column separators (canvas x): gutter | date | description | debit | credit | category
+const COL_X = [GUTTER_W, 152, 612, 752, 884]
 
-  // Hairline base rule — the row boundary of the sheet
-  ctx.fillStyle = 'rgba(212, 169, 78, 0.4)'
-  ctx.fillRect(0, 37, 128, 2)
+/**
+ * Draw the spreadsheet with the first `rowsVisible` rows entered. The header,
+ * gridlines, row numbers and column structure are always present — an empty
+ * sheet still reads as a spreadsheet — and `highlightIndex` marks the row
+ * that just landed with a brighter entry band. Called only when a row lands
+ * or the cycle resets, never per frame.
+ */
+function drawSheet(ctx: CanvasRenderingContext2D, rowsVisible: number, highlightIndex: number) {
+  // Obsidian plate ground with a faint top light so the sheet reads as a surface
+  const plate = ctx.createLinearGradient(0, 0, 0, SHEET_H)
+  plate.addColorStop(0, 'rgba(24, 19, 13, 0.96)')
+  plate.addColorStop(1, 'rgba(15, 12, 8, 0.96)')
+  ctx.clearRect(0, 0, SHEET_W, SHEET_H)
+  ctx.fillStyle = plate
+  ctx.fillRect(0, 0, SHEET_W, SHEET_H)
 
-  // Date stub, description dashes, then the bright amount block
-  ctx.fillStyle = 'rgba(212, 169, 78, 0.5)'
-  ctx.fillRect(8, 17, 16, 5)
-  ctx.fillStyle = 'rgba(212, 169, 78, 0.7)'
-  ctx.fillRect(32, 17, 38, 5)
-  ctx.fillStyle = 'rgba(212, 169, 78, 0.38)'
-  ctx.fillRect(74, 17, 14, 5)
-  ctx.fillStyle = 'rgba(240, 212, 145, 0.95)'
-  ctx.fillRect(100, 16, 20, 7)
+  // Header band + row-number gutter, slightly lifted from the plate
+  ctx.fillStyle = 'rgba(212, 169, 78, 0.12)'
+  ctx.fillRect(0, 0, SHEET_W, HEADER_H)
+  ctx.fillStyle = 'rgba(212, 169, 78, 0.05)'
+  ctx.fillRect(0, HEADER_H, GUTTER_W, SHEET_H - HEADER_H)
 
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.colorSpace = THREE.SRGBColorSpace
-  return texture
-}
+  // Alternating row shading beneath the data so the bands scan as rows
+  ctx.fillStyle = 'rgba(243, 236, 221, 0.03)'
+  for (let i = 1; i < SHEET_ROWS.length; i += 2) {
+    ctx.fillRect(GUTTER_W, HEADER_H + i * ROW_H, SHEET_W - GUTTER_W, ROW_H)
+  }
 
-/** Bake a category-chip cell: a small gold-bordered plate with a centre mark. */
-function makeChipTexture(): THREE.CanvasTexture {
-  const canvas = document.createElement('canvas')
-  canvas.width = 64
-  canvas.height = 24
-  const ctx = canvas.getContext('2d')!
+  // Crimson wash + entry highlight sit under the gridlines
+  ctx.textBaseline = 'middle'
+  for (let i = 0; i < rowsVisible; i++) {
+    const top = HEADER_H + i * ROW_H
+    if (SHEET_ROWS[i].flag) {
+      ctx.fillStyle = 'rgba(224, 80, 58, 0.09)'
+      ctx.fillRect(GUTTER_W, top, SHEET_W - GUTTER_W, ROW_H)
+    }
+    if (i === highlightIndex) {
+      ctx.fillStyle = 'rgba(240, 212, 145, 0.1)'
+      ctx.fillRect(GUTTER_W, top, SHEET_W - GUTTER_W, ROW_H)
+      ctx.fillStyle = '#f0d491'
+      ctx.fillRect(GUTTER_W + 1, top + 4, 4, ROW_H - 8)
+    }
+  }
 
-  ctx.fillStyle = 'rgba(24, 19, 13, 0.9)'
-  ctx.fillRect(0, 0, 64, 24)
-  ctx.strokeStyle = 'rgba(240, 212, 145, 0.85)'
+  // Gridlines: every row boundary and column separator, plus a firmer frame
+  ctx.fillStyle = 'rgba(212, 169, 78, 0.26)'
+  for (let i = 0; i <= SHEET_ROWS.length; i++) {
+    ctx.fillRect(0, HEADER_H + i * ROW_H - 1, SHEET_W, 1)
+  }
+  for (const x of COL_X) {
+    ctx.fillRect(x, 0, 1, SHEET_H)
+  }
+  ctx.strokeStyle = 'rgba(212, 169, 78, 0.5)'
   ctx.lineWidth = 2
-  ctx.strokeRect(2, 2, 60, 20)
-  ctx.fillStyle = 'rgba(240, 212, 145, 0.8)'
-  ctx.fillRect(16, 10, 32, 4)
+  ctx.strokeRect(1, 1, SHEET_W - 2, SHEET_H - 2)
 
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.colorSpace = THREE.SRGBColorSpace
-  return texture
-}
+  // Column headers in bright gold mono
+  ctx.fillStyle = 'rgba(240, 212, 145, 0.95)'
+  ctx.font = '600 15px Menlo, monospace'
+  ctx.textAlign = 'left'
+  ctx.fillText('DATE', 52, HEADER_H / 2 + 1)
+  ctx.fillText('DESCRIPTION', 164, HEADER_H / 2 + 1)
+  ctx.textAlign = 'right'
+  ctx.fillText('DEBIT', 740, HEADER_H / 2 + 1)
+  ctx.fillText('CREDIT', 872, HEADER_H / 2 + 1)
+  ctx.textAlign = 'center'
+  ctx.fillText('CATEGORY', 954, HEADER_H / 2 + 1)
+  ctx.fillStyle = 'rgba(163, 154, 141, 0.8)'
+  ctx.font = '400 13px Menlo, monospace'
+  ctx.fillText('#', GUTTER_W / 2, HEADER_H / 2 + 1)
 
-/** Bake a repeating gridline tile for the sheet's under-plane. */
-function makeGridTexture(): THREE.CanvasTexture {
-  const canvas = document.createElement('canvas')
-  canvas.width = 64
-  canvas.height = 64
-  const ctx = canvas.getContext('2d')!
+  // Row numbers stay for every band — an empty numbered row is still a sheet
+  for (let i = 0; i < SHEET_ROWS.length; i++) {
+    const mid = HEADER_H + i * ROW_H + ROW_H / 2 + 1
+    ctx.fillStyle = 'rgba(163, 154, 141, 0.65)'
+    ctx.font = '400 13px Menlo, monospace'
+    ctx.textAlign = 'center'
+    ctx.fillText(String(i + 1), GUTTER_W / 2, mid)
+  }
 
-  ctx.clearRect(0, 0, 64, 64)
-  ctx.fillStyle = 'rgba(212, 169, 78, 0.5)'
-  ctx.fillRect(63, 0, 1, 64) // column boundary
-  ctx.fillRect(0, 63, 64, 1) // row boundary
+  // Entered rows: date + description left, amounts right-aligned in their
+  // columns, category as a small outlined chip. The flagged row runs crimson.
+  for (let i = 0; i < rowsVisible; i++) {
+    const row = SHEET_ROWS[i]
+    const mid = HEADER_H + i * ROW_H + ROW_H / 2 + 1
+    const ink = row.flag ? '#e0503a' : 'rgba(228, 197, 132, 0.88)'
+    const inkBright = row.flag ? '#e0503a' : '#f0d491'
 
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.wrapS = THREE.RepeatWrapping
-  texture.wrapT = THREE.RepeatWrapping
-  return texture
+    ctx.textAlign = 'left'
+    ctx.font = '400 15px Menlo, monospace'
+    ctx.fillStyle = ink
+    ctx.fillText(row.date, 52, mid)
+    ctx.font = '400 16px Menlo, monospace'
+    ctx.fillText(row.desc, 164, mid)
+
+    ctx.textAlign = 'right'
+    ctx.font = '600 16px Menlo, monospace'
+    ctx.fillStyle = inkBright
+    if (row.debit) ctx.fillText(row.debit, 740, mid)
+    if (row.credit) ctx.fillText(row.credit, 872, mid)
+
+    // Category chip: measure the tag so the outline hugs the text
+    ctx.font = '400 11px Menlo, monospace'
+    const tagWidth = ctx.measureText(row.tag).width
+    const chipW = tagWidth + 16
+    ctx.strokeStyle = row.flag ? 'rgba(224, 80, 58, 0.75)' : 'rgba(212, 169, 78, 0.55)'
+    ctx.lineWidth = 1
+    ctx.strokeRect(954 - chipW / 2, mid - 10, chipW, 20)
+    ctx.textAlign = 'center'
+    ctx.fillStyle = row.flag ? '#e0503a' : 'rgba(228, 197, 132, 0.85)'
+    ctx.fillText(row.tag, 954, mid)
+  }
+  ctx.textAlign = 'left'
 }
 
 /* ---------------------------------------------------------------------------
  * The Evidence Engine hero scene — LEDGER VARIANT.
  *
- * Narrative: unstructured paper statements stream in from the left, pass
- * through a luminous golden scanning gate at the origin, and dissolve into
- * cells that tile onto ONE unified glowing spreadsheet plane flowing away to
- * the right — unstructured paper in, one structured ledger out. Replaces the
- * base design's point burst ("dust"), which read as particles, not data.
+ * Narrative: unstructured paper statements stream in from the left, are
+ * swallowed by the luminous golden scanning gate, and their lines are ENTERED
+ * onto one large spreadsheet standing to the right — headers, gridlines, row
+ * numbers, then transaction rows landing one at a time, with the flagged ATM
+ * withdrawal written in crimson. Documents in, one growing spreadsheet out.
  * ------------------------------------------------------------------------- */
 export default function EvidenceScene({ onReady }: SceneProps) {
   const mountRef = useRef<HTMLDivElement>(null)
@@ -216,7 +286,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     const scene = new THREE.Scene()
     scene.background = new THREE.Color('#0d0b09')
     // Fog swallows both ends of the flow so documents materialise from
-    // darkness and the data lattice recedes into it — no visible pop-in
+    // darkness and the sheet's far edge recedes into it — no visible pop-in
     scene.fog = new THREE.Fog('#0d0b09', 9, 24)
 
     const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 60)
@@ -224,9 +294,11 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     camera.position.set(0, 0.9, cameraBaseZ)
 
     // Shift the whole stage right on desktop so the gate sits right-of-centre,
-    // leaving the lower-left clear for the DOM headline
+    // leaving the lower-left clear for the DOM headline. On mobile shift it
+    // LEFT instead: the narrow frustum needs the room to the gate's right for
+    // the spreadsheet, so the gate cedes the centre.
     const stage = new THREE.Group()
-    stage.position.x = isMobile ? 0 : 1.1
+    stage.position.x = isMobile ? -0.7 : 1.1
     scene.add(stage)
 
     /* ------------------------- Incoming documents ------------------------ */
@@ -256,89 +328,60 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       wobbleAmp: 0.05 + Math.random() * 0.06,
     }))
 
-    /* ----------------------- Outgoing spreadsheet plane ------------------- */
-    // One unified sheet: rows are horizontal lanes, columns scroll rightwards
-    // from the gate in lockstep, so the output reads as a single growing
-    // ledger rather than free particles.
-    const SHEET_ROWS = isMobile ? 5 : 7
-    const SHEET_COLS = isMobile ? 13 : 22
-    const SHEET_SPEED = 0.042 // journey fraction per second (~24 s traverse)
-    const SHEET_SPAN = 13.5 // world-units of travel before a column recycles
-    const ROW_GAP = 0.24
+    /* ------------------------ Outgoing spreadsheet ------------------------ */
+    // ONE sheet, standing to the right of the gate, filled row by row. The
+    // canvas is redrawn only when a row lands (~1.1 s apart), never per frame.
+    const sheetCanvas = document.createElement('canvas')
+    sheetCanvas.width = SHEET_W
+    sheetCanvas.height = SHEET_H
+    const sheetCtx = sheetCanvas.getContext('2d')!
+    drawSheet(sheetCtx, 0, -1)
+
+    const sheetTexture = new THREE.CanvasTexture(sheetCanvas)
+    sheetTexture.colorSpace = THREE.SRGBColorSpace
+    sheetTexture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy())
+
+    // The sheet cannot run flat along +x — the frustum right of the gate is
+    // only ~3 stage-units wide at z=0. Pivot it at the gate's shoulder and yaw
+    // it into DEPTH instead (+y rotation carries +x into −z): the near columns
+    // (#, DATE, DESCRIPTION) stay large and legible while the far columns
+    // recede into the fog, still fully inside frame at maximum camera sway.
+    const SHEET_LEN = 7.2
+    const SHEET_YAW = isMobile ? 0.75 : 1.0
+    const sheetGeometry = new THREE.PlaneGeometry(SHEET_LEN, SHEET_LEN / (SHEET_W / SHEET_H))
+    const sheetMaterial = new THREE.MeshBasicMaterial({
+      map: sheetTexture,
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    })
+    const sheetMesh = new THREE.Mesh(sheetGeometry, sheetMaterial)
+    sheetMesh.renderOrder = 2
+    // Group pivots at the sheet's left edge so yaw sweeps the far end away;
+    // the mesh offsets by half its length to put that edge on the pivot
+    const sheet = new THREE.Group()
+    sheetMesh.position.set(SHEET_LEN / 2, 0, 0)
+    sheet.position.set(isMobile ? 0.35 : 1.9, 0, 0.2)
+    sheet.rotation.y = SHEET_YAW
+    sheet.rotation.x = -0.05
+    if (isMobile) sheet.scale.setScalar(0.35)
+    sheet.add(sheetMesh)
+    stage.add(sheet)
+
+    // Entry cycle: fade in the empty sheet, land the eight rows ~1.1 s apart,
+    // dwell on the finished ledger, then fade down and start again.
+    const CYCLE = 13.2
+    const FADE_IN_END = 0.5
+    const FIRST_ROW = 0.9
+    const ROW_INTERVAL = 1.1 // eighth row lands at 8.6 s
+    const HIGHLIGHT_CLEAR = FIRST_ROW + SHEET_ROWS.length * ROW_INTERVAL // one beat after the last row
+    const FADE_OUT_START = 11.8
+    const FADE_OUT_END = 12.6
+    const SHEET_MAX_OPACITY = 0.95
+    let lastDrawKey = -1
 
     const dotTexture = makeDotTexture()
-
-    // Split the grid slots between plain row cells and sparse category chips;
-    // the sparse pattern is deterministic so builds and reloads are stable.
-    type SheetSlot = { row: number; col: number; bright: number }
-    const cellSlots: SheetSlot[] = []
-    const chipSlots: SheetSlot[] = []
-    for (let row = 0; row < SHEET_ROWS; row++) {
-      for (let col = 0; col < SHEET_COLS; col++) {
-        const slot = { row, col, bright: 0.8 + ((row * 37 + col * 13) % 23) / 92 }
-        if ((row * 31 + col * 7) % 11 === 4) chipSlots.push(slot)
-        else cellSlots.push(slot)
-      }
-    }
-
-    const cellTexture = makeCellTexture()
-    const cellGeometry = new THREE.PlaneGeometry(0.56, 0.175)
-    const cellMaterial = new THREE.MeshBasicMaterial({
-      map: cellTexture,
-      transparent: true,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-    })
-    const cellMesh = new THREE.InstancedMesh(cellGeometry, cellMaterial, cellSlots.length)
-    cellMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
-
-    const chipTexture = makeChipTexture()
-    const chipGeometry = new THREE.PlaneGeometry(0.3, 0.115)
-    const chipMaterial = new THREE.MeshBasicMaterial({
-      map: chipTexture,
-      transparent: true,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-    })
-    const chipMesh = new THREE.InstancedMesh(chipGeometry, chipMaterial, chipSlots.length)
-    chipMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
-
-    // Seed per-instance brightness variance so the sheet shimmers like metal,
-    // not a texture repeat. One designated cell carries the crimson flag glint.
-    const baseColor = new THREE.Color()
-    cellSlots.forEach((slot, i) => cellMesh.setColorAt(i, baseColor.setScalar(slot.bright)))
-    chipSlots.forEach((slot, i) => chipMesh.setColorAt(i, baseColor.setScalar(slot.bright)))
-    const FLAG_INDEX = cellSlots.findIndex((slot) => slot.row === Math.floor(SHEET_ROWS / 2) && slot.col === 9)
-    const flagColor = new THREE.Color()
-
-    // Faint gridline under-plane anchors the "one unified sheet" reading; it
-    // starts just after the gate and scrolls in sync with the cells.
-    const gridTexture = makeGridTexture()
-    const GRID_WIDTH = SHEET_SPAN - 1.9
-    const gridGeometry = new THREE.PlaneGeometry(GRID_WIDTH, SHEET_ROWS * ROW_GAP + 0.36)
-    const gridMaterial = new THREE.MeshBasicMaterial({
-      map: gridTexture,
-      transparent: true,
-      opacity: 0.38,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-    })
-    gridTexture.repeat.set(GRID_WIDTH / (SHEET_SPAN / SHEET_COLS), SHEET_ROWS)
-    const gridPlane = new THREE.Mesh(gridGeometry, gridMaterial)
-    gridPlane.position.set(1.9 + GRID_WIDTH / 2, 0, -0.05)
-
-    // Group the whole sheet so it can lean back a few degrees as one object.
-    // renderOrder is per-renderable (it does not cascade from the group):
-    // grid under cells under chips, all beneath the gate glow sprites (3).
-    gridPlane.renderOrder = 2
-    cellMesh.renderOrder = 2.1
-    chipMesh.renderOrder = 2.2
-    const sheet = new THREE.Group()
-    sheet.rotation.x = -0.1
-    sheet.add(cellMesh)
-    sheet.add(chipMesh)
-    sheet.add(gridPlane)
-    stage.add(sheet)
 
     /* ----------------------------- The gate ------------------------------ */
     const gate = new THREE.Group()
@@ -384,7 +427,9 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     gate.add(core)
 
     /* --------------------------- Ambient dust ---------------------------- */
-    const DUST_COUNT = isMobile ? 120 : 260
+    // Trimmed and dimmed relative to the base scene: the sheet carries the
+    // right-hand side now, and fewer motes keep its text legible.
+    const DUST_COUNT = isMobile ? 96 : 208
     const dustPositions = new Float32Array(DUST_COUNT * 3)
     for (let i = 0; i < DUST_COUNT; i++) {
       dustPositions[i * 3] = -12 + Math.random() * 26
@@ -398,7 +443,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       map: dotTexture,
       color: new THREE.Color('#8a7247'),
       transparent: true,
-      opacity: 0.32,
+      opacity: 0.28,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     })
@@ -416,28 +461,6 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     // Pointer parallax: target values from events, current values lerped in
     // the loop so the camera glides rather than tracks
     const pointer = { x: 0, y: 0, currentX: 0, currentY: 0 }
-
-    // Place one sheet slot for the current frame: emerge at the gate centre,
-    // scale in, settle into the slot's row lane, then ride the plane's gentle
-    // ripple. Shared by row cells and category chips so both stay in lockstep.
-    const FLAG_RGB = new THREE.Color('#e0503a')
-    const setSlotMatrix = (mesh: THREE.InstancedMesh, index: number, slot: SheetSlot) => {
-      const progress = (slot.col / SHEET_COLS + elapsed * SHEET_SPEED) % 1
-      const x = progress * SHEET_SPAN
-      const enter = smoothstep(0.004, 0.05, progress)
-      const settle = smoothstep(0.02, 0.16, progress)
-      const gridY = (slot.row - (SHEET_ROWS - 1) / 2) * ROW_GAP
-
-      dummy.position.set(
-        x,
-        gridY * settle,
-        Math.sin(x * 0.5 + elapsed * 0.55 + slot.row * 0.35) * 0.045 * settle,
-      )
-      dummy.scale.set(enter, enter, enter)
-      dummy.rotation.set(0, 0, 0)
-      dummy.updateMatrix()
-      mesh.setMatrixAt(index, dummy.matrix)
-    }
 
     const render = () => {
       // Clamp delta so a paused/hidden tab never produces a time jump
@@ -464,25 +487,30 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       }
       documents.instanceMatrix.needsUpdate = true
 
-      // -- Sheet: cells emerge from the gate, sort into rows and scroll right
-      //    as one unified ledger plane; the gridlines scroll in lockstep --
-      for (let i = 0; i < cellSlots.length; i++) setSlotMatrix(cellMesh, i, cellSlots[i])
-      for (let i = 0; i < chipSlots.length; i++) setSlotMatrix(chipMesh, i, chipSlots[i])
-      cellMesh.instanceMatrix.needsUpdate = true
-      chipMesh.instanceMatrix.needsUpdate = true
-      gridTexture.offset.x -= delta * SHEET_SPEED * SHEET_COLS
-
-      // -- Flag glint: one designated cell warms to crimson mid-journey, then
-      //    settles back to gold — the anomaly motif, told in a single cell --
-      if (FLAG_INDEX !== -1) {
-        const slot = cellSlots[FLAG_INDEX]
-        const progress = (slot.col / SHEET_COLS + elapsed * SHEET_SPEED) % 1
-        const glint = progress > 0.32 && progress < 0.62 ? Math.sin(((progress - 0.32) / 0.3) * Math.PI) : 0
-        flagColor.setScalar(slot.bright)
-        flagColor.lerp(FLAG_RGB, glint)
-        cellMesh.setColorAt(FLAG_INDEX, flagColor)
-        cellMesh.instanceColor!.needsUpdate = true
+      // -- Sheet: land rows on the entry cycle; redraw the canvas ONLY when
+      //    the visible-row count or the entry highlight changes --
+      const cycleT = elapsed % CYCLE
+      const rowsVisible =
+        cycleT < FIRST_ROW ? 0 : Math.min(SHEET_ROWS.length, Math.floor((cycleT - FIRST_ROW) / ROW_INTERVAL) + 1)
+      const highlightIndex = rowsVisible > 0 && cycleT < HIGHLIGHT_CLEAR ? rowsVisible - 1 : -1
+      const drawKey = rowsVisible * 16 + (highlightIndex + 1)
+      if (drawKey !== lastDrawKey) {
+        lastDrawKey = drawKey
+        drawSheet(sheetCtx, rowsVisible, highlightIndex)
+        sheetTexture.needsUpdate = true
       }
+
+      // Opacity envelope: fade in empty, hold while filling, fade out full
+      let sheetOpacity = SHEET_MAX_OPACITY
+      if (cycleT < FADE_IN_END) sheetOpacity *= smoothstep(0, FADE_IN_END, cycleT)
+      else if (cycleT > FADE_OUT_START) sheetOpacity *= 1 - smoothstep(FADE_OUT_START, FADE_OUT_END, cycleT)
+      sheetMaterial.opacity = sheetOpacity
+
+      // Idle sway: barely-there yaw breath and lift so the sheet feels held,
+      // not pinned. Yaw amplitude stays at 0.01 rad — the far end sits ~0.15
+      // units inside the frustum edge and moves ~6x the yaw amplitude.
+      sheet.rotation.y = SHEET_YAW + Math.sin(elapsed * 0.4) * 0.01
+      sheet.position.y = Math.sin(elapsed * 0.5) * 0.02
 
       // -- Gate: breathe gently so the light feels alive, never flashy --
       const pulse = 1 + Math.sin(elapsed * 1.6) * 0.012
@@ -564,15 +592,9 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       docGeometry.dispose()
       docMaterial.dispose()
       paperTexture.dispose()
-      cellGeometry.dispose()
-      cellMaterial.dispose()
-      cellTexture.dispose()
-      chipGeometry.dispose()
-      chipMaterial.dispose()
-      chipTexture.dispose()
-      gridGeometry.dispose()
-      gridMaterial.dispose()
-      gridTexture.dispose()
+      sheetGeometry.dispose()
+      sheetMaterial.dispose()
+      sheetTexture.dispose()
       dotTexture.dispose()
       glowTexture.dispose()
       ringOuterGeometry.dispose()

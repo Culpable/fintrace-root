@@ -19,23 +19,23 @@ npm run dev        # serves http://localhost:3004
 | `/exhibit` | The Exhibit | Light | Brutalist court exhibit — “No finding without a source.” |
 | `/chambers` | Chambers | Dark | Quiet luxury, engraved discretion |
 
-### Evidence Engine variations (round two)
+### Evidence Engine variations (rounds two & three)
 
-`/engine/` was chosen as the base direction and is kept untouched as the reference. Each variation changes a controlled set of variables (all include a structured-records hero in place of the point burst, plus a better-ui interaction pass):
+`/engine/` was chosen as the base direction and is kept untouched as the reference. After round-two feedback, all five variations are dark, keep the base type pairing (Bricolage Grotesque + Fragment Mono), carry a better-ui interaction pass, and include the reconstructed cross-currency match diagram:
 
 | Route | Variant | Mode | Variables |
 | --- | --- | --- | --- |
-| `/engine-refined` | Refined | Dark | Control — ledger-row lattice hero, interaction polish only |
-| `/engine-trace` | Trace | Dark | Evidence-card hero; gold account-network trace + cross-currency match set-pieces |
-| `/engine-ledger` | Ledger | Dark | Spreadsheet-plane hero; the reconciling statement table, engine edition |
-| `/engine-serif` | Serif | Dark | Fraunces display on the refined bones — typography A/B |
-| `/engine-light` | Light | Light | Parchment inversion — bronze structure, re-lit scene |
+| `/engine-refined` | Refined | Dark | Control — a calm band of legible ledger-row records, interaction polish only |
+| `/engine-trace` | Trace | Dark | Evidence cards dock into a branching network; gold account trace set-piece |
+| `/engine-ledger` | Ledger | Dark | Documents entered line by line into one hero spreadsheet; reconciling table below |
+| `/engine-network` | Network | Dark | Account-network constellation hero — accounts and threads in engine gold |
+| `/engine-flow` | Flow | Dark | Money-trail hero — traced routes carrying amount pulses between accounts |
 
 ## Stack
 
 - Next.js 16 (App Router) — **static export** (`output: 'export'` → `out/`)
 - React 19, TypeScript, Tailwind CSS v4
-- `three` (isolated to the `/engine` route via dynamic import)
+- `three` (isolated to the `/engine` family of routes via dynamic import)
 - Fonts self-hosted at build time via `next/font/google`; each route loads only its own fonts
 
 ## Commands

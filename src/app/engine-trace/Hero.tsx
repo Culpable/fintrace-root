@@ -31,6 +31,19 @@ export default function Hero() {
           <circle cx="905" cy="430" r="150" fill="none" stroke="#d4a94e" strokeOpacity="0.28" strokeWidth="1" />
           <circle cx="905" cy="430" r="132" fill="none" stroke="#d4a94e" strokeOpacity="0.12" strokeWidth="1" />
           <line x1="0" y1="430" x2="1440" y2="430" stroke="url(#eng-fallback-line)" strokeWidth="1" />
+          {/* Echo of the docked evidence network: root → branches → leaves,
+              joined border-to-border, with the flagged hop in crimson */}
+          <g fill="none" strokeWidth="1">
+            <path d="M1092 431 1140 395" stroke="#d4a94e" strokeOpacity="0.3" />
+            <path d="M1092 431 1140 467" stroke="#d4a94e" strokeOpacity="0.3" />
+            <path d="M1168 395 1216 364" stroke="#d4a94e" strokeOpacity="0.3" />
+            <path d="M1168 467 1216 498" stroke="#b3231f" strokeOpacity="0.38" />
+            <rect x="1060" y="421" width="32" height="20" rx="2" stroke="#d4a94e" strokeOpacity="0.34" />
+            <rect x="1140" y="386" width="28" height="18" rx="2" stroke="#d4a94e" strokeOpacity="0.3" />
+            <rect x="1140" y="458" width="28" height="18" rx="2" stroke="#d4a94e" strokeOpacity="0.3" />
+            <rect x="1216" y="355" width="24" height="16" rx="2" stroke="#d4a94e" strokeOpacity="0.26" />
+            <rect x="1216" y="490" width="24" height="16" rx="2" stroke="#b3231f" strokeOpacity="0.34" />
+          </g>
           <defs>
             <linearGradient id="eng-fallback-line" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0" stopColor="#d4a94e" stopOpacity="0" />

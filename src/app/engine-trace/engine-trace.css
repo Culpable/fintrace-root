@@ -1183,7 +1183,7 @@
 /* Travelling amount chip: hidden until the parent Reveal arms the loop */
 .dsn-engine-trace .ecm-chip {
   opacity: 0;
-  offset-path: path('M 46 104 Q 153 38 260 104 Q 367 38 474 104');
+  offset-path: path('M 76 118 Q 178 52 280 118 Q 382 52 484 118');
   offset-rotate: 0deg;
 }
 

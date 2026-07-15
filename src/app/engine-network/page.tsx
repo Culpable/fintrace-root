@@ -2,25 +2,27 @@ import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import clsx from 'clsx'
-import './engine-serif.css'
-import { fraunces, fragmentMono } from './fonts'
+import './engine-network.css'
+import { bricolage, fragmentMono } from './fonts'
+import CurrencyMatch from './CurrencyMatch'
 import Hero from './Hero'
 import Reveal from './Reveal'
 import Stat from './Stat'
 
 /**
- * Engine variant — "The Evidence Engine — Serif" (typography A/B).
+ * Engine variant V4 — "Network".
  *
- * Identical bones to /engine-refined/: obsidian-and-gold system, and a hero
- * where documents pass the golden gate and lock into a lattice of glowing
- * ledger-row slabs. The single variable under test is the display voice —
- * Fraunces (high-contrast serif) in place of Bricolage Grotesque — so the
- * comparison isolates how the brand reads with legal-gravitas serifs.
+ * The base Evidence Engine's obsidian-and-gold system with a trace-led hero:
+ * documents pass the scanning gate and re-emerge as an account-network
+ * constellation — glowing account nodes joined by golden threads, one flagged
+ * hop in restrained crimson. A dedicated section reconstructs the
+ * cross-currency match, and every interactive element carries the better-ui
+ * polish pass (press feedback, hit areas, layered depth shadows).
  */
 export const metadata: Metadata = {
-  title: 'The Evidence Engine — Serif',
+  title: 'The Evidence Engine — Network',
   description:
-    'FinTrace — forensic infrastructure for legal teams, set in serif. Thousands of pages of bank statements become structured, source-linked evidence that stands up in court.',
+    'FinTrace engine variant: documents pass the scanning gate and re-emerge as a constellation of traced accounts — forensic infrastructure for legal teams.',
 }
 
 /* ---------------------------------------------------------------------------
@@ -125,7 +127,7 @@ const AUDIENCES = [
 function Header() {
   return (
     <header className="eng-header">
-      <Link href="/engine-serif/" className="eng-wordmark" aria-label="FinTrace — The Evidence Engine, serif variant">
+      <Link href="/engine-network/" className="eng-wordmark" aria-label="FinTrace — The Evidence Engine, network variant">
         <span>Fin</span>
         <span className="eng-wordmark-bar" aria-hidden="true" />
         <span className="eng-gold-text">Trace</span>
@@ -144,7 +146,7 @@ function Header() {
 
 export default function EnginePage() {
   return (
-    <div className={clsx('dsn-engine-serif', fraunces.variable, fragmentMono.variable)}>
+    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable)}>
       <Header />
       <main>
         <Hero />
@@ -170,6 +172,21 @@ export default function EnginePage() {
                   </article>
                 ))}
               </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ----------------------- Cross-currency match --------------------- */}
+        <section className="eng-section eng-cv" id="match">
+          <div className="eng-container">
+            <Reveal className="eng-section-head">
+              <p className="eng-kicker">Traced across currencies</p>
+              <h2 className="eng-h2">
+                Same funds. <span className="eng-gold-text">Two currencies. One match.</span>
+              </h2>
+            </Reveal>
+            <Reveal className="eng-plate eng-ecm-plate">
+              <CurrencyMatch />
             </Reveal>
           </div>
         </section>
@@ -314,7 +331,7 @@ export default function EnginePage() {
         <svg width="8" height="10" viewBox="0 0 8 10" fill="none" aria-hidden="true">
           <path d="M7 1 2 5l5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
         </svg>
-        Design lab · Serif variant
+        Design lab · Engine — network
       </Link>
     </div>
   )

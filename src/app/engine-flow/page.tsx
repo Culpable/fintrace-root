@@ -2,25 +2,28 @@ import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import clsx from 'clsx'
-import './engine-light.css'
+import './engine-flow.css'
 import { bricolage, fragmentMono } from './fonts'
+import CurrencyMatch from './CurrencyMatch'
 import Hero from './Hero'
 import Reveal from './Reveal'
 import Stat from './Stat'
 
 /**
- * Engine variant — "The Evidence Engine, Light".
+ * Engine variant — "Flow" (the money trail).
  *
- * The chosen obsidian-and-gold direction inverted onto a warm parchment
- * field: bronze structure, obsidian ink, paper plates with layered shadows.
- * The three.js hero keeps the document-into-gate transformation but re-lit
- * for daylight, with cells tiling onto one unified spreadsheet plane.
- * Tests whether the Engine direction survives in a courtroom-safe light mode.
+ * The base Evidence Engine's obsidian-and-gold system with the hero's
+ * post-gate output redesigned as traced money paths: documents pass the
+ * scanning gate and their funds flow on as bright amount pulses along
+ * drawn trace routes between account waypoints — one route flagged in
+ * restrained crimson. A dedicated section reconstructs the cross-currency
+ * match diagram in the same language. Interactive elements keep the
+ * better-ui polish pass (press feedback, hit areas, layered depth shadows).
  */
 export const metadata: Metadata = {
-  title: 'The Evidence Engine — Light',
+  title: 'The Evidence Engine — Flow',
   description:
-    'FinTrace — forensic infrastructure for legal teams, in daylight. Thousands of pages of bank statements become one structured, source-linked ledger that stands up in court.',
+    'FinTrace engine variant: documents pass the scanning gate and their funds flow on as traced money trails between accounts — forensic infrastructure for legal teams.',
 }
 
 /* ---------------------------------------------------------------------------
@@ -125,7 +128,7 @@ const AUDIENCES = [
 function Header() {
   return (
     <header className="eng-header">
-      <Link href="/engine-light/" className="eng-wordmark" aria-label="FinTrace — The Evidence Engine, Light">
+      <Link href="/engine-flow/" className="eng-wordmark" aria-label="FinTrace — The Evidence Engine, flow variant">
         <span>Fin</span>
         <span className="eng-wordmark-bar" aria-hidden="true" />
         <span className="eng-gold-text">Trace</span>
@@ -142,9 +145,9 @@ function Header() {
   )
 }
 
-export default function EngineLightPage() {
+export default function EnginePage() {
   return (
-    <div className={clsx('dsn-engine-light', bricolage.variable, fragmentMono.variable)}>
+    <div className={clsx('dsn-engine-flow', bricolage.variable, fragmentMono.variable)}>
       <Header />
       <main>
         <Hero />
@@ -170,6 +173,21 @@ export default function EngineLightPage() {
                   </article>
                 ))}
               </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ----------------------- Cross-currency match --------------------- */}
+        <section className="eng-section eng-cv" id="match">
+          <div className="eng-container">
+            <Reveal className="eng-section-head">
+              <p className="eng-kicker">Traced across currencies</p>
+              <h2 className="eng-h2">
+                Same funds. <span className="eng-gold-text">Two currencies. One match.</span>
+              </h2>
+            </Reveal>
+            <Reveal className="eng-plate eng-ecm-plate">
+              <CurrencyMatch />
             </Reveal>
           </div>
         </section>
@@ -314,7 +332,7 @@ export default function EngineLightPage() {
         <svg width="8" height="10" viewBox="0 0 8 10" fill="none" aria-hidden="true">
           <path d="M7 1 2 5l5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
         </svg>
-        Design lab · Engine variant — light
+        Design lab · Engine — flow
       </Link>
     </div>
   )

@@ -97,42 +97,44 @@ const DESIGNS = [
 
 /** Register of the Evidence Engine variations built after round-one feedback
  *  chose /engine/ as the base direction. The base stays untouched for
- *  reference; each variation changes a controlled set of variables. */
+ *  reference; each variation changes a controlled set of variables. All five
+ *  are dark, keep the base type pairing, and carry the reconstructed
+ *  cross-currency match set-piece. */
 const ENGINE_VARIATIONS = [
   {
     number: 'V1',
     name: 'Refined',
     href: '/engine-refined/',
-    voice: 'The control — documents become a ledger-row lattice; interaction polish throughout.',
+    voice: 'The control — a calm band of legible ledger-row records; interaction polish throughout.',
     mode: 'Dark',
   },
   {
     number: 'V2',
     name: 'Trace',
     href: '/engine-trace/',
-    voice: 'Evidence-card hero, gold account-network trace, cross-currency match reconstructed.',
+    voice: 'Evidence cards dock into a branching network; gold account trace + cross-currency match.',
     mode: 'Dark',
   },
   {
     number: 'V3',
     name: 'Ledger',
     href: '/engine-ledger/',
-    voice: 'Spreadsheet-plane hero; the reconciling statement table, engine edition.',
+    voice: 'Documents entered line by line into one spreadsheet; the reconciling table, engine edition.',
     mode: 'Dark',
   },
   {
     number: 'V4',
-    name: 'Serif',
-    href: '/engine-serif/',
-    voice: 'Fraunces display on the same bones — the typography A/B.',
+    name: 'Network',
+    href: '/engine-network/',
+    voice: 'Account-network constellation hero — accounts and threads drawn in engine gold.',
     mode: 'Dark',
   },
   {
     number: 'V5',
-    name: 'Light',
-    href: '/engine-light/',
-    voice: 'Parchment inversion — bronze structure, obsidian text, re-lit scene.',
-    mode: 'Light',
+    name: 'Flow',
+    href: '/engine-flow/',
+    voice: 'Money-trail hero — traced routes carrying amount pulses to their destination accounts.',
+    mode: 'Dark',
   },
 ]
 
@@ -247,7 +249,7 @@ export default function DesignLabIndex() {
               className="text-[10px] tracking-[0.25em] uppercase"
               style={{ fontFamily: 'var(--font-spline-mono)', color: 'var(--lab-muted)' }}
             >
-              Round two · base kept as reference
+              Rounds two &amp; three · base kept as reference
             </span>
           </div>
           <div className="mt-6">

@@ -1367,3 +1367,219 @@
     font-size: 0.68rem;
   }
 }
+
+/* --------------------- Cross-currency match set-piece ------------------- */
+
+.dsn-engine-ledger .eng-ecm-plate {
+  padding: clamp(1.4rem, 3.5vw, 2.6rem);
+}
+
+.dsn-engine-ledger .ecm-wrap {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.dsn-engine-ledger .ecm-kicker {
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 0.8rem;
+}
+
+.dsn-engine-ledger .ecm {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Dotted route: dashes march in the direction the money travelled */
+.dsn-engine-ledger .ecm-path {
+  stroke: rgba(212, 169, 78, 0.45);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 5;
+  animation: eclm-march 1.1s linear infinite;
+}
+
+@keyframes eclm-march {
+  to {
+    stroke-dashoffset: -8;
+  }
+}
+
+.dsn-engine-ledger .ecm-ring {
+  fill: none;
+  stroke: rgba(240, 212, 145, 0.3);
+  stroke-width: 1;
+}
+
+.dsn-engine-ledger .ecm-dot {
+  fill: var(--gold);
+}
+
+.dsn-engine-ledger .ecm-name {
+  fill: var(--paper);
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.dsn-engine-ledger .ecm-sub {
+  fill: var(--grey-warm);
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+
+/* Travelling amount chip: hidden until the parent Reveal arms the loop */
+.dsn-engine-ledger .ecm-chip {
+  opacity: 0;
+  offset-path: path('M 76 118 Q 178 52 280 118 Q 382 52 484 118');
+  offset-rotate: 0deg;
+}
+
+.dsn-engine-ledger .ecm-chip rect {
+  fill: #171310;
+  stroke: var(--gold);
+  stroke-width: 1;
+}
+
+.dsn-engine-ledger .ecm-amt {
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+}
+
+.dsn-engine-ledger .ecm-amt-inr {
+  fill: var(--gold-bright);
+}
+
+.dsn-engine-ledger .ecm-amt-aud {
+  fill: var(--gold-bright);
+  opacity: 0;
+}
+
+/* MATCHED verdict plate, stamped clear above the chip's landing spot */
+.dsn-engine-ledger .ecm-match {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.dsn-engine-ledger .ecm-match rect {
+  fill: rgba(212, 169, 78, 0.14);
+  stroke: var(--gold);
+  stroke-width: 1;
+}
+
+.dsn-engine-ledger .ecm-match text {
+  fill: var(--gold-bright);
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+}
+
+/* Armed by the parent Reveal: the journey loops on a 9s cycle —
+   depart HDFC, dwell + swap currency at Wise, land at ANZ, stamp MATCHED.
+   Gated on offset-path support: without it the chip would sit at the SVG
+   origin, so browsers lacking motion paths keep the static diagram only. */
+@supports (offset-path: path('M 0 0 L 1 1')) {
+  .dsn-engine-ledger .eng-reveal.is-visible .ecm-chip {
+    animation: eclm-travel 9s cubic-bezier(0.45, 0, 0.3, 1) 0.4s infinite;
+  }
+
+  .dsn-engine-ledger .eng-reveal.is-visible .ecm-amt-inr {
+    animation: eclm-inr 9s linear 0.4s infinite;
+  }
+
+  .dsn-engine-ledger .eng-reveal.is-visible .ecm-amt-aud {
+    animation: eclm-aud 9s linear 0.4s infinite;
+  }
+
+  .dsn-engine-ledger .eng-reveal.is-visible .ecm-match {
+    animation: eclm-stamp 9s cubic-bezier(0.22, 0.61, 0.2, 1) 0.4s infinite;
+  }
+}
+
+@keyframes eclm-travel {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  38% {
+    offset-distance: 50%;
+  }
+  50% {
+    /* Dwell at the Wise node while the currency swaps */
+    offset-distance: 50%;
+  }
+  82% {
+    offset-distance: 100%;
+    opacity: 1;
+  }
+  88%,
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes eclm-inr {
+  0%,
+  43% {
+    opacity: 1;
+  }
+  47%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes eclm-aud {
+  0%,
+  43% {
+    opacity: 0;
+  }
+  47%,
+  84% {
+    opacity: 1;
+  }
+  88%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes eclm-stamp {
+  0%,
+  78% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+  84%,
+  94% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Caption beneath the cross-currency diagram */
+.dsn-engine-ledger .ecm-caption {
+  margin-top: 1.1rem;
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  color: var(--grey-warm);
+  text-align: center;
+  line-height: 1.7;
+}

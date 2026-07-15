@@ -19,7 +19,7 @@ type RevealProps = {
  * Adds the `is-visible` class the first time the element enters the viewport,
  * then disconnects its observer — each element animates exactly once and no
  * observer keeps running after the entrance completes. All visual motion is
- * defined in engine-light.css (transform/opacity only) so this component stays a
+ * defined in engine.css (transform/opacity only) so this component stays a
  * pure trigger.
  */
 export default function Reveal({ as = 'div', className, delay = 0, children, id }: RevealProps) {

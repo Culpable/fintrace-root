@@ -22,6 +22,17 @@ const smoothstep = (edge0: number, edge1: number, x: number) => {
 }
 
 /**
+ * Ease-out-back with a gentle overshoot (~8%): cards fly slightly past their
+ * network slot and settle back — the dock reads as a deliberate snap into
+ * place rather than a fade.
+ */
+const backOut = (t: number) => {
+  const c = 1.4
+  const u = t - 1
+  return 1 + u * u * ((c + 1) * u + c)
+}
+
+/**
  * Draw a miniature bank statement onto a canvas and wrap it as a texture:
  * warm paper, a bold header rule, and alternating ruled "transaction" lines.
  * Baking the artwork keeps the documents unlit (cheap) yet clearly readable
@@ -152,9 +163,11 @@ function makeDotTexture(): THREE.CanvasTexture {
  *
  * Narrative: unstructured paper statements stream in from the left, pass
  * through a luminous golden scanning gate at the origin, and re-emerge on the
- * right as EVIDENCE CARDS — gold-edged citation plates that hold a disciplined
- * queue, joined card-to-card by fine gold filaments. One filament runs in
- * restrained crimson: a flagged connection, the tracing identity in miniature.
+ * right as EVIDENCE CARDS that dock, one by one, into a branching account
+ * network — a root, two branches, then leaves — joined border-to-border by
+ * fine gold connectors. One connector runs in restrained crimson: a flagged
+ * hop, the tracing identity in miniature. The finished network dwells while
+ * bright motes run its edges, then releases into the fog and rebuilds.
  * ------------------------------------------------------------------------- */
 export default function EvidenceScene({ onReady }: SceneProps) {
   const mountRef = useRef<HTMLDivElement>(null)
@@ -201,9 +214,11 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     camera.position.set(0, 0.9, cameraBaseZ)
 
     // Shift the whole stage right on desktop so the gate sits right-of-centre,
-    // leaving the lower-left clear for the DOM headline
+    // leaving the lower-left clear for the DOM headline. On mobile shift it
+    // LEFT instead: the gate hugs the left edge, widening the narrow output
+    // band so the whole docked network stays inside the frame.
     const stage = new THREE.Group()
-    stage.position.x = isMobile ? 0 : 1.1
+    stage.position.x = isMobile ? -0.7 : 1.1
     scene.add(stage)
 
     /* ------------------------- Incoming documents ------------------------ */
@@ -233,13 +248,60 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       wobbleAmp: 0.05 + Math.random() * 0.06,
     }))
 
-    /* ------------------------ Outgoing evidence cards --------------------- */
-    // Cards hold a uniform speed and evenly-spaced phases, so the outgoing
-    // queue keeps constant spacing — disciplined evidence, not scattered dust.
-    const CARD_COUNT = isMobile ? 9 : 18
-    const CARD_SPEED = 0.05
+    /* ------------------------ Docked evidence network --------------------- */
+    // Cards no longer file past in a queue: each one emerges through the gate,
+    // flies a gentle arc to a FIXED slot and docks, assembling a branching
+    // account network — root, branches, leaves — that reads as a trace rather
+    // than a string of cards.
+    // Slot placement is frustum-bound: with fov 34° and the camera's sway and
+    // pointer parallax, stage-local x must stay under ≈3.1 + 0.49·(−z) on
+    // desktop and ≈2.1 on the shifted mobile stage — so the tree spreads
+    // VERTICALLY through the generous y range rather than marching off-frame.
+    const SLOTS: [number, number, number][] = isMobile
+      ? [
+          [0.4, 0, 0], // root
+          [1.1, 0.85, -0.3], // branch 1
+          [1.1, -0.85, 0.3], // branch 2
+          [1.95, 1.6, -0.5], // leaf 1
+          [1.95, -1.6, 0.5], // leaf 2 — flagged
+        ]
+      : [
+          [1.7, 0, 0], // root
+          [2.45, 1.05, -0.4], // branch 1
+          [2.45, -1.05, 0.35], // branch 2
+          [3.25, 1.8, -0.6], // leaf 1
+          [3.45, 0.62, -0.9], // leaf 2
+          [3.15, -0.62, -0.25], // leaf 3
+          [3.28, -1.8, -0.5], // leaf 4 — flagged
+        ]
+    // Parent → child pairs by slot index. The LAST pair is the flagged hop,
+    // drawn crimson on its own segment so the gold material never has to
+    // switch colour mid-draw.
+    const EDGES: [number, number][] = isMobile
+      ? [
+          [0, 1],
+          [1, 3],
+          [0, 2],
+          [2, 4],
+        ]
+      : [
+          [0, 1],
+          [1, 3],
+          [1, 4],
+          [0, 2],
+          [2, 5],
+          [2, 6],
+        ]
+    const FLAG_EDGE = EDGES.length - 1
+    const FLAG_CARD = EDGES[FLAG_EDGE][1]
+
+    const CARD_COUNT = SLOTS.length
+    const CARD_W = 0.86 // plane width — connector anchors sit at ±CARD_W/2
+    // Docked card scale: slightly reduced so the tighter, taller tree keeps
+    // clear air between ranks (network read beats per-card legibility)
+    const CARD_SCALE = isMobile ? 0.6 : 0.92
     const cardTexture = makeCardTexture()
-    const cardGeometry = new THREE.PlaneGeometry(0.86, 0.54)
+    const cardGeometry = new THREE.PlaneGeometry(CARD_W, 0.54)
     const cardMaterial = new THREE.MeshBasicMaterial({
       map: cardTexture,
       transparent: true,
@@ -250,23 +312,32 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     cards.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
     stage.add(cards)
 
-    // Fan lanes: a gentle arc in y plus three staggered depth lanes, so the
-    // queue reads as a fanned hand of cards receding to the right
-    const cardParams = Array.from({ length: CARD_COUNT }, (_, i) => ({
-      phase: i / CARD_COUNT,
-      laneY: -0.1 + Math.sin(i * 0.85) * 0.32,
-      laneZ: ((i % 3) - 1) * 0.5,
-      tilt: Math.sin(i * 2.3) * 0.07,
-      bob: i * 0.7,
+    // Seed instance colours so the flagged leaf can warm to crimson at dwell
+    const WHITE = new THREE.Color(1, 1, 1)
+    const FLAG_RGB = new THREE.Color('#b3231f')
+    for (let i = 0; i < CARD_COUNT; i++) cards.setColorAt(i, WHITE)
+    const flagTint = new THREE.Color()
+
+    // Assembly timetable (seconds within the cycle). Everything below is a
+    // pure function of the looping clock, so pause/resume never desyncs.
+    const EMERGE_GAP = 1.6 // one card leaves the gate every 1.6 s
+    const FLIGHT_DUR = 2.2 // gate → slot flight time
+    const DRAW_DUR = 0.6 // connector draw-in once both endpoint cards dock
+    const CYCLE = 26 // full build → dwell → depart loop
+    const DEPART_START = 22.2 // the finished network releases into the fog
+    const DEPART_DUR = 3.2
+    const dockAt = (i: number) => i * EMERGE_GAP + FLIGHT_DUR
+    const NETWORK_DONE = dockAt(CARD_COUNT - 1) + DRAW_DUR
+    // Per-card flight character: arc lift and a tilt that settles flat on dock
+    const cardChar = SLOTS.map((_, i) => ({
+      lift: 0.3 + Math.sin(i * 3.7) * 0.12,
+      tilt: Math.sin(i * 2.3) * 0.35,
     }))
-    // Scratch buffer holding this frame's card positions for the filaments
+    // Scratch buffer holding this frame's card positions for the connectors
     const cardPos = new Float32Array(CARD_COUNT * 3)
 
-    /* ------------------------ Card-to-card filaments ---------------------- */
-    // The flagged pair renders in restrained crimson on its own segment so the
-    // gold material never has to switch colour mid-draw.
-    const FLAG_SEGMENT = isMobile ? 4 : 7
-    const goldSegCount = CARD_COUNT - 1
+    /* --------------------------- Edge connectors -------------------------- */
+    const goldSegCount = EDGES.length - 1
     const filamentPositions = new Float32Array(goldSegCount * 2 * 3)
     const filamentGeometry = new THREE.BufferGeometry()
     const filamentAttr = new THREE.BufferAttribute(filamentPositions, 3)
@@ -294,6 +365,28 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     const flagFilament = new THREE.LineSegments(flagGeometry, flagMaterial)
     flagFilament.frustumCulled = false
     stage.add(flagFilament)
+
+    /* ------------------------- Travelling pulses -------------------------- */
+    // While the finished network dwells, small bright motes run parent → child
+    // along the connectors — money moving through the traced accounts.
+    const PULSE_COUNT = 3
+    const PULSE_PERIOD = 1.9 // seconds per edge run
+    const dotTexture = makeDotTexture()
+    const pulseMaterial = new THREE.SpriteMaterial({
+      map: dotTexture,
+      color: new THREE.Color('#f0d491'),
+      transparent: true,
+      opacity: 0.9,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    })
+    const pulses = Array.from({ length: PULSE_COUNT }, () => {
+      const sprite = new THREE.Sprite(pulseMaterial)
+      sprite.scale.setScalar(0.001)
+      sprite.renderOrder = 2
+      stage.add(sprite)
+      return sprite
+    })
 
     /* ----------------------------- The gate ------------------------------ */
     const gate = new THREE.Group()
@@ -341,7 +434,6 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     /* --------------------------- Ambient dust ---------------------------- */
     // Atmospheric motes only — the post-gate output is cards, not particles.
     const DUST_COUNT = isMobile ? 120 : 260
-    const dotTexture = makeDotTexture()
     const dustPositions = new Float32Array(DUST_COUNT * 3)
     for (let i = 0; i < DUST_COUNT; i++) {
       dustPositions[i * 3] = -12 + Math.random() * 26
@@ -401,22 +493,37 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       }
       documents.instanceMatrix.needsUpdate = true
 
-      // -- Cards: emerge through the gate, settle into the fanned queue --
-      for (let i = 0; i < CARD_COUNT; i++) {
-        const p = cardParams[i]
-        const progress = (p.phase + elapsed * CARD_SPEED) % 1
-        const emerge = smoothstep(0, 0.055, progress) // grow out of the gate
-        const settle = smoothstep(0.05, 0.24, progress) // fan from centre to lane
+      // -- Cards: emerge one at a time, fly an arc and dock into their slot --
+      const t = elapsed % CYCLE
+      // Departure envelope: the finished network drifts right and dissolves
+      // into the fog before the cycle rebuilds from a fresh root.
+      const depart = smoothstep(DEPART_START, DEPART_START + DEPART_DUR, t)
+      const driftX = depart * 4.5
+      cardMaterial.opacity = 0.97 * (1 - depart)
+      filamentMaterial.opacity = 0.32 * (1 - depart)
+      flagMaterial.opacity = 0.55 * (1 - depart)
 
-        const x = progress * 13.5
-        const y = lerp(0, p.laneY, settle) + Math.sin(elapsed * 1.3 + p.bob) * 0.02 * settle
-        const z = lerp(0, p.laneZ, settle)
+      for (let i = 0; i < CARD_COUNT; i++) {
+        const slot = SLOTS[i]
+        const char = cardChar[i]
+        const born = i * EMERGE_GAP
+        // Flight progress with a gentle overshoot so the dock reads as a snap
+        const u = smoothstep(born, born + FLIGHT_DUR, t)
+        const eased = backOut(u)
+        const docked = smoothstep(born + FLIGHT_DUR * 0.9, born + FLIGHT_DUR, t)
+
+        // A gentle bob plus a slow group sway keep the docked network alive
+        const bob = (Math.sin(elapsed * 1.3 + i * 2.1) * 0.018 + Math.sin(elapsed * 0.5) * 0.03) * docked
+
+        const x = slot[0] * eased + driftX
+        const y = slot[1] * eased + Math.sin(u * Math.PI) * char.lift + bob
+        const z = slot[2] * eased
 
         dummy.position.set(x, y, z)
-        const scale = Math.max(emerge, 0.001)
+        const scale = Math.max(smoothstep(born, born + 0.45, t) * CARD_SCALE, 0.001)
         dummy.scale.set(scale, scale, scale)
-        // Cards settle upright with a small individual tilt — filed, not thrown
-        dummy.rotation.set(0, 0, p.tilt * settle)
+        // Tilt in flight, dead level once docked so edge anchors stay exact
+        dummy.rotation.set(0, 0, (1 - u) * char.tilt)
         dummy.updateMatrix()
         cards.setMatrixAt(i, dummy.matrix)
 
@@ -426,46 +533,68 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       }
       cards.instanceMatrix.needsUpdate = true
 
-      // -- Filaments: join each card to the next, skipping the wrap-around --
-      // A segment collapses behind the fog when its pair spans the queue's
-      // seam or when either card is still inside the gate.
-      let flagDrawn = false
-      for (let s = 0; s < goldSegCount; s++) {
-        const ax = cardPos[s * 3]
-        const bx = cardPos[(s + 1) * 3]
-        const visible = ax > 0.9 && bx > 0.9 && Math.abs(ax - bx) < 2.2
+      // -- Flagged leaf: warm towards crimson while the network dwells --
+      const dwell = smoothstep(NETWORK_DONE, NETWORK_DONE + 1, t) * (1 - depart)
+      flagTint.copy(WHITE).lerp(FLAG_RGB, dwell * (0.35 + Math.sin(elapsed * 2.2) * 0.15))
+      cards.setColorAt(FLAG_CARD, flagTint)
+      cards.instanceColor!.needsUpdate = true
 
-        const isFlag = s === FLAG_SEGMENT
+      // -- Connectors: draw parent → child once both endpoint cards dock --
+      // Anchors sit on the card BORDERS (right edge of the parent, left edge
+      // of the child) at the docked scale, so lines join the plates like a
+      // schematic and never thread through a card face.
+      const HALF_W = (CARD_W / 2) * CARD_SCALE
+      for (let s = 0; s < EDGES.length; s++) {
+        const [a, b] = EDGES[s]
+        const drawStart = Math.max(dockAt(a), dockAt(b))
+        const draw = smoothstep(drawStart, drawStart + DRAW_DUR, t)
+
+        const isFlag = s === FLAG_EDGE
         const target = isFlag ? flagPositions : filamentPositions
         const offset = isFlag ? 0 : s * 6
-        if (visible) {
-          target[offset] = cardPos[s * 3]
-          target[offset + 1] = cardPos[s * 3 + 1]
-          target[offset + 2] = cardPos[s * 3 + 2]
-          target[offset + 3] = cardPos[(s + 1) * 3]
-          target[offset + 4] = cardPos[(s + 1) * 3 + 1]
-          target[offset + 5] = cardPos[(s + 1) * 3 + 2]
-          if (isFlag) flagDrawn = true
+
+        if (draw > 0) {
+          const ax = cardPos[a * 3] + HALF_W
+          const ay = cardPos[a * 3 + 1]
+          const az = cardPos[a * 3 + 2]
+          const bx = cardPos[b * 3] - HALF_W
+          const by = cardPos[b * 3 + 1]
+          const bz = cardPos[b * 3 + 2]
+          target[offset] = ax
+          target[offset + 1] = ay
+          target[offset + 2] = az
+          // The far endpoint extends from the parent anchor towards the child
+          target[offset + 3] = lerp(ax, bx, draw)
+          target[offset + 4] = lerp(ay, by, draw)
+          target[offset + 5] = lerp(az, bz, draw)
         } else {
           target[offset] = target[offset + 3] = -30
           target[offset + 1] = target[offset + 4] = 0
           target[offset + 2] = target[offset + 5] = 0
         }
-        // The gold buffer keeps a slot for the flagged segment; collapse it so
-        // the crimson line is the only one drawn between that pair
-        if (isFlag) {
-          filamentPositions[s * 6] = filamentPositions[s * 6 + 3] = -30
-          filamentPositions[s * 6 + 1] = filamentPositions[s * 6 + 4] = 0
-          filamentPositions[s * 6 + 2] = filamentPositions[s * 6 + 5] = 0
-        }
-      }
-      if (!flagDrawn) {
-        flagPositions[0] = flagPositions[3] = -30
-        flagPositions[1] = flagPositions[4] = 0
-        flagPositions[2] = flagPositions[5] = 0
       }
       filamentAttr.needsUpdate = true
       flagAttr.needsUpdate = true
+
+      // -- Pulses: bright motes run the connectors while the network dwells --
+      for (let j = 0; j < PULSE_COUNT; j++) {
+        const sprite = pulses[j]
+        if (t <= NETWORK_DONE || depart > 0.001) {
+          sprite.scale.setScalar(0.001)
+          continue
+        }
+        const local = (t - NETWORK_DONE) / PULSE_PERIOD + j * 0.37
+        const lap = Math.floor(local)
+        const frac = local - lap
+        // Deterministic edge hopping: each lap sends the mote down a new edge
+        const [a, b] = EDGES[(j * 2 + lap) % EDGES.length]
+        sprite.position.set(
+          lerp(cardPos[a * 3] + HALF_W, cardPos[b * 3] - HALF_W, frac),
+          lerp(cardPos[a * 3 + 1], cardPos[b * 3 + 1], frac),
+          lerp(cardPos[a * 3 + 2], cardPos[b * 3 + 2], frac),
+        )
+        sprite.scale.setScalar(Math.max(0.14 * Math.sin(frac * Math.PI), 0.001))
+      }
 
       // -- Gate: breathe gently so the light feels alive, never flashy --
       const pulse = 1 + Math.sin(elapsed * 1.6) * 0.012
@@ -554,6 +683,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       filamentMaterial.dispose()
       flagGeometry.dispose()
       flagMaterial.dispose()
+      pulseMaterial.dispose()
       dotTexture.dispose()
       glowTexture.dispose()
       ringOuterGeometry.dispose()

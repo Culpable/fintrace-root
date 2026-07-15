@@ -1,6 +1,7 @@
 /**
- * Cross-currency match — reconstructed. The second investigative set-piece,
- * rendered entirely in the engine's obsidian-and-gold language.
+ * Cross-currency match — reconstructed. The investigative set-piece every
+ * engine variation now carries, rendered in the engine's obsidian-and-gold
+ * language.
  *
  * A rupee amount leaves an overseas HDFC account, passes through Wise and
  * lands in an Australian ANZ account as dollars. The amount chip physically
@@ -8,6 +9,11 @@
  * with the viewBox), swaps currency mid-journey at the Wise node, and a
  * MATCHED plate stamps in at arrival. All animation is pure CSS, armed when
  * the parent <Reveal> gains `.is-visible`, then looping on a long cycle.
+ *
+ * Geometry note: the MATCHED plate (y 40–64) and the chip's landing position
+ * (y 78–102) are deliberately separated by a clear gap, and the outer
+ * stations sit 76 units in from the viewBox edges, so nothing overlaps and
+ * no label clips.
  *
  * Server component by design: the SVG is static markup; CSS does the work.
  */
@@ -60,8 +66,7 @@ export default function CurrencyMatch() {
           </text>
         </g>
 
-        {/* The travelling amount chip: rupees out, dollars in. At landing the
-            chip occupies y 78–102 — clear of the MATCHED plate above it. */}
+        {/* The travelling amount chip: rupees out, dollars in */}
         <g className="ecm-chip">
           <rect x="-48" y="-40" width="96" height="24" rx="3" />
           <text className="ecm-amt ecm-amt-inr" x="0" y="-23" textAnchor="middle">
@@ -72,8 +77,8 @@ export default function CurrencyMatch() {
           </text>
         </g>
 
-        {/* Verdict plate at the destination once the chip lands — stacked
-            above the landed chip with clear air between the two */}
+        {/* Verdict plate above the destination once the chip lands — kept
+            clear of the chip's landing spot so the two never overlap */}
         <g className="ecm-match">
           <rect x="440" y="40" width="88" height="24" rx="2" />
           <text x="484" y="56" textAnchor="middle">

@@ -21,6 +21,12 @@ const smoothstep = (edge0: number, edge1: number, x: number) => {
   return t * t * (3 - 2 * t)
 }
 
+/** Gaussian bump centred on `mid` — the pulse's swell as it crosses a waypoint. */
+const bump = (t: number, mid: number, width: number) => {
+  const d = (t - mid) / width
+  return Math.exp(-d * d)
+}
+
 /**
  * Draw a miniature bank statement onto a canvas and wrap it as a texture:
  * warm paper, a bold header rule, and alternating ruled "transaction" lines.
@@ -79,67 +85,7 @@ function makeGlowTexture(): THREE.CanvasTexture {
   return new THREE.CanvasTexture(canvas)
 }
 
-/**
- * Bake one glowing ledger-row slab: a dark plate with a fine gold border and
- * a single mono statement line (date | description | amount) in gold. Three
- * variants exist so the lattice reads as varied records rather than one row
- * repeated; baking keeps the slabs unlit and costs one texture per variant.
- */
-function makeSlabTexture(row: { date: string; desc: string; amount: string }): THREE.CanvasTexture {
-  const canvas = document.createElement('canvas')
-  canvas.width = 640
-  canvas.height = 80
-  const ctx = canvas.getContext('2d')!
-
-  // Obsidian plate, one shade above the page ground so edges stay visible
-  ctx.fillStyle = '#14110c'
-  ctx.fillRect(0, 0, 640, 80)
-
-  // Fine engraved gold frame
-  ctx.strokeStyle = 'rgba(138, 106, 43, 0.95)'
-  ctx.lineWidth = 2
-  ctx.strokeRect(1, 1, 638, 78)
-
-  // Warm under-glow along the base of the plate, like light off the gate
-  const glow = ctx.createLinearGradient(0, 46, 0, 80)
-  glow.addColorStop(0, 'rgba(212, 169, 78, 0)')
-  glow.addColorStop(1, 'rgba(212, 169, 78, 0.14)')
-  ctx.fillStyle = glow
-  ctx.fillRect(0, 46, 640, 34)
-
-  // Statement line: date (dim) | description (mid) | amount (bright)
-  ctx.textBaseline = 'middle'
-  ctx.font = '500 24px "Courier New", monospace'
-  ctx.fillStyle = 'rgba(196, 158, 92, 0.72)'
-  ctx.fillText(row.date, 26, 42)
-  ctx.fillStyle = 'rgba(226, 193, 121, 0.9)'
-  ctx.fillText(row.desc, 168, 42)
-  ctx.textAlign = 'right'
-  ctx.fillStyle = 'rgba(240, 212, 145, 1)'
-  ctx.fillText(row.amount, 614, 42)
-
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.colorSpace = THREE.SRGBColorSpace
-  return texture
-}
-
-/** The three record rows baked onto slabs — real capability set in miniature:
- *  auto-categorised spend, a flagged cash withdrawal, a cross-currency match. */
-const SLAB_ROWS = [
-  { date: '03 MAR 24', desc: 'WOOLWORTHS 1224 · GROCERIES', amount: '−214.63' },
-  { date: '07 MAR 24', desc: 'ATM WITHDRAWAL · FLAGGED', amount: '−9,500.00' },
-  { date: '13 MAR 24', desc: 'WISE AUD→INR · MATCHED', amount: '−5,200.00' },
-]
-
-/** Ease-out with a mild overshoot — slabs glide past their slot and settle. */
-const easeOutBack = (t: number) => {
-  const c1 = 1.2
-  const c3 = c1 + 1
-  const u = t - 1
-  return 1 + c3 * u * u * u + c1 * u * u
-}
-
-/** Small soft dot texture for the ambient dust motes. */
+/** Small soft dot texture for pulse comets, ring cores and the dust motes. */
 function makeDotTexture(): THREE.CanvasTexture {
   const canvas = document.createElement('canvas')
   canvas.width = 64
@@ -154,14 +100,76 @@ function makeDotTexture(): THREE.CanvasTexture {
   return new THREE.CanvasTexture(canvas)
 }
 
+/**
+ * Bake a destination label as a transparent plate: bright gold mono capitals,
+ * matching the station labels of the trace diagrams. Baked once per label so
+ * the scene renders real account names without a text engine.
+ */
+function makeLabelTexture(text: string): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas')
+  canvas.width = 256
+  canvas.height = 64
+  const ctx = canvas.getContext('2d')!
+
+  ctx.clearRect(0, 0, 256, 64)
+  ctx.font = '600 27px Menlo, monospace'
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillStyle = 'rgba(240, 212, 145, 0.92)'
+  ctx.fillText(text, 128, 32)
+
+  const texture = new THREE.CanvasTexture(canvas)
+  texture.colorSpace = THREE.SRGBColorSpace
+  return texture
+}
+
 /* ---------------------------------------------------------------------------
- * The Evidence Engine hero scene — serif variant.
+ * Trail definitions — three traced money routes leaving the gate.
+ *
+ * Each trail is a fixed quadratic curve from just right of the gate to a
+ * named destination, with a mid waypoint where the pulse swells (the hop the
+ * engine reconstructed). The third route ends at a cash withdrawal — the
+ * flagged trail, greeted in restrained crimson on every arrival.
+ * ------------------------------------------------------------------------- */
+type TrailSpec = {
+  label: string
+  control: [number, number, number]
+  end: [number, number, number]
+  /** Pulse cycle length in seconds; staggered so the trails never fire together */
+  period: number
+  /** Pulse phase offset in seconds */
+  offset: number
+  flagged: boolean
+}
+
+// Destinations stay inside the camera frustum at maximum sway (stage-local
+// x ≲ 3.3 on desktop once the +1.1 stage shift and 0.95 camera drift are
+// paid), so the fan diverges VERTICALLY and only modestly in x — the frame
+// has ±2 units of headroom in y but barely 2 to the right of the gate.
+const TRAILS: TrailSpec[] = [
+  { label: 'ANZ ··4417', control: [2.3, 1.15, -0.25], end: [3.0, 1.7, -0.5], period: 4.6, offset: 0, flagged: false },
+  { label: 'WISE', control: [2.5, -0.12, -0.5], end: [3.35, 0.12, -1.1], period: 5.6, offset: 1.9, flagged: false },
+  { label: 'CASH ATM', control: [2.15, -1.2, 0.05], end: [2.7, -1.7, 0.15], period: 5.1, offset: 3.4, flagged: true },
+]
+
+/** Shared start of all three trails: the gate's exit mouth. */
+const TRAIL_START = new THREE.Vector3(1.2, 0, 0)
+
+/** Curve parameter of the mid waypoint on every trail. */
+const MID_T = 0.42
+
+/** Trailing comet sprites per pulse (behind the lead). */
+const TRAIL_SPRITES = 3
+
+/* ---------------------------------------------------------------------------
+ * The Evidence Engine hero scene — FLOW variant.
  *
  * Narrative: unstructured paper statements stream in from the left, pass
- * through a luminous golden scanning gate at the origin, and re-emerge on the
- * right as glowing ledger-row slabs that lock into an ordered, slowly
- * drifting lattice — a spreadsheet assembling in space. Unstructured paper
- * in, structured records out.
+ * through a luminous golden scanning gate at the origin, and their funds flow
+ * on as bright amount pulses along drawn trace routes between account
+ * waypoints — the money trail the engine reconstructs, rendered live. One
+ * route ends at a cash withdrawal and flashes restrained crimson on arrival:
+ * the flagged finding in miniature.
  * ------------------------------------------------------------------------- */
 export default function EvidenceScene({ onReady }: SceneProps) {
   const mountRef = useRef<HTMLDivElement>(null)
@@ -200,7 +208,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     const scene = new THREE.Scene()
     scene.background = new THREE.Color('#0d0b09')
     // Fog swallows both ends of the flow so documents materialise from
-    // darkness and the data lattice recedes into it — no visible pop-in
+    // darkness and the far trail stations recede into it — no visible pop-in
     scene.fog = new THREE.Fog('#0d0b09', 9, 24)
 
     const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 60)
@@ -208,9 +216,11 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     camera.position.set(0, 0.9, cameraBaseZ)
 
     // Shift the whole stage right on desktop so the gate sits right-of-centre,
-    // leaving the lower-left clear for the DOM headline
+    // leaving the lower-left clear for the DOM headline. On phones the stage
+    // shifts LEFT instead: with the gate left-of-centre the narrow frame
+    // gains enough width on the right for the full trail fan.
     const stage = new THREE.Group()
-    stage.position.x = isMobile ? 0 : 1.1
+    stage.position.x = isMobile ? -0.7 : 1.1
     scene.add(stage)
 
     /* ------------------------- Incoming documents ------------------------ */
@@ -240,55 +250,178 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       wobbleAmp: 0.05 + Math.random() * 0.06,
     }))
 
-    /* --------------------- Outgoing ledger-row lattice ------------------- */
-    // Slabs are grouped by baked texture (three record variants). Lanes form
-    // a fixed row/layer grid; phases inside each lane are EVENLY spaced so the
-    // outflow reads as an ordered, drifting spreadsheet rather than scatter.
-    const LATTICE_ROWS = isMobile ? 3 : 4
-    const LATTICE_LAYERS = 2
-    const LANE_SLOTS = isMobile ? 2 : 3
-    const SLAB_COUNT = LATTICE_ROWS * LATTICE_LAYERS * LANE_SLOTS
-    const SLABS_PER_GROUP = Math.ceil(SLAB_COUNT / SLAB_ROWS.length)
+    /* -------------------------- The money trails -------------------------- */
+    // Compress the fan hard on phones: with the −0.7 stage shift the usable
+    // band right of the gate is stage-local x ≲ 2.1, so the routes shorten
+    // to fit and every trail fixture scales down with them. The fan also
+    // rides a little higher (yBias) so the lowest destination clears the
+    // DOM CTA block that overlays the scene on small screens.
+    const spreadX = isMobile ? 0.42 : 1
+    const spreadY = isMobile ? 0.66 : 1
+    const yBias = isMobile ? 0.35 : 0
+    const sizeScale = isMobile ? 0.62 : 1
+    const trailPoint = (v: [number, number, number]) =>
+      new THREE.Vector3(TRAIL_START.x + (v[0] - TRAIL_START.x) * spreadX, v[1] * spreadY + yBias, v[2])
 
     const dotTexture = makeDotTexture()
-    const slabGeometry = new THREE.PlaneGeometry(2.2, 0.28)
-    const slabTextures = SLAB_ROWS.map(makeSlabTexture)
-    const slabMaterials = slabTextures.map(
-      (texture) =>
-        new THREE.MeshBasicMaterial({
-          map: texture,
-          side: THREE.DoubleSide,
-        }),
-    )
-    const slabMeshes = slabMaterials.map((material) => {
-      const mesh = new THREE.InstancedMesh(slabGeometry, material, SLABS_PER_GROUP)
-      mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
-      mesh.renderOrder = 2
-      stage.add(mesh)
-      return mesh
+    const goldColor = new THREE.Color('#d4a94e')
+    const crimsonColor = new THREE.Color('#b3231f')
+
+    // Shared ring geometries: a larger torus for destinations, a smaller one
+    // for mid waypoints. The default torus orientation already faces the camera.
+    const endRingGeometry = new THREE.TorusGeometry(0.14, 0.01, 8, 48)
+    const midRingGeometry = new THREE.TorusGeometry(0.09, 0.008, 8, 40)
+    const ringMaterial = new THREE.MeshBasicMaterial({ color: '#f0d491', transparent: true, opacity: 0.55 })
+    // The flagged destination owns its material so it can blush crimson alone
+    const flagRingMaterial = new THREE.MeshBasicMaterial({ color: '#f0d491', transparent: true, opacity: 0.6 })
+
+    // Mid-waypoint cores share one material; each destination core gets its
+    // own so its glow can bloom when a pulse arrives.
+    const midCoreMaterial = new THREE.SpriteMaterial({
+      map: dotTexture,
+      transparent: true,
+      opacity: 0.4,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
     })
 
-    // Per-slab flight parameters, indexed globally then split across the
-    // texture groups. Lane geometry is deterministic; only the emergence
-    // scatter and tumble vary, so the lattice always resolves to order.
-    const slabParams = Array.from({ length: SLAB_COUNT }, (_, i) => {
-      const row = i % LATTICE_ROWS
-      const layer = Math.floor(i / LATTICE_ROWS) % LATTICE_LAYERS
-      const slot = Math.floor(i / (LATTICE_ROWS * LATTICE_LAYERS))
+    const labelGeometry = new THREE.PlaneGeometry(0.78, 0.195)
+
+    type Trail = {
+      spec: TrailSpec
+      curve: THREE.QuadraticBezierCurve3
+      lineMaterial: THREE.LineDashedMaterial
+      lineGeometry: THREE.BufferGeometry
+      endCoreMaterial: THREE.SpriteMaterial
+      labelTexture: THREE.CanvasTexture
+      labelMaterial: THREE.MeshBasicMaterial
+      // Lead comet + fading trail sprites; each owns a material so opacity
+      // can differ per sprite per frame
+      pulseSprites: THREE.Sprite[]
+      pulseMaterials: THREE.SpriteMaterial[]
+    }
+
+    const trails: Trail[] = TRAILS.map((spec) => {
+      const curve = new THREE.QuadraticBezierCurve3(
+        trailPoint([TRAIL_START.x, TRAIL_START.y, TRAIL_START.z]),
+        trailPoint(spec.control),
+        trailPoint(spec.end),
+      )
+
+      // Dashed route line — the drawn trace. The dashes hold still; the
+      // travelling pulse supplies the direction of flow.
+      const lineGeometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(64))
+      const lineMaterial = new THREE.LineDashedMaterial({
+        color: goldColor,
+        transparent: true,
+        opacity: 0.35,
+        dashSize: 0.11,
+        gapSize: 0.09,
+      })
+      const line = new THREE.Line(lineGeometry, lineMaterial)
+      line.computeLineDistances() // required once for dashed materials
+      stage.add(line)
+
+      // Waypoint rings: one mid-route, one at the destination
+      const midPos = curve.getPoint(MID_T)
+      const endPos = curve.getPoint(1)
+
+      const midRing = new THREE.Mesh(midRingGeometry, ringMaterial)
+      midRing.position.copy(midPos)
+      midRing.scale.setScalar(sizeScale)
+      stage.add(midRing)
+
+      const endRing = new THREE.Mesh(endRingGeometry, spec.flagged ? flagRingMaterial : ringMaterial)
+      endRing.position.copy(endPos)
+      endRing.scale.setScalar(sizeScale)
+      stage.add(endRing)
+
+      // Soft dot cores inside the rings
+      const midCore = new THREE.Sprite(midCoreMaterial)
+      midCore.position.copy(midPos)
+      midCore.scale.setScalar(0.14 * sizeScale)
+      midCore.renderOrder = 2
+      stage.add(midCore)
+
+      const endCoreMaterial = new THREE.SpriteMaterial({
+        map: dotTexture,
+        transparent: true,
+        opacity: 0.5,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      })
+      const endCore = new THREE.Sprite(endCoreMaterial)
+      endCore.position.copy(endPos)
+      endCore.scale.setScalar(0.2 * sizeScale)
+      endCore.renderOrder = 2
+      stage.add(endCore)
+
+      // Destination label plate beneath the ring
+      const labelTexture = makeLabelTexture(spec.label)
+      const labelMaterial = new THREE.MeshBasicMaterial({
+        map: labelTexture,
+        transparent: true,
+        opacity: 0.85,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      })
+      // Nudge the label slightly inboard of its ring: the rightmost stations
+      // sit near the frustum edge, and a centred plate would poke past it at
+      // maximum camera sway
+      const label = new THREE.Mesh(labelGeometry, labelMaterial)
+      label.position.set(endPos.x - 0.12 * sizeScale, endPos.y - 0.3 * sizeScale, endPos.z)
+      label.scale.setScalar(sizeScale)
+      label.renderOrder = 2
+      stage.add(label)
+
+      // The amount pulse: a bright lead comet and a short fading tail
+      const pulseSprites: THREE.Sprite[] = []
+      const pulseMaterials: THREE.SpriteMaterial[] = []
+      for (let i = 0; i <= TRAIL_SPRITES; i++) {
+        const material = new THREE.SpriteMaterial({
+          map: dotTexture,
+          transparent: true,
+          opacity: 0,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        })
+        const sprite = new THREE.Sprite(material)
+        sprite.scale.setScalar((i === 0 ? 0.3 : 0.24 - i * 0.04) * sizeScale)
+        sprite.renderOrder = 3
+        stage.add(sprite)
+        pulseSprites.push(sprite)
+        pulseMaterials.push(material)
+      }
+
       return {
-        // Even in-lane spacing plus a per-lane fractional offset so columns
-        // interleave instead of forming a single vertical wall of slabs
-        phase: (slot / LANE_SLOTS + row * 0.083 + layer * 0.171) % 1,
-        // Near-uniform pace: lanes stay ordered, long-run drift stays alive
-        speed: 0.05 + row * 0.0016 + layer * 0.0009,
-        gridY: (row - (LATTICE_ROWS - 1) / 2) * 0.46,
-        gridZ: (layer - (LATTICE_LAYERS - 1) / 2) * 0.72,
-        scatterY: (Math.random() - 0.5) * 1.1,
-        scatterZ: (Math.random() - 0.5) * 0.9,
-        tumble: (Math.random() - 0.5) * 0.9,
-        shimmer: Math.random() * Math.PI * 2,
+        spec,
+        curve,
+        lineMaterial,
+        lineGeometry,
+        endCoreMaterial,
+        labelTexture,
+        labelMaterial,
+        pulseSprites,
+        pulseMaterials,
       }
     })
+
+    // Crimson arrival flash hovering over the flagged destination
+    const flagGlowTexture = makeGlowTexture()
+    const flagTrail = trails.find((trail) => trail.spec.flagged)!
+    const flagFlashMaterial = new THREE.SpriteMaterial({
+      map: flagGlowTexture,
+      color: crimsonColor,
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    })
+    const flagFlash = new THREE.Sprite(flagFlashMaterial)
+    flagFlash.position.copy(flagTrail.curve.getPoint(1))
+    flagFlash.scale.setScalar(0.95 * sizeScale)
+    flagFlash.renderOrder = 3
+    stage.add(flagFlash)
 
     /* ----------------------------- The gate ------------------------------ */
     const gate = new THREE.Group()
@@ -363,6 +496,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     let running = false
     let readyFired = false
     const dummy = new THREE.Object3D()
+    const pulsePoint = new THREE.Vector3()
     // Pointer parallax: target values from events, current values lerped in
     // the loop so the camera glides rather than tracks
     const pointer = { x: 0, y: 0, currentX: 0, currentY: 0 }
@@ -392,33 +526,39 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       }
       documents.instanceMatrix.needsUpdate = true
 
-      // -- Record slabs: emerge from the gate at document pace, decelerate,
-      //    and lock into the drifting lattice with a slight overshoot --
-      for (let i = 0; i < SLAB_COUNT; i++) {
-        const p = slabParams[i]
-        const progress = (p.phase + elapsed * p.speed) % 1
-        // Emergence envelope: slabs scale up in the gate's glow, so the
-        // recycle teleport back to x=0 is always invisible
-        const emerge = smoothstep(0, 0.05, progress)
-        // Deceleration: fast off the gate (inheriting the document's pace),
-        // easing off as the record joins the lattice
-        const x = 13.6 * (1 - Math.pow(1 - progress, 1.6))
-        // Lock-in overshoots its slot slightly, then settles — the "snap"
-        const lock = easeOutBack(smoothstep(0.04, 0.3, progress))
+      // -- Trails: shimmer the routes, run the pulses, greet each arrival --
+      let flagArrival = 0
+      for (let t = 0; t < trails.length; t++) {
+        const trail = trails[t]
+        // Route lines breathe slightly out of phase so the field feels alive
+        trail.lineMaterial.opacity = 0.32 + Math.sin(elapsed * 0.8 + t * 2.1) * 0.06
 
-        dummy.position.set(
-          x,
-          lerp(p.scatterY, p.gridY, lock) + Math.sin(elapsed * 1.8 + p.shimmer) * 0.02,
-          lerp(p.scatterZ, p.gridZ, lock) + Math.cos(elapsed * 1.5 + p.shimmer) * 0.02,
-        )
-        // Tumble out of the gate, settle flat as the lattice claims the slab
-        dummy.rotation.set(0, Math.max(0, 1 - lock) * p.tumble, 0)
-        const scale = Math.max(emerge, 0.001)
-        dummy.scale.set(scale, scale, scale)
-        dummy.updateMatrix()
-        slabMeshes[i % SLAB_ROWS.length].setMatrixAt(Math.floor(i / SLAB_ROWS.length), dummy.matrix)
+        // Pulse progress on this trail's own staggered clock
+        const progress = ((elapsed + trail.spec.offset) % trail.spec.period) / trail.spec.period
+        // Fade the comet in as it leaves the gate and out as it docks
+        const visible = smoothstep(0, 0.06, progress) * (1 - smoothstep(0.95, 1, progress))
+        // Swell as the pulse crosses the mid waypoint and again on arrival
+        const swell = bump(progress, MID_T, 0.045) * 0.55 + bump(progress, 0.97, 0.05) * 0.7
+
+        for (let s = 0; s < trail.pulseSprites.length; s++) {
+          // Trailing sprites sample the curve slightly behind the lead
+          const back = Math.max(0, progress - s * 0.035)
+          trail.curve.getPoint(back, pulsePoint)
+          trail.pulseSprites[s].position.copy(pulsePoint)
+          const falloff = s === 0 ? 1 : 0.5 - (s - 1) * 0.16
+          trail.pulseMaterials[s].opacity = Math.min(1, visible * falloff * (0.9 + swell * 0.4))
+          if (s === 0) trail.pulseSprites[s].scale.setScalar(0.3 * sizeScale * (1 + swell))
+        }
+
+        // Destination core blooms as the pulse lands, then settles back
+        const arrival = bump(progress, 0.97, 0.04)
+        trail.endCoreMaterial.opacity = 0.5 + arrival * 0.5
+        if (trail.spec.flagged) flagArrival = arrival
       }
-      for (const mesh of slabMeshes) mesh.instanceMatrix.needsUpdate = true
+
+      // -- The flag: the CASH ATM ring blushes crimson at every arrival --
+      flagRingMaterial.color.lerpColors(goldColor, crimsonColor, flagArrival)
+      flagFlashMaterial.opacity = flagArrival * 0.55
 
       // -- Gate: breathe gently so the light feels alive, never flashy --
       const pulse = 1 + Math.sin(elapsed * 1.6) * 0.012
@@ -500,9 +640,22 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       docGeometry.dispose()
       docMaterial.dispose()
       paperTexture.dispose()
-      slabGeometry.dispose()
-      for (const material of slabMaterials) material.dispose()
-      for (const texture of slabTextures) texture.dispose()
+      for (const trail of trails) {
+        trail.lineGeometry.dispose()
+        trail.lineMaterial.dispose()
+        trail.endCoreMaterial.dispose()
+        trail.labelTexture.dispose()
+        trail.labelMaterial.dispose()
+        for (const material of trail.pulseMaterials) material.dispose()
+      }
+      endRingGeometry.dispose()
+      midRingGeometry.dispose()
+      ringMaterial.dispose()
+      flagRingMaterial.dispose()
+      midCoreMaterial.dispose()
+      labelGeometry.dispose()
+      flagGlowTexture.dispose()
+      flagFlashMaterial.dispose()
       dotTexture.dispose()
       glowTexture.dispose()
       ringOuterGeometry.dispose()

@@ -12,36 +12,45 @@ const EvidenceScene = dynamic(() => import('./Scene'), { ssr: false })
 const loadDelay = (ms: number) => ({ '--load-delay': `${ms}ms` }) as CSSProperties
 
 /**
- * Hero for The Evidence Engine — Light.
+ * Hero for The Evidence Engine.
  *
  * Layers, bottom to top: a designed static fallback (instant first paint),
- * the WebGL scene (cross-fades in when its first frame renders), a light
- * contrast scrim, then the DOM headline block and the mono stat strip.
+ * the WebGL scene (cross-fades in when its first frame renders), a contrast
+ * scrim, then the DOM headline block and the mono stat strip.
  */
 export default function Hero() {
   const [sceneReady, setSceneReady] = useState(false)
 
   return (
     <section className="eng-hero" id="top">
-      {/* Static fallback: parchment field + a faint bronze SVG echo of the
-          gate. Visible for the first few hundred milliseconds, then the live
-          scene fades in over it — first paint never waits on WebGL. */}
+      {/* Static fallback: obsidian vignette + a faint SVG echo of the gate
+          and the account constellation it assembles. Visible for the first
+          few hundred milliseconds, then the live scene fades in over it —
+          first paint never waits on WebGL. */}
       <div className="eng-hero-fallback" aria-hidden="true">
         <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-          <circle cx="905" cy="430" r="150" fill="none" stroke="#8a6a24" strokeOpacity="0.4" strokeWidth="1" />
-          <circle cx="905" cy="430" r="132" fill="none" stroke="#a07c2c" strokeOpacity="0.18" strokeWidth="1" />
-          <line x1="0" y1="430" x2="1440" y2="430" stroke="url(#englight-fallback-line)" strokeWidth="1" />
+          <circle cx="905" cy="430" r="150" fill="none" stroke="#d4a94e" strokeOpacity="0.28" strokeWidth="1" />
+          <circle cx="905" cy="430" r="132" fill="none" stroke="#d4a94e" strokeOpacity="0.12" strokeWidth="1" />
+          <line x1="0" y1="430" x2="1440" y2="430" stroke="url(#eng-fallback-line)" strokeWidth="1" />
+          {/* Constellation echo: hub ring, three spokes, one crimson hop */}
+          <line x1="1112" y1="422" x2="1188" y2="365" stroke="#d4a94e" strokeOpacity="0.22" strokeWidth="1" />
+          <line x1="1114" y1="436" x2="1216" y2="474" stroke="#d4a94e" strokeOpacity="0.22" strokeWidth="1" />
+          <line x1="1104" y1="443" x2="1146" y2="530" stroke="#b3231f" strokeOpacity="0.3" strokeWidth="1" />
+          <circle cx="1100" cy="430" r="14" fill="none" stroke="#f0d491" strokeOpacity="0.4" strokeWidth="1" />
+          <circle cx="1198" cy="357" r="10" fill="none" stroke="#d4a94e" strokeOpacity="0.32" strokeWidth="1" />
+          <circle cx="1227" cy="478" r="10" fill="none" stroke="#d4a94e" strokeOpacity="0.32" strokeWidth="1" />
+          <circle cx="1151" cy="540" r="9" fill="none" stroke="#b3231f" strokeOpacity="0.38" strokeWidth="1" />
           <defs>
-            <linearGradient id="englight-fallback-line" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stopColor="#8a6a24" stopOpacity="0" />
-              <stop offset="0.63" stopColor="#8a6a24" stopOpacity="0.45" />
-              <stop offset="1" stopColor="#8a6a24" stopOpacity="0" />
+            <linearGradient id="eng-fallback-line" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stopColor="#d4a94e" stopOpacity="0" />
+              <stop offset="0.63" stopColor="#d4a94e" stopOpacity="0.35" />
+              <stop offset="1" stopColor="#d4a94e" stopOpacity="0" />
             </linearGradient>
           </defs>
         </svg>
       </div>
 
-      {/* Live WebGL layer — opacity transition handled in engine-light.css */}
+      {/* Live WebGL layer — opacity transition handled in engine.css */}
       <div className={clsx('eng-scene-layer', sceneReady && 'is-ready')}>
         <EvidenceScene onReady={() => setSceneReady(true)} />
       </div>

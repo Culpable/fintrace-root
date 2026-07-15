@@ -4,6 +4,7 @@ import Link from 'next/link'
 import clsx from 'clsx'
 import './engine-refined.css'
 import { bricolage, fragmentMono } from './fonts'
+import CurrencyMatch from './CurrencyMatch'
 import Hero from './Hero'
 import Reveal from './Reveal'
 import Stat from './Stat'
@@ -11,12 +12,14 @@ import Stat from './Stat'
 /**
  * Engine variant V1 — "Refined" (the control).
  *
- * Identical to the base Evidence Engine except for two deliberate changes:
- * the hero's post-gate output is a lattice of legible ledger-row records
- * (replacing the point burst), and every interactive element carries the
- * better-ui polish pass (press feedback, hit areas, layered depth shadows).
+ * The base Evidence Engine with a controlled set of changes: the hero's
+ * post-gate output is a deliberately sparse band of legible ledger-row
+ * records (replacing the point burst — kept to a handful of large records
+ * after round-two feedback that the lattice read as busy), a cross-currency
+ * match set-piece section after the process, and the better-ui polish pass
+ * on every interactive element (press feedback, hit areas, depth shadows).
  * Everything else — palette, type, layout, copy — matches /engine/ exactly
- * so the two changes can be judged in isolation.
+ * so the changes can be judged in isolation.
  */
 export const metadata: Metadata = {
   title: 'The Evidence Engine — Refined',
@@ -171,6 +174,21 @@ export default function EnginePage() {
                   </article>
                 ))}
               </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ---------------------- Cross-currency match ---------------------- */}
+        <section className="eng-section eng-cv" id="match">
+          <div className="eng-container">
+            <Reveal className="eng-section-head">
+              <p className="eng-kicker">Traced across currencies</p>
+              <h2 className="eng-h2">
+                Same funds. <span className="eng-gold-text">Two currencies. One match.</span>
+              </h2>
+            </Reveal>
+            <Reveal className="eng-plate eng-ecm-plate">
+              <CurrencyMatch />
             </Reveal>
           </div>
         </section>

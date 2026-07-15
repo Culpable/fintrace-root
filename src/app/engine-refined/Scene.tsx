@@ -170,9 +170,11 @@ function makeDotTexture(): THREE.CanvasTexture {
  * Narrative: unstructured paper statements stream in from the left, pass
  * through a luminous golden scanning gate at the origin, and re-emerge on the
  * right as glowing ledger-row records that lock into an ordered, drifting
- * lattice — unstructured paper in, structured evidence out. (This variant
+ * band — unstructured paper in, structured evidence out. (This variant
  * replaces the base design's point burst: each record is legibly a
- * categorised transaction, so the transformation needs no interpretation.)
+ * categorised transaction, so the transformation needs no interpretation.
+ * Keep the composition sparse — a few large records, a thin document stream,
+ * light dust — so the hero reads calm rather than busy.)
  * ------------------------------------------------------------------------- */
 export default function EvidenceScene({ onReady }: SceneProps) {
   const mountRef = useRef<HTMLDivElement>(null)
@@ -225,7 +227,9 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     scene.add(stage)
 
     /* ------------------------- Incoming documents ------------------------ */
-    const DOC_COUNT = isMobile ? 12 : 26
+    // Keep the stream sparse: a dozen sheets at most, so the eye can follow
+    // individual documents rather than reading the flow as clutter.
+    const DOC_COUNT = isMobile ? 7 : 12
     const paperTexture = makePaperTexture()
     const docGeometry = new THREE.PlaneGeometry(1, 1.32)
     const docMaterial = new THREE.MeshBasicMaterial({
@@ -252,12 +256,14 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     }))
 
     /* ------------------------ Outgoing record lattice --------------------- */
-    // A modest fleet of legible ledger-row slabs replaces the base design's
-    // point cloud: fewer, larger elements that read as structured records.
-    const SLAB_COUNT = isMobile ? 12 : 28
-    const LATTICE_ROWS = isMobile ? 3 : 4
-    const LATTICE_LAYERS = 3
-    const SLAB_SCALE = isMobile ? 0.78 : 1
+    // A handful of legible ledger-row slabs replaces the base design's point
+    // cloud. Keep the count deliberately low — a single depth plane of large,
+    // readable records — so the output reads as a few filed transactions
+    // rather than a busy swarm.
+    const SLAB_COUNT = isMobile ? 5 : 9
+    const LATTICE_ROWS = 3
+    const LATTICE_LAYERS = 1
+    const SLAB_SCALE = isMobile ? 0.9 : 1.15
 
     // One shared row geometry (8:1, matching the 512x64 texture) and one
     // instanced mesh per baked row artwork — four draw calls in total.
@@ -272,9 +278,14 @@ export default function EvidenceScene({ onReady }: SceneProps) {
           side: THREE.DoubleSide,
         }),
     )
-    const slabsPerMesh = Math.ceil(SLAB_COUNT / slabMaterials.length)
-    const slabMeshes = slabMaterials.map((material) => {
-      const mesh = new THREE.InstancedMesh(slabGeometry, material, slabsPerMesh)
+    // Allocate each mesh EXACTLY the number of instances the round-robin
+    // assignment below will write. A uniform ceil() allocation would leave
+    // never-written instances holding their default identity matrix — a
+    // stray full-size slab frozen at the gate centre.
+    const slabsForMaterial = (index: number) =>
+      Math.max(0, Math.floor((SLAB_COUNT - index - 1) / slabMaterials.length) + 1)
+    const slabMeshes = slabMaterials.map((material, index) => {
+      const mesh = new THREE.InstancedMesh(slabGeometry, material, slabsForMaterial(index))
       mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
       mesh.renderOrder = 2
       stage.add(mesh)
@@ -283,15 +294,16 @@ export default function EvidenceScene({ onReady }: SceneProps) {
 
     const dotTexture = makeDotTexture()
 
-    // Each slab is born at the gate, drifts with slight scatter, then locks —
-    // with a small overshoot — into its lattice slot: a fixed row/layer grid
-    // drifting steadily to the right like a spreadsheet assembling in space
+    // Each slab is born at the gate, drifts with a gentle scatter, then locks —
+    // with a small overshoot — into its lattice slot. Space the phases evenly
+    // and keep speed variance small so the outgoing records hold a deliberate,
+    // near-constant spacing instead of bunching at random.
     const slabParams = Array.from({ length: SLAB_COUNT }, (_, i) => ({
-      phase: Math.random(),
-      speed: 0.055 + Math.random() * 0.018,
-      scatterY: (Math.random() - 0.5) * 1.7,
-      scatterZ: (Math.random() - 0.5) * 1.3,
-      gridY: ((i % LATTICE_ROWS) - (LATTICE_ROWS - 1) / 2) * 0.52,
+      phase: i / SLAB_COUNT,
+      speed: 0.045 + Math.random() * 0.006,
+      scatterY: (Math.random() - 0.5) * 1.0,
+      scatterZ: (Math.random() - 0.5) * 0.5,
+      gridY: ((i % LATTICE_ROWS) - (LATTICE_ROWS - 1) / 2) * 0.62,
       gridZ: ((Math.floor(i / LATTICE_ROWS) % LATTICE_LAYERS) - (LATTICE_LAYERS - 1) / 2) * 0.62,
       tilt: (Math.random() - 0.5) * 0.5,
       shimmer: Math.random() * Math.PI * 2,
@@ -341,7 +353,9 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     gate.add(core)
 
     /* --------------------------- Ambient dust ---------------------------- */
-    const DUST_COUNT = isMobile ? 120 : 260
+    // Thin the atmosphere to match the calmer composition — enough motes to
+    // keep the air alive, not enough to compete with the records.
+    const DUST_COUNT = isMobile ? 60 : 110
     const dustPositions = new Float32Array(DUST_COUNT * 3)
     for (let i = 0; i < DUST_COUNT; i++) {
       dustPositions[i * 3] = -12 + Math.random() * 26
@@ -355,7 +369,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       map: dotTexture,
       color: new THREE.Color('#8a7247'),
       transparent: true,
-      opacity: 0.32,
+      opacity: 0.24,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
     })
