@@ -599,3 +599,38 @@ None. The repository has no automated unit, integration or Playwright suite, so 
 ### Pending or skipped validation
 
 None. The repository has no automated unit, integration or Playwright suite, so the project-mandated lint, static build and headed browser protocol was used in full.
+
+---
+
+## Round-5.3 Wide-Window Headline Anchor Follow-up
+
+The user approved the round-5/5.1/5.2 state at their ~3425x1245 window but felt the copy block now sat too far to the left on very wide screens: the fixed 176 px offset is ~5% of a 3425 px viewport while the gate stays pinned near 60.7%, leaving an oversized dead gap between the h1 tail and the ring.
+
+### ~~A1: reposition the wide-window headline anchor~~ ✅ **COMPLETED**
+
+- Added a third content-box term to the `.eng-hero-inner` left offset: `max(min((100% - 138rem) * 0.198, 12.22% - 11rem), 0rem)` — zero below 2208 px content width, then a 0.198 ramp of the extra width, capped at the approved 176/1440 relative anchor (~12.2%).
+- A first draft holding a flat `12.22%` anchor above 1440 px was measured and REJECTED: at 1998x750 it pushed the h1 tail to 1233.8 px against a ~1204 px gate centreline, re-introducing the gold-on-gold headline/halo collision that round five eliminated. The 1440–2208 px band has no surplus clear air; the ramp onset exists because of it.
+
+### ~~A2: verify across the full matrix~~ ✅ **COMPLETED**
+
+- Measured left offsets: 168.5 px at 1440x900 (canonical, classic scrollbar), 176 px at 1800x750 / 1998x750 / 2208x900 (unchanged round-five values), 242.7 px at 2560x1080 (9.5%), 414 px at 3425x1245 (12.1%).
+- 1998x750 screenshots across three phases match the validated round-five composition; 2560x1080 and 3425x1245 (three phases) show the rebalanced copy with generous ring clearance, legible kicker and the scrim pocket still pooling behind the copy.
+- Compact rows 1024x768 / 900x1080 / 390x900 computed identical pre-change padding (40.95/36/20 px) with unchanged layouts and the CASH ATM treatment intact.
+- Live 1300x900→3425x1245 sweep: monotonic offset (98.5 → 176 plateau → ramp → 409), same hero canvas, zero horizontal overflow, zero console/page errors throughout; exactly one hero canvas at every row.
+- `npm run lint` exited 0; `npm run build` completed the static export including `out/engine-network/index.html`. Captures: `r53b-*` under `~/.dev-browser/tmp/`.
+
+## Round-5.3 Implemented Solution
+
+### Files changed
+
+- `src/app/engine-network/engine-network.css`: added the delayed-ramp third term to the `.eng-hero-inner` left offset with an explanatory comment; no other rule touched.
+- `documents/plans/fintrace_design_plan.md`: added the round-5.3 history, updated the hero-skeleton headline-offset description and the next-steps formula guardrails.
+- `documents/todo/engine_network_hero_rebalance_plan.md`: recorded this follow-up and its validation.
+
+### Behavioural change
+
+- On content widths above 2208 px the hero copy block walks right until it regains the approved ~12.2% relative left anchor (reached near 3425 px) and holds it, closing the ultrawide dead gap; every viewport at or below 2208 px renders pixel-identical to the validated round-five state.
+
+### Pending or skipped validation
+
+None. The repository has no automated unit, integration or Playwright suite, so the project-mandated lint, static build and headed browser protocol was used in full.

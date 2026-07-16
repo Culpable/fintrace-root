@@ -432,8 +432,17 @@
   max-width: none;
   margin-inline: 0;
   /* Use the content-box percentage instead of 100vw so Chromium's classic
-     scrollbar does not shift the approved 1440px composition by 7.5px. */
-  padding-left: calc(clamp(1.25rem, 4vw, 3rem) + min(max(50% - 37rem, 0rem), 8rem));
+     scrollbar does not shift the approved 1440px composition by 7.5px.
+     Third term: below 138rem (2208px) the fixed-width h1 tail still runs
+     close to the aspect-pinned gate ring (~61% of width), so hold the
+     validated 176px offset; above it, walk the copy right at 0.198 of the
+     extra width so the widening gap is shared, and cap at the approved
+     12.22% relative anchor (176/1440) so ultrawide windows keep the exact
+     canonical composition instead of hugging the left edge. */
+  padding-left: calc(
+    clamp(1.25rem, 4vw, 3rem) + min(max(50% - 37rem, 0rem), 8rem) +
+      max(min((100% - 138rem) * 0.198, 12.22% - 11rem), 0rem)
+  );
   padding-bottom: 9.5rem;
   padding-top: 7rem;
 }
