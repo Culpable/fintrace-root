@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_1>
+<summary>
+<title>[Responsive fallback] Static gate jumps across the hero when WebGL appears</title>
+<one_line_description>The fixed, slice-cropped SVG gate sits far right on portrait viewports while the live compact Scene places the gate left of centre.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace/src/app/engine-network/Hero.tsx - component: `Hero`, Lines 30-50
+- /Users/sacino/fintrace/src/app/engine-network/engine-network.css - selectors: `.eng-hero-fallback` and `.eng-hero-fallback svg`, Lines 352-364
+- /Users/sacino/fintrace/src/app/engine-network/Scene.tsx - function: `EvidenceScene`, Lines 253-293
+</file_locations>
+
+<issue_description>
+<description>The fallback always renders a 1440×900 SVG with its gate at x = 905 and uses `preserveAspectRatio="xMidYMid slice"`, while the live Scene places compact-layout gates at world x = -0.7 and wide-layout gates with `stageShiftFor(aspect)`. The fixed SVG is therefore cropped from both sides on portrait and tall viewports instead of adapting to the compact composition. At 390×900, the slice transform places the fallback gate centre at approximately x = 380 px (97% of the viewport), while the compact Scene projects its gate near x = 121 px (31%). At 900×1080, the fallback gate is approximately x = 672 px (75%) while the live gate is approximately x = 362 px (40%). The CSS fallback glow remains independently fixed at 63%, so it does not align with either compact position. Users see the gate jump hundreds of pixels during the 1.4-second cross-fade; when WebGL is unavailable, the nearly clipped fallback remains as the permanent hero. Align the fallback gate and glow with the same compact/wide positioning contract used by the Scene, using responsive fallback variants or equivalent aspect-aware SVG positioning.</description>
+
+<code_example>
+<![CDATA[
+```tsx
+// File: /Users/sacino/fintrace/src/app/engine-network/Hero.tsx, Lines 31-34
+
+<svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+  <circle cx="905" cy="395" r="138" fill="none" stroke="#d4a94e" />
+</svg>
+
+// File: /Users/sacino/fintrace/src/app/engine-network/Scene.tsx, Lines 283-292
+
+const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 60)
+const cameraBaseZ = compact ? 14 : 10.5
+stage.position.x = compact ? -0.7 : stageShiftFor(width / height)
+```
+]]>
+</code_example>
+
+<expected_vs_actual>
+<![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Initial cross-fade** | Fallback and live gate occupy the same responsive region | Gate jumps by roughly 259 px at 390×900 and 310 px at 900×1080 |
+| **WebGL-off fallback** | Static hero preserves the compact left-of-centre composition | Gate is pushed to 97% at 390×900 and the constellation is heavily cropped |
+| **Glow alignment** | Fallback glow stays centred on the fallback gate | CSS glow stays at 63% while the cropped SVG gate and live Scene use different positions |
+]]>
+</expected_vs_actual>
+</issue_description>
+</bug_1>

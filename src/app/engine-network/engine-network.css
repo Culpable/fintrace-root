@@ -118,6 +118,36 @@
   color: transparent;
 }
 
+/* Echo the gate's 3.9-second breath with a travelling metal sheen on the
+   hero word only. Keep the repeated range bright-to-dark-to-bright so every
+   visible half of the oversized gradient retains the complete metal voice. */
+.dsn-engine-network .eng-hero .eng-gold-text {
+  background-image: linear-gradient(
+    105deg,
+    #f0d491 0%,
+    #d4a94e 20%,
+    #9c7a33 35%,
+    #e7c87f 50%,
+    #f0d491 50%,
+    #d4a94e 70%,
+    #9c7a33 85%,
+    #e7c87f 100%
+  );
+  background-size: 200% 100%;
+  animation: engnet-sheen 3.9s ease-in-out infinite;
+}
+
+@keyframes engnet-sheen {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 .dsn-engine-network .eng-lede {
   color: var(--grey-warm);
   font-size: clamp(1.02rem, 1.4vw, 1.2rem);
@@ -323,7 +353,7 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 55% 45% at 63% 48%, rgba(212, 169, 78, 0.13), transparent 70%),
+    radial-gradient(ellipse 55% 45% at 63% 44%, rgba(212, 169, 78, 0.13), transparent 70%),
     radial-gradient(ellipse 90% 60% at 50% 110%, rgba(23, 19, 16, 0.9), transparent),
     var(--obsidian);
 }
@@ -331,6 +361,35 @@
 .dsn-engine-network .eng-hero-fallback svg {
   width: 100%;
   height: 100%;
+}
+
+.dsn-engine-network .eng-fallback-compact {
+  display: none;
+}
+
+/* Mirror Scene.tsx's compact contract: widths below 768px and aspect ratios
+   below 1.2 use the compact SVG. The horizontal glow centre follows the same
+   perspective projection as stage x = -0.7: half the width minus 8.2% of the
+   viewport height, so it stays aligned at both 390 × 900 and 900 × 1080. */
+@media (max-width: 767px), (max-aspect-ratio: 6/5) {
+  .dsn-engine-network .eng-hero-fallback {
+    background:
+      radial-gradient(
+        ellipse 55% 45% at calc(50% - 8.2svh) 47%,
+        rgba(212, 169, 78, 0.13),
+        transparent 70%
+      ),
+      radial-gradient(ellipse 90% 60% at 50% 110%, rgba(23, 19, 16, 0.9), transparent),
+      var(--obsidian);
+  }
+
+  .dsn-engine-network .eng-fallback-wide {
+    display: none;
+  }
+
+  .dsn-engine-network .eng-fallback-compact {
+    display: block;
+  }
 }
 
 /* WebGL layer cross-fades in once its first frame has rendered */
@@ -354,12 +413,14 @@
   display: block;
 }
 
-/* Two-direction scrim: bottom-up for the strip, left-in for the headline */
+/* Three-layer scrim: a focused headline pocket over the established bottom-up
+   strip and left-in contrast fields. */
 .dsn-engine-network .eng-hero-scrim {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
+    radial-gradient(ellipse 46rem 20rem at 24% 66%, rgba(13, 11, 9, 0.55), transparent 68%),
     linear-gradient(180deg, rgba(13, 11, 9, 0.55) 0%, rgba(13, 11, 9, 0) 26%, rgba(13, 11, 9, 0) 55%, rgba(13, 11, 9, 0.85) 92%),
     linear-gradient(90deg, rgba(13, 11, 9, 0.72) 0%, rgba(13, 11, 9, 0.28) 38%, rgba(13, 11, 9, 0) 62%);
 }
@@ -368,6 +429,11 @@
   position: relative;
   z-index: 2;
   width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  /* Use the content-box percentage instead of 100vw so Chromium's classic
+     scrollbar does not shift the approved 1440px composition by 7.5px. */
+  padding-left: calc(clamp(1.25rem, 4vw, 3rem) + min(max(50% - 37rem, 0rem), 8rem));
   padding-bottom: 9.5rem;
   padding-top: 7rem;
 }

@@ -28,10 +28,10 @@ export default function Hero() {
           few hundred milliseconds, then the live scene fades in over it —
           first paint never waits on WebGL. */}
       <div className="eng-hero-fallback" aria-hidden="true">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-          <circle cx="905" cy="430" r="150" fill="none" stroke="#d4a94e" strokeOpacity="0.28" strokeWidth="1" />
-          <circle cx="905" cy="430" r="132" fill="none" stroke="#d4a94e" strokeOpacity="0.12" strokeWidth="1" />
-          <line x1="0" y1="430" x2="1440" y2="430" stroke="url(#eng-fallback-line)" strokeWidth="1" />
+        <svg className="eng-fallback-wide" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+          <circle cx="905" cy="395" r="138" fill="none" stroke="#d4a94e" strokeOpacity="0.28" strokeWidth="1" />
+          <circle cx="905" cy="395" r="121" fill="none" stroke="#d4a94e" strokeOpacity="0.12" strokeWidth="1" />
+          <line x1="0" y1="395" x2="1440" y2="395" stroke="url(#eng-fallback-line)" strokeWidth="1" />
           {/* Constellation echo: hub ring, three spokes, one crimson hop */}
           <line x1="1112" y1="422" x2="1188" y2="365" stroke="#d4a94e" strokeOpacity="0.22" strokeWidth="1" />
           <line x1="1114" y1="436" x2="1216" y2="474" stroke="#d4a94e" strokeOpacity="0.22" strokeWidth="1" />
@@ -44,6 +44,51 @@ export default function Hero() {
             <linearGradient id="eng-fallback-line" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0" stopColor="#d4a94e" stopOpacity="0" />
               <stop offset="0.63" stopColor="#d4a94e" stopOpacity="0.35" />
+              <stop offset="1" stopColor="#d4a94e" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
+        {/* Match the compact scene's aspect-aware projection. A 900 × 1080
+            coordinate system, slice-cropped by the browser, places the gate at
+            40% on a tall tablet and 31% on a 390 × 900 phone, exactly like the
+            compact camera rather than leaving the fallback clipped at the far
+            right during the WebGL cross-fade. */}
+        <svg className="eng-fallback-compact" viewBox="0 0 900 1080" preserveAspectRatio="xMidYMid slice">
+          <ellipse
+            cx="362"
+            cy="503"
+            rx="17"
+            ry="187"
+            fill="none"
+            stroke="#d4a94e"
+            strokeOpacity="0.28"
+            strokeWidth="1"
+          />
+          <ellipse
+            cx="362"
+            cy="503"
+            rx="14"
+            ry="169"
+            fill="none"
+            stroke="#d4a94e"
+            strokeOpacity="0.12"
+            strokeWidth="1"
+          />
+          <line x1="0" y1="503" x2="900" y2="503" stroke="url(#eng-fallback-line-compact)" strokeWidth="1" />
+          {/* Five-node compact constellation echo, including the crimson hop. */}
+          <line x1="499" y1="478" x2="420" y2="329" stroke="#d4a94e" strokeOpacity="0.22" strokeWidth="1" />
+          <line x1="499" y1="478" x2="596" y2="346" stroke="#d4a94e" strokeOpacity="0.22" strokeWidth="1" />
+          <line x1="499" y1="478" x2="454" y2="583" stroke="#b3231f" strokeOpacity="0.3" strokeWidth="1" />
+          <line x1="420" y1="329" x2="547" y2="211" stroke="#d4a94e" strokeOpacity="0.22" strokeWidth="1" />
+          <circle cx="499" cy="478" r="14" fill="none" stroke="#f0d491" strokeOpacity="0.4" strokeWidth="1" />
+          <circle cx="420" cy="329" r="10" fill="none" stroke="#d4a94e" strokeOpacity="0.32" strokeWidth="1" />
+          <circle cx="596" cy="346" r="10" fill="none" stroke="#d4a94e" strokeOpacity="0.32" strokeWidth="1" />
+          <circle cx="547" cy="211" r="9" fill="none" stroke="#d4a94e" strokeOpacity="0.32" strokeWidth="1" />
+          <circle cx="454" cy="583" r="9" fill="none" stroke="#b3231f" strokeOpacity="0.38" strokeWidth="1" />
+          <defs>
+            <linearGradient id="eng-fallback-line-compact" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stopColor="#d4a94e" stopOpacity="0" />
+              <stop offset="0.4" stopColor="#d4a94e" stopOpacity="0.35" />
               <stop offset="1" stopColor="#d4a94e" stopOpacity="0" />
             </linearGradient>
           </defs>

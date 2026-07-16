@@ -1,0 +1,74 @@
+<bug_1>
+<summary>
+<title>[WebGL Animation] Moving document instances retain a stale frustum bound</title>
+<one_line_description>The animated document stream can be culled against its first-frame positions after its instances have moved.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace/src/app/engine-network/Scene.tsx - function: `EvidenceScene`, document setup and `render`, Lines 305-312 and 722-747
+</file_locations>
+
+<issue_description>
+<description>The scene changes every document instance matrix on every frame, but it neither disables frustum culling for the InstancedMesh nor refreshes its bounding sphere. Three.js computes an InstancedMesh bounding sphere when first needed and does not automatically update it after setMatrixAt calls. The renderer therefore continues testing the stream against its first-frame random distribution, even as documents travel from x = -13 to the gate and wrap to new positions. Depending on the initial random phases and later movement, the stale sphere can leave the camera frustum while current documents are visible, causing the entire incoming stream to disappear intermittently. Disable frustum culling for this continuously animated mesh, as the scene already does for dynamic thread buffers, or explicitly recompute its bounding sphere after all instance matrices are updated.</description>
+
+<code_example>
+
+```typescript
+// File: /Users/sacino/fintrace/src/app/engine-network/Scene.tsx, Lines 305-312 and 741-747
+
+const documents = new THREE.InstancedMesh(docGeometry, docMaterial, DOC_COUNT)
+documents.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
+
+documents.setMatrixAt(i, dummy.matrix)
+documents.instanceMatrix.needsUpdate = true
+```
+
+</code_example>
+
+<expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Framing** | Frustum checks follow the current document positions | Frustum checks use the first computed instance bound |
+| **Animation** | Visible documents remain rendered throughout each journey | The complete InstancedMesh can be culled while current instances are in view |
+| **Reliability** | Random starting phases do not affect stream visibility | Initial random placement determines the stale culling volume |
+</expected_vs_actual>
+</issue_description>
+</bug_1>
+
+<bug_2>
+<summary>
+<title>[WebGL Lifecycle] Instanced document buffers are not released on unmount</title>
+<one_line_description>Scene cleanup omits InstancedMesh disposal, leaving its matrix and colour GPU attributes allocated.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace/src/app/engine-network/Scene.tsx - function: `EvidenceScene` cleanup, Lines 981-1024
+</file_locations>
+
+<issue_description>
+<description>The cleanup disposes the document geometry, material and texture but never calls dispose on the InstancedMesh itself. Three.js allocates separate GPU attributes for documents.instanceMatrix and documents.instanceColor; these attributes are released by the InstancedMesh dispose event rather than by BufferGeometry.dispose. WebGLRenderer.dispose clears renderer state but does not dispatch that mesh event. Repeated route mounts can therefore retain two document buffers in abandoned contexts until browser garbage collection, violating the scene's exhaustive-disposal requirement and increasing GPU memory pressure. Call documents.dispose() during cleanup before disposing the renderer.</description>
+
+<code_example>
+
+```typescript
+// File: /Users/sacino/fintrace/src/app/engine-network/Scene.tsx, Lines 989-1023
+
+docGeometry.dispose()
+docMaterial.dispose()
+paperTexture.dispose()
+
+renderer.dispose()
+mount.removeChild(renderer.domElement)
+```
+
+</code_example>
+
+<expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Cleanup** | Every scene-owned GPU buffer is explicitly released | Instanced matrix and colour buffers receive no dispose event |
+| **Navigation** | Repeated route mounts have stable GPU memory use | Each mount can leave document instance buffers pending context collection |
+| **Lifecycle Contract** | Unmount satisfies exhaustive Three.js disposal | Shared geometry is disposed, but the InstancedMesh-owned attributes are omitted |
+</expected_vs_actual>
+</issue_description>
+</bug_2>

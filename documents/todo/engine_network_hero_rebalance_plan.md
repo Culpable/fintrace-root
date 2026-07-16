@@ -180,7 +180,7 @@ All binding, from `/Users/sacino/fintrace/AGENTS.md` and `documents/plans/fintra
 
 All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/engine-network/engine-network.css`, fallback work in `src/app/engine-network/Hero.tsx`. Every change carries imperative-mood comments explaining the non-obvious maths (AGENTS `commenting_standards`). Steps 1–4 are the structural rebalance; 5–9 the delight pass; 10–12 coherence, docs, validation.
 
-### Step 1: Aspect-anchored stage shift and expandable constellation fit
+### ~~Step 1: Aspect-anchored stage shift and expandable constellation fit~~ ✅ **COMPLETED**
 
 **Objective:** Fill the right-hand dead band and pin the gate to a constant screen fraction on wide windows (REQ-1, REQ-2).
 
@@ -197,7 +197,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - At 1440×900 the constellation screenshot is position-identical to the pre-change baseline (fit = 1, shift = 1.1).
 - Label text renders without visible blur at fit 1.3 in a 1998×750 screenshot (compare glyph edges against the 1440×900 baseline).
 
-### Step 2: Gate lift, shrink, and glow re-balance
+### ~~Step 2: Gate lift, shrink, and glow re-balance~~ ✅ **COMPLETED**
 
 **Objective:** Move the gate's bottom arc and glow hotspot up and away from the headline band (REQ-4, REQ-5).
 
@@ -214,7 +214,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - Node birth glide starts at the gate glow, not below it — headed-browser observation at cycle start (reload, watch first 12 s).
 - At 390×900: gate top edge stays ≥ 60 px below the fixed header wordmark; CASH ATM label still clears the gold CTA button — screenshot.
 
-### Step 3: Headline anchor cap and scrim pocket
+### ~~Step 3: Headline anchor cap and scrim pocket~~ ✅ **COMPLETED**
 
 **Objective:** Stop the headline migrating into the gate on wide windows and guarantee kicker/h1 legibility (REQ-3, REQ-6).
 
@@ -229,7 +229,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - Kicker text "FORENSIC INFRASTRUCTURE FOR LEGAL TEAMS" is fully legible in screenshots at 1440×900 and 1998×750 captured mid-cycle with documents crossing behind it (take 3 screenshots ≥ 4 s apart; all must pass).
 - No `transition: all` introduced; the scrim remains `pointer-events: none` (code inspection).
 
-### Step 4: Earlier document funnel
+### ~~Step 4: Earlier document funnel~~ ✅ **COMPLETED**
 
 **Objective:** Pull pages onto the gate line before they reach the headline zone (REQ-7).
 
@@ -241,7 +241,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - In a 1998×750 screenshot sequence (3 captures ≥ 4 s apart), no document plane overlaps the h1 glyph box right of x = 700 px.
 - The document stream still reads as organic scattered paper on the left half (no premature single-file convoy before ~55% of travel) — headed-browser observation.
 
-### Step 5: Delight D1 — swallow flash and birth motes
+### ~~Step 5: Delight D1 — swallow flash and birth motes~~ ✅ **COMPLETED**
 
 **Objective:** Make cause-and-effect legible: paper in → flash → account fired out (REQ-8/D1).
 
@@ -256,7 +256,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - No per-frame allocations added (code inspection: no `new` inside `render`); 6 new sprites + materials appear in the cleanup disposal list.
 - Frame rate at 1440×900 stays ≥ 55 fps during assembly (headed-browser performance observation via the dev-browser FPS/jank check).
 
-### Step 6: Delight D2 — warm paper and proximity gold tint
+### ~~Step 6: Delight D2 — warm paper and proximity gold tint~~ ✅ **COMPLETED**
 
 **Objective:** Papers read as warm evidence paper, glinting gold as the engine draws them in (REQ-8/D2).
 
@@ -270,7 +270,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - `instanceColor` is initialised for all 26 (wide) / 12 (compact) instances before the first frame (no black-flash on load — headed-browser observation of the cross-fade).
 - One scratch `THREE.Color` module- or effect-scoped; no per-frame allocation (code inspection).
 
-### Step 7: Delight D3 — sliding thread dashes
+### ~~Step 7: Delight D3 — sliding thread dashes~~ ✅ **COMPLETED**
 
 **Objective:** Threads carry visible flow during the dwell; the crimson hop reads as money leaving (REQ-8/D3).
 
@@ -285,7 +285,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - No dash renders detached from its thread (dash endpoints lie on the rim-inset segment — screenshot zoom check on 2 edges).
 - New geometries/materials disposed on unmount (code inspection of cleanup block); no per-frame allocations (code inspection).
 
-### Step 8: Delight D4 — flag beat on the CASH ATM hop
+### ~~Step 8: Delight D4 — flag beat on the CASH ATM hop~~ ✅ **COMPLETED**
 
 **Objective:** The flagged finding lands as a punchline each cycle (REQ-8/D4).
 
@@ -300,7 +300,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - Underline stays under the plate in BOTH layouts (wide: label below node; compact phones: label below; compact tall: label right — verify 1440×900, 390×900, 900×1080 screenshots).
 - Geometry/material disposed on unmount; no per-frame allocations (code inspection).
 
-### Step 9: Delight D5 — headline sheen
+### ~~Step 9: Delight D5 — headline sheen~~ ✅ **COMPLETED**
 
 **Objective:** The gold "engine." glints in the same rhythm as the gate, tying DOM and scene together (REQ-8/D5).
 
@@ -314,7 +314,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - `.eng-gold-text` outside the hero (grep for other usages in `page.tsx` sections) renders unchanged (screenshot of one below-fold usage).
 - No layout shift: h1 bounding box identical before/after (DevTools measurement).
 
-### Step 10: Static fallback coherence
+### ~~Step 10: Static fallback coherence~~ ✅ **COMPLETED**
 
 **Objective:** The pre-WebGL fallback echoes the lifted, smaller gate so the cross-fade doesn't jump (REQ-9, 3.2 compatibility).
 
@@ -326,7 +326,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - On a throttled reload at 1440×900, the gate's glow centre in the fallback and the first WebGL frame differ by ≤ ~40 px vertically (screenshot both states; the fallback is an echo, not a pixel match).
 - Fallback still renders standalone (temporarily make the renderer constructor throw, or block WebGL) with no console errors and the page intact.
 
-### Step 11: Documentation synchronisation
+### ~~Step 11: Documentation synchronisation~~ ✅ **COMPLETED**
 
 **Objective:** Keep `documents/plans/fintrace_design_plan.md` the standalone source of truth (REQ-11; AGENTS `documentation_synchronisation`).
 
@@ -341,7 +341,7 @@ All scene work is in `src/app/engine-network/Scene.tsx`, CSS work in `src/app/en
 - Every numeric value that deviated from this plan during tuning is recorded with its final value.
 - No other route's documentation is altered.
 
-### Step 12: Validation gate
+### ~~Step 12: Validation gate~~ ✅ **COMPLETED**
 
 **Objective:** Prove the whole change against the project's binding validation rules (section 2.5).
 
@@ -408,3 +408,41 @@ Capture before-change baselines at 1440×900 and 1998×750 FIRST, then verify af
    - Expected: designed static SVG remains, gate echo at lifted position, zero page errors.
 9. **Performance/lifecycle**: scroll the hero offscreen and back; hide/reveal the tab.
    - Expected: rAF stops when hidden/offscreen (no GPU activity) and resumes cleanly; ≥ 55 fps during assembly at 1440×900; no memory growth across 3 mount/unmount navigations (gallery ↔ route).
+
+---
+
+## Implemented Solution
+
+### Files changed
+
+- `src/app/engine-network/Scene.tsx`: added aspect-anchored wide framing, capped constellation growth, lifted gate geometry, earlier document funnel, warmer/tinted instanced papers, pooled birth motes, swallow flashes, sliding thread dashes, the CASH flag flare/underline, and full resource lifecycle handling.
+- `src/app/engine-network/Hero.tsx`: aligned the wide fallback with the lifted gate and added a five-node compact fallback whose projected gate and constellation match the compact WebGL camera.
+- `src/app/engine-network/engine-network.css`: capped the wide headline offset, added the contrast pocket, added the route-prefixed 3.9 s sheen, and selected/aligned the compact fallback using the same width/aspect contract as the scene.
+- `documents/plans/fintrace_design_plan.md`: recorded round five, final formulas and tuned values, fallback/lifecycle audit corrections, the validation matrix and current route state.
+- `documents/todo/engine_network_hero_rebalance_plan.md`: tracked all twelve steps through their required passing validation and recorded this implementation summary.
+- `documents/todo/bugs/codex/subagent_bug_sweep_20260716_a7c3d9e1.xml`: preserved the independent WebGL animation/lifecycle sweep.
+- `documents/todo/bugs/codex/subagent_bug_sweep_20260716_f4b8c2d6.xml`: preserved the independent responsive fallback sweep.
+- `documents/todo/bugs/codex/combined_bug_sweep_20260716_c9e4a1f7.xml`: consolidated all three independent findings. Every finding was fixed before final validation.
+
+### Final implementation decisions
+
+- Used content width rather than raw `100vw` in the headline offset so Chromium's classic scrollbar cannot shift the approved 1440x900 baseline by 7.5 px.
+- Preserved uniform ring and label growth to the 1.3 fit cap, then compressed only wide-short vertical slot positions to 0.95 so the crown remains below the fixed header.
+- Added a dedicated 900x1080 compact fallback after the independent audit proved that slice-cropping the wide SVG placed the gate 259-310 px away from the compact WebGL gate.
+- Disabled frustum culling only for the continuously rewritten document InstancedMesh and explicitly dispatched its disposal event, avoiding both a stale bound and retained matrix/colour GPU buffers.
+
+### Validation completed
+
+- `npm run lint`: passed with zero errors.
+- `npm run build`: passed after the audit fixes; Next.js compiled, typechecked and statically exported 15 pages including `out/engine-network/index.html`.
+- `git diff --check`: passed.
+- Headed real-GPU Chromium: passed at 1440x900, 1998x750, 2560x1080, 1024x768, 900x1080 and 390x900 with zero console/page errors and zero horizontal overflow.
+- Source viewport 1998x750: gate centre ≈60.4%, BTC plate right edge 85.24%, h1 x = 176 px, and no headline/ring/halo collision across three animation phases.
+- Live resize 1300x900 to 2600x900: retained one canvas and continuously reapplied shift/fit without errors or overflow.
+- Delight sequence: verified document flashes and tint, two pooled birth-mote trains, parent-to-child dashes, the CASH flare/underline, and the 3.9 s headline sheen through assembly, dwell and exit.
+- Lifecycle: offscreen and hidden states reduced scene rAF callbacks to zero and resumed cleanly; repeated route mounts retained one canvas and no errors.
+- Fallback: script-frozen captures at 1440x900, 900x1080 and 390x900 verified the permanent no-WebGL state; compact fallback and live gate positions matched at both tall viewports.
+
+### Pending or skipped validation
+
+None. The repository has no automated unit, integration or Playwright suite, so the project-mandated lint, static build and headed browser protocol was used in full.

@@ -21,6 +21,18 @@ const smoothstep = (edge0: number, edge1: number, x: number) => {
   return t * t * (3 - 2 * t)
 }
 
+/** Keep the wide-layout gate at the designed 60.7% screen position. */
+const stageShiftFor = (aspect: number) => 0.6875 * aspect
+
+/**
+ * Expand the whole constellation into wide frustums while retaining the
+ * aspect-1.6 composition and stopping at the label-crispness ceiling.
+ */
+const netFitFor = (aspect: number) => Math.min(1.3, Math.max(0, (2.5225 * aspect - 0.35) / 3.686))
+
+/** Lift the gate, funnel target and constellation birth point as one system. */
+const GATE_Y = 0.4
+
 /**
  * Ease-out-back with a gentle overshoot (~8%): nodes glide slightly past
  * their constellation slot and settle back — arrival reads as deliberate
@@ -46,8 +58,8 @@ function makePaperTexture(): THREE.CanvasTexture {
 
   // Soft top-lit paper gradient
   const paper = ctx.createLinearGradient(0, 0, 0, 168)
-  paper.addColorStop(0, '#f7f1e3')
-  paper.addColorStop(1, '#e3dac4')
+  paper.addColorStop(0, '#f6edd8')
+  paper.addColorStop(1, '#e5d5b2')
   ctx.fillStyle = paper
   ctx.fillRect(0, 0, 128, 168)
 
@@ -112,25 +124,26 @@ function makeDotTexture(): THREE.CanvasTexture {
  */
 function makeLabelTexture(label: string): THREE.CanvasTexture {
   const canvas = document.createElement('canvas')
-  canvas.width = 256
-  canvas.height = 64
+  canvas.width = 512
+  canvas.height = 128
   const ctx = canvas.getContext('2d')!
 
-  // Rounded plate: warm near-black so labels hold against the gate glow
+  // Bake at 2x resolution so the plate stays crisp when the wide-layout
+  // constellation reaches its 1.3 scale cap.
   ctx.beginPath()
-  ctx.roundRect(2, 8, 252, 48, 8)
+  ctx.roundRect(4, 16, 504, 96, 16)
   ctx.fillStyle = 'rgba(16, 13, 9, 0.78)'
   ctx.fill()
   ctx.strokeStyle = 'rgba(212, 169, 78, 0.3)'
-  ctx.lineWidth = 2
+  ctx.lineWidth = 4
   ctx.stroke()
 
   // Centred account name in the engraved mono voice
-  ctx.font = '500 24px Menlo, monospace'
+  ctx.font = '500 48px Menlo, monospace'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillStyle = '#e4c584'
-  ctx.fillText(label, 128, 33)
+  ctx.fillText(label, 256, 66)
 
   const texture = new THREE.CanvasTexture(canvas)
   texture.colorSpace = THREE.SRGBColorSpace
@@ -145,14 +158,12 @@ function makeLabelTexture(label: string): THREE.CanvasTexture {
  * chain with a crypto off-ramp, a card account — and the flagged CASH ATM
  * hop, which renders in restrained crimson.
  *
- * Framing constraint (measured against the hero camera, fov 34°, stage shift
- * +1.1 desktop / −0.7 mobile, full drift + pointer sway): the usable
- * stage-local x limit is ≈3.1 at z=0, growing with depth (≈3.5 at z=−0.9,
- * ≈3.67 at z=−1.2). Vertical room is generous, so the constellation builds
- * TALL around the hub — every slot keeps node x + label extent (including
- * its labelOffset) inside the limit for its z. Round-four feedback widened
- * the spread: slots sit further apart in x, y AND z so the graph breathes,
- * and every label is verified against every thread segment for clear air.
+ * Framing constraint (measured against the hero camera, fov 34°, full drift
+ * + pointer sway): anchor the wide gate with 0.6875 × aspect, then expand the
+ * complete constellation with clamp((2.5225a − 0.35) / 3.686, 0, 1.3).
+ * Scaling the group preserves every verified slot/label/thread relationship;
+ * projected-space browser checks still prove the deeper crown nodes retain
+ * clear air because perspective can pull them towards the vanishing centre.
  * ------------------------------------------------------------------------- */
 type NetNode = {
   label: string
@@ -278,7 +289,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     // LEFT instead: the gate moves left-of-centre, which widens the usable
     // band to the right so the constellation fits the narrow frustum.
     const stage = new THREE.Group()
-    stage.position.x = compact ? -0.7 : 1.1
+    stage.position.x = compact ? -0.7 : stageShiftFor(width / height)
     scene.add(stage)
 
     /* ------------------------- Incoming documents ------------------------ */
@@ -292,7 +303,17 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       side: THREE.DoubleSide,
     })
     const documents = new THREE.InstancedMesh(docGeometry, docMaterial, DOC_COUNT)
+    // Keep the continuously rewritten stream out of automatic frustum tests.
+    // Three.js caches an InstancedMesh bounding sphere after first use and does
+    // not refresh it after setMatrixAt(), so its first random spread would
+    // otherwise decide whether later visible document positions are culled.
+    documents.frustumCulled = false
     documents.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
+    // Create the instance-colour buffer before the first render so no document
+    // flashes black, then mark it dynamic for the per-frame gate-proximity tint.
+    const docTint = new THREE.Color(1, 1, 1)
+    for (let i = 0; i < DOC_COUNT; i++) documents.setColorAt(i, docTint)
+    documents.instanceColor?.setUsage(THREE.DynamicDrawUsage)
     stage.add(documents)
 
     // Per-document flight parameters: each plane owns a lane, pace and wobble
@@ -307,6 +328,8 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       wobbleFreq: 0.6 + Math.random() * 0.8,
       wobbleAmp: 0.05 + Math.random() * 0.06,
     }))
+    const previousDocProgress = new Float32Array(DOC_COUNT)
+    for (let i = 0; i < DOC_COUNT; i++) previousDocProgress[i] = docParams[i].phase
 
     /* --------------------- Outgoing account constellation ----------------- */
     // The compact CASH placement varies with the window's shape. Phones keep
@@ -324,6 +347,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     const EDGES = compact ? EDGES_MOBILE : EDGES_DESKTOP
     const NODE_COUNT = NODES.length
     const FLAG_EDGE = EDGES.findIndex(([, child]) => NODES[child].flag)
+    const FLAG_NODE = NODES.findIndex((node) => node.flag)
 
     // Constellation cycle: births every 1.4 s, threads draw as nodes settle,
     // a long pulsing dwell, then the whole graph drifts into the fog and the
@@ -341,14 +365,22 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     const net = new THREE.Group()
     stage.add(net)
 
-    // The wide layout is framed for aspect 1.6 (1440x900). Narrower-but-
-    // still-wide windows (down to the compact threshold at 1.2) scale the
-    // WHOLE constellation — spacing and plates alike — toward the gate so
-    // the right-hand labels neither crowd nor clip. Rest-state usable width
-    // right of the gate is tan(17°)·10.5·aspect − 1.1 (stage) − 0.35 (drift);
-    // the fit is that width relative to the designed aspect's.
-    const netFitFor = (a: number) => Math.min(1, (3.21 * a - 1.45) / (3.21 * 1.6 - 1.45))
-    if (!compact) net.scale.setScalar(netFitFor(width / height))
+    // Scale around the lifted gate rather than the group's default origin.
+    // The y compensation keeps local GATE_Y fixed in stage space at every fit,
+    // so node and mote births remain centred on their unscaled gate sibling.
+    let netVerticalPositionRatio = 1
+    const applyNetFit = (aspect: number) => {
+      const fit = netFitFor(aspect)
+      net.scale.setScalar(fit)
+      net.position.y = GATE_Y * (1 - fit)
+      // Preserve uniform ring/plate growth while gently compressing only the
+      // vertical slot positions on short-wide screens. At the 1.3 cap the
+      // position factor reaches 0.95, keeping HDFC below the fixed navigation
+      // without changing any canonical aspect-1.6 slot.
+      const verticalPositionFit = fit > 1 ? Math.max(0.95, 1 - (fit - 1) / 6) : fit
+      netVerticalPositionRatio = verticalPositionFit / fit
+    }
+    if (!compact) applyNetFit(width / height)
 
     const dotTexture = makeDotTexture()
 
@@ -406,6 +438,22 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       return label
     })
 
+    // Anchor this narrow plane at its left edge so x-scale creates a genuine
+    // left-to-right flag-rule wipe beneath the CASH ATM label.
+    const underlineGeometry = new THREE.PlaneGeometry(0.6, 0.016)
+    underlineGeometry.translate(0.3, 0, 0)
+    const underlineMaterial = new THREE.MeshBasicMaterial({
+      color: '#e0503a',
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    })
+    const flagUnderline = new THREE.Mesh(underlineGeometry, underlineMaterial)
+    flagUnderline.scale.setScalar(0.001)
+    flagUnderline.renderOrder = 2
+    net.add(flagUnderline)
+
     // Per-node timing: birth in array order (hub first) so every thread has a
     // settled parent by the time its child arrives.
     const nodeBirth = NODES.map((_, i) => i * BIRTH_GAP)
@@ -450,6 +498,39 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     flagEdge.renderOrder = 2
     net.add(flagEdge)
 
+    // Overlay one moving sub-segment on each settled thread. Keep gold and
+    // crimson buffers separate so the flagged outbound hop can run faster and
+    // brighter without changing the restrained base-line materials.
+    const goldDashPositions = new Float32Array(goldEdgeIndices.length * 6)
+    const goldDashGeometry = new THREE.BufferGeometry()
+    const goldDashAttr = new THREE.BufferAttribute(goldDashPositions, 3)
+    goldDashAttr.setUsage(THREE.DynamicDrawUsage)
+    goldDashGeometry.setAttribute('position', goldDashAttr)
+    const goldDashMaterial = new THREE.LineBasicMaterial({
+      color: new THREE.Color('#f0d491'),
+      transparent: true,
+      opacity: 0,
+    })
+    const goldDashes = new THREE.LineSegments(goldDashGeometry, goldDashMaterial)
+    goldDashes.frustumCulled = false
+    goldDashes.renderOrder = 2
+    net.add(goldDashes)
+
+    const flagDashPositions = new Float32Array(6)
+    const flagDashGeometry = new THREE.BufferGeometry()
+    const flagDashAttr = new THREE.BufferAttribute(flagDashPositions, 3)
+    flagDashAttr.setUsage(THREE.DynamicDrawUsage)
+    flagDashGeometry.setAttribute('position', flagDashAttr)
+    const flagDashMaterial = new THREE.LineBasicMaterial({
+      color: new THREE.Color('#e0503a'),
+      transparent: true,
+      opacity: 0,
+    })
+    const flagDash = new THREE.LineSegments(flagDashGeometry, flagDashMaterial)
+    flagDash.frustumCulled = false
+    flagDash.renderOrder = 2
+    net.add(flagDash)
+
     // Pulse sprites run the hub's gold spokes during the dwell — evidence of
     // flow, not decoration. Each owns its material so opacity is independent.
     const PULSE_EDGES = (compact ? [0, 1, 3] : [0, 1, 4]).filter((e) => e !== FLAG_EDGE && e < EDGES.length)
@@ -472,17 +553,42 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       return pulseSprite
     })
 
+    // Pool two overlapping birth trains. Alternating nodes reuse a train only
+    // after 2.8 seconds, safely beyond the 1.36-second mote flight window.
+    const BIRTH_MOTE_SCALES = [0.16, 0.11, 0.07]
+    const BIRTH_MOTE_OPACITIES = [0.9, 0.5, 0.25]
+    const birthMoteMaterials = Array.from(
+      { length: 6 },
+      () =>
+        new THREE.SpriteMaterial({
+          map: dotTexture,
+          color: '#f4dda0',
+          transparent: true,
+          opacity: 0,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        }),
+    )
+    const birthMotes = birthMoteMaterials.map((material) => {
+      const mote = new THREE.Sprite(material)
+      mote.scale.setScalar(0.001)
+      mote.renderOrder = 2
+      net.add(mote)
+      return mote
+    })
+
     /* ----------------------------- The gate ------------------------------ */
     const gate = new THREE.Group()
+    gate.position.y = GATE_Y
     stage.add(gate)
 
-    const ringOuterGeometry = new THREE.TorusGeometry(1.75, 0.018, 12, 120)
+    const ringOuterGeometry = new THREE.TorusGeometry(1.45, 0.018, 12, 120)
     const ringOuterMaterial = new THREE.MeshBasicMaterial({ color: '#f0d491' })
     const ringOuter = new THREE.Mesh(ringOuterGeometry, ringOuterMaterial)
     ringOuter.rotation.y = Math.PI / 2
     gate.add(ringOuter)
 
-    const ringInnerGeometry = new THREE.TorusGeometry(1.58, 0.008, 8, 100)
+    const ringInnerGeometry = new THREE.TorusGeometry(1.31, 0.008, 8, 100)
     const ringInnerMaterial = new THREE.MeshBasicMaterial({ color: '#d4a94e', transparent: true, opacity: 0.45 })
     const ringInner = new THREE.Mesh(ringInnerGeometry, ringInnerMaterial)
     ringInner.rotation.y = Math.PI / 2
@@ -499,7 +605,8 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       blending: THREE.AdditiveBlending,
     })
     const halo = new THREE.Sprite(haloMaterial)
-    halo.scale.setScalar(7)
+    halo.position.y = 0.55
+    halo.scale.setScalar(5.5)
     halo.renderOrder = 3
     gate.add(halo)
 
@@ -511,7 +618,8 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       blending: THREE.AdditiveBlending,
     })
     const core = new THREE.Sprite(coreMaterial)
-    core.scale.setScalar(2.4)
+    core.position.y = 0.15
+    core.scale.setScalar(2)
     core.renderOrder = 3
     gate.add(core)
 
@@ -541,6 +649,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     /* --------------------------- Animation loop -------------------------- */
     const clock = new THREE.Clock()
     let elapsed = 0
+    let flashEnergy = 0
     let rafId = 0
     let running = false
     let readyFired = false
@@ -576,6 +685,38 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       target[offset + 5] = vB.z
     }
 
+    // Write one short sub-segment along a complete rim-inset thread. Collapse
+    // it behind the fog whenever dwell flow is inactive so no detached dash
+    // survives assembly, exit or reset.
+    const setDash = (
+      target: Float32Array,
+      offset: number,
+      parent: number,
+      child: number,
+      startFrac: number,
+      endFrac: number,
+      visible: boolean,
+    ) => {
+      if (!visible) {
+        target[offset] = target[offset + 3] = -30
+        target[offset + 1] = target[offset + 4] = 0
+        target[offset + 2] = target[offset + 5] = 0
+        return
+      }
+      vA.set(nodeWorld[parent * 3], nodeWorld[parent * 3 + 1], nodeWorld[parent * 3 + 2])
+      vB.set(nodeWorld[child * 3], nodeWorld[child * 3 + 1], nodeWorld[child * 3 + 2])
+      vDir.subVectors(vB, vA).normalize()
+      vA.addScaledVector(vDir, RIM_OFFSET)
+      vB.addScaledVector(vDir, -RIM_OFFSET)
+      vDir.subVectors(vB, vA)
+      target[offset] = vA.x + vDir.x * startFrac
+      target[offset + 1] = vA.y + vDir.y * startFrac
+      target[offset + 2] = vA.z + vDir.z * startFrac
+      target[offset + 3] = vA.x + vDir.x * endFrac
+      target[offset + 4] = vA.y + vDir.y * endFrac
+      target[offset + 5] = vA.z + vDir.z * endFrac
+    }
+
     const render = () => {
       // Clamp delta into [0, 0.05]: the ceiling stops hidden-tab resumes from
       // fast-forwarding the scene; the floor guards against a first rAF
@@ -584,15 +725,18 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       elapsed += delta
 
       // -- Documents: flow left → gate, funnel inwards and shrink at entry --
+      flashEnergy = Math.max(0, flashEnergy - delta * 2.2)
       for (let i = 0; i < DOC_COUNT; i++) {
         const p = docParams[i]
         const progress = (p.phase + elapsed * p.speed) % 1
-        const funnel = smoothstep(0.85, 1, progress) // pull towards gate centre
+        if (progress < previousDocProgress[i]) flashEnergy = Math.min(1, flashEnergy + 0.55)
+        previousDocProgress[i] = progress
+        const funnel = smoothstep(0.72, 1, progress) // converge before the headline/gate zone
         const swallow = 1 - smoothstep(0.93, 1, progress) // shrink through the gate
 
         dummy.position.set(
           lerp(-13, 0, progress),
-          lerp(p.laneY + Math.sin(elapsed * p.wobbleFreq + i) * p.wobbleAmp, 0, funnel),
+          lerp(p.laneY + Math.sin(elapsed * p.wobbleFreq + i) * p.wobbleAmp, GATE_Y, funnel),
           lerp(p.laneZ, 0, funnel),
         )
         const scale = p.scale * Math.max(swallow, 0.001)
@@ -600,8 +744,12 @@ export default function EvidenceScene({ onReady }: SceneProps) {
         dummy.rotation.set(0, progress * 0.35, p.tilt + Math.sin(elapsed * p.wobbleFreq * 0.7 + i * 2) * 0.04)
         dummy.updateMatrix()
         documents.setMatrixAt(i, dummy.matrix)
+        const tint = smoothstep(0.55, 0.95, progress)
+        docTint.setRGB(lerp(1, 1.15, tint), lerp(1, 1.02, tint), lerp(1, 0.75, tint))
+        documents.setColorAt(i, docTint)
       }
       documents.instanceMatrix.needsUpdate = true
+      if (documents.instanceColor) documents.instanceColor.needsUpdate = true
 
       // -- Constellation clock: assemble, dwell with pulses, drift out, reset --
       const cycleT = elapsed % CYCLE
@@ -616,7 +764,8 @@ export default function EvidenceScene({ onReady }: SceneProps) {
         const sway = Math.sin(elapsed * 0.5 + i * 1.7) * 0.04
 
         const x = lerp(0, node.slot[0], glide) + exitDrift
-        const y = lerp(0, node.slot[1], glide) + sway * glide
+        const targetY = GATE_Y + (node.slot[1] - GATE_Y) * netVerticalPositionRatio
+        const y = lerp(GATE_Y, targetY, glide) + sway * glide
         const z = lerp(0, node.slot[2], glide)
         // Ring scales in slightly after birth so it grows out of the gate glow
         const scale = (t <= 0 ? 0 : smoothstep(0.1, 0.7, t)) * exitFade
@@ -640,33 +789,111 @@ export default function EvidenceScene({ onReady }: SceneProps) {
         labelMaterials[i].opacity = labelIn * 0.95
       }
 
-      // -- Flag ring: pulse warm crimson once its hop has drawn --
+      // Fire a pooled lead mote and two clamped trail motes from the gate just
+      // ahead of each ring. Reset the six sprites first so reused trains cannot
+      // leave a stale particle visible after their flight window.
+      for (let i = 0; i < birthMotes.length; i++) {
+        birthMoteMaterials[i].opacity = 0
+        birthMotes[i].scale.setScalar(0.001)
+      }
+      const moteFlight = GLIDE * 0.85
+      for (let i = 0; i < NODE_COUNT; i++) {
+        const t = cycleT - nodeBirth[i]
+        if (t <= 0 || t >= moteFlight) continue
+        const leadProgress = smoothstep(0, moteFlight, t)
+        const trainOffset = (i % 2) * 3
+        vA.set(0, GATE_Y, 0)
+        const targetY = GATE_Y + (NODES[i].slot[1] - GATE_Y) * netVerticalPositionRatio
+        vB.set(NODES[i].slot[0], targetY, NODES[i].slot[2])
+        for (let j = 0; j < 3; j++) {
+          const progress = Math.max(0, leadProgress - j * 0.06)
+          const index = trainOffset + j
+          const envelope = Math.sin(Math.PI * progress) * exitFade
+          birthMotes[index].position.lerpVectors(vA, vB, progress)
+          birthMotes[index].scale.setScalar(Math.max(BIRTH_MOTE_SCALES[j] * NODE_SCALE * envelope, 0.001))
+          birthMoteMaterials[index].opacity = BIRTH_MOTE_OPACITIES[j] * envelope
+        }
+      }
+
+      // -- Flag ring: pulse warm crimson, then land one deliberate flare and
+      //    wipe a left-anchored rule beneath the CASH ATM plate --
       const flagLit =
         FLAG_EDGE === -1
           ? 0
           : smoothstep(edgeStart[FLAG_EDGE] + EDGE_DRAW, edgeStart[FLAG_EDGE] + EDGE_DRAW + 0.6, cycleT)
+      let flareEnv = 0
+      let underlineIn = 0
+      if (FLAG_EDGE !== -1) {
+        const tFlag = edgeStart[FLAG_EDGE] + EDGE_DRAW
+        flareEnv =
+          smoothstep(tFlag, tFlag + 0.15, cycleT) * (1 - smoothstep(tFlag + 0.5, tFlag + 1.1, cycleT))
+        underlineIn = smoothstep(tFlag, tFlag + 0.35, cycleT)
+      }
+      if (FLAG_NODE !== -1) {
+        rings[FLAG_NODE].scale.multiplyScalar(1 + 0.28 * flareEnv)
+        const labelPosition = labels[FLAG_NODE].position
+        flagUnderline.position.set(
+          labelPosition.x - 0.3 * NODE_SCALE,
+          labelPosition.y - 0.155 * NODE_SCALE,
+          labelPosition.z + 0.005,
+        )
+        flagUnderline.scale.set(Math.max(underlineIn * NODE_SCALE, 0.001), NODE_SCALE, 1)
+        underlineMaterial.opacity = underlineIn * 0.85 * exitFade
+      } else {
+        underlineMaterial.opacity = 0
+      }
       ringFlagMaterial.opacity = (0.65 + Math.sin(elapsed * 2.4) * 0.25 * flagLit) * exitFade
-      coreFlagMaterial.opacity = (0.7 + Math.sin(elapsed * 2.4 + 0.6) * 0.2 * flagLit) * exitFade
+      coreFlagMaterial.opacity =
+        (0.7 + Math.sin(elapsed * 2.4 + 0.6) * 0.2 * flagLit + 0.3 * flareEnv) * exitFade
 
       // -- Threads: draw rim → rim once both endpoint nodes have settled.
       //    Collapse everything while the constellation dissolves so bare
       //    lines never outlive their rings --
       const edgesVisible = exitFade > 0.15
+      const dwellAlpha =
+        smoothstep(DWELL_START, DWELL_START + 1, cycleT) * (1 - smoothstep(EXIT_START, EXIT_START + 1.5, cycleT))
+      // Fade the new dashes fully before exit begins; the existing pulse motes
+      // keep their established softer exit envelope unchanged.
+      const dashAlpha = dwellAlpha * (1 - smoothstep(EXIT_START - 0.35, EXIT_START, cycleT))
       for (let g = 0; g < goldEdgeIndices.length; g++) {
         const e = goldEdgeIndices[g]
         const frac = edgesVisible ? smoothstep(edgeStart[e], edgeStart[e] + EDGE_DRAW, cycleT) : 0
         setEdge(goldEdgePositions, g * 6, EDGES[e][0], EDGES[e][1], frac)
+        const dashStart = ((elapsed * 0.22 + e * 0.31) % 1) * 0.88
+        setDash(
+          goldDashPositions,
+          g * 6,
+          EDGES[e][0],
+          EDGES[e][1],
+          dashStart,
+          dashStart + 0.12,
+          edgesVisible && dashAlpha > 0,
+        )
       }
       goldEdgeAttr.needsUpdate = true
+      goldDashAttr.needsUpdate = true
+      goldDashMaterial.opacity = dashAlpha * 0.3
       if (FLAG_EDGE !== -1) {
         const frac = edgesVisible ? smoothstep(edgeStart[FLAG_EDGE], edgeStart[FLAG_EDGE] + EDGE_DRAW, cycleT) : 0
         setEdge(flagEdgePositions, 0, EDGES[FLAG_EDGE][0], EDGES[FLAG_EDGE][1], frac)
+        const dashStart = ((elapsed * 0.31 + FLAG_EDGE * 0.31) % 1) * 0.88
+        setDash(
+          flagDashPositions,
+          0,
+          EDGES[FLAG_EDGE][0],
+          EDGES[FLAG_EDGE][1],
+          dashStart,
+          dashStart + 0.12,
+          edgesVisible && dashAlpha > 0,
+        )
+      } else {
+        setDash(flagDashPositions, 0, 0, 0, 0, 0, false)
       }
       flagEdgeAttr.needsUpdate = true
+      flagDashAttr.needsUpdate = true
+      flagDashMaterial.opacity = dashAlpha * 0.45
 
       // -- Pulses: bright dots run the hub's spokes during the dwell --
-      const dwellAlpha =
-        smoothstep(DWELL_START, DWELL_START + 1, cycleT) * (1 - smoothstep(EXIT_START, EXIT_START + 1.5, cycleT))
       for (let k = 0; k < PULSE_EDGES.length; k++) {
         const [parent, child] = EDGES[PULSE_EDGES[k]]
         const frac = (elapsed * 0.45 + k * 0.37) % 1
@@ -677,10 +904,13 @@ export default function EvidenceScene({ onReady }: SceneProps) {
         pulseMaterials[k].opacity = dwellAlpha * Math.sin(frac * Math.PI) * 0.85
       }
 
-      // -- Gate: breathe gently so the light feels alive, never flashy --
+      // -- Gate: breathe gently, adding a short existing-core flash whenever
+      //    a swallowed document wraps back to the start of its stream --
       const pulse = 1 + Math.sin(elapsed * 1.6) * 0.012
       gate.scale.setScalar(pulse)
-      haloMaterial.opacity = 0.44 + Math.sin(elapsed * 1.6) * 0.08
+      haloMaterial.opacity = 0.36 + Math.sin(elapsed * 1.6) * 0.08
+      core.scale.setScalar(2 * (1 + 0.18 * flashEnergy))
+      coreMaterial.opacity = 0.85 + 0.25 * flashEnergy
 
       // -- Dust: slow drift keeps the atmosphere from reading as a still --
       dust.position.y = Math.sin(elapsed * 0.1) * 0.15
@@ -737,15 +967,19 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     window.addEventListener('pointermove', onPointerMove, { passive: true })
 
     // Track container size (not window size) so layout changes stay correct.
-    // The wide layout also re-fits the constellation to the new aspect live;
-    // switching between the wide and compact layouts still needs a remount.
+    // The wide layout also re-anchors the stage and re-fits the constellation
+    // around the gate live; switching configurations still needs a remount.
     const resizeObserver = new ResizeObserver(() => {
       const w = mount.clientWidth || 1
       const h = mount.clientHeight || 1
-      camera.aspect = w / h
+      const aspect = w / h
+      camera.aspect = aspect
       camera.updateProjectionMatrix()
       renderer.setSize(w, h)
-      if (!compact) net.scale.setScalar(netFitFor(w / h))
+      if (!compact) {
+        stage.position.x = stageShiftFor(aspect)
+        applyNetFit(aspect)
+      }
     })
     resizeObserver.observe(mount)
 
@@ -757,6 +991,9 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       document.removeEventListener('visibilitychange', onVisibility)
       window.removeEventListener('pointermove', onPointerMove)
 
+      // Dispatch the InstancedMesh disposal event before the renderer goes
+      // away so Three.js releases the scene-owned matrix and colour buffers.
+      documents.dispose()
       docGeometry.dispose()
       docMaterial.dispose()
       paperTexture.dispose()
@@ -768,11 +1005,18 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       labelGeometry.dispose()
       for (const material of labelMaterials) material.dispose()
       for (const texture of labelTextures) texture.dispose()
+      underlineGeometry.dispose()
+      underlineMaterial.dispose()
       goldEdgeGeometry.dispose()
       goldEdgeMaterial.dispose()
       flagEdgeGeometry.dispose()
       flagEdgeMaterial.dispose()
+      goldDashGeometry.dispose()
+      goldDashMaterial.dispose()
+      flagDashGeometry.dispose()
+      flagDashMaterial.dispose()
       for (const material of pulseMaterials) material.dispose()
+      for (const material of birthMoteMaterials) material.dispose()
       dotTexture.dispose()
       glowTexture.dispose()
       ringOuterGeometry.dispose()
