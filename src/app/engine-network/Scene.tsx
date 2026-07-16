@@ -181,7 +181,7 @@ const NODES_DESKTOP: NetNode[] = [
   // ring by a full plate-height even under maximum camera parallax)
   { label: 'HDFC ··3321', slot: [2.35, 2.55, -0.9], labelOffset: [0, 0.38] }, // thread below → label above
   { label: 'NAB ··7793', slot: [3.4, 2, -1.5], labelOffset: [0, 0.38] }, // thread below → label above
-  { label: 'BTC WALLET', slot: [3.2, -0.55, -1.1], labelOffset: [0, -0.38] }, // thread above → label below
+  { label: 'BTC WALLET', slot: [3.45, -0.55, -1.1], labelOffset: [0, -0.38] }, // thread above → label below
 ]
 
 /** Edges as [parent, child] node indices; threads draw parent rim → child rim. */
