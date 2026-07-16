@@ -115,24 +115,39 @@ const SHEET_ROWS = [
   { date: '15 MAR', desc: 'RENT RECEIVED — NEUTRAL BAY', debit: '', credit: '650.00', tag: 'INCOME', flag: false },
 ]
 
-// Canvas layout for the baked sheet. 1024x330 matches the 8.4:2.7 plane, so
-// text renders without stretch. One header band plus eight 36px row bands.
-const SHEET_W = 1024
-const SHEET_H = 330
-const HEADER_H = 42
-const ROW_H = 36
-const GUTTER_W = 40
+// Canvas layout for the baked sheet. The sheet now stands FRONT-ON (round-
+// four feedback: the old 1.0 rad yaw made it hard to read), so the texture
+// carries larger type on a squarer aspect: 1120x456 mapping to a 3.1-unit
+// plane keeps 24px row text ≈9px on screen at 1440 width — genuinely legible.
+// One header band plus eight 50px row bands.
+const SHEET_W = 1120
+const SHEET_H = 456
+const HEADER_H = 56
+const ROW_H = 50
+const GUTTER_W = 42
 // Column separators (canvas x): gutter | date | description | debit | credit | category
-const COL_X = [GUTTER_W, 152, 612, 752, 884]
+const COL_X = [GUTTER_W, 172, 640, 800, 950]
+// Right-aligned amount stops and the centred category column
+const DEBIT_X = 788
+const CREDIT_X = 938
+const CAT_X = 1035
 
 /**
  * Draw the spreadsheet with the first `rowsVisible` rows entered. The header,
  * gridlines, row numbers and column structure are always present — an empty
  * sheet still reads as a spreadsheet — and `highlightIndex` marks the row
- * that just landed with a brighter entry band. Called only when a row lands
- * or the cycle resets, never per frame.
+ * that just landed with a brighter entry band. `hoverRow`/`hovered` bake the
+ * pointer feedback: a gold wash under the hovered row and a brighter frame
+ * while the sheet is under the pointer. Called only when one of those inputs
+ * CHANGES (row landings, cycle resets, hover transitions), never per frame.
  */
-function drawSheet(ctx: CanvasRenderingContext2D, rowsVisible: number, highlightIndex: number) {
+function drawSheet(
+  ctx: CanvasRenderingContext2D,
+  rowsVisible: number,
+  highlightIndex: number,
+  hoverRow: number,
+  hovered: boolean,
+) {
   // Obsidian plate ground with a faint top light so the sheet reads as a surface
   const plate = ctx.createLinearGradient(0, 0, 0, SHEET_H)
   plate.addColorStop(0, 'rgba(24, 19, 13, 0.96)')
@@ -153,7 +168,7 @@ function drawSheet(ctx: CanvasRenderingContext2D, rowsVisible: number, highlight
     ctx.fillRect(GUTTER_W, HEADER_H + i * ROW_H, SHEET_W - GUTTER_W, ROW_H)
   }
 
-  // Crimson wash + entry highlight sit under the gridlines
+  // Crimson wash, entry highlight and hover wash sit under the gridlines
   ctx.textBaseline = 'middle'
   for (let i = 0; i < rowsVisible; i++) {
     const top = HEADER_H + i * ROW_H
@@ -167,9 +182,18 @@ function drawSheet(ctx: CanvasRenderingContext2D, rowsVisible: number, highlight
       ctx.fillStyle = '#f0d491'
       ctx.fillRect(GUTTER_W + 1, top + 4, 4, ROW_H - 8)
     }
+    if (i === hoverRow) {
+      // Pointer feedback: a soft gold wash and a bright left tick under the
+      // row the cursor is resting on
+      ctx.fillStyle = 'rgba(240, 212, 145, 0.13)'
+      ctx.fillRect(GUTTER_W, top, SHEET_W - GUTTER_W, ROW_H)
+      ctx.fillStyle = '#f0d491'
+      ctx.fillRect(GUTTER_W + 1, top + 4, 4, ROW_H - 8)
+    }
   }
 
   // Gridlines: every row boundary and column separator, plus a firmer frame
+  // that brightens while the pointer is over the sheet
   ctx.fillStyle = 'rgba(212, 169, 78, 0.26)'
   for (let i = 0; i <= SHEET_ROWS.length; i++) {
     ctx.fillRect(0, HEADER_H + i * ROW_H - 1, SHEET_W, 1)
@@ -177,65 +201,67 @@ function drawSheet(ctx: CanvasRenderingContext2D, rowsVisible: number, highlight
   for (const x of COL_X) {
     ctx.fillRect(x, 0, 1, SHEET_H)
   }
-  ctx.strokeStyle = 'rgba(212, 169, 78, 0.5)'
+  ctx.strokeStyle = hovered ? 'rgba(240, 212, 145, 0.85)' : 'rgba(212, 169, 78, 0.5)'
   ctx.lineWidth = 2
   ctx.strokeRect(1, 1, SHEET_W - 2, SHEET_H - 2)
 
   // Column headers in bright gold mono
   ctx.fillStyle = 'rgba(240, 212, 145, 0.95)'
-  ctx.font = '600 15px Menlo, monospace'
+  ctx.font = '600 20px Menlo, monospace'
   ctx.textAlign = 'left'
-  ctx.fillText('DATE', 52, HEADER_H / 2 + 1)
-  ctx.fillText('DESCRIPTION', 164, HEADER_H / 2 + 1)
+  ctx.fillText('DATE', 54, HEADER_H / 2 + 1)
+  ctx.fillText('DESCRIPTION', 184, HEADER_H / 2 + 1)
   ctx.textAlign = 'right'
-  ctx.fillText('DEBIT', 740, HEADER_H / 2 + 1)
-  ctx.fillText('CREDIT', 872, HEADER_H / 2 + 1)
+  ctx.fillText('DEBIT', DEBIT_X, HEADER_H / 2 + 1)
+  ctx.fillText('CREDIT', CREDIT_X, HEADER_H / 2 + 1)
   ctx.textAlign = 'center'
-  ctx.fillText('CATEGORY', 954, HEADER_H / 2 + 1)
+  ctx.fillText('CATEGORY', CAT_X, HEADER_H / 2 + 1)
   ctx.fillStyle = 'rgba(163, 154, 141, 0.8)'
-  ctx.font = '400 13px Menlo, monospace'
+  ctx.font = '400 16px Menlo, monospace'
   ctx.fillText('#', GUTTER_W / 2, HEADER_H / 2 + 1)
 
   // Row numbers stay for every band — an empty numbered row is still a sheet
   for (let i = 0; i < SHEET_ROWS.length; i++) {
     const mid = HEADER_H + i * ROW_H + ROW_H / 2 + 1
     ctx.fillStyle = 'rgba(163, 154, 141, 0.65)'
-    ctx.font = '400 13px Menlo, monospace'
+    ctx.font = '400 16px Menlo, monospace'
     ctx.textAlign = 'center'
     ctx.fillText(String(i + 1), GUTTER_W / 2, mid)
   }
 
   // Entered rows: date + description left, amounts right-aligned in their
-  // columns, category as a small outlined chip. The flagged row runs crimson.
+  // columns, category as a small outlined chip. The flagged row runs crimson;
+  // the hovered row's ink lifts to full brightness.
   for (let i = 0; i < rowsVisible; i++) {
     const row = SHEET_ROWS[i]
     const mid = HEADER_H + i * ROW_H + ROW_H / 2 + 1
-    const ink = row.flag ? '#e0503a' : 'rgba(228, 197, 132, 0.88)'
+    const lifted = i === hoverRow
+    const ink = row.flag ? '#e0503a' : lifted ? '#f0d491' : 'rgba(228, 197, 132, 0.88)'
     const inkBright = row.flag ? '#e0503a' : '#f0d491'
 
     ctx.textAlign = 'left'
-    ctx.font = '400 15px Menlo, monospace'
+    ctx.font = '400 22px Menlo, monospace'
     ctx.fillStyle = ink
-    ctx.fillText(row.date, 52, mid)
-    ctx.font = '400 16px Menlo, monospace'
-    ctx.fillText(row.desc, 164, mid)
+    ctx.fillText(row.date, 54, mid)
+    ctx.font = '400 24px Menlo, monospace'
+    ctx.fillText(row.desc, 184, mid)
 
     ctx.textAlign = 'right'
-    ctx.font = '600 16px Menlo, monospace'
+    ctx.font = '600 24px Menlo, monospace'
     ctx.fillStyle = inkBright
-    if (row.debit) ctx.fillText(row.debit, 740, mid)
-    if (row.credit) ctx.fillText(row.credit, 872, mid)
+    if (row.debit) ctx.fillText(row.debit, DEBIT_X, mid)
+    if (row.credit) ctx.fillText(row.credit, CREDIT_X, mid)
 
     // Category chip: measure the tag so the outline hugs the text
-    ctx.font = '400 11px Menlo, monospace'
+    ctx.font = '400 15px Menlo, monospace'
     const tagWidth = ctx.measureText(row.tag).width
-    const chipW = tagWidth + 16
+    const chipW = tagWidth + 20
     ctx.strokeStyle = row.flag ? 'rgba(224, 80, 58, 0.75)' : 'rgba(212, 169, 78, 0.55)'
     ctx.lineWidth = 1
-    ctx.strokeRect(954 - chipW / 2, mid - 10, chipW, 20)
+    ctx.strokeRect(CAT_X - chipW / 2, mid - 13, chipW, 26)
     ctx.textAlign = 'center'
     ctx.fillStyle = row.flag ? '#e0503a' : 'rgba(228, 197, 132, 0.85)'
-    ctx.fillText(row.tag, 954, mid)
+    ctx.fillText(row.tag, CAT_X, mid)
   }
   ctx.textAlign = 'left'
 }
@@ -245,9 +271,12 @@ function drawSheet(ctx: CanvasRenderingContext2D, rowsVisible: number, highlight
  *
  * Narrative: unstructured paper statements stream in from the left, are
  * swallowed by the luminous golden scanning gate, and their lines are ENTERED
- * onto one large spreadsheet standing to the right — headers, gridlines, row
- * numbers, then transaction rows landing one at a time, with the flagged ATM
- * withdrawal written in crimson. Documents in, one growing spreadsheet out.
+ * onto one large spreadsheet standing FRONT-ON to the right — headers,
+ * gridlines, row numbers, then transaction rows landing one at a time, with
+ * the flagged ATM withdrawal written in crimson. The sheet is interactive:
+ * hovering tips it toward the pointer, brightens its frame, washes the row
+ * under the cursor in gold, and holds the finished ledger on screen instead
+ * of letting it fade. Documents in, one growing spreadsheet out.
  * ------------------------------------------------------------------------- */
 export default function EvidenceScene({ onReady }: SceneProps) {
   const mountRef = useRef<HTMLDivElement>(null)
@@ -266,7 +295,11 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     /* ------------------------------ Renderer ----------------------------- */
     const width = mount.clientWidth || 1
     const height = mount.clientHeight || 1
-    const isMobile = width < 768
+    // Compact (tall) configuration for phones AND any window taller than it
+    // is wide-ish — portrait tablets and narrow split-screen windows report
+    // desktop widths but cannot frame the wide front-on sheet (round-four
+    // follow-up: layout is chosen by aspect, not width alone)
+    const compact = width < 768 || width / height < 1.2
 
     // WebGL can be unavailable (blocked contexts, virtualised or headless
     // environments, exhausted GPU memory). Constructing the renderer THROWS in
@@ -290,7 +323,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     scene.fog = new THREE.Fog('#0d0b09', 9, 24)
 
     const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 60)
-    const cameraBaseZ = isMobile ? 14 : 10.5
+    const cameraBaseZ = compact ? 14 : 10.5
     camera.position.set(0, 0.9, cameraBaseZ)
 
     // Shift the whole stage right on desktop so the gate sits right-of-centre,
@@ -298,11 +331,11 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     // LEFT instead: the narrow frustum needs the room to the gate's right for
     // the spreadsheet, so the gate cedes the centre.
     const stage = new THREE.Group()
-    stage.position.x = isMobile ? -0.7 : 1.1
+    stage.position.x = compact ? -0.7 : 1.1
     scene.add(stage)
 
     /* ------------------------- Incoming documents ------------------------ */
-    const DOC_COUNT = isMobile ? 12 : 26
+    const DOC_COUNT = compact ? 12 : 26
     const paperTexture = makePaperTexture()
     const docGeometry = new THREE.PlaneGeometry(1, 1.32)
     const docMaterial = new THREE.MeshBasicMaterial({
@@ -330,25 +363,38 @@ export default function EvidenceScene({ onReady }: SceneProps) {
 
     /* ------------------------ Outgoing spreadsheet ------------------------ */
     // ONE sheet, standing to the right of the gate, filled row by row. The
-    // canvas is redrawn only when a row lands (~1.1 s apart), never per frame.
+    // canvas is redrawn only when a row lands (~1.1 s apart) or the pointer
+    // hover state changes, never per frame.
     const sheetCanvas = document.createElement('canvas')
     sheetCanvas.width = SHEET_W
     sheetCanvas.height = SHEET_H
     const sheetCtx = sheetCanvas.getContext('2d')!
-    drawSheet(sheetCtx, 0, -1)
+    drawSheet(sheetCtx, 0, -1, -1, false)
 
     const sheetTexture = new THREE.CanvasTexture(sheetCanvas)
     sheetTexture.colorSpace = THREE.SRGBColorSpace
     sheetTexture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy())
 
-    // The sheet cannot run flat along +x — the frustum right of the gate is
-    // only ~3 stage-units wide at z=0. Pivot it at the gate's shoulder and yaw
-    // it into DEPTH instead (+y rotation carries +x into −z): the near columns
-    // (#, DATE, DESCRIPTION) stay large and legible while the far columns
-    // recede into the fog, still fully inside frame at maximum camera sway.
-    const SHEET_LEN = 7.2
-    const SHEET_YAW = isMobile ? 0.75 : 1.0
-    const sheetGeometry = new THREE.PlaneGeometry(SHEET_LEN, SHEET_LEN / (SHEET_W / SHEET_H))
+    // FRONT-ON framing (round four): the sheet faces the camera squarely so
+    // every column reads at once. Frustum budget right of the gate at its
+    // depth (desktop z −0.45: ≈3.30 stage units at max camera sway): a
+    // 3.1-unit sheet centred at x 1.66 spans 0.11..3.21 — inside budget with
+    // margin, its left edge tucked into the gate's halo so the rows read as
+    // freshly written by the light. A whisper of resting yaw (−0.04 rad)
+    // keeps it from looking like a flat overlay; the pointer adds more.
+    const SHEET_UNITS_W = 3.1
+    const SHEET_UNITS_H = SHEET_UNITS_W / (SHEET_W / SHEET_H)
+    const SHEET_YAW = -0.04
+    const SHEET_PITCH = -0.03
+    // The sheet rides HIGH (desktop y 1.08): the DOM headline's gold
+    // "engine." sweeps across the hero's vertical centre at this x range, so
+    // the sheet sits wholly above the h1's top edge at rest. Mobile budget at
+    // z −0.2 is ≈2.23 with the −0.7 stage shift: scale 0.72 → 2.23 units
+    // wide, centred x 0.9 (spans −0.22..2.02) — and y 2.75 parks it in the
+    // clear band between the fixed header and the kicker, the only strip of
+    // the narrow hero the DOM text never touches.
+    const SHEET_POS = compact ? new THREE.Vector3(0.9, 2.75, -0.2) : new THREE.Vector3(1.66, 1.08, -0.45)
+    const sheetGeometry = new THREE.PlaneGeometry(SHEET_UNITS_W, SHEET_UNITS_H)
     const sheetMaterial = new THREE.MeshBasicMaterial({
       map: sheetTexture,
       transparent: true,
@@ -358,16 +404,45 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     })
     const sheetMesh = new THREE.Mesh(sheetGeometry, sheetMaterial)
     sheetMesh.renderOrder = 2
-    // Group pivots at the sheet's left edge so yaw sweeps the far end away;
-    // the mesh offsets by half its length to put that edge on the pivot
+    // Soft gold aura behind the sheet — invisible at rest, breathing in on
+    // hover so the plate reads as lifted into the gate's light
+    const sheetGlowTexture = makeGlowTexture()
+    const sheetGlowGeometry = new THREE.PlaneGeometry(SHEET_UNITS_W * 1.3, SHEET_UNITS_H * 1.7)
+    const sheetGlowMaterial = new THREE.MeshBasicMaterial({
+      map: sheetGlowTexture,
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    })
+    const sheetGlow = new THREE.Mesh(sheetGlowGeometry, sheetGlowMaterial)
+    sheetGlow.position.z = -0.03
+    sheetGlow.renderOrder = 1
+    // Group pivots at the sheet's centre so the hover tilt reads as a held
+    // card tipping toward the pointer
     const sheet = new THREE.Group()
-    sheetMesh.position.set(SHEET_LEN / 2, 0, 0)
-    sheet.position.set(isMobile ? 0.35 : 1.9, 0, 0.2)
+    sheet.position.copy(SHEET_POS)
     sheet.rotation.y = SHEET_YAW
-    sheet.rotation.x = -0.05
-    if (isMobile) sheet.scale.setScalar(0.35)
+    sheet.rotation.x = SHEET_PITCH
+    if (compact) sheet.scale.setScalar(0.72)
+    sheet.add(sheetGlow)
     sheet.add(sheetMesh)
     stage.add(sheet)
+
+    // The wide framing was designed at aspect 1.6 (1440x900). Narrower-but-
+    // still-wide windows (down to the compact threshold at 1.2) shrink the
+    // sheet and ease it toward the gate so the CATEGORY column never clips:
+    // rest-state usable width right of the gate is tan(17°)·10.5·aspect −
+    // 1.1 (stage) − 0.35 (drift), and the fit keeps the sheet's right edge
+    // inside it (floored at 0.55 so the sheet never vanishes).
+    const sheetFitFor = (a: number) =>
+      Math.min(1, Math.max(0.55, (3.21 * a - 1.45 - SHEET_POS.x) / (SHEET_UNITS_W / 2)))
+    const applySheetFit = (a: number) => {
+      const fit = sheetFitFor(a)
+      sheet.scale.setScalar(fit)
+      sheet.position.x = SHEET_POS.x - (1 - fit) * 0.6
+    }
+    if (!compact) applySheetFit(width / height)
 
     // Entry cycle: fade in the empty sheet, land the eight rows ~1.1 s apart,
     // dwell on the finished ledger, then fade down and start again.
@@ -380,6 +455,16 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     const FADE_OUT_END = 12.6
     const SHEET_MAX_OPACITY = 0.95
     let lastDrawKey = -1
+
+    // The sheet runs its own clock so hovering can HOLD the finished ledger
+    // on screen (the shared elapsed clock keeps documents streaming behind).
+    let sheetElapsed = 0
+    // Eased 0..1 hover envelope driving tilt, lift, glow and the frame redraw
+    let hoverMix = 0
+    // Pointer → sheet intersection state, written by the pointermove handler
+    const sheetPointer = { active: false, row: -1, u: 0.5, v: 0.5 }
+    const raycaster = new THREE.Raycaster()
+    const ndc = new THREE.Vector2()
 
     const dotTexture = makeDotTexture()
 
@@ -429,7 +514,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     /* --------------------------- Ambient dust ---------------------------- */
     // Trimmed and dimmed relative to the base scene: the sheet carries the
     // right-hand side now, and fewer motes keep its text legible.
-    const DUST_COUNT = isMobile ? 96 : 208
+    const DUST_COUNT = compact ? 96 : 208
     const dustPositions = new Float32Array(DUST_COUNT * 3)
     for (let i = 0; i < DUST_COUNT; i++) {
       dustPositions[i * 3] = -12 + Math.random() * 26
@@ -487,30 +572,55 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       }
       documents.instanceMatrix.needsUpdate = true
 
+      // -- Sheet clock: advances with the scene, but HOLDS at the brink of
+      //    fade-out while the pointer rests on the sheet, so the finished
+      //    ledger never dissolves mid-inspection --
+      const prevT = sheetElapsed % CYCLE
+      let nextSheetElapsed = sheetElapsed + delta
+      if (sheetPointer.active) {
+        const nextT = nextSheetElapsed % CYCLE
+        // Crossing (or wrapping past) the fade-out boundary while hovered:
+        // pin the clock exactly at the boundary instead
+        if (prevT <= FADE_OUT_START && (nextT > FADE_OUT_START || nextT < prevT)) {
+          nextSheetElapsed = sheetElapsed - prevT + FADE_OUT_START
+        }
+      }
+      sheetElapsed = nextSheetElapsed
+
       // -- Sheet: land rows on the entry cycle; redraw the canvas ONLY when
-      //    the visible-row count or the entry highlight changes --
-      const cycleT = elapsed % CYCLE
+      //    the visible-row count, entry highlight or hover state changes --
+      const cycleT = sheetElapsed % CYCLE
       const rowsVisible =
         cycleT < FIRST_ROW ? 0 : Math.min(SHEET_ROWS.length, Math.floor((cycleT - FIRST_ROW) / ROW_INTERVAL) + 1)
       const highlightIndex = rowsVisible > 0 && cycleT < HIGHLIGHT_CLEAR ? rowsVisible - 1 : -1
-      const drawKey = rowsVisible * 16 + (highlightIndex + 1)
+
+      // Hover eases in and out so tilt, lift and glow feel held, not switched
+      hoverMix += ((sheetPointer.active ? 1 : 0) - hoverMix) * Math.min(1, delta * 9)
+      const hoverOn = hoverMix > 0.2
+      const hoverRow = hoverOn && sheetPointer.row >= 0 && sheetPointer.row < rowsVisible ? sheetPointer.row : -1
+
+      const drawKey = rowsVisible * 16 + (highlightIndex + 1) + (hoverRow + 2) * 512 + (hoverOn ? 16384 : 0)
       if (drawKey !== lastDrawKey) {
         lastDrawKey = drawKey
-        drawSheet(sheetCtx, rowsVisible, highlightIndex)
+        drawSheet(sheetCtx, rowsVisible, highlightIndex, hoverRow, hoverOn)
         sheetTexture.needsUpdate = true
       }
 
-      // Opacity envelope: fade in empty, hold while filling, fade out full
+      // Opacity envelope: fade in empty, hold while filling, fade out full.
+      // Hover lifts the sheet to full brightness and breathes the aura in.
       let sheetOpacity = SHEET_MAX_OPACITY
       if (cycleT < FADE_IN_END) sheetOpacity *= smoothstep(0, FADE_IN_END, cycleT)
       else if (cycleT > FADE_OUT_START) sheetOpacity *= 1 - smoothstep(FADE_OUT_START, FADE_OUT_END, cycleT)
-      sheetMaterial.opacity = sheetOpacity
+      sheetMaterial.opacity = Math.min(1, sheetOpacity * (1 + 0.06 * hoverMix))
+      sheetGlowMaterial.opacity = 0.38 * hoverMix * (sheetOpacity / SHEET_MAX_OPACITY)
 
-      // Idle sway: barely-there yaw breath and lift so the sheet feels held,
-      // not pinned. Yaw amplitude stays at 0.01 rad — the far end sits ~0.15
-      // units inside the frustum edge and moves ~6x the yaw amplitude.
-      sheet.rotation.y = SHEET_YAW + Math.sin(elapsed * 0.4) * 0.01
-      sheet.position.y = Math.sin(elapsed * 0.5) * 0.02
+      // Resting sway keeps the sheet feeling held, not pinned; the pointer
+      // tips it toward the cursor like a card in hand (±0.05 rad) and lifts
+      // it 0.12 units toward the camera
+      sheet.rotation.y = SHEET_YAW + Math.sin(elapsed * 0.4) * 0.008 + (sheetPointer.u - 0.5) * 0.1 * hoverMix
+      sheet.rotation.x = SHEET_PITCH - (sheetPointer.v - 0.5) * 0.07 * hoverMix
+      sheet.position.y = SHEET_POS.y + Math.sin(elapsed * 0.5) * 0.02
+      sheet.position.z = SHEET_POS.z + 0.12 * hoverMix
 
       // -- Gate: breathe gently so the light feels alive, never flashy --
       const pulse = 1 + Math.sin(elapsed * 1.6) * 0.012
@@ -564,20 +674,57 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     const onVisibility = () => syncRunning()
     document.addEventListener('visibilitychange', onVisibility)
 
-    // Normalise pointer position to [-1, 1] for the parallax drift
+    // Normalise pointer position to [-1, 1] for the parallax drift, then
+    // raycast the sheet under the cursor (a single quad — cheap per event).
+    // NDC comes from the hero mount's own rect so page scroll never skews it.
     const onPointerMove = (event: PointerEvent) => {
       pointer.x = (event.clientX / window.innerWidth - 0.5) * 2
       pointer.y = (event.clientY / window.innerHeight - 0.5) * 2
+
+      const rect = mount.getBoundingClientRect()
+      const inMount =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom
+      // Ignore hover while the sheet is materialising or dissolving — a
+      // barely-visible sheet should not catch the pointer
+      if (!inMount || sheetMaterial.opacity < 0.4) {
+        sheetPointer.active = false
+        sheetPointer.row = -1
+        return
+      }
+      ndc.set(
+        ((event.clientX - rect.left) / rect.width) * 2 - 1,
+        -(((event.clientY - rect.top) / rect.height) * 2 - 1),
+      )
+      raycaster.setFromCamera(ndc, camera)
+      const hit = raycaster.intersectObject(sheetMesh, false)
+      const uv = hit[0]?.uv
+      if (uv) {
+        sheetPointer.active = true
+        sheetPointer.u = uv.x
+        sheetPointer.v = uv.y
+        // Texture v=1 is the canvas top; convert to a row band index
+        const canvasY = (1 - uv.y) * SHEET_H
+        sheetPointer.row = canvasY < HEADER_H ? -1 : Math.floor((canvasY - HEADER_H) / ROW_H)
+      } else {
+        sheetPointer.active = false
+        sheetPointer.row = -1
+      }
     }
     window.addEventListener('pointermove', onPointerMove, { passive: true })
 
-    // Track container size (not window size) so layout changes stay correct
+    // Track container size (not window size) so layout changes stay correct.
+    // The wide layout also re-fits the sheet to the new aspect live;
+    // switching between the wide and compact layouts still needs a remount.
     const resizeObserver = new ResizeObserver(() => {
       const w = mount.clientWidth || 1
       const h = mount.clientHeight || 1
       camera.aspect = w / h
       camera.updateProjectionMatrix()
       renderer.setSize(w, h)
+      if (!compact) applySheetFit(w / h)
     })
     resizeObserver.observe(mount)
 
@@ -595,6 +742,9 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       sheetGeometry.dispose()
       sheetMaterial.dispose()
       sheetTexture.dispose()
+      sheetGlowGeometry.dispose()
+      sheetGlowMaterial.dispose()
+      sheetGlowTexture.dispose()
       dotTexture.dispose()
       glowTexture.dispose()
       ringOuterGeometry.dispose()

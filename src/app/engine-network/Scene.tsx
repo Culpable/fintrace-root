@@ -147,26 +147,41 @@ function makeLabelTexture(label: string): THREE.CanvasTexture {
  *
  * Framing constraint (measured against the hero camera, fov 34°, stage shift
  * +1.1 desktop / −0.7 mobile, full drift + pointer sway): the usable
- * stage-local x limit is ≈3.1 at z=0, growing with depth. Vertical room is
- * generous, so the constellation builds TALL around the hub — every slot
- * keeps node x + label half-width inside the limit for its z, and slots are
- * spread in y and z so the graph reads as a constellation, not a queue.
+ * stage-local x limit is ≈3.1 at z=0, growing with depth (≈3.5 at z=−0.9,
+ * ≈3.67 at z=−1.2). Vertical room is generous, so the constellation builds
+ * TALL around the hub — every slot keeps node x + label extent (including
+ * its labelOffset) inside the limit for its z. Round-four feedback widened
+ * the spread: slots sit further apart in x, y AND z so the graph breathes,
+ * and every label is verified against every thread segment for clear air.
  * ------------------------------------------------------------------------- */
 type NetNode = {
   label: string
   slot: [number, number, number]
+  /**
+   * Where the label plate sits relative to its ring, in NODE_SCALE units.
+   * Chosen PER NODE so no incident thread ever crosses the plate: a label
+   * goes on whichever side of the ring carries no thread — beside it when
+   * threads enter above and below, above/below when they enter sideways.
+   * (Round-four feedback: threads were overlaying the node descriptors.)
+   */
+  labelOffset: [number, number]
   flag?: boolean
 }
 
 const NODES_DESKTOP: NetNode[] = [
-  { label: 'ANZ ··4417', slot: [2.2, 0.1, -0.2] }, // the hub — placed first
-  { label: 'WISE', slot: [1.8, 1.25, -0.6] },
-  { label: 'CBA ··0092', slot: [2.95, 1, -0.8] },
-  { label: 'CASH ATM', slot: [2.45, -1.35, 0], flag: true },
-  { label: 'AMEX ··3010', slot: [1.5, -1.15, -0.3] },
-  { label: 'HDFC ··3321', slot: [2.6, 2.05, -1] },
-  { label: 'NAB ··7793', slot: [3.2, 1.75, -1.3] },
-  { label: 'BTC WALLET', slot: [3.1, -0.35, -1.1] },
+  // The hub — placed first. Threads leave up-left, up-right, down and
+  // down-left, so the only thread-free side is the LEFT horizontal.
+  { label: 'ANZ ··4417', slot: [2.35, 0.05, -0.2], labelOffset: [-0.73, 0] },
+  { label: 'WISE', slot: [1.7, 1.5, -0.55], labelOffset: [-0.73, 0] }, // threads right+top → label left
+  { label: 'CBA ··0092', slot: [3.3, 1.15, -0.9], labelOffset: [-0.73, 0] }, // threads below+above-right → label left
+  { label: 'CASH ATM', slot: [2.6, -1.6, 0], labelOffset: [0, -0.38], flag: true }, // thread above → label below
+  { label: 'AMEX ··3010', slot: [1.45, -1.3, -0.35], labelOffset: [0, -0.38] }, // thread above → label below
+  // The two crown nodes sit well apart (round-four follow-up: NAB moved
+  // right and deeper, HDFC left and higher, so NAB's plate clears HDFC's
+  // ring by a full plate-height even under maximum camera parallax)
+  { label: 'HDFC ··3321', slot: [2.35, 2.55, -0.9], labelOffset: [0, 0.38] }, // thread below → label above
+  { label: 'NAB ··7793', slot: [3.4, 2, -1.5], labelOffset: [0, 0.38] }, // thread below → label above
+  { label: 'BTC WALLET', slot: [3.2, -0.55, -1.1], labelOffset: [0, -0.38] }, // thread above → label below
 ]
 
 /** Edges as [parent, child] node indices; threads draw parent rim → child rim. */
@@ -180,14 +195,17 @@ const EDGES_DESKTOP: Array<[number, number]> = [
   [2, 7], // CBA → BTC WALLET — routed off the CBA branch so no threads cross
 ]
 
-/* Mobile slots ride higher: the DOM CTA block owns the lower half of the
-   narrow hero, so the constellation keeps every label above it. */
+/* Compact slots (phones AND any tall window — see `compact`) ride higher:
+   the DOM CTA block owns the lower half of the narrow hero, so the
+   constellation keeps every label above it. CASH ATM in particular must not
+   sink — its below-label previously cleared the gold CTA button by design;
+   keep that y. */
 const NODES_MOBILE: NetNode[] = [
-  { label: 'ANZ ··4417', slot: [1.15, 0.6, -0.2] },
-  { label: 'WISE', slot: [0.55, 1.65, -0.5] },
-  { label: 'CBA ··0092', slot: [1.9, 1.55, -0.6] },
-  { label: 'CASH ATM', slot: [0.7, -0.75, 0.1], flag: true },
-  { label: 'HDFC ··3321', slot: [1.6, 2.5, -0.9] },
+  { label: 'ANZ ··4417', slot: [1.15, 0.55, -0.2], labelOffset: [0.73, 0] }, // threads left+up → label right
+  { label: 'WISE', slot: [0.5, 1.8, -0.5], labelOffset: [-0.73, 0] }, // threads right → label left
+  { label: 'CBA ··0092', slot: [1.95, 1.7, -0.6], labelOffset: [0, 0.38] }, // thread below-left → label above
+  { label: 'CASH ATM', slot: [0.65, -0.75, 0.1], labelOffset: [0, -0.38], flag: true }, // thread above → label below
+  { label: 'HDFC ··3321', slot: [1.55, 2.75, -0.9], labelOffset: [0, 0.38] }, // thread below → label above
 ]
 
 const EDGES_MOBILE: Array<[number, number]> = [
@@ -224,7 +242,11 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     /* ------------------------------ Renderer ----------------------------- */
     const width = mount.clientWidth || 1
     const height = mount.clientHeight || 1
-    const isMobile = width < 768
+    // Compact (tall) configuration for phones AND any window taller than it
+    // is wide-ish — portrait tablets and narrow split-screen windows report
+    // desktop widths but cannot frame the eight-node spread (round-four
+    // follow-up: layout is chosen by aspect, not width alone)
+    const compact = width < 768 || width / height < 1.2
 
     // WebGL can be unavailable (blocked contexts, virtualised or headless
     // environments, exhausted GPU memory). Constructing the renderer THROWS in
@@ -248,7 +270,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     scene.fog = new THREE.Fog('#0d0b09', 9, 24)
 
     const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 60)
-    const cameraBaseZ = isMobile ? 14 : 10.5
+    const cameraBaseZ = compact ? 14 : 10.5
     camera.position.set(0, 0.9, cameraBaseZ)
 
     // Shift the whole stage right on desktop so the gate sits right-of-centre,
@@ -256,11 +278,11 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     // LEFT instead: the gate moves left-of-centre, which widens the usable
     // band to the right so the constellation fits the narrow frustum.
     const stage = new THREE.Group()
-    stage.position.x = isMobile ? -0.7 : 1.1
+    stage.position.x = compact ? -0.7 : 1.1
     scene.add(stage)
 
     /* ------------------------- Incoming documents ------------------------ */
-    const DOC_COUNT = isMobile ? 12 : 26
+    const DOC_COUNT = compact ? 12 : 26
     const paperTexture = makePaperTexture()
     const docGeometry = new THREE.PlaneGeometry(1, 1.32)
     const docMaterial = new THREE.MeshBasicMaterial({
@@ -287,8 +309,19 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     }))
 
     /* --------------------- Outgoing account constellation ----------------- */
-    const NODES = isMobile ? NODES_MOBILE : NODES_DESKTOP
-    const EDGES = isMobile ? EDGES_MOBILE : EDGES_DESKTOP
+    // The compact CASH placement varies with the window's shape. Phones keep
+    // the flagged sink LOW with its label below (clear of the CTA block at
+    // 390x900); taller desktop-width windows (portrait tablets, split-screen
+    // — aspect ≥ 0.6) lift it and hang the label to its RIGHT, because there
+    // the kicker + h1 own the band the low label would land in. The thread
+    // from the hub arrives steeply from above, so the right side is
+    // thread-free in both variants.
+    const cashCompact: NetNode =
+      width / height < 0.6
+        ? { label: 'CASH ATM', slot: [0.65, -0.75, 0.1], labelOffset: [0, -0.38], flag: true }
+        : { label: 'CASH ATM', slot: [0.8, -0.25, 0.1], labelOffset: [0.73, 0], flag: true }
+    const NODES = compact ? NODES_MOBILE.map((node) => (node.flag ? cashCompact : node)) : NODES_DESKTOP
+    const EDGES = compact ? EDGES_MOBILE : EDGES_DESKTOP
     const NODE_COUNT = NODES.length
     const FLAG_EDGE = EDGES.findIndex(([, child]) => NODES[child].flag)
 
@@ -302,11 +335,20 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     const EXIT_START = 24
     // Global node scale: the compact in-frame layout needs slightly smaller
     // rings/labels for clear air, and the narrow mobile frustum smaller still
-    const NODE_SCALE = isMobile ? 0.62 : 0.9
+    const NODE_SCALE = compact ? 0.62 : 0.9
     const RIM_OFFSET = 0.27 * NODE_SCALE // thread endpoints stop at ring rims, not centres
 
     const net = new THREE.Group()
     stage.add(net)
+
+    // The wide layout is framed for aspect 1.6 (1440x900). Narrower-but-
+    // still-wide windows (down to the compact threshold at 1.2) scale the
+    // WHOLE constellation — spacing and plates alike — toward the gate so
+    // the right-hand labels neither crowd nor clip. Rest-state usable width
+    // right of the gate is tan(17°)·10.5·aspect − 1.1 (stage) − 0.35 (drift);
+    // the fit is that width relative to the designed aspect's.
+    const netFitFor = (a: number) => Math.min(1, (3.21 * a - 1.45) / (3.21 * 1.6 - 1.45))
+    if (!compact) net.scale.setScalar(netFitFor(width / height))
 
     const dotTexture = makeDotTexture()
 
@@ -410,7 +452,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
 
     // Pulse sprites run the hub's gold spokes during the dwell — evidence of
     // flow, not decoration. Each owns its material so opacity is independent.
-    const PULSE_EDGES = (isMobile ? [0, 1, 3] : [0, 1, 4]).filter((e) => e !== FLAG_EDGE && e < EDGES.length)
+    const PULSE_EDGES = (compact ? [0, 1, 3] : [0, 1, 4]).filter((e) => e !== FLAG_EDGE && e < EDGES.length)
     const pulseMaterials = PULSE_EDGES.map(
       () =>
         new THREE.SpriteMaterial({
@@ -474,7 +516,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     gate.add(core)
 
     /* --------------------------- Ambient dust ---------------------------- */
-    const DUST_COUNT = isMobile ? 120 : 260
+    const DUST_COUNT = compact ? 120 : 260
     const dustPositions = new Float32Array(DUST_COUNT * 3)
     for (let i = 0; i < DUST_COUNT; i++) {
       dustPositions[i * 3] = -12 + Math.random() * 26
@@ -588,9 +630,12 @@ export default function EvidenceScene({ onReady }: SceneProps) {
         cores[i].position.set(x, y, z)
         cores[i].scale.setScalar(Math.max(scale * 0.2 * NODE_SCALE, 0.001))
 
-        // Label fades and scales in just behind its ring, pinned beneath it
+        // Label fades and scales in just behind its ring, anchored on its
+        // node's thread-free side (per-node labelOffset) so no thread ever
+        // draws across the plate. It shares the ring's x/y/z, so sway and
+        // exit drift carry both together.
         const labelIn = (t <= 0 ? 0 : smoothstep(0.5, 1.2, t)) * exitFade
-        labels[i].position.set(x, y - 0.34 * NODE_SCALE, z)
+        labels[i].position.set(x + node.labelOffset[0] * NODE_SCALE, y + node.labelOffset[1] * NODE_SCALE, z)
         labels[i].scale.setScalar(Math.max(labelIn * NODE_SCALE, 0.001))
         labelMaterials[i].opacity = labelIn * 0.95
       }
@@ -691,13 +736,16 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     }
     window.addEventListener('pointermove', onPointerMove, { passive: true })
 
-    // Track container size (not window size) so layout changes stay correct
+    // Track container size (not window size) so layout changes stay correct.
+    // The wide layout also re-fits the constellation to the new aspect live;
+    // switching between the wide and compact layouts still needs a remount.
     const resizeObserver = new ResizeObserver(() => {
       const w = mount.clientWidth || 1
       const h = mount.clientHeight || 1
       camera.aspect = w / h
       camera.updateProjectionMatrix()
       renderer.setSize(w, h)
+      if (!compact) net.scale.setScalar(netFitFor(w / h))
     })
     resizeObserver.observe(mount)
 
