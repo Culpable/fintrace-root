@@ -130,24 +130,24 @@ All binding, from `/Users/sacino/fintrace/AGENTS.md` and `documents/plans/fintra
 ### 3.3 Verification Checklist
 
 **Functional:**
-- [ ] Gate at 60.7% ± 1.5% of viewport width at 1440×900, 1998×750, and 2560×1080 (screenshot measurement)
-- [ ] Rightmost constellation element ≥ 85% of viewport width at 1998×750
-- [ ] Ring stroke and halo hotspot clear of h1 glyphs at 1998×750; "engine." gradient discernible at 1440×900
-- [ ] Kicker legible over documents at both wide viewports
-- [ ] All five delight effects observed in a headed browser (swallow flash, birth motes, paper warm/tint, thread dashes, flag beat + underline, h1 sheen)
+- [x] Gate at 60.7% ± 1.5% of viewport width at 1440×900, 1998×750, and 2560×1080 (screenshot measurement)
+- [x] Rightmost constellation element ≥ 85% of viewport width at 1998×750
+- [x] Ring stroke and halo hotspot clear of h1 glyphs at 1998×750; "engine." gradient discernible at 1440×900
+- [x] Kicker legible over documents at both wide viewports
+- [x] All five delight effects observed in a headed browser (swallow flash, birth motes, paper warm/tint, thread dashes, flag beat + underline, h1 sheen)
 
 **Defaults/Fallbacks:**
-- [ ] Static fallback SVG shows the gate echo at the lifted position (kill WebGL via `about:config`-less check: run once with `renderer` construction forced to throw, or verify the fallback frame before the canvas cross-fades in)
-- [ ] Live resize across aspects 1.2–3.0 re-applies shift + fit continuously without a reload (wide layout only; the wide↔compact threshold still requires a remount — pre-existing, unchanged)
+- [x] Static fallback SVG shows the gate echo at the lifted position (kill WebGL via `about:config`-less check: run once with `renderer` construction forced to throw, or verify the fallback frame before the canvas cross-fades in)
+- [x] Live resize across aspects 1.2–3.0 re-applies shift + fit continuously without a reload (wide layout only; the wide↔compact threshold still requires a remount — pre-existing, unchanged)
 
 **Compatibility:**
-- [ ] 390×900 and 900×1080 compact screenshots match round-4.1 behaviour (CASH ATM label clear of the CTA button)
-- [ ] 1024×768 wide-band fit shows no clipping or label crowding at rest
-- [ ] Zero console errors, zero page errors, zero horizontal overflow at every matrix viewport
+- [x] 390×900 and 900×1080 compact screenshots match round-4.1 behaviour (CASH ATM label clear of the CTA button)
+- [x] 1024×768 wide-band fit shows no clipping or label crowding at rest
+- [x] Zero console errors, zero page errors, zero horizontal overflow at every matrix viewport
 
 **Ops/Docs:**
-- [ ] `documents/plans/fintrace_design_plan.md` updated per Step 11 (round section + Technical rules formulas + V4 description + open items)
-- [ ] `npm run lint` zero errors; `npm run build` static export completes
+- [x] `documents/plans/fintrace_design_plan.md` updated per Step 11 (round section + Technical rules formulas + V4 description + open items)
+- [x] `npm run lint` zero errors; `npm run build` static export completes
 
 ---
 
@@ -396,17 +396,19 @@ Capture before-change baselines at 1440×900 and 1998×750 FIRST, then verify af
    - Expected: all artefact post-fix behaviours in 6.1; net.scale capped at 1.3; NAB plate clears HDFC ring with visible air at rest (projected-space check); kicker legible in 3 captures ≥ 4 s apart.
 3. **2560×1080** (ultrawide, aspect 2.37)
    - Expected: gate 60.7% ± 1.5%; fit capped 1.3; no right-edge clipping of BTC/NAB labels; no crowding.
-4. **1024×768** (wide band below designed aspect, 1.33)
+4. **3425×1245** (user’s real review viewport, aspect 2.75)
+   - Expected: gate remains pinned near 60.7%; fit remains capped at 1.3; rightmost constellation element stays within the accepted 84–89% phase range; 2× glow bakes and fit-compensated cores retain a crisp hot centre; constant-depth crown slots preserve NAB/HDFC clear air and contrast.
+5. **1024×768** (wide band below designed aspect, 1.33)
    - Expected: continuous fit < 1 applies; no clipping; composition comparable to round-4.1 approval (gate now at 60.7% rather than 62.9% — small deliberate shift, verify no label leaves frame).
-5. **900×1080** (compact by aspect)
+6. **900×1080** (compact by aspect)
    - Expected: 5-node tall layout; CASH ATM lifted with label right (aspect ≥ 0.6 variant); no collision with kicker/h1; gate lift does not crowd the header.
-6. **390×900** (phone compact)
+7. **390×900** (phone compact)
    - Expected: CASH ATM label below node and fully clear of the gold CTA button; stat strip intact; no horizontal overflow.
-7. **Resize sweep** (wide layout): start 1300×900, drag to 2600×900.
+8. **Resize sweep** (wide layout): start 1300×900, drag to 3425×1245.
    - Expected: gate visually pinned at ~61% throughout; constellation grows smoothly to the 1.3 cap; no console errors.
-8. **WebGL-off fallback**: block WebGL (or force the renderer constructor to throw temporarily).
+9. **WebGL-off fallback**: block WebGL (or force the renderer constructor to throw temporarily).
    - Expected: designed static SVG remains, gate echo at lifted position, zero page errors.
-9. **Performance/lifecycle**: scroll the hero offscreen and back; hide/reveal the tab.
+10. **Performance/lifecycle**: scroll the hero offscreen and back; hide/reveal the tab.
    - Expected: rAF stops when hidden/offscreen (no GPU activity) and resumes cleanly; ≥ 55 fps during assembly at 1440×900; no memory growth across 3 mount/unmount navigations (gallery ↔ route).
 
 ---
@@ -442,6 +444,157 @@ Capture before-change baselines at 1440×900 and 1998×750 FIRST, then verify af
 - Delight sequence: verified document flashes and tint, two pooled birth-mote trains, parent-to-child dashes, the CASH flare/underline, and the 3.9 s headline sheen through assembly, dwell and exit.
 - Lifecycle: offscreen and hidden states reduced scene rAF callbacks to zero and resumed cleanly; repeated route mounts retained one canvas and no errors.
 - Fallback: script-frozen captures at 1440x900, 900x1080 and 390x900 verified the permanent no-WebGL state; compact fallback and live gate positions matched at both tall viewports.
+
+### Pending or skipped validation
+
+None. The repository has no automated unit, integration or Playwright suite, so the project-mandated lint, static build and headed browser protocol was used in full.
+
+---
+
+## Post-Implementation Review (2026-07-16, after user round-five feedback)
+
+The user reviewed the shipped hero and asked four questions: is it better, was everything implemented correctly, why do the nodes now look "fuzzy", and what should improve next. This section answers all four with fresh measurements and defines the follow-up scope.
+
+### R1. Verdict: the rebalance worked
+
+The user's new screenshot was analysed at its native resolution (3425×1245 px — the attachment preview is a 1999×727 downscale). The pixel measurements confirm the user's **effective viewing viewport is ~3425×1245 CSS px, aspect ≈ 2.75** (a zoomed-out or large display rendering at ~1 device px per CSS px), i.e. even wider and shorter than the 1998×750 planning viewport. The aspect-anchored framing held at this previously untested aspect:
+
+- Headline/kicker left edge measured at **178 px** in the screenshot vs the 176 px design target (dev-browser re-measured `padding-left: 176px`, `h1 left = 176 px` at 1998×750 — the centring cap works and the h1 no longer migrates toward the gate).
+- Gate stroke centre measured at **59.0–60.8 %** of width across scan rows — inside the 60.7 % ± 1.5 % pin once the ±~2 % camera-drift phase is allowed for.
+- Rightmost constellation element at **84.2 %** of width at the captured sway phase (the ≥ 85 % criterion was specified at aspect 2.66; at 2.75 the capped fit predicts ~85–89 % varying with drift — met in substance, see R4-N4 for the trend beyond the cap).
+- No ring-stroke or halo-hotspot pixel intersects the h1 glyph box; the kicker is legible over passing documents (scrim pocket working); the CASH ATM flag underline, birth motes, thread dashes, warm/tinted paper and h1 sheen are all visible in the capture.
+- Dev-browser re-checks this round: zero console/page errors, `scrollWidth === clientWidth`, `npm run lint` zero errors.
+
+**Answer: yes — the dead right band is gone, the gate no longer collides with the headline, and the composition reads balanced at the user's real window.**
+
+### R2. Correctness audit: implemented as planned
+
+All twelve steps re-verified against the code (`git diff 342c7c6 37f2d08`) and in a headed browser:
+
+- REQ-1 ✓ `stageShiftFor(a) = 0.6875a` at mount and in the ResizeObserver; compact −0.7 untouched.
+- REQ-2 ✓ `netFitFor = clamp((2.5225a − 0.35)/3.686, 0, 1.3)` (identity at 1.6, cap at ≈ 2.04); labels re-baked 512×128.
+- REQ-3 ✓ headline offset capped at 8rem via content-box `50% − 37rem` (documented deviation from `100vw` to dodge the classic-scrollbar 7.5 px shift).
+- REQ-4/5 ✓ `GATE_Y 0.4`, radii 1.45/1.31, halo 5.5 @ +0.55 with 0.36 breathing baseline, core 2.0 @ +0.15; funnel and births plumbed through GATE_Y.
+- REQ-6 ✓ scrim pocket `radial-gradient(ellipse 46rem 20rem at 24% 66%, rgba(13,11,9,0.55), transparent 68%)` as topmost layer.
+- REQ-7 ✓ funnel `smoothstep(0.72, 1, progress)`.
+- REQ-8 ✓ D1–D5 all present with the planned constants (mote scales 0.16/0.11/0.07, dash speeds 0.22/0.31 and opacities 0.3/0.45, flare 0.28 envelope, `engnet-sheen` 3.9 s).
+- REQ-9/10 ✓ no ghost network, no exit/cycle/slot changes, no `prefers-reduced-motion`, disposal list complete, zero per-frame allocations.
+- REQ-11 ✓ `documents/plans/fintrace_design_plan.md` carries the round-five section, revised framing formulas, V4 description and open items.
+
+Deviations found — all four already recorded under "Final implementation decisions" (content-box padding, 0.95 vertical slot compression at the cap, dedicated compact fallback SVG, document-mesh `frustumCulled = false` + explicit dispose). One benign extra beyond spec, now recorded here: thread dashes fade out over the 0.35 s before `EXIT_START` (`dashAlpha`) so no dash pops at exit; the underline geometry is left-edge-anchored so the wipe genuinely travels left→right (equivalent to, and better than, the plan's centre-scale wording).
+
+**Answer: yes — everything shipped per plan; every deviation is deliberate and documented.**
+
+### R3. Why the nodes look fuzzier now — root cause
+
+The rings/cores were untouched this round; the fuzziness is the planned 1.3× constellation growth exposing four compounding softness sources. Quantified at the user's window (194 px per world unit at z = 0):
+
+1. **Magnified soft-glow profile (primary).** Each node core is an additive sprite of `dotTexture` — a radial gradient whose bright centre ends at 35 % radius and fades to zero at the edge. The uniform 1.3× fit grew the core sprite from ~35 → ~45 CSS px and the ring from ~60 → ~78 px, with the gradient profile unchanged. A soft gradient that reads as a "sparkle" at 35 px reads as an out-of-focus orb at 45 px: most of the sprite's area is translucent skirt.
+2. **Glow textures were never re-baked.** The plan's crispness ceiling (§4.2) was mitigated for labels (256×64 → 512×128) but `makeDotTexture` stayed **64×64** and `makeGlowTexture` **256×256**. At 45 CSS px (up to 90 device px at DPR 2) the 64 px dot bake is at or past 1:1 magnification, so linear filtering adds real blur on top of the design softness.
+3. **Deeper fog on scaled slots.** `net.scale` multiplies z too: NAB drops from z −1.5 to −1.95, moving crown nodes from ~20 % to ~23 % fog mix (fog 9→24, camera z 10.5). Lower contrast reads as blur, most visibly on NAB/CBA/BTC.
+4. **Wide-frustum edge stretch.** At aspect 2.75 the horizontal half-FOV is ≈ 40°; camera-facing sprites and rings at 33–37° off-axis (the constellation now reaches ~85–90 % of width, vs ~73 % before) are stretched ~1.4–1.5× horizontally by planar perspective projection, smearing circles into ellipses at the frame edge.
+
+The torus rings themselves (geometry, ~5 px stroke at this window) remain sharp; the perceived fuzz is the core glow sprites, compounded per above. Nodes captured mid-birth (ring still scaling in via `smoothstep(0.1, 0.7, t)`) and in-flight birth motes also read as bare glows in stills — expected animation phases, not defects.
+
+### R4. Recommendations — clear next steps (priority order)
+
+### ~~N1: re-bake the glow textures at 2×~~ ✅ **COMPLETED**
+
+  - Updated `makeDotTexture` from 64×64 to 128×128 and `makeGlowTexture` from 256×256 to 512×512 with identical gradient stops.
+
+### ~~N2: restore the sparkle read at high fit~~ ✅ **COMPLETED**
+
+  - Added `netCoreScaleRatio = 1 / Math.sqrt(fit)` inside `applyNetFit`; node cores now counter half of the group’s visual growth while rings, labels, pulses, motes and dust retain their existing scale behaviour.
+
+### ~~N3: hold constellation depth constant under fit~~ ✅ **COMPLETED**
+
+  - Added `netDepthPositionRatio = 1 / fit` for node and birth-mote z targets, keeping wide-layout slots at their authored world depth while x grows and y retains the existing short-wide compression.
+
+### ~~N4: retain the 1.3 fit cap~~ ❌ **SKIPPED/NOT APPLICABLE**
+
+  - Kept the cap unchanged after 3425×1245 verification showed the constellation still occupied the accepted 84–89% phase range with no clipping or projected crown crowding. Raising it would add busyness and framing risk without evidence of a current defect.
+
+### ~~N5: add the user’s real viewport to the verification matrix~~ ✅ **COMPLETED**
+
+  - Added 3425×1245 as a first-class §6.3 matrix row and extended the live-resize endpoint to that viewport.
+
+### ~~N6: re-run the validation protocol~~ ✅ **COMPLETED**
+
+  - Passed lint, static export, the seven-viewport headed real-GPU matrix, matched before/after node crops, live resize, focus, fallback, overflow, error and WebGL lifecycle/performance checks.
+
+Nothing beyond N1–N6 is recommended: the composition brief is satisfied, and the "way too busy" round-two history argues against adding further effects. N1–N3 resolved the reported softness without adding geometry, raising the fit cap or changing the approved animation density.
+
+---
+
+## Round-5.1 Implemented Solution
+
+### Files changed
+
+- `src/app/engine-network/Scene.tsx`: doubled dot and gate-glow texture resolution, added fit-compensated node-core scaling, and held node/birth-mote z slots at their authored world depth.
+- `documents/todo/engine_network_hero_rebalance_plan.md`: added the 3425×1245 matrix row, tracked N1–N6 through validation, recorded the N4 no-change decision, and added this implementation record.
+- `documents/plans/fintrace_design_plan.md`: added the round-5.1 history, updated the framing formulas and network matrix, revised the V4 route state, resolved the crispness caveat, and updated next steps.
+
+### Behavioural changes
+
+- `makeDotTexture` now bakes at 128×128 and `makeGlowTexture` at 512×512 without changing their gradient profiles.
+- `applyNetFit` now sets `netCoreScaleRatio = 1 / Math.sqrt(fit)`, limiting projected node-core growth to `sqrt(fit)` while retaining full ring and label growth.
+- `applyNetFit` now sets `netDepthPositionRatio = 1 / fit`; node and birth-mote z targets apply that ratio so the uniformly scaled group leaves their final world depth unchanged.
+- The 1.3 fit cap remains unchanged because the new 3425×1245 proof retained the accepted right-side fill without clipping, excess busyness or crown crowding.
+
+### Validation completed
+
+- `npm run lint`: passed with zero errors.
+- `npm run build`: passed; Next.js compiled, typechecked and statically generated all 15 routes.
+- Headed real-GPU Chromium: passed at 1440×900, 1998×750, 2560×1080, 3425×1245, 1024×768, 900×1080 and 390×900 through ANGLE Metal on an Apple M2 Max.
+- Matched visual evidence: `r51-before-*` and `r51-after-*` full screenshots and node crops at 1440×900, 1998×750 and 3425×1245 showed smaller, more defined hot centres and stronger deep-node contrast.
+- Responsive evidence: the four additional matrix captures showed no clipping or node/label crowding; 900×1080 retained the compact right-label CASH treatment and 390×900 retained the below-label treatment clear of the CTA.
+- Interaction and layout: every matrix row retained one canvas, a visible gold focus outline on the header assessment CTA, and zero horizontal overflow.
+- Errors: every checked viewport completed with zero console errors and zero page errors.
+- Resize: 1300×900 → 3425×1245 retained the same canvas, reapplied fit/depth/core ratios without reload, and kept zero overflow.
+- Performance/lifecycle: an isolated 1440×900 tab rendered 201 WebGL frames in 2 seconds, rendered zero frames during a 1.5-second offscreen interval, and rendered 87 frames in the first second after resuming.
+- Fallback: a temporary forced renderer exception produced zero canvases, fallback opacity 1, visible SVG/headline, zero overflow and zero console/page errors; the temporary source change was removed immediately after capture.
+
+### Pending or skipped validation
+
+None. The repository has no automated unit, integration or Playwright suite, so the project-mandated lint, static build and headed browser protocol was used in full.
+
+---
+
+## Round-5.2 Label Sharpness Follow-up
+
+### ~~L1: reproduce the label-specific softness~~ ✅ **COMPLETED**
+
+- Reproduced the supplied wide-screen state at 3425x1245 in headed ANGLE Metal Chromium.
+- Confirmed that the glyph caps, baselines and thin plate borders were softer than adjacent torus geometry, ruling out CSS blur or whole-scene post-processing.
+- Isolated the default trilinear mipmap path as the extra filtering stage applied after the 512x128 Canvas bake.
+
+### ~~L2: remove the redundant label prefiltering~~ ✅ **COMPLETED**
+
+- Kept the existing 512x128 bake, 48 px mono font, plane geometry, positions, colours and animation timing.
+- Disabled mipmap generation in `makeLabelTexture`.
+- Set both texture filters to `THREE.LinearFilter`, preserving Canvas antialiasing without sampling a pre-averaged mip level.
+
+### ~~L3: verify sharpness and stability~~ ✅ **COMPLETED**
+
+- Matched 3425x1245 before/after crops showed materially firmer top and bottom glyph edges and clearer plate borders.
+- Three captures 250 ms apart showed no obvious label shimmer during the scene motion.
+- The seven-viewport headed real-GPU matrix passed at 1440x900, 1998x750, 2560x1080, 3425x1245, 1024x768, 900x1080 and 390x900 with visible focus, zero console/page errors and zero horizontal overflow.
+- A live 1300x900→3425x1245 resize retained the same hero canvas.
+- WebGL rendered 100 frames in one second while visible, zero while offscreen or under a controlled hidden state, and 100 after resuming.
+- A temporary forced renderer exception retained the static fallback at 1998x750 with no hero canvas, errors or overflow; the temporary source change was removed immediately.
+- `npm run lint`, `npm run build` and `git diff --check` passed after the final source and documentation changes.
+
+## Round-5.2 Implemented Solution
+
+### Files changed
+
+- `src/app/engine-network/Scene.tsx`: disabled label mipmaps and selected direct linear sampling for the existing engraved CanvasTexture plates.
+- `documents/todo/engine_network_hero_rebalance_plan.md`: recorded the label diagnosis, focused implementation and completed validation.
+- `documents/plans/fintrace_design_plan.md`: added the round-5.2 design history, updated the V4 route state and recorded the remaining raster-text caveat.
+
+### Behavioural change
+
+- Account-label glyphs and thin plate borders render more sharply at wide review sizes without changing layout, typography, colour, timing or the approved node composition.
 
 ### Pending or skipped validation
 

@@ -89,31 +89,31 @@ function makePaperTexture(): THREE.CanvasTexture {
 /** Radial glow texture used for the gate halo sprites (cheap bloom substitute). */
 function makeGlowTexture(): THREE.CanvasTexture {
   const canvas = document.createElement('canvas')
-  canvas.width = 256
-  canvas.height = 256
+  canvas.width = 512
+  canvas.height = 512
   const ctx = canvas.getContext('2d')!
-  const gradient = ctx.createRadialGradient(128, 128, 0, 128, 128, 128)
+  const gradient = ctx.createRadialGradient(256, 256, 0, 256, 256, 256)
   gradient.addColorStop(0, 'rgba(244, 221, 160, 0.9)')
   gradient.addColorStop(0.25, 'rgba(222, 181, 95, 0.38)')
   gradient.addColorStop(0.6, 'rgba(190, 148, 66, 0.1)')
   gradient.addColorStop(1, 'rgba(190, 148, 66, 0)')
   ctx.fillStyle = gradient
-  ctx.fillRect(0, 0, 256, 256)
+  ctx.fillRect(0, 0, 512, 512)
   return new THREE.CanvasTexture(canvas)
 }
 
 /** Small soft dot texture for node cores, edge pulses and the ambient dust. */
 function makeDotTexture(): THREE.CanvasTexture {
   const canvas = document.createElement('canvas')
-  canvas.width = 64
-  canvas.height = 64
+  canvas.width = 128
+  canvas.height = 128
   const ctx = canvas.getContext('2d')!
-  const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
+  const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64)
   gradient.addColorStop(0, 'rgba(255, 245, 220, 1)')
   gradient.addColorStop(0.35, 'rgba(240, 212, 145, 0.55)')
   gradient.addColorStop(1, 'rgba(240, 212, 145, 0)')
   ctx.fillStyle = gradient
-  ctx.fillRect(0, 0, 64, 64)
+  ctx.fillRect(0, 0, 128, 128)
   return new THREE.CanvasTexture(canvas)
 }
 
@@ -147,6 +147,14 @@ function makeLabelTexture(label: string): THREE.CanvasTexture {
 
   const texture = new THREE.CanvasTexture(canvas)
   texture.colorSpace = THREE.SRGBColorSpace
+  // Sample the engraved plate directly from its full-resolution bake. The
+  // default trilinear mipmap chain averages the 48 px glyph into lower levels
+  // before the plane reaches its ~13–18 px screen height, visibly softening
+  // the horizontal top and bottom edges. Direct linear minification preserves
+  // Canvas antialiasing without applying that second blur pass.
+  texture.generateMipmaps = false
+  texture.minFilter = THREE.LinearFilter
+  texture.magFilter = THREE.LinearFilter
   return texture
 }
 
@@ -369,6 +377,8 @@ export default function EvidenceScene({ onReady }: SceneProps) {
     // The y compensation keeps local GATE_Y fixed in stage space at every fit,
     // so node and mote births remain centred on their unscaled gate sibling.
     let netVerticalPositionRatio = 1
+    let netDepthPositionRatio = 1
+    let netCoreScaleRatio = 1
     const applyNetFit = (aspect: number) => {
       const fit = netFitFor(aspect)
       net.scale.setScalar(fit)
@@ -379,6 +389,14 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       // without changing any canonical aspect-1.6 slot.
       const verticalPositionFit = fit > 1 ? Math.max(0.95, 1 - (fit - 1) / 6) : fit
       netVerticalPositionRatio = verticalPositionFit / fit
+      // Cancel the group's z scaling for slot positions so wide growth spreads
+      // the network across the screen without pushing deep nodes further into
+      // fog or pulling them towards the projected vanishing centre.
+      netDepthPositionRatio = 1 / fit
+      // Counter only half of the group's visual growth on node cores. Rings
+      // and labels retain the confident full fit while the hot centre grows by
+      // sqrt(fit), preserving its sparkle instead of becoming a broad soft orb.
+      netCoreScaleRatio = 1 / Math.sqrt(fit)
     }
     if (!compact) applyNetFit(width / height)
 
@@ -766,7 +784,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
         const x = lerp(0, node.slot[0], glide) + exitDrift
         const targetY = GATE_Y + (node.slot[1] - GATE_Y) * netVerticalPositionRatio
         const y = lerp(GATE_Y, targetY, glide) + sway * glide
-        const z = lerp(0, node.slot[2], glide)
+        const z = lerp(0, node.slot[2] * netDepthPositionRatio, glide)
         // Ring scales in slightly after birth so it grows out of the gate glow
         const scale = (t <= 0 ? 0 : smoothstep(0.1, 0.7, t)) * exitFade
 
@@ -777,7 +795,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
         rings[i].position.set(x, y, z)
         rings[i].scale.setScalar(Math.max(scale * NODE_SCALE, 0.001))
         cores[i].position.set(x, y, z)
-        cores[i].scale.setScalar(Math.max(scale * 0.2 * NODE_SCALE, 0.001))
+        cores[i].scale.setScalar(Math.max(scale * 0.2 * NODE_SCALE * netCoreScaleRatio, 0.001))
 
         // Label fades and scales in just behind its ring, anchored on its
         // node's thread-free side (per-node labelOffset) so no thread ever
@@ -804,7 +822,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
         const trainOffset = (i % 2) * 3
         vA.set(0, GATE_Y, 0)
         const targetY = GATE_Y + (NODES[i].slot[1] - GATE_Y) * netVerticalPositionRatio
-        vB.set(NODES[i].slot[0], targetY, NODES[i].slot[2])
+        vB.set(NODES[i].slot[0], targetY, NODES[i].slot[2] * netDepthPositionRatio)
         for (let j = 0; j < 3; j++) {
           const progress = Math.max(0, leadProgress - j * 0.06)
           const index = trainOffset + j
