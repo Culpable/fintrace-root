@@ -9,6 +9,7 @@ import Hero from './Hero'
 import LedgerPlate from './LedgerPlate'
 import Reveal from './Reveal'
 import Stat from './Stat'
+import { internalRobots } from '../internal-design-metadata'
 
 /**
  * Evidence Engine variant — "Ledger" (/engine-ledger).
@@ -28,6 +29,7 @@ export const metadata: Metadata = {
   title: 'The Evidence Engine — Ledger',
   description:
     'FinTrace Evidence Engine, ledger variant — the reconciling statement table in obsidian and gold. Thousands of pages become one source-linked ledger.',
+  robots: internalRobots,
 }
 
 /* ---------------------------------------------------------------------------
@@ -355,7 +357,7 @@ export default function EngineLedgerPage() {
       </footer>
 
       {/* Fixed return chip to the design-lab index */}
-      <Link href="/" className="eng-lab-chip">
+      <Link href="/internal-design/" className="eng-lab-chip">
         <svg width="8" height="10" viewBox="0 0 8 10" fill="none" aria-hidden="true">
           <path d="M7 1 2 5l5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
         </svg>

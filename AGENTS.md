@@ -20,7 +20,8 @@
 - Use Server Components by default. Put hooks, browser APIs, and interactivity in separate colocated Client Components with `'use client'`.
 - Preserve `output: 'export'`, `images.unoptimized: true`, and `trailingSlash: true`: no server actions, API routes, dynamic runtime APIs, runtime image optimisation, or network visual assets. Use CSS, inline SVG, canvas, or generated WebGL textures.
 - Keep each route's visual system in `src/app/<route>/`: `page.tsx`, `fonts.ts`, `<route>.css`, and colocated components. Scope its CSS beneath `.dsn-<route>`; keep `globals.css` and `layout.tsx` minimal and neutral.
-- Keep the gallery in `src/app/page.tsx` and `src/app/gallery.css` visually neutral so it does not bias comparison.
+- Keep the production Engine Network homepage at `src/app/page.tsx`. Keep the neutral gallery in `src/app/internal-design/` so it does not bias comparison.
+- Keep `/internal-design/` and every candidate route public but unlinked from production navigation, excluded from the sitemap, and marked `noindex`; this policy is not access control.
 - Load fonts per route with `next/font/google`. Do not introduce Inter, Roboto, Arial, or system-default fonts.
 - Import `three` only from `src/app/engine*/Scene.tsx` through the colocated client hero's dynamic import.
 - Prefix every `@keyframes` name uniquely per route because keyframe names are document-global during client navigation.
@@ -37,7 +38,7 @@
 <container_information>
 
 <description>
-FinTrace Design Lab is working through six original homepage concepts and five dark Evidence Engine variations for a legal-team forensic bank-statement analysis service. It is an internal brand-selection site, not the production service or software application.
+FinTrace Root serves the selected Engine Network homepage for a legal-team forensic bank-statement analysis service. It retains six original concepts and five dark Evidence Engine variations in an unlinked internal design lab.
 </description>
 
 <system_architecture_documentation>
@@ -56,7 +57,7 @@ The lab is still working through its designs. Record every design decision and i
 <environments>
 - Development: Node.js `>=22.23.1 <23`; `npm run dev` serves local Next.js at `http://localhost:3004`. There is no database or backend.
 - Validation: local lint, static build, and browser checks; no automated unit, integration, or Playwright suite exists.
-- Production: no deployment target, production runtime, or production environment is configured.
+- Production: GitHub Pages deploys the static `out/` artefact from `main` to `https://fintrace.com.au/` through `.github/workflows/deploy.yml`.
 </environments>
 
 <technology_stack>

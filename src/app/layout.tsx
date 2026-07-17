@@ -2,19 +2,20 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 /**
- * Root layout for the FinTrace design lab.
+ * Root layout for the FinTrace production site and internal design lab.
  *
  * Fonts are intentionally NOT loaded here: each design route loads its own
  * next/font instances so every concept ships a self-contained typographic
  * identity and no page pays for another page's fonts.
  */
 export const metadata: Metadata = {
+  metadataBase: new URL('https://fintrace.com.au'),
   title: {
-    default: 'FinTrace — Design Lab',
-    template: '%s — FinTrace Design Lab',
+    default: 'FinTrace — Forensic financial analysis for legal matters',
+    template: '%s — FinTrace',
   },
   description:
-    'Six candidate homepage designs for FinTrace, the forensic bank-statement analysis service for legal teams.',
+    'FinTrace turns bulk bank statements into a structured transaction ledger and source-linked findings for legal matters.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

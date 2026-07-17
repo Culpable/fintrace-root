@@ -10,12 +10,20 @@ Buyers: lawyers in document-heavy financial disputes (family law is the proven w
 
 Full brand brief: `/Users/sacino/fintrace/documents/reference/brand_naming_background.md`
 
-Goal of this repo (`/Users/sacino/fintrace-root`): build multiple unique, extremely polished candidate homepage designs, each on its own route, so the team can compare working pages and pick a brand direction. Wow factor required; all must align with the product's purpose and carry a FinTrace-specific brand voice.
+Goal of this repo (`/Users/sacino/fintrace-root`): serve the selected Engine Network design as the public FinTrace homepage while retaining the comparison designs in an unlinked internal design lab.
+
+## Production architecture (selected 17 July 2026)
+
+- `https://fintrace.com.au/` and `/` use the Engine Network flagship through the shared `src/app/engine-network/EngineNetworkPage.tsx` Server Component.
+- `/internal-design/` is the neutral comparison gallery. It and all 11 candidate routes remain public but unlinked from the production homepage, excluded from the sitemap, and marked `noindex, nofollow, nocache`; this is not access control.
+- `Culpable/fintrace-root` publishes the `out/` static export from `main` through the native GitHub Pages workflow in `.github/workflows/deploy.yml`.
+- `src/app/sitemap.ts` lists only the production root. `src/app/robots.ts` permits crawling so internal-route metadata can be observed.
+- The custom domain cutover preserves all Google Workspace MX and unrelated TXT records. Only the apex web A records and `www` CNAME change for GitHub Pages.
 
 ## Decisions locked in via blindspot pass (user-approved, round one)
 
 1. Stack: Next.js 16 + React 19 + Tailwind CSS v4 + TypeScript, App Router, static export (`output: 'export'`, `images.unoptimized`, `trailingSlash`), dev port 3004 (unique in workspace; 3000-3003, 4021, 4022, 4031, 5001 taken). Scaffolding mirrors `/Users/sacino/bulma-root/demo` (modern variant of the Embeddings pattern).
-2. Scope: each design is a FULL self-contained homepage (hero, product narrative/how-it-works, capabilities/findings, proof/credibility, who-it's-for, CTA, footer) with its own typography, palette, and motion system. A neutral gallery index at `/` links to everything.
+2. Scope: each design is a FULL self-contained homepage (hero, product narrative/how-it-works, capabilities/findings, proof/credibility, who-it's-for, CTA, footer) with its own typography, palette, and motion system. The neutral gallery now lives at `/internal-design/`; `/` is production Engine Network.
 3. Copy: shared core facts from the brand brief, headlines/tone tuned per design concept. Each design gets its own typographic FinTrace logotype. British English, curly apostrophes (’), no emoji.
 4. Animation budget: bespoke CSS/SVG/Canvas + scroll-driven animation throughout; WebGL/three.js permitted for 1-2 showpiece designs.
 5. Count: exactly 6 designs, full aesthetic range (conservative legal-grade trust through bold dark forensic/investigative).
@@ -37,7 +45,7 @@ Goal of this repo (`/Users/sacino/fintrace-root`): build multiple unique, extrem
 - `npm run dev` → http://localhost:3004 (assume it may already be running; check before starting another instance).
 - `npm run build` → static export into `out/`. `npm run lint` → ESLint, must be zero errors.
 - Browser verification is done with the `dev-browser` CLI (headed Chromium, real GPU, Playwright Page API in a sandboxed script runtime; screenshots land in `~/.dev-browser/tmp/`).
-- No tests exist; validation is lint + build + browser. No deployment is configured. The public Git remote is `git@github.com:Culpable/fintrace-root.git`.
+- No automated tests exist; validation is lint + build + browser. GitHub Pages deploys from `main` through `.github/workflows/deploy.yml`. The public Git remote is `git@github.com:Culpable/fintrace-root.git`.
 - Repo-root `AGENTS.md` carries the binding content/isolation/animation/testing rules and mirrors the rules above.
 
 ---
@@ -161,7 +169,7 @@ Defects found and fixed during round-three central verification:
 
 Twelve user-facing routes, all statically exported and validation-green. Six original concepts (round one, kept for comparison), the untouched `/engine` reference, and five dark Evidence Engine variations - of which `/engine-network` is THE FLAGSHIP and canonical working page, with its wide-aspect rebalance completed in round five and its full audit-fix pass completed in round six.
 
-### Gallery `/` (`src/app/page.tsx` + `gallery.css`)
+### Internal gallery `/internal-design/` (`src/app/internal-design/page.tsx` + `internal-design.css`)
 
 Deliberately neutral so it never biases comparison: Newsreader (editorial serif) + Spline Sans Mono on near-black, staggered `lab-rise` entrance animation. Two registers: `DESIGNS` (the six round-one concepts, numbered 01-06 with palette swatch dots and voice lines) and `ENGINE_VARIATIONS` (V1 Refined, V2 Trace, V3 Ledger, V4 Network, V5 Flow - all Dark - under the heading "The Evidence Engine - variations", label "Rounds two & three · base kept as reference"). All hrefs use trailing slashes (`/engine-refined/` etc.).
 
@@ -228,9 +236,9 @@ Hero output: three static quadratic-bezier money trails leaving a shared start j
 
 - Branch `main`, tracking `origin/main` in public repository `Culpable/fintrace-root`. The pre-migration website history was first pushed at `cc9e0a69426e080881d8d5224995403e0f60b8c1`; migration documentation is maintained in separate scoped commits. History includes `9a8c906` (round-four consolidation), `342c7c6` (post-4.1 BTC spacing), and `f1d9a65` (round-five implementation plan) after the earlier scaffold/design commits.
 - Repository roles were finalised on 17 July 2026 without changing this lab’s design scope. The public design lab now lives at `/Users/sacino/fintrace-root` and `Culpable/fintrace-root`; the private application now lives at `/Users/sacino/fintrace` and `Culpable/fintrace`. The application’s visible product identity is FinTrace, while this repository remains the internal brand-selection site.
-- The application continues on the unchanged Vercel project ID under the public production alias `fintrace-red.vercel.app`, with `statement-analysis-red.vercel.app` retained as a rollback alias. This design lab still has no deployment target and does not share the application runtime.
+- The application continues on the unchanged Vercel project ID under the public production alias `fintrace-red.vercel.app`, with `statement-analysis-red.vercel.app` retained as a rollback alias. This front-facing repository deploys separately to GitHub Pages at `fintrace.com.au` and does not share the application runtime.
 - Historical references to the former repository paths remain valid only where they document completed design rounds or migration evidence. New operational references must use the current paths above. Product claims remain grounded in `/Users/sacino/fintrace/documents/reference/brand_naming_background.md`.
-- Static build generated 15 pages across the gallery, original concepts, engine reference, five variations, not-found page and icon route. Every route remains exportable; only `/engine-network` changed in rounds five and six.
+- Static build includes the production root, internal gallery, original concepts, engine reference, five variations, robots, sitemap, not-found page and icon route. Every route remains exportable.
 - README documents the earlier rounds and variations table. This file is the current round-six source of truth; `AGENTS.md` carries the binding rules.
 - Verification screenshots are transient under `~/.dev-browser/tmp/`: round-six implementation evidence uses `r6-root-*` and the isolated pre-fix reproduction uses `r6-pre-*`; round-five evidence remains under `r5-net-*`.
 
@@ -243,12 +251,12 @@ Hero output: three static quadratic-bezier money trails leaving a shared start j
 - All four non-canonical variations still carry the pre-flip INR→AUD match content, while `/engine-trace` also retains the 2021 trace dates. These are historical comparison routes; if any is promoted, port the canonical network story and choreography deliberately rather than changing them piecemeal.
 - No automated tests exist; every change re-runs lint, build and headed browser checks. Network scene changes require the seven-viewport matrix plus resize/fallback/lifecycle checks; other UI work retains the project matrix. Browser checks are Chromium-only so far.
 - The base `/engine` intentionally still shows the round-one point-burst "dust" - it is the comparison reference and must NOT be "fixed".
-- No deployment, analytics, real favicon set beyond `icon.svg`, OG/social metadata, or production email are configured - all deferred until a direction is chosen.
+- Analytics, a real favicon set beyond `icon.svg`, OG/social metadata, and a confirmed production mailbox remain unconfigured.
 - Round-5.1 resolved the high-fit node softness with 2x dot/glow texture bakes, `1 / sqrt(fit)` node-core compensation and `1 / fit` z-position compensation. Frame-edge perspective stretch remains inherent at ~85-90% viewport width, but the 3425x1245 proof shows crisp hot centres and clear crown spacing without raising the fit cap.
 - Round-5.2 removed the label texture's mipmap prefiltering, which was the remaining source of horizontal glyph-edge softness at the user's 3425x1245 review viewport. The labels remain raster CanvasTextures, so SDF/MSDF text or DOM overlays would be the next architectural option only if future review requires resolution-independent typography.
 
 ## Next steps
 
 1. **Housekeeping decisions now the flagship is mature:** decide whether refined/trace/ledger/flow stay for comparison or retire, whether the gallery labels V4 as the default, whether the six round-one concepts remain listed, and whether any flagship framing should be ported to another route.
-2. **Post-selection productionisation (not started, in rough priority order):** choose a static deployment target; add a git remote/backup; replace the mock contact; decide forms/analytics; add OG/social metadata; finalise favicon/logotype; review claims; verify Safari/Firefox; and run any optional accessibility review within the workspace's no-reduced-motion constraint.
+2. **Remaining production work:** replace or confirm the mock contact, decide forms/analytics, add OG/social metadata, finalise favicon/logotype, review claims, verify Safari/Firefox, and run any optional accessibility review within the workspace's no-reduced-motion constraint.
 3. **If any further network scene work happens:** obey the round-five/5.1/5.3 formulas (including the headline offset's 2208 px ramp onset and ~12.2% cap — its clear-air budget at 1998x750 has no slack), preserve the max-sway margin, and rerun 1440x900, 1998x750, 2560x1080, 3425x1245, 1024x768, 900x1080 and 390x900 plus resize/fallback/lifecycle checks. Frustum maths sets the budget; projected browser evidence proves it.

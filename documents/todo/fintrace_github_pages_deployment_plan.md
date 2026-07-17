@@ -1,4 +1,4 @@
-# FinTrace GitHub Pages Production Deployment Plan
+# FinTrace GitHub Pages Production Deployment Plan 🔄 **IN PROGRESS**
 
 <critical_warning>
 > **CRITICAL WARNING:** `fintrace.com.au` currently resolves to `103.42.108.46`. The production cutover will replace that apex web-host record with GitHub Pages records. Preserve every Google Workspace MX record and all unrelated TXT records. If the cutover fails, restore the captured pre-change apex record without changing mail records.
@@ -332,7 +332,7 @@ flowchart LR
 
 ## 5. Implementation Plan
 
-### Step 1: Preserve and Record the Current Reviewed Site State
+### ~~Step 1: Preserve and Record the Current Reviewed Site State~~ ✅ **COMPLETED**
 
 **Objective:** Ensure the first deployment includes the validated Round 5.1 and 5.2 Engine Network work without overwriting or mixing it into deployment changes.
 
@@ -356,7 +356,7 @@ flowchart LR
 - `git status --short` no longer lists those three files after the scoped commit.
 - No other pre-existing working-tree change is staged or committed.
 
-### Step 2: Promote Engine Network to the Production Root
+### ~~Step 2: Promote Engine Network to the Production Root~~ ✅ **COMPLETED**
 
 **Objective:** Serve the chosen Engine Network design at `/` while retaining `/engine-network/` for internal comparison without duplicating its implementation.
 
@@ -383,7 +383,7 @@ flowchart LR
 - `src/app/engine-network/Scene.tsx`, `Hero.tsx`, and `engine-network.css` receive no deployment-related behavioural change.
 - Local browser screenshots at `1440x900` and `390x900` show `/` and `/engine-network/` with matching hero, section order, typography, colours, and WebGL rendering.
 
-### Step 3: Move the Gallery and Mark Internal Routes
+### ~~Step 3: Move the Gallery and Mark Internal Routes~~ ✅ **COMPLETED**
 
 **Objective:** Retain the full design lab at `/internal-design/` while keeping it out of public navigation and search indexes.
 
@@ -423,7 +423,7 @@ flowchart LR
 - `out/index.html` contains no `/internal-design/` link.
 - No candidate page visual copy, section order, animation, or CSS is changed except its Design Lab return URL.
 
-### Step 4: Add Production Metadata, Robots, and Sitemap
+### ~~Step 4: Add Production Metadata, Robots, and Sitemap~~ ✅ **COMPLETED**
 
 **Objective:** Make only the production root discoverable and canonical.
 
@@ -452,7 +452,7 @@ flowchart LR
 - `out/robots.txt` references `https://fintrace.com.au/sitemap.xml`.
 - `out/robots.txt` does not disallow the internal routes.
 
-### Step 5: Synchronise Project Documentation
+### ~~Step 5: Synchronise Project Documentation~~ ✅ **COMPLETED**
 
 **Objective:** Make repository policy and system documentation match the new production architecture.
 
@@ -491,7 +491,7 @@ flowchart LR
 - Documentation explicitly warns that noindex is not access control.
 - `git diff --check` exits 0 after documentation updates.
 
-### Step 6: Verify the Remote Repository and Enable Pages
+### Step 6: Verify the Remote Repository and Enable Pages 🔄 **IN PROGRESS**
 
 **Objective:** Verify the preserved local history in the existing website repository and enable native workflow publishing without generating a failed Pages deployment.
 

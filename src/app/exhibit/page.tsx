@@ -7,6 +7,7 @@ import Reveal from './Reveal'
 import HeroRegister from './HeroRegister'
 import FindingFlip from './FindingFlip'
 import './exhibit.css'
+import { internalRobots } from '../internal-design-metadata'
 
 /**
  * Design 5 — “The Exhibit”.
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
   title: 'The Exhibit',
   description:
     'FinTrace design concept five: a brutalist court-exhibit treatment — stamped, annotated and sourced. No finding without a source.',
+  robots: internalRobots,
 }
 
 /** Footnote marker linking a claim to its entry in the source register. */
@@ -210,7 +212,7 @@ export default function ExhibitPage() {
       </svg>
 
       {/* Fixed return chip to the design-lab index */}
-      <Link href="/" className="ex-chip">
+      <Link href="/internal-design/" className="ex-chip">
         ← Design lab · 05/06
       </Link>
 

@@ -1,33 +1,31 @@
-import type { Metadata } from 'next'
 import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import clsx from 'clsx'
-import './engine-flow.css'
+import './engine-network.css'
 import { bricolage, fragmentMono } from './fonts'
 import CurrencyMatch from './CurrencyMatch'
 import Hero from './Hero'
+import LedgerPlate from './LedgerPlate'
 import Reveal from './Reveal'
 import Stat from './Stat'
-import { internalRobots } from '../internal-design-metadata'
+import TraceDiagram from './TraceDiagram'
 
 /**
- * Engine variant — "Flow" (the money trail).
+ * Engine variant V4 — "Network". THE FLAGSHIP (round-four decision).
  *
- * The base Evidence Engine's obsidian-and-gold system with the hero's
- * post-gate output redesigned as traced money paths: documents pass the
- * scanning gate and their funds flow on as bright amount pulses along
- * drawn trace routes between account waypoints — one route flagged in
- * restrained crimson. A dedicated section reconstructs the cross-currency
- * match diagram in the same language. Interactive elements keep the
- * better-ui polish pass (press feedback, hit areas, layered depth shadows).
+ * The base Evidence Engine's obsidian-and-gold system with a trace-led hero:
+ * documents pass the scanning gate and re-emerge as an account-network
+ * constellation — glowing account nodes joined by golden threads, one flagged
+ * hop in restrained crimson.
+ *
+ * Below the fold this page now consolidates every proven set-piece into one
+ * story — the evidence, structured (the reconciling ledger table from
+ * /engine-ledger), connected (the account-network trace diagram from
+ * /engine-trace), and matched (the cross-currency reconstruction) — so the
+ * flagship demonstrates the full arc: pages → ledger → network → finding.
+ * Every interactive element carries the better-ui polish pass (press
+ * feedback, hit areas, layered depth shadows).
  */
-export const metadata: Metadata = {
-  title: 'The Evidence Engine — Flow',
-  description:
-    'FinTrace engine variant: documents pass the scanning gate and their funds flow on as traced money trails between accounts — forensic infrastructure for legal teams.',
-  robots: internalRobots,
-}
-
 /* ---------------------------------------------------------------------------
  * Static content — hoisted to module scope so nothing re-renders it.
  * ------------------------------------------------------------------------- */
@@ -42,12 +40,12 @@ const STAGES = [
   {
     numeral: '02',
     name: 'Extraction',
-    copy: 'Thousands of pages become one structured Excel ledger: file name, person, date, financial year, description, debit, credit, amount, category.',
+    copy: 'Thousands of pages become one structured Excel ledger: file name, person, date, financial year, description, debit and credit, amount, category.',
   },
   {
     numeral: '03',
     name: 'Analysis',
-    copy: 'The engine looks deeper — cash-withdrawal patterns, gambling and crypto activity, transfers between related accounts, and cross-currency matches.',
+    copy: 'The engine looks deeper — cash-withdrawal patterns, gambling and crypto activity, transfers between related accounts and cross-currency matches.',
   },
   {
     numeral: '04',
@@ -67,7 +65,7 @@ const SPECS = [
   {
     index: '02',
     name: 'Structured ledger',
-    copy: 'One Excel workbook holding every transaction: file, person, date, financial year, description, debit and credit, amount, category.',
+    copy: 'One Excel workbook holding every transaction: file name, person, date, financial year, description, debit and credit, amount, category.',
     tag: 'Output',
   },
   {
@@ -79,13 +77,13 @@ const SPECS = [
   {
     index: '04',
     name: 'Anomaly detection',
-    copy: 'Cash-withdrawal patterns, gambling and crypto activity, and transactions that sit outside the account’s normal rhythm — flagged, not buried.',
+    copy: 'Cash-withdrawal patterns, gambling and crypto activity and transactions that sit outside the account’s normal rhythm — flagged, not buried.',
     tag: 'Analysis',
   },
   {
     index: '05',
     name: 'Cross-account tracing',
-    copy: 'Money followed between related accounts, including cross-currency matches — rupees to Australian dollars through Wise, reconciled line to line.',
+    copy: 'Money followed between related accounts, including cross-currency matches — Australian dollars to rupees through Wise, reconciled line to line.',
     tag: 'Analysis',
   },
   {
@@ -100,13 +98,13 @@ const SPECS = [
 const AUDIENCES = [
   {
     name: 'Family law property matters',
-    copy: 'Property pools that turn on years of statements — the matters FinTrace was proven on: thousands of pages, dozens of accounts, fifteen years of history.',
+    copy: 'Property pools that turn on years of statements — the matters FinTrace was proven on: thousands of pages, fifty accounts, fifteen years of history.',
     note: 'The proven wedge',
     featured: true,
   },
   {
     name: 'Public trustees & government legal',
-    copy: 'Engaged per matter as a specialist provider — suited to procurement, and to overloaded teams with every reason to save time.',
+    copy: 'Engaged per matter as a specialist provider — suited to procurement and to overloaded teams with every reason to save time.',
     featured: false,
   },
   {
@@ -130,14 +128,15 @@ const AUDIENCES = [
 function Header() {
   return (
     <header className="eng-header">
-      <Link href="/engine-flow/" className="eng-wordmark" aria-label="FinTrace — The Evidence Engine, flow variant">
+      <Link href="/" className="eng-wordmark" aria-label="FinTrace home">
         <span>Fin</span>
         <span className="eng-wordmark-bar" aria-hidden="true" />
         <span className="eng-gold-text">Trace</span>
       </Link>
       <nav className="eng-header-nav" aria-label="Page sections">
         <a href="#process">Process</a>
-        <a href="#capabilities">Capabilities</a>
+        <a href="#ledger">Ledger</a>
+        <a href="#tracing">Tracing</a>
         <a href="#proof">Proof</a>
         <a className="eng-btn-gold eng-btn-sm" href="mailto:hello@fintrace.com.au">
           Request assessment
@@ -147,9 +146,13 @@ function Header() {
   )
 }
 
-export default function EnginePage() {
+type EngineNetworkPageProps = {
+  showDesignLabLink: boolean
+}
+
+export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPageProps) {
   return (
-    <div className={clsx('dsn-engine-flow', bricolage.variable, fragmentMono.variable)}>
+    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable)}>
       <Header />
       <main>
         <Hero />
@@ -179,16 +182,68 @@ export default function EnginePage() {
           </div>
         </section>
 
-        {/* ----------------------- Cross-currency match --------------------- */}
+        {/* ------------------------ Reconciled ledger -----------------------
+            Act one of the evidence story: thousands of pages become one
+            structured, source-linked ledger (set-piece from /engine-ledger) */}
+        <section className="eng-section eng-cv" id="ledger">
+          <div className="eng-container">
+            <Reveal className="eng-section-head">
+              <p className="eng-kicker">The evidence, structured</p>
+              <h2 className="eng-h2">
+                Every line entered. <span className="eng-gold-text">Every line sourced.</span>
+              </h2>
+              <p className="eng-lede">
+                The story starts with structure: thousands of pages become one ledger. Watch the engine work:
+                statement lines entered, categorised and reconciled — and the one that warrants attention flagged,
+                with its source page attached.
+              </p>
+            </Reveal>
+            <Reveal delay={120}>
+              <LedgerPlate />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ------------------------- Trace analysis -------------------------
+            Act two: the ledger's accounts are mapped and the money is
+            followed between them (set-piece from /engine-trace) */}
+        <section className="eng-section eng-cv" id="tracing">
+          <div className="eng-container">
+            <Reveal className="eng-section-head">
+              <p className="eng-kicker">The evidence, connected</p>
+              <h2 className="eng-h2">
+                Fifty accounts. <span className="eng-gold-text">One thread of evidence.</span>
+              </h2>
+              <p className="eng-lede">
+                From that ledger the engine maps every account it reads, then follows the money between them — joint
+                account to cash, cash to a related account, onwards through Wise to an overseas account. Each hop is
+                dated, valued and cited to its source page.
+              </p>
+            </Reveal>
+            <Reveal className="eng-plate eng-tnet-plate" delay={120}>
+              <TraceDiagram />
+              <p className="eng-diagram-caption">
+                The route, reconstructed from the extract above — the flagged withdrawal is the single crimson hop.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ----------------------- Cross-currency match ---------------------
+            Act three: the thread holds even where the money changes currency */}
         <section className="eng-section eng-cv" id="match">
           <div className="eng-container">
             <Reveal className="eng-section-head">
-              <p className="eng-kicker">Traced across currencies</p>
+              <p className="eng-kicker">The evidence, matched</p>
               <h2 className="eng-h2">
                 Same funds. <span className="eng-gold-text">Two currencies. One match.</span>
               </h2>
+              <p className="eng-lede">
+                And the thread holds even where the trail changes currency: the dollars that left through Wise are
+                matched to the rupees that landed overseas two days later — down to the exchange rate.
+              </p>
             </Reveal>
-            <Reveal className="eng-plate eng-ecm-plate">
+            <Reveal className="eng-plate eng-ecm-plate" delay={120}>
               <CurrencyMatch />
             </Reveal>
           </div>
@@ -293,7 +348,7 @@ export default function EnginePage() {
               </h2>
               <p className="eng-lede eng-cta-lede">
                 FinTrace is a specialist forensic service, engaged per matter — a flat engagement fee plus per-page
-                pricing. Send the statements; receive the ledger, the findings, and the sources to back them.
+                pricing. Send the statements; receive the ledger, the findings and the sources to back them.
               </p>
               <div className="eng-hero-ctas">
                 <a className="eng-btn-gold eng-btn-loop" href="mailto:hello@fintrace.com.au">
@@ -328,14 +383,12 @@ export default function EnginePage() {
           <p>© 2026 FinTrace. Every finding traceable to its source.</p>
         </div>
       </footer>
-
-      {/* Fixed return chip to the design-lab index */}
-      <Link href="/internal-design/" className="eng-lab-chip">
-        <svg width="8" height="10" viewBox="0 0 8 10" fill="none" aria-hidden="true">
-          <path d="M7 1 2 5l5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-        </svg>
-        Design lab · Engine — flow
-      </Link>
+      {showDesignLabLink ? (
+        <Link href="/internal-design/" className="eng-lab-chip">
+          <span aria-hidden="true">←</span>
+          Design lab · Engine variant — network
+        </Link>
+      ) : null}
     </div>
   )
 }

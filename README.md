@@ -1,10 +1,10 @@
-# FinTrace — Design Lab
+# FinTrace Website
 
-Six candidate homepage designs for **FinTrace**, the forensic bank-statement analysis service for legal teams (the new brand for the Statement Analysis tool). Each design is a complete, self-contained homepage with its own typography, palette, motion system, and brand voice, so the strongest direction can be chosen from working pages rather than static mock-ups.
+The public FinTrace website is live at [fintrace.com.au](https://fintrace.com.au/). It presents FinTrace as a specialist forensic financial analysis service for legal matters.
 
 This front-facing design repository lives at `/Users/sacino/fintrace-root` and is published to the public GitHub repository `Culpable/fintrace-root`. The private application repository lives separately at `/Users/sacino/fintrace`.
 
-## Viewing the designs
+## Development
 
 ```bash
 npm install
@@ -13,7 +13,8 @@ npm run dev        # serves http://localhost:3004
 
 | Route | Concept | Mode | Voice |
 | --- | --- | --- | --- |
-| `/` | Gallery index | Neutral | Links to all six concepts |
+| `/` | Production homepage | Dark | Selected Engine Network flagship |
+| `/internal-design` | Internal gallery | Neutral | Unlinked, `noindex` comparison index |
 | `/ledger` | The Ledger | Light | Editorial broadsheet — “Every dollar, accounted for.” |
 | `/trace` | Follow the Money | Dark | Investigative evidence network — “Money leaves a trail.” |
 | `/clarity` | From Chaos to Clarity | Light | Swiss precision — “Fifty hours of statements. Done in ten.” |
@@ -48,6 +49,12 @@ npm run build    # static export into out/
 npm run lint     # ESLint (next/core-web-vitals + TypeScript)
 ```
 
+## Deployment
+
+Every push to `main` runs `.github/workflows/deploy.yml`. GitHub Actions installs with `npm ci`, runs lint, builds the static export, uploads `out/`, and deploys it through GitHub Pages. Deployment uses GitHub’s native Pages identity and does not require repository secrets, deploy keys, or API keys.
+
+The production homepage is the only sitemap entry. `/internal-design/` and all candidate routes remain publicly reachable for review but are unlinked from production navigation and marked `noindex, nofollow`; this is not access control.
+
 ## Structure
 
-Each design owns everything under its route folder — `page.tsx` (server component + metadata), a scoped `<route>.css` for keyframes and design tokens, `fonts.ts`, and colocated client components for the animated set-pieces. Shared files (`globals.css`, `layout.tsx`) are deliberately minimal so the six visual systems never bleed into one another.
+Each design owns everything under its route folder — `page.tsx` (server component + metadata), a scoped `<route>.css` for keyframes and design tokens, `fonts.ts`, and colocated client components for the animated set-pieces. Shared files (`globals.css`, `layout.tsx`) remain minimal. The production root and `/engine-network/` share one Engine Network Server Component so the selected presentation cannot drift between route roles.

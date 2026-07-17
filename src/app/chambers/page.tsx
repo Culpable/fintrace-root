@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Reveal from './Reveal'
 import { chambersBody, chambersDisplay, chambersEngraved } from './fonts'
 import './chambers.css'
+import { internalRobots } from '../internal-design-metadata'
 
 /**
  * Design 6 — “Chambers”.
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
   title: 'Chambers',
   description:
     'Design 6 — Chambers: quiet luxury and engraved discretion for FinTrace, the specialist forensic financial analysis service to the legal profession.',
+  robots: internalRobots,
 }
 
 /* ---------------------------------------------------------------------------
@@ -514,7 +516,7 @@ export default function ChambersPage() {
       <Footer />
 
       {/* Fixed return link to the design-lab gallery */}
-      <Link href="/" className="ch-lab-chip">
+      <Link href="/internal-design/" className="ch-lab-chip">
         Design lab
       </Link>
     </div>

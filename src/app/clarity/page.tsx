@@ -4,6 +4,7 @@ import './clarity.css'
 import { familjen, splineMono } from './fonts'
 import HeroTransformation from './HeroTransformation'
 import Reveal from './Reveal'
+import { internalRobots } from '../internal-design-metadata'
 
 /**
  * Design 3 — “From Chaos to Clarity”.
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   title: 'From Chaos to Clarity',
   description:
     'Design study 03 — FinTrace turns thousands of pages of bank statements into one court-ready spreadsheet: every transaction categorised, every anomaly flagged, every line traceable to its source.',
+  robots: internalRobots,
 }
 
 /** The four-step engagement, rendered as a numbered Swiss grid. */
@@ -409,7 +411,7 @@ export default function ClarityPage() {
       <Footer />
 
       {/* Persistent hop back to the design-lab index */}
-      <Link href="/" className="cl-labchip">
+      <Link href="/internal-design/" className="cl-labchip">
         Design lab — index
       </Link>
     </div>

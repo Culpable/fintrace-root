@@ -1,11 +1,11 @@
 import type { NextConfig } from 'next'
 
 /**
- * FinTrace design lab - static export configuration.
+ * FinTrace website - GitHub Pages static export configuration.
  *
  * The site is a pure static export (no server runtime), matching the
- * Embeddings / Bulma-root deployment approach so it can later be served
- * from GitHub Pages or any static host without changes.
+ * The GitHub Pages workflow publishes the generated `out/` directory at
+ * fintrace.com.au without a server runtime.
  */
 const nextConfig: NextConfig = {
   // Build a fully static site into `out/`

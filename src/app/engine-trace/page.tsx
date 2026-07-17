@@ -9,6 +9,7 @@ import Hero from './Hero'
 import Reveal from './Reveal'
 import Stat from './Stat'
 import TraceDiagram from './TraceDiagram'
+import { internalRobots } from '../internal-design-metadata'
 
 /**
  * Evidence Engine variant — "Trace".
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
   title: 'The Evidence Engine — Trace',
   description:
     'FinTrace — forensic infrastructure for legal teams. The Evidence Engine with the investigator’s tools on display: account-network tracing and cross-currency matching, source-linked at every step.',
+  robots: internalRobots,
 }
 
 /* ---------------------------------------------------------------------------
@@ -339,7 +341,7 @@ export default function EngineTracePage() {
       </footer>
 
       {/* Fixed return chip to the design-lab index */}
-      <Link href="/" className="eng-lab-chip">
+      <Link href="/internal-design/" className="eng-lab-chip">
         <svg width="8" height="10" viewBox="0 0 8 10" fill="none" aria-hidden="true">
           <path d="M7 1 2 5l5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
         </svg>

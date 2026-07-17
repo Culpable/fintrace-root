@@ -5,6 +5,7 @@ import { fraunces, newsreader, splineSansMono } from './fonts'
 import Reveal from './Reveal'
 import CountStat from './CountStat'
 import ReconcilingLedger from './ReconcilingLedger'
+import { internalRobots } from '../internal-design-metadata'
 
 /**
  * Design 01 — “The Ledger”.
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
   title: 'The Ledger',
   description:
     'Every dollar, accounted for. FinTrace reads thousands of statement pages and returns one court-ready spreadsheet, a written findings report, and a citation for every line.',
+  robots: internalRobots,
 }
 
 /** The four-step method, presented as broadsheet column entries. */
@@ -324,7 +326,7 @@ export default function LedgerPage() {
       </footer>
 
       {/* Unobtrusive return to the design-lab gallery. */}
-      <Link className="lg-lab-chip" href="/">
+      <Link className="lg-lab-chip" href="/internal-design/">
         Design lab — 01 of 06
       </Link>
     </div>

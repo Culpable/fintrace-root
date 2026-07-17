@@ -7,6 +7,7 @@ import { bricolage, fragmentMono } from './fonts'
 import Hero from './Hero'
 import Reveal from './Reveal'
 import Stat from './Stat'
+import { internalRobots } from '../internal-design-metadata'
 
 /**
  * Design 4 — "The Evidence Engine".
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
   title: 'The Evidence Engine',
   description:
     'FinTrace — forensic infrastructure for legal teams. Thousands of pages of bank statements become structured, source-linked evidence that stands up in court.',
+  robots: internalRobots,
 }
 
 /* ---------------------------------------------------------------------------
@@ -310,7 +312,7 @@ export default function EnginePage() {
       </footer>
 
       {/* Fixed return chip to the design-lab index */}
-      <Link href="/" className="eng-lab-chip">
+      <Link href="/internal-design/" className="eng-lab-chip">
         <svg width="8" height="10" viewBox="0 0 8 10" fill="none" aria-hidden="true">
           <path d="M7 1 2 5l5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
         </svg>

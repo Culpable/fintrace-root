@@ -6,11 +6,13 @@ import MoneyFlow from './MoneyFlow'
 import Reveal from './Reveal'
 import Stat from './Stat'
 import TraceNetwork from './TraceNetwork'
+import { internalRobots } from '../internal-design-metadata'
 
 export const metadata: Metadata = {
   title: 'Follow the Money',
   description:
     'Design concept 02 — an investigative network-trace homepage for FinTrace, the forensic bank-statement analysis service for legal teams.',
+  robots: internalRobots,
 }
 
 /** The four-step method, numbered like stages of a trace. */
@@ -110,7 +112,7 @@ export default function TracePage() {
   return (
     <div className={`dsn-trace ${archivo.variable} ${plexMono.variable}`}>
       {/* Unobtrusive return route to the design-lab index */}
-      <Link href="/" className="lab-chip">
+      <Link href="/internal-design/" className="lab-chip">
         ← Design lab
       </Link>
 
