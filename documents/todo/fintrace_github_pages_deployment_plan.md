@@ -542,7 +542,7 @@ flowchart LR
 - The first push containing the workflow triggers one Pages run on `main`.
 - The workflow install, lint, build, upload, and deploy steps all conclude `success`.
 - `gh run view` reports the deployed environment as `github-pages`.
-- The Pages API reports status `built`.
+- The push-triggered workflow and `github-pages` deploy job report `success`, and the live Pages URL returns `200`. GitHub's current Pages REST response may leave its nullable `status` field as `null` after a successful native-workflow deployment.
 - The deployed artifact contains `index.html`, `404.html`, `robots.txt`, `sitemap.xml`, `_next/`, and `internal-design/index.html`.
 
 ### ~~Step 8: Verify the Domain and Cut DNS to GitHub Pages~~ ✅ **COMPLETED**
@@ -639,7 +639,7 @@ If the DNS provider requires a new login, ask the user only to sign in or approv
 
 **Objective:** Confirm future pushes are automatic and provide a self-contained completion record.
 
-**Completed validation (17 July 2026):** Documentation push `30febf9` automatically triggered recurring Pages run `29584302589`, and both build job `87897325053` and deploy job `87897501743` succeeded without manual configuration. A final state check confirmed the workflow build type, verified custom domain, approved certificate, HTTPS enforcement, four authoritative apex A records, `www` CNAME, verification TXT record, zero repository secrets, and no `gh-pages` branch. The post-change documentation check found the routed design plan accurate. Two independent audit workers reported zero potential bugs, so the post-audit bug-fixer was not triggered. The post-work report passed static validation and browser checks at `390x900`, `1440x900`, and `1920x1080`, including image-viewer keyboard navigation.
+**Completed validation (17 July 2026):** Documentation push `30febf9` automatically triggered recurring Pages run `29584302589`, and both build job `87897325053` and deploy job `87897501743` succeeded without manual configuration. Completion-record push `f450395` then triggered run `29590552819`; build job `87918261851` and deploy job `87918472563` also succeeded. A final state check confirmed the workflow build type, verified custom domain, approved certificate, HTTPS enforcement, four authoritative apex A records, `www` CNAME, verification TXT record, zero repository secrets, and no `gh-pages` branch. The post-change documentation check found the routed design plan accurate. Two independent audit workers reported zero potential bugs, so the post-audit bug-fixer was not triggered. The post-work report passed static validation and browser checks at `390x900`, `1440x900`, and `1920x1080`, including image-viewer keyboard navigation.
 
 #### High-Level Approach
 
@@ -656,7 +656,7 @@ If the DNS provider requires a new login, ask the user only to sign in or approv
 #### Success Criteria
 
 - A second push to `main` triggers and completes the same Pages workflow without manual intervention.
-- The Pages API still reports `status: built`, `build_type: workflow`, `cname: fintrace.com.au`, and `https_enforced: true`.
+- The Pages API reports `build_type: workflow`, `cname: fintrace.com.au`, and `https_enforced: true`; the push-triggered workflow and deploy job report `success`, and the live Pages URL returns `200`. The current API response's nullable `status` field is `null` rather than a build-state signal.
 - `git branch -a` still contains no `gh-pages`.
 - No repository deployment secret exists.
 - Final documentation records:
