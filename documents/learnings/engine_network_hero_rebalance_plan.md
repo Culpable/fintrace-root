@@ -1,4 +1,4 @@
-# Engine-Network Hero Wide-Aspect Rebalance & Delight Pass Plan
+# ~~Engine-Network Hero Wide-Aspect Rebalance & Delight Pass Plan~~ ✅ **COMPLETED**
 
 <critical_warning>
 > **CRITICAL WARNING:** Every WebGL layout change in this plan MUST be proven by headed-browser screenshots at the full viewport matrix in section 6.3 — frustum maths sets the budget, only the browser proves it. Round three shipped three of five heroes off-frame on first pass, and round 4.1 found label crowding that a clean 2D slot-space check missed (depth foreshortening pulls deeper nodes toward the vanishing centre — check crowding in PROJECTED space). Additionally: all new `@keyframes` names MUST carry a route-unique prefix (`engnet-*`) because keyframe names are document-global during client navigation, and `prefers-reduced-motion` gates MUST NOT be added (workspace rule).

@@ -71,7 +71,7 @@ The working tree contains completed and validated Round 5.1 and 5.2 changes in:
 
 - `src/app/engine-network/Scene.tsx`
 - `documents/plans/fintrace_design_plan.md`
-- `documents/todo/engine_network_hero_rebalance_plan.md`
+- `documents/learnings/engine_network_hero_rebalance_plan.md`
 
 These changes must not be reverted, overwritten, or mixed into the deployment commit. They must be revalidated and recorded in their own scoped commit before the first production deployment.
 
@@ -352,7 +352,7 @@ flowchart LR
 - The Round 5.1 and 5.2 commit contains only:
   - `src/app/engine-network/Scene.tsx`
   - `documents/plans/fintrace_design_plan.md`
-  - `documents/todo/engine_network_hero_rebalance_plan.md`
+  - `documents/learnings/engine_network_hero_rebalance_plan.md`
 - `git status --short` no longer lists those three files after the scoped commit.
 - No other pre-existing working-tree change is staged or committed.
 
