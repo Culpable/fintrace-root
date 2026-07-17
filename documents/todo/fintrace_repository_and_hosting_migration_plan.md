@@ -1,4 +1,4 @@
-# FinTrace Repository, Path, GitHub, and Vercel Migration Plan 🧪 **PENDING TESTING**
+# ~~FinTrace Repository, Path, GitHub, and Vercel Migration Plan~~ ✅ **COMPLETED**
 
 <critical_warning>
 > **CRITICAL WARNING:** This migration must preserve both repositories, every committed Git object, every current working-tree change, ignored local data, the Statement Analysis production deployment, Vercel environment variables, Vercel domains, GitHub Actions history, GitHub secrets, GitHub environments, Beads data, and local pipeline artefacts. Do not delete or recreate either GitHub repository or the Vercel project. Do not use `git reset`, `git restore`, `git clean`, `git stash`, force-push, history rewriting, or permanent file deletion.
@@ -1115,7 +1115,7 @@ The executor must re-open these authoritative references if command behaviour or
 - Verified the local and production sign-in and synthetic-shell states at `1440x900` and `390x900`. The installed Playwright runtime was used directly because both packaged browser CLIs were unavailable. The checks confirmed FinTrace title and sign-in copy, FinTrace shell identity, the `FT` badge, the accessible `FinTrace navigation` dialog, focus, settled layout, and zero horizontal overflow, page errors, console errors, HTTP errors, or synthetic-shell API requests.
 - Retained browser evidence under `/Users/sacino/repository-rename-backups/manifests/browser-verification`. The task-owned API and web services were stopped, the unrelated process on port 3000 was not changed, and the isolated browser context cleared the synthetic session key.
 
-### Step 12: Run Full Validation, Synchronise Documentation, and Close the Migration 🧪 **PENDING TESTING**
+### ~~Step 12: Run Full Validation, Synchronise Documentation, and Close the Migration~~ ✅ **COMPLETED**
 
 **Objective:** Prove preservation and operational continuity across local files, Git, GitHub, Vercel, Actions, app runtime, website build, Beads, Python tooling, and visible branding.
 
@@ -1159,7 +1159,7 @@ The executor must re-open these authoritative references if command behaviour or
 - GitHub CI succeeds for the exact final app commit; any Vercel deployment created for that commit reaches `READY`, or the documented deployment-ignore rule proves why the last healthy branding deployment remains current.
 - The final handoff identifies the backup directories, preserved old virtual environment, validation helpers, empty environment-hold directory, and private validation home, states that they were intentionally not deleted, and records the same-volume backup limitation.
 
-#### 12.3 Implemented Solution and Final Publication Gate
+#### 12.3 Implemented Solution
 
 - Re-ran the complete isolated app gate on the final branding state. Runtime contracts, format, zero-error lint, typecheck, production dependency audit, build, 270 API tests with one existing skip, 57 web tests, and four runtime-contract tests passed. Every held environment file was restored exactly.
 - Re-ran the website lint and static export under Node.js 22.23.1. Both passed and exported all 15 routes.
@@ -1171,7 +1171,7 @@ The executor must re-open these authoritative references if command behaviour or
 - Completed the guarded offline Codex repair at `2026-07-17T06:29:39Z`. It created fresh protected SQLite and global-state backups, passed `PRAGMA integrity_check`, and repaired exactly one drifted task row. After restart, the preserved project IDs resolve as `fintrace-root` at `/Users/sacino/fintrace-root` and `fintrace` at `/Users/sacino/fintrace`; their global project assignments are correct.
 - After this migration task was reopened from the FinTrace App, Codex set only its active live `cwd` to `/Users/sacino/fintrace` while retaining its global assignment to the preserved `fintrace-root` project ID. The immutable catalogue remains 21 website and 403 app tasks, all 424 IDs and rollout paths remain present, 423 quiescent rollouts are byte-identical, and this active rollout remains an exact protected prefix extension. This runtime routing change is not history loss and does not alter either saved project identity.
 - Verified app closeout commit `880200445c6bba104ab9d7a407fe4ab3da41731f`: GitHub CI run `29558713827` passed and production deployment `dpl_6PUaaNEKrcf84nSChQn1PucGCkzW` reached `READY` on the unchanged project with both verified production domains attached and healthy.
-- Closed the Advanced closeout task, Advanced branding epic, Testing and QA epic, lossless migration epic, and anchor epic only after the offline history repair and every final validation passed. Published those exact closure records in app commit `b46a186633234be8596f54d7509ff67c863b7045`; GitHub CI run `29560467981` passed, production deployment `dpl_HQ2aZCVrgfhdUYQstY7ajCA5bMaA` reached `READY`, and both production domains returned HTTP 200 with exact health body `{"status":"ok"}`. Keep this plan at `PENDING TESTING` only until the final website documentation commit is pushed and its remote SHA is verified.
+- Closed the Advanced closeout task, Advanced branding epic, Testing and QA epic, lossless migration epic, and anchor epic only after the offline history repair and every final validation passed. Published those exact closure records in app commit `b46a186633234be8596f54d7509ff67c863b7045`; GitHub CI run `29560467981` passed, production deployment `dpl_HQ2aZCVrgfhdUYQstY7ajCA5bMaA` reached `READY`, and both production domains returned HTTP 200 with exact health body `{"status":"ok"}`. Published the completed history-repair and final-publication evidence in website commit `5b184cfd156c1ef538b33c790975dfabbdb260cf` and verified the remote `main` SHA matched.
 
 ---
 
