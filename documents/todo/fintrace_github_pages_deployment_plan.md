@@ -491,7 +491,7 @@ flowchart LR
 - Documentation explicitly warns that noindex is not access control.
 - `git diff --check` exits 0 after documentation updates.
 
-### Step 6: Verify the Remote Repository and Enable Pages 🔄 **IN PROGRESS**
+### ~~Step 6: Verify the Remote Repository and Enable Pages~~ ✅ **COMPLETED**
 
 **Objective:** Verify the preserved local history in the existing website repository and enable native workflow publishing without generating a failed Pages deployment.
 
@@ -516,7 +516,7 @@ flowchart LR
 - `git branch -a` contains no local or remote `gh-pages` branch.
 - GitHub repository secrets contain no deployment secret added by this task.
 
-### Step 7: Add the Native GitHub Pages Workflow
+### Step 7: Add the Native GitHub Pages Workflow 🧪 **PENDING TESTING**
 
 **Objective:** Automatically validate, build, and deploy every push to `main` using GitHub's first-party Pages pipeline.
 
