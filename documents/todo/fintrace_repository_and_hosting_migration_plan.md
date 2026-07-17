@@ -9,7 +9,7 @@
 </critical_warning>
 
 <critical_warning>
-> **CRITICAL WARNING:** `https://fintrace.vercel.app` already resolves to an unrelated application and must never be used, assigned, presented as this project's domain, or written into `SA_PRODUCTION_API_URL`. The expected project-scoped candidate is `https://fintrace-jakes-projects-6b9958d5.vercel.app`, but it may be adopted only if Vercel assigns it to project ID `prj_equ0dpAv6bnn2xe7U1QjkQAzbqed` and the verified post-rename production deployment.
+> **CRITICAL WARNING:** `https://fintrace.vercel.app` already resolves to an unrelated application and must never be used, assigned, presented as this project's domain, or written into `SA_PRODUCTION_API_URL`. Use `https://fintrace-red.vercel.app` only after Vercel proves it is a verified production domain of project ID `prj_equ0dpAv6bnn2xe7U1QjkQAzbqed` and maps it to the exact post-rename production deployment.
 </critical_warning>
 
 <critical_warning>
@@ -164,7 +164,7 @@ The latest production deployment currently has these aliases:
 - Automatic project alias: `statement-analysis-jakes-projects-6b9958d5.vercel.app`.
 - Automatic production-branch alias: `statement-analysis-git-main-jakes-projects-6b9958d5.vercel.app`.
 
-After the project rename, the expected stable automatic candidate is `fintrace-jakes-projects-6b9958d5.vercel.app`. Vercel `.vercel.app` names are allocated on a first-come basis, and `fintrace.vercel.app` is already occupied by an unrelated application. Do not infer ownership from branding or an HTTP 200 response; verify alias-to-deployment and deployment-to-project identity through Vercel metadata.
+After the project rename, Vercel assigned `fintrace-jakes-projects-6b9958d5.vercel.app`, but current Standard Protection correctly returns an SSO redirect for generated domains. The supported public production-domain solution is `fintrace-red.vercel.app`, added to the unchanged project and mapped to the exact production deployment while preserving `statement-analysis-red.vercel.app`. Vercel `.vercel.app` names are allocated on a first-come basis, and `fintrace.vercel.app` is already occupied by an unrelated application. Do not infer ownership from branding or an HTTP 200 response; verify domain-to-deployment and deployment-to-project identity through Vercel metadata.
 
 No callable Vercel MCP resource or Vercel CLI executable was available during planning. An authenticated Vercel CLI token and linked `.vercel/project.json` do exist locally. During execution, use capabilities in this order:
 
@@ -276,7 +276,7 @@ A rename-only approach without verified mirrors would protect committed Git hist
 - **REQ-13 (MUST):** Rebuild the app's Python 3.12.12 virtual environment under the new path and preserve the old environment outside the active repository at `/Users/sacino/repository-rename-backups/fintrace-app-venv-preserved`.
 - **REQ-14 (MUST):** Rename the existing Vercel project in place from `statement-analysis` to `fintrace`; project ID and team ID must remain unchanged.
 - **REQ-15 (MUST):** Preserve the execution-baseline Vercel environment-variable ID set, targets, branch assignments, custom-environment assignments, content-hint store IDs, deployments, project domains, Git connection, build configuration, security configuration, and integration associations.
-- **REQ-16 (MUST):** Preserve `statement-analysis-red.vercel.app` throughout the migration. Adopt `fintrace-jakes-projects-6b9958d5.vercel.app` only if Vercel assigns it to the same project and verified post-rename production deployment.
+- **REQ-16 (MUST):** Preserve `statement-analysis-red.vercel.app` throughout the migration. Adopt `fintrace-red.vercel.app` only after Vercel registers it as a verified production domain of the same project and maps it to the verified post-rename production deployment.
 - **REQ-17 (MUST):** Update `SA_PRODUCTION_API_URL` only after the new production URL succeeds, without changing the secret name.
 - **REQ-18 (MUST):** Update active local, package, repository, documentation, hosting, and product-facing identity references to FinTrace or FinTrace Root as appropriate.
 - **REQ-19 (MUST):** Change branded, title-case visible app references from Statement Analysis to FinTrace only after the infrastructure gate passes.
@@ -318,7 +318,7 @@ A rename-only approach without verified mirrors would protect committed Git hist
 - **Default website visibility:** Public.
 - **Default branch:** `main` for both repositories.
 - **Default Vercel strategy:** Update the existing project by immutable project ID; never create a replacement.
-- **Default URL cutover:** Keep `statement-analysis-red.vercel.app` serving production until Vercel assigns `fintrace-jakes-projects-6b9958d5.vercel.app` to the verified post-rename deployment. If Vercel does not assign that alias, keep the old URL active and stop before changing the repository homepage or GitHub Actions secret.
+- **Default URL cutover:** Keep `statement-analysis-red.vercel.app` serving production until Vercel registers `fintrace-red.vercel.app` as a verified production domain on the same project and maps it to the verified post-rename deployment. If that domain cannot be verified publicly, keep the old URL active and stop before changing the repository homepage or GitHub Actions secret.
 - **Default identifier policy:** Rename active identity references; preserve internal namespaces and historical evidence.
 - **Default branding sequence:** Infrastructure migration first, visible app branding second.
 - **Backup collision fallback:** If any backup target already exists, stop and ask the user for a new non-destructive destination. Do not overwrite or delete the existing backup.
@@ -384,7 +384,7 @@ Use this rollback matrix. Never improvise a different order:
 - [ ] Every execution-baseline environment-variable record remains with the same ID, key, type, targets, branch assignment, custom-environment assignment, and content-hint association.
 - [ ] The baseline Neon and Blob store IDs remain associated through the same environment content hints.
 - [ ] The existing stable production domain remains assigned and healthy.
-- [ ] `fintrace-jakes-projects-6b9958d5.vercel.app` is proven to belong to the same Vercel project and post-rename production deployment before active URL references change.
+- [ ] `fintrace-red.vercel.app` is proven to be a verified production domain of the same Vercel project and post-rename production deployment before active URL references change.
 - [ ] `fintrace.vercel.app` is absent from operational configuration, secrets, repository metadata, product documentation, and accepted ownership evidence; it appears only in explicit migration warnings that identify it as unrelated.
 - [ ] A production deployment from renamed GitHub `main` reaches `READY`.
 
@@ -441,7 +441,7 @@ Use this rollback matrix. Never improvise a different order:
    - This migration connects and pushes the website repository, then retargets that plan to `fintrace-root`.
 10. **Do not use the shortest FinTrace Vercel hostname.**
     - `fintrace.vercel.app` already serves an unrelated application.
-    - The project-scoped automatic hostname `fintrace-jakes-projects-6b9958d5.vercel.app` is the expected candidate because the current Vercel team slug is `jakes-projects-6b9958d5`.
+    - The generated hostname `fintrace-jakes-projects-6b9958d5.vercel.app` is intentionally protected under Vercel Standard Protection, so the public production candidate is the verified project domain `fintrace-red.vercel.app`.
     - Ownership must still be proven from Vercel deployment metadata before cutover.
 11. **Treat object counts as diagnostics, not preservation proof.**
     - GitHub Actions runs, GitHub deployments, Vercel deployments, and environment variables can be added while the migration is in progress.
@@ -919,7 +919,7 @@ The executor must re-open these authoritative references if command behaviour or
 - Updated only `projectName` in the ignored local `.vercel/project.json`; `projectId`, `orgId`, and settings remain unchanged.
 - Recorded the evidence-driven `sourceless` exception above because the supported relink flow omitted that undocumented internal field while retaining the functioning Git connection.
 
-### Step 9: Commit and Push the Infrastructure Identity Changes
+### ~~Step 9: Commit and Push the Infrastructure Identity Changes~~ ✅ **COMPLETED**
 
 **Objective:** Publish narrowly scoped identity updates and prove GitHub and Vercel automation from the renamed repositories.
 
@@ -976,32 +976,41 @@ The executor must re-open these authoritative references if command behaviour or
 - Every isolated app validation restored each repository `.env` with its original bytes and metadata, and no validation process inherited production credentials.
 - The pushed CI workflow maps no production secret into its quality job, and the exact app commit's tests/build run without production credentials.
 
-### Step 10: Establish the FinTrace Production Alias and Update Active URL References
+#### 9.3 Implemented Solution
+
+- Committed and pushed the website migration as `816927b0441ace7a0d2590cce2c554f9a7734297` and the app infrastructure migration as `50212440aa0dcd47f07cd0c3e1637dd3b8846c35` without force.
+- Reproduced the app CI workspace-resolution failure locally with an isolated `npm ci --dry-run --ignore-scripts`, updated only the renamed workspace links in `package-lock.json`, and committed the focused fix as `3376177a25b44ee5906bc4fc0aca7fa7a851c8f8`.
+- Required GitHub CI run `29551413417` to pass for the exact app fix commit and verified production deployment `dpl_62xPXP3mUWfV4s9MF1u52JLtGWTF` reached `READY` in the unchanged Vercel project with matching Git metadata.
+- Ran every application validation through the isolated environment helper and confirmed each held environment file was restored with its original hash and metadata.
+- Preserved scoped Beads records through the documented stop, sync, manual-hook, staged-blob, commit, and daemon-restart protocol.
+
+### ~~Step 10: Establish the FinTrace Production Alias and Update Active URL References~~ ✅ **COMPLETED**
 
 **Objective:** Adopt a FinTrace-named production URL without losing the existing production endpoint or interrupting scheduled processing.
 
 #### 10.1 High-Level Approach
 
 - Inspect the successful Step 9 production deployment's `alias` and `automaticAliases` metadata.
-- Adopt only `https://fintrace-jakes-projects-6b9958d5.vercel.app`, and only when Vercel metadata proves all three identities:
-  - The alias is attached to project ID `prj_equ0dpAv6bnn2xe7U1QjkQAzbqed`.
-  - The alias resolves to the successful post-rename production deployment.
+- Adopt only `https://fintrace-red.vercel.app`, and only when Vercel metadata proves all three identities:
+  - The domain is verified on project ID `prj_equ0dpAv6bnn2xe7U1QjkQAzbqed`.
+  - The domain resolves to the successful post-rename production deployment without Vercel authentication.
   - That deployment's Git metadata identifies the exact Step 9 app commit SHA from `Culpable/fintrace` `main`.
 - Treat `https://fintrace.vercel.app` as forbidden even if it returns HTTP 200. It belongs to an unrelated application.
-- If the expected project-scoped alias is absent, keep `statement-analysis-red.vercel.app` as the active URL, leave the repository homepage and GitHub secret unchanged, keep the MVP Release Gate open, and stop for user direction. Do not invent, claim, or assign a different hostname in this migration.
+- The automatic generated domain `fintrace-jakes-projects-6b9958d5.vercel.app` is attached to the correct deployment but returns an SSO redirect under Vercel Standard Protection. Preserve that protection. Do not use the generated domain for the public worker endpoint and do not disable project protection merely to expose it.
+- If `fintrace-red.vercel.app` cannot be verified publicly on the unchanged project, keep `statement-analysis-red.vercel.app` as the active URL, leave the repository homepage and GitHub secret unchanged, keep the MVP Release Gate open, and stop for user direction.
 - Verify both candidate and fallback aliases before changing any consumer:
   - The web root returns HTTP 200.
   - `/health` returns HTTP 200 with the exact JSON body `{"status":"ok"}`.
-- Update active application URL references and `apps/api/src/__tests__/apiSecurity.test.ts` to use `https://fintrace-jakes-projects-6b9958d5.vercel.app`.
+- Update active application URL references and `apps/api/src/__tests__/apiSecurity.test.ts` to use `https://fintrace-red.vercel.app`.
 - Do not add a production-host allowlist or alter runtime CORS logic. The current same-origin check compares the request origin with the live host and is host-agnostic; only the regression fixture is identity-sensitive.
 - Run the targeted API security test, use the Step 9 Beads-aware commit protocol to create a scoped app commit containing only the URL, test, and migration-owned tracking changes, push it, and wait for:
   - The exact commit's GitHub `CI` run to conclude `success`.
   - A production deployment for that exact commit to reach `READY` in the existing Vercel project.
   - The candidate alias to resolve to that exact deployment.
 - Set the GitHub repository homepage only after the updated deployment passes:
-  - `gh repo edit Culpable/fintrace --homepage "https://fintrace-jakes-projects-6b9958d5.vercel.app"`
+  - `gh repo edit Culpable/fintrace --homepage "https://fintrace-red.vercel.app"`
 - Record the existing secret's `updated_at` metadata without attempting to read its value. Wait until the next whole second so GitHub's timestamp resolution can distinguish the update, then replace its value through standard input without a trailing slash:
-  - `printf '%s' 'https://fintrace-jakes-projects-6b9958d5.vercel.app' | gh secret set SA_PRODUCTION_API_URL --repo Culpable/fintrace`
+  - `printf '%s' 'https://fintrace-red.vercel.app' | gh secret set SA_PRODUCTION_API_URL --repo Culpable/fintrace`
 - Confirm the secret's `updated_at` changed and both secret names remain. GitHub does not expose the stored secret value, so the following scheduled workflow run is the functional verification.
 - Observe a `Process production jobs` run whose workflow ID equals the baseline, event is `schedule`, `created_at` is later than the secret update, and `head_sha` equals the current app `main` URL-update commit. Require `success`. Do not invoke `workflow_dispatch`.
 - GitHub schedules can be delayed. Continue monitoring without treating a five-minute gap as failure; if no qualifying run appears within 30 minutes, record an external scheduling blocker, keep the MVP Release Gate open, and ask for direction without manually dispatching production work.
@@ -1012,11 +1021,11 @@ The executor must re-open these authoritative references if command behaviour or
 
 #### 10.2 Success Criteria
 
-- `fintrace-jakes-projects-6b9958d5.vercel.app` is attached to project ID `prj_equ0dpAv6bnn2xe7U1QjkQAzbqed` and the verified production deployment for the exact URL-update commit SHA.
+- `fintrace-red.vercel.app` is a verified production domain of project ID `prj_equ0dpAv6bnn2xe7U1QjkQAzbqed` and maps to the verified production deployment for the exact URL-update commit SHA.
 - The candidate application root returns HTTP 200 and `/health` returns HTTP 200 with exact body `{"status":"ok"}`.
 - `fintrace.vercel.app` was not assigned, documented as this project's domain, or written into code, configuration, repository metadata, or secrets.
 - `statement-analysis-red.vercel.app` remains assigned and healthy.
-- `gh repo view Culpable/fintrace` reports `https://fintrace-jakes-projects-6b9958d5.vercel.app` as the homepage.
+- `gh repo view Culpable/fintrace` reports `https://fintrace-red.vercel.app` as the homepage.
 - `gh secret list --repo Culpable/fintrace` still lists `SA_PRODUCTION_API_URL` and `SA_CRON_SECRET`.
 - The `SA_PRODUCTION_API_URL` secret metadata has a later `updated_at` than the pre-cutover baseline.
 - A scheduled production-worker run with `created_at` later than the `SA_PRODUCTION_API_URL` update and `head_sha` equal to the URL-update commit succeeds.
@@ -1026,7 +1035,16 @@ The executor must re-open these authoritative references if command behaviour or
 - The MVP Release Gate is closed with validation evidence before Step 11 begins.
 - The gate-closure records have been exported to tracked Beads JSONL and are ready for the Step 11 commit.
 
-### Step 11: Rename Visible Application Branding in a Separate Advanced Phase
+#### 10.3 Implemented Solution
+
+- Added and verified `fintrace-red.vercel.app` as a public production domain on unchanged project `prj_equ0dpAv6bnn2xe7U1QjkQAzbqed` while retaining `statement-analysis-red.vercel.app` and Vercel Standard Protection for generated domains.
+- Updated the active API security fixture in separate commit `02af15cc17b4fb0a85f7fedd0edcd55872b55f5d`; targeted tests, GitHub CI run `29551910790`, and production deployment `dpl_DfqT5KNSPeWGds6uTV2DUjhn73wJ` passed for that exact commit.
+- Verified both production domains return HTTP 200 at the root and exact `{"status":"ok"}` with HTTP 200 at `/health`.
+- Updated the repository homepage and existing `SA_PRODUCTION_API_URL` secret without renaming or deleting either production secret.
+- Observed genuine scheduled run `29554859594`, created at `2026-07-17T04:26:30Z` after the secret update, complete successfully for exact head `02af15cc17b4fb0a85f7fedd0edcd55872b55f5d`.
+- Closed the MVP Release Gate and its Steps 1-10 dependencies only after the scheduled worker, recovery artefacts, histories, CI, deployment, and rollback evidence passed.
+
+### ~~Step 11: Rename Visible Application Branding in a Separate Advanced Phase~~ ✅ **COMPLETED**
 
 **Objective:** Change the active product-facing app identity from Statement Analysis to FinTrace only after infrastructure, hosting, and automation are proven.
 
@@ -1088,7 +1106,16 @@ The executor must re-open these authoritative references if command behaviour or
 - The branding commit contains the exported MVP-gate closure and Advanced-task records without unrelated Beads changes.
 - App CI and the Vercel production deployment for the exact branding commit SHA succeed after the branding push.
 
-### Step 12: Run Full Validation, Synchronise Documentation, and Close the Migration
+#### 11.3 Implemented Solution
+
+- Updated the confirmed web title, sign-in, application shell, `FT` badge, mobile navigation identity, runtime messages, tests, design source, repository policy, README, and active operational guides to use FinTrace as the product name.
+- Preserved `sa-api-key`, `sa-sidebar-collapsed`, `sa-job-access-token:`, `Statement Analysis Extraction (Scoped)`, storage and scratch namespaces, concurrency keys, test fixtures, historical artefacts, and lowercase common-noun uses of statement analysis.
+- Passed the targeted branding and compatibility tests, then the complete isolated application suite: format, lint, typecheck, production dependency audit, build, 270 API tests with one existing skip, 57 web tests, and four runtime-contract tests. The final total was 331 passing tests and one existing skip.
+- Committed the branding phase separately as `cfd02bdeb4560c33f34ccce11d1db1a80aa18c72`; exact-SHA GitHub CI run `29557523526` succeeded and production deployment `dpl_9Zd5nRFZd98Eqe9yDqxy2yaFxFLN` reached `READY` on the unchanged Vercel project.
+- Verified the local and production sign-in and synthetic-shell states at `1440x900` and `390x900`. The installed Playwright runtime was used directly because both packaged browser CLIs were unavailable. The checks confirmed FinTrace title and sign-in copy, FinTrace shell identity, the `FT` badge, the accessible `FinTrace navigation` dialog, focus, settled layout, and zero horizontal overflow, page errors, console errors, HTTP errors, or synthetic-shell API requests.
+- Retained browser evidence under `/Users/sacino/repository-rename-backups/manifests/browser-verification`. The task-owned API and web services were stopped, the unrelated process on port 3000 was not changed, and the isolated browser context cleared the synthetic session key.
+
+### Step 12: Run Full Validation, Synchronise Documentation, and Close the Migration 🧪 **PENDING TESTING**
 
 **Objective:** Prove preservation and operational continuity across local files, Git, GitHub, Vercel, Actions, app runtime, website build, Beads, Python tooling, and visible branding.
 
@@ -1132,6 +1159,17 @@ The executor must re-open these authoritative references if command behaviour or
 - GitHub CI succeeds for the exact final app commit; any Vercel deployment created for that commit reaches `READY`, or the documented deployment-ignore rule proves why the last healthy branding deployment remains current.
 - The final handoff identifies the backup directories, preserved old virtual environment, validation helpers, empty environment-hold directory, and private validation home, states that they were intentionally not deleted, and records the same-volume backup limitation.
 
+#### 12.3 Implemented Solution and Remaining Gate
+
+- Re-ran the complete isolated app gate on the final branding state. Runtime contracts, format, zero-error lint, typecheck, production dependency audit, build, 270 API tests with one existing skip, 57 web tests, and four runtime-contract tests passed. Every held environment file was restored exactly.
+- Re-ran the website lint and static export under Node.js 22.23.1. Both passed and exported all 15 routes.
+- Reverified Git integrity, mirrors, bundles, repository IDs, visibilities, remote heads, worktree paths, Vercel project/team/Git-link identity, environment-record metadata, Neon and Blob associations, both production domains, exact deployment state, scheduled workflow state, and scheduled run success. No required state is missing.
+- Reverified all 39 protected website Claude Code files and all 26 protected application Claude Code files byte-for-byte. The additional website file is a legitimate post-migration session. The current `.claude.json` path keys and GitHub repository mappings use `/Users/sacino/fintrace-root` and `/Users/sacino/fintrace`; no transcript content or session ID was rewritten.
+- Reverified all 424 protected Codex tasks. Of the quiescent rollouts, 423 remain byte-identical; the active migration rollout is an exact protected prefix followed only by this task’s continued messages. No task ID, rollout path, title, timestamp, archived state, or transcript bytes were removed.
+- Prepared `/Users/sacino/repository-rename-backups/helpers/repair-codex-project-mapping.py` for the final supported offline registry repair. It validates the immutable 21/403 task catalogue, refuses to write while Codex Desktop is open, creates fresh SQLite and global-state backups, updates only exact project/path assignments and exact task `cwd` values, runs `PRAGMA integrity_check`, and leaves every rollout file untouched.
+- Applied the post-change documentation synchronisation check. The application architecture documentation remains accurate because the implementation changed only visible identity and runtime wording; the affected operational guides, repository policy, README, design source, this execution plan, and the FinTrace design-lab state document have been updated.
+- The only unpassed gate is the offline Codex Desktop registry application and restart verification. Codex Desktop currently retains the old two project labels in memory and rewrites its global state while running. Close the desktop app fully, run the guarded repair helper once, reopen Codex Desktop, and verify the two preserved project IDs resolve as `fintrace-root` at `/Users/sacino/fintrace-root` and `fintrace` at `/Users/sacino/fintrace`. Keep this step at `PENDING TESTING`, and keep the Advanced closeout task and anchor epics open, until that restart verification passes.
+
 ---
 
 ## 6. Testing Plan
@@ -1154,7 +1192,7 @@ These are the primary regression artefacts for proving that nothing was lost:
 | Vercel environment metadata manifest | Proves credentials and configuration records were retained without exposing values | Every execution-baseline record ID, key, type, target, branch assignment, custom-environment assignment, configuration ID, and content-hint association remains |
 | Vercel store and integration identifiers | Protects the live storage associations without exposing credentials | Neon store `store_G0m2vPwyEX7PjV63`, integration configuration `icfg_WiAlRD3UlbxJA3uDDfCD6lil`, and Blob store `store_FD2DcaPIrspwdXln` remain associated |
 | `statement-analysis-red.vercel.app` | Existing stable production fallback | Remains assigned and returns HTTP 200 throughout and after migration |
-| `fintrace-jakes-projects-6b9958d5.vercel.app` | Only admissible FinTrace-named cutover candidate | Used only after Vercel proves it belongs to the same project and exact successful production deployment |
+| `fintrace-red.vercel.app` | Admissible public FinTrace production domain | Used only after Vercel proves it is verified on the same project and maps to the exact successful production deployment |
 | `fintrace.vercel.app` | Known unrelated application | Never used as ownership evidence or written into operational code, metadata, product documentation, or secrets; allowed only in explicit migration warnings |
 | `.git/beads-worktrees/main` administrative files | Demonstrate the linked worktree's old absolute path dependency | Repaired to `/Users/sacino/fintrace` and passes Git/Beads checks |
 | `.beads/bd.sock`, special-file inventory, and ignored-basename inventory | Detects entries that `ditto` cannot preserve | Beads is stopped, the socket is absent, no unsupported special file remains, and no basename starts with `.nfs` or `.afpDeleted` before copying |
@@ -1230,7 +1268,7 @@ These are the primary regression artefacts for proving that nothing was lost:
    - Expected: `statement-analysis-red.vercel.app` remains assigned, verified, and healthy.
 5. **New primary alias**
    - Action: Inspect `alias` and `automaticAliases` on the exact successful production deployment.
-   - Expected: `fintrace-jakes-projects-6b9958d5.vercel.app` belongs to the unchanged project and exact pushed commit, returns HTTP 200 at root, and returns exact JSON `{"status":"ok"}` from `/health`.
+   - Expected: `fintrace-red.vercel.app` is verified on the unchanged project and exact pushed commit, returns HTTP 200 at root, and returns exact JSON `{"status":"ok"}` from `/health`.
    - Failure rule: If the expected alias is absent, stop before homepage or secret changes. Never use `fintrace.vercel.app`.
 6. **Deployment continuity**
    - Action: Push an app migration commit.
@@ -1326,7 +1364,7 @@ Use the `dev-browser` skill and follow the app's server policy.
    - At mobile width, open the navigation sheet, wait for layout to settle, and verify its accessible title and visible identity use FinTrace.
    - The layout has no clipping or horizontal overflow.
    - The page and console contain zero unexpected errors; an intentionally unavailable API must not be exercised during the `/jobs/new` branding check.
-7. Repeat the unauthenticated and synthetic-shell branding checks on `https://fintrace-jakes-projects-6b9958d5.vercel.app` only after Vercel metadata proves it belongs to the unchanged project and exact successful deployment.
+7. Repeat the unauthenticated and synthetic-shell branding checks on `https://fintrace-red.vercel.app` only after Vercel metadata proves it is verified on the unchanged project and maps to the exact successful deployment.
 8. Verify both the new candidate and `https://statement-analysis-red.vercel.app` with `curl`: root returns HTTP 200 and `/health` returns HTTP 200 with exact body `{"status":"ok"}`.
 9. Confirm no browser check, screenshot, repository metadata, or validation record treats `https://fintrace.vercel.app` as this application's domain.
 10. Clear the synthetic session-storage value when each shell-branding session ends.
