@@ -756,8 +756,9 @@ The executor must re-open these authoritative references if command behaviour or
 
 - Verify protected copies and checksums of `/Users/sacino/AGENTS.md` and `/Users/sacino/.codex/config.toml` exist before editing either file.
 - Update `/Users/sacino/AGENTS.md`:
-  - Replace the Statement Analysis workspace entry with FinTrace App at `/fintrace`.
-  - Add FinTrace Root at `/fintrace-root`.
+  - Replace the Statement Analysis workspace entry with FinTrace App, short name `FT`, at `/fintrace`.
+  - Add FinTrace Root, short name `FT Root`, at `/fintrace-root`.
+  - Follow the existing workspace-catalogue structure used by the other projects: heading, `Refer to as`, `Short Name`, `Location`, and `Background`. Do not add GitHub repository fields.
   - Update Fraud Detection's workspace-catalogue dependency description to refer to the FinTrace App, formerly Statement Analysis, without changing the Fraud Detection repository, code, or data.
 - Update `/Users/sacino/.codex/config.toml` trusted project keys:
   - `/Users/sacino/fintrace` for the app.
@@ -801,6 +802,7 @@ The executor must re-open these authoritative references if command behaviour or
   - `fintrace`
   - `fintrace-api`
   - `fintrace-web`
+- Update the app's `AGENTS.md` current project identity from Statement Analysis or SA to FinTrace App or FinTrace as appropriate, with short name `FT` and local path `/Users/sacino/fintrace`. Do not add a GitHub repository field. Preserve `statement-analysis` only where the plan explicitly protects an internal namespace, compatibility identifier, or historical record.
 - Update clone, `cd`, virtual-environment, export-script, and active repository examples.
 - Limit this phase to repository, path, package, hosting, and operational identity. Do not replace visible title-case Statement Analysis product branding until Step 11.
 - Reconcile the app's hosting description with live Vercel metadata. The planning audit found a Pro deployment even though the current app `AGENTS.md` says Hobby; use the execution-time project metadata as the source of truth.
@@ -824,7 +826,8 @@ The executor must re-open these authoritative references if command behaviour or
 
 #### 7.2 Success Criteria
 
-- `/Users/sacino/AGENTS.md` contains distinct FinTrace App and FinTrace Root entries with the correct paths and roles.
+- `/Users/sacino/AGENTS.md` contains distinct FinTrace App (`FT`) and FinTrace Root (`FT Root`) entries with the correct roles and paths, `/fintrace` for the app and `/fintrace-root` for the website, using the same field structure as the other workspace projects and no GitHub repository fields.
+- `/Users/sacino/fintrace/AGENTS.md` identifies the current project as FinTrace App or FinTrace, uses short name `FT`, and points to `/Users/sacino/fintrace` without adding a GitHub repository field or rewriting protected internal or historical `statement-analysis` identifiers.
 - `/Users/sacino/.codex/config.toml` contains trusted entries for both new paths and no active trusted entry for `/Users/sacino/statement-analysis`.
 - Website package manifests use `fintrace-root`.
 - App package manifests use `fintrace`, `fintrace-api`, and `fintrace-web`.
