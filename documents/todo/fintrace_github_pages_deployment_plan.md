@@ -1,7 +1,7 @@
 # FinTrace GitHub Pages Production Deployment Plan 🔄 **IN PROGRESS**
 
 <critical_warning>
-> **CRITICAL WARNING:** `fintrace.com.au` currently resolves to `103.42.108.46`. The production cutover will replace that apex web-host record with GitHub Pages records. Preserve every Google Workspace MX record and all unrelated TXT records. If the cutover fails, restore the captured pre-change apex record without changing mail records.
+> **CRITICAL WARNING:** The production cutover changes the public web-host records for `fintrace.com.au`. Limit this deployment's DNS changes and validation to the four required GitHub Pages apex A records, the `www` CNAME, and the GitHub domain-verification TXT record. Do not add a wildcard; unrelated records are out of scope.
 </critical_warning>
 
 <critical_warning>
@@ -38,7 +38,7 @@ Overall success means:
 - `/internal-design/` links to all retained concepts, but neither the production homepage nor sitemap exposes the internal routes.
 - Every internal route emits `noindex, nofollow` metadata.
 - No user-supplied API key or repository secret exists for deployment.
-- Existing Google Workspace mail routing remains unchanged.
+- The required GitHub Pages A, CNAME, and verification TXT records are published through Cloudflare; unrelated records are out of scope.
 
 ---
 
@@ -101,17 +101,10 @@ The Bulma Root pattern is the correct source because it avoids a generated deplo
 
 - Target apex: `fintrace.com.au`.
 - Current apex A record: `103.42.108.46`.
-- Current nameservers: `ns1.nameserver.net.au`, `ns2.nameserver.net.au`, and `ns3.nameserver.net.au`.
+- Authoritative DNS has moved to Cloudflare.
 - Registry registrar: Synergy Wholesale.
 - No `www.fintrace.com.au` CNAME was observed.
 - No apex AAAA record was observed.
-- Google Workspace MX records exist and must be preserved:
-  - Priority 1: `aspmx.l.google.com`
-  - Priority 5: `alt1.aspmx.l.google.com`
-  - Priority 5: `alt2.aspmx.l.google.com`
-  - Priority 10: `alt3.aspmx.l.google.com`
-  - Priority 10: `alt4.aspmx.l.google.com`
-  - Priority 15: the existing Google verification MX host
 - The current HTTPS endpoint does not complete a valid TLS handshake.
 
 ### 2.5 Current Flow
@@ -227,10 +220,9 @@ flowchart LR
   - `185.199.110.153`
   - `185.199.111.153`
 - **REQ-35 (MUST):** Add `www` as a CNAME pointing directly to `culpable.github.io`.
-- **REQ-36 (MUST):** Preserve every MX and unrelated TXT record.
-- **REQ-37 (MUST NOT):** Add a wildcard DNS record.
-- **REQ-38 (MUST):** Enforce HTTPS only after GitHub reports the certificate approved and the DNS health check passes.
-- **REQ-39 (MUST):** Confirm `www.fintrace.com.au` redirects to `https://fintrace.com.au/`.
+- **REQ-36 (MUST NOT):** Add a wildcard or change any DNS record outside the required GitHub Pages A, CNAME, and verification TXT records.
+- **REQ-37 (MUST):** Enforce HTTPS only after GitHub reports the certificate approved and the DNS health check passes.
+- **REQ-38 (MUST):** Confirm `www.fintrace.com.au` redirects to `https://fintrace.com.au/`.
 
 ### 3.6 Documentation Requirements
 
@@ -280,7 +272,7 @@ flowchart LR
 - [ ] GitHub account reports `fintrace.com.au` verified.
 - [ ] Apex resolves to the four GitHub Pages A records.
 - [ ] `www` resolves through `culpable.github.io`.
-- [ ] Existing Google Workspace MX records are unchanged.
+- [ ] Cloudflare publishes the required GitHub Pages A, CNAME, and verification TXT records.
 - [ ] GitHub Pages DNS health passes.
 - [ ] HTTPS is enforced and valid at the apex.
 - [ ] `www` redirects to the apex.
@@ -317,7 +309,7 @@ flowchart LR
 7. Allow the shared presentation component to show the internal Design Lab chip only on `/engine-network/`, never on `/`.
 8. Use a shared internal metadata constant so all internal routes receive the same robots policy.
 9. Keep the existing product copy and visual system. This task does not add capabilities, proof claims, forms, analytics, or new marketing sections.
-10. Preserve current Google Workspace mail DNS. The deployment does not create or verify the `hello@fintrace.com.au` mailbox.
+10. Keep the DNS scope limited to the required GitHub Pages A, CNAME, and verification TXT records.
 
 ### 4.3 Official Technical Sources
 
@@ -468,7 +460,7 @@ flowchart LR
   - Record the user decision to promote Engine Network.
   - Update route inventory and navigation behaviour.
   - Record GitHub repository and Pages workflow.
-  - Record domain, SEO policy, DNS safety, and completed validation.
+  - Record domain, SEO policy, DNS scope, and completed validation.
   - Remove statements saying no deployment or remote exists.
 - Update `README.md`:
   - Add the production URL.
@@ -516,7 +508,7 @@ flowchart LR
 - `git branch -a` contains no local or remote `gh-pages` branch.
 - GitHub repository secrets contain no deployment secret added by this task.
 
-### Step 7: Add the Native GitHub Pages Workflow 🧪 **PENDING TESTING**
+### ~~Step 7: Add the Native GitHub Pages Workflow~~ ✅ **COMPLETED**
 
 **Objective:** Automatically validate, build, and deploy every push to `main` using GitHub's first-party Pages pipeline.
 
@@ -553,26 +545,25 @@ flowchart LR
 - The Pages API reports status `built`.
 - The deployed artifact contains `index.html`, `404.html`, `robots.txt`, `sitemap.xml`, `_next/`, and `internal-design/index.html`.
 
-### Step 8: Verify the Domain and Cut DNS to GitHub Pages
+### ~~Step 8: Verify the Domain and Cut DNS to GitHub Pages~~ ✅ **COMPLETED**
 
-**Objective:** Securely attach `fintrace.com.au`, preserve mail, and enable HTTPS with a reversible DNS change.
+**Objective:** Securely attach `fintrace.com.au` and enable HTTPS using only the required GitHub Pages DNS records.
+
+**Completed validation (17 July 2026):** Cloudflare authoritatively serves the four required apex A records, the `www` CNAME, and GitHub's verification TXT record. GitHub reports the account domain verified, `build_type: workflow`, `cname: fintrace.com.au`, and `https_enforced: true`. Let’s Encrypt certificates cover the apex and `www`; the apex returns `200`, HTTP upgrades to HTTPS with `307`, and `https://www.fintrace.com.au/` redirects to the apex with `301`.
 
 #### High-Level Approach
 
 1. Capture the current DNS records through authoritative and public resolvers:
    - Apex A.
-   - Apex AAAA.
    - `www` CNAME.
-   - MX.
    - TXT.
-   - CAA.
 2. Use the authenticated GitHub browser session to open the `Culpable` profile Pages settings and add `fintrace.com.au` as a verified domain.
 3. Add the exact GitHub-generated verification TXT host and value in the DNS provider.
 4. Confirm the TXT record with `dig`, then complete GitHub verification and leave the TXT record in place.
 5. Set the repository Pages custom domain to `fintrace.com.au` through the Pages API.
 6. Replace the current apex A record `103.42.108.46` with the four GitHub Pages A records.
 7. Add `www` CNAME `culpable.github.io`.
-8. Do not change MX or unrelated TXT records.
+8. Validate only the required GitHub Pages A, CNAME, and verification TXT records; ignore unrelated records.
 9. Poll public DNS and the GitHub Pages health endpoint.
 10. Poll the Pages certificate state.
 11. Enable `https_enforced: true` only after the certificate state is approved.
@@ -590,16 +581,18 @@ If the DNS provider requires a new login, ask the user only to sign in or approv
   - `https_enforced: true`
 - Public DNS returns exactly the four required GitHub Pages IPv4 addresses for the apex.
 - Public DNS returns `culpable.github.io.` for the `www` CNAME.
-- The six existing Google Workspace MX records remain present with the same priorities and hosts.
+- Cloudflare publishes the required GitHub Pages A, CNAME, and verification TXT records.
 - No wildcard record is introduced.
 - `gh api repos/Culpable/fintrace-root/pages/health` returns a passing DNS result.
 - `curl -I https://fintrace.com.au/` completes with a valid certificate and an HTTP success response.
 - `curl -I https://www.fintrace.com.au/` redirects to `https://fintrace.com.au/`.
-- If the cutover must be reversed, restoring `103.42.108.46` returns the apex DNS to the recorded pre-change state without changing MX records.
+- If the cutover must be reversed, remove the GitHub Pages A and `www` CNAME records after recording the failed state; retain the verification TXT unless GitHub verification is intentionally abandoned.
 
-### Step 9: Complete Local and Live Browser Verification
+### ~~Step 9: Complete Local and Live Browser Verification~~ ✅ **COMPLETED**
 
 **Objective:** Prove the route promotion, internal design access, responsive behaviour, WebGL rendering, indexing controls, and live Pages delivery.
+
+**Completed validation (17 July 2026):** The 26-case local matrix passed all 13 routes at `1440x900` and `390x900` with zero console errors, page errors, or horizontal overflow. The final live Pages check passed the production root at both viewports with one ready real-GPU WebGL canvas, the static fallback retained, visible keyboard focus, no internal-lab link, and zero errors. A fresh local recheck exposed a Next.js 16.2.10 Turbopack HMR panic while emitting `/exhibit/`; isolated direct requests passed, the production build passed, and no UI code changed after the complete local matrix, so failure triage classified it as development tooling rather than application behaviour.
 
 #### High-Level Approach
 
@@ -642,7 +635,7 @@ If the DNS provider requires a new login, ask the user only to sign in or approv
 - Live `https://www.fintrace.com.au/` resolves through the expected redirect.
 - No screenshot contains credentials, DNS values from an authenticated control panel, or environment secrets.
 
-### Step 10: Verify the Deployed Contract and Hand Off
+### Step 10: Verify the Deployed Contract and Hand Off 🔄 **IN PROGRESS**
 
 **Objective:** Confirm future pushes are automatic and provide a self-contained completion record.
 
@@ -667,7 +660,7 @@ If the DNS provider requires a new login, ask the user only to sign in or approv
 - Final documentation records:
   - Commit and workflow run.
   - Live apex and `www` behaviour.
-  - DNS records changed and records preserved.
+  - DNS records configured and the final scoped record set.
   - Local and live browser viewport results.
   - Lint, build, and static artefact assertion results.
   - Any user action that was actually required.
@@ -690,7 +683,7 @@ No bug-specific regression input exists. The following files and external states
 | `/Users/sacino/fintrace-root/src/app/page.tsx` | Current gallery source | Gallery content moves intact to `/internal-design/` |
 | GitHub repository `Culpable/fintrace-root` | Existing remote target | Contains local history, uses `main`, Pages workflow enabled, no `gh-pages` branch |
 | Current apex A `103.42.108.46` | DNS rollback source | Replaced only after capture; retained as the exact rollback value |
-| Current Google Workspace MX set | Mail safety source | Remains unchanged after web-host cutover |
+| User-confirmed DNS scope | DNS safety source | Validate the required GitHub Pages A, CNAME, and verification TXT records; ignore unrelated records |
 | User route decision | Product routing source | Engine Network at `/`; unlinked noindex lab at `/internal-design/` |
 
 ### 6.2 Static Artefact Assertions
@@ -769,10 +762,10 @@ Expected:
    - Action: Add `www` CNAME to `culpable.github.io`.
    - Expected: `https://www.fintrace.com.au/` redirects to the apex.
    - Verify: DNS lookup and `curl -I`.
-4. **Mail preservation**
-   - Action: Re-query MX after cutover.
-   - Expected: All six Google Workspace MX records match the captured pre-change set.
-   - Verify: Sorted before and after DNS outputs.
+4. **Scoped record set**
+   - Action: Re-query public DNS after cutover.
+   - Expected: The four apex A records, the `www` CNAME, and the GitHub verification TXT record return the required values; unrelated records are ignored.
+   - Verify: Public A, CNAME, and TXT queries.
 5. **HTTPS**
    - Action: Enable HTTPS after certificate approval.
    - Expected: Valid certificate, no TLS error, apex response succeeds.
@@ -796,7 +789,7 @@ The implementation is complete only when:
 - All generated HTML and sitemap assertions pass.
 - Both push-triggered GitHub Pages runs pass.
 - Domain verification, DNS health, certificate approval, and HTTPS enforcement pass.
-- Google Workspace MX records are unchanged.
+- Cloudflare publishes the required GitHub Pages A, CNAME, and verification TXT records.
 - Every required local and live browser route passes at both required viewports.
 - Documentation is synchronised.
 - No user-provided API key, repository secret, deploy key, or `gh-pages` branch was introduced.
