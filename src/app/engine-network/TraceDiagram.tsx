@@ -2,6 +2,7 @@
 
 import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 
 /**
  * Account-network trace set-piece — the investigative diagram re-skinned into
@@ -9,11 +10,12 @@ import { useEffect, useRef, useState } from 'react'
  *
  * A 2D-canvas evidence graph: account nodes joined by faintly pulsing gold
  * edges (ordinary transaction traffic), over which a bright golden thread
- * progressively draws itself along one suspicious route — joint account →
- * cash → related account → Wise → overseas. The single flagged hop (the cash
- * withdrawal) renders in restrained crimson: the only red on the page.
- * Node labels and per-hop annotations are HTML positioned on the same
- * normalised grid the canvas uses, so text stays crisp at any DPR.
+ * progressively draws itself along one suspicious 2024 route — joint account
+ * → cash → related account → Wise → overseas. The single flagged hop is the
+ * same 07 March cash withdrawal shown in the ledger above and renders in
+ * restrained crimson: the only red on the page. Node labels and per-hop
+ * annotations are HTML positioned on the same normalised grid the canvas
+ * uses, so text stays crisp at any DPR.
  */
 
 type GraphNode = {
@@ -26,19 +28,46 @@ type GraphNode = {
   onPath?: boolean
   /** The flagged node — pin and label render crimson once reached. */
   flagged?: boolean
+  /** Place the label on the route-free side of the node; default below. */
+  labelSide?: 'above'
+  /** Shift the desktop label horizontally away from its route thread. */
+  labelDx?: number
+  /** Nudge the desktop label vertically while retaining its chosen side. */
+  labelDy?: number
+  /** Override the horizontal shift when the compact layout is active. */
+  mobileLabelDx?: number
+  /** Override the vertical nudge when the compact layout is active. */
+  mobileLabelDy?: number
   /** Declutter small screens: label hidden below the md breakpoint. */
   hideOnMobile?: boolean
+}
+
+type TraceAnnotation = {
+  text: string
+  dx: number
+  dy: number
+  mobileDx?: number
+  mobileDy?: number
+  flagged: boolean
+  hideOnMobile: boolean
+}
+
+type TracePositionStyle = CSSProperties & {
+  '--tnx-d': string
+  '--tny-d': string
+  '--tnx-m': string
+  '--tny-m': string
 }
 
 /* Nodes spread across the full panel width — this diagram owns its section,
    so there is no headline column to keep clear. */
 const NODES: GraphNode[] = [
-  { id: 0, label: 'CBA JOINT ****8802', x: 0.1, y: 0.3, onPath: true },
-  { id: 1, label: 'CASH', x: 0.28, y: 0.14, onPath: true, flagged: true },
-  { id: 2, label: 'NAB ****1130', x: 0.46, y: 0.34, onPath: true },
-  { id: 3, label: 'WISE AUD', x: 0.63, y: 0.62, onPath: true },
-  { id: 4, label: 'HDFC ****3321 · INR', x: 0.87, y: 0.44, onPath: true },
-  { id: 5, label: 'ANZ ****4417', x: 0.24, y: 0.66 },
+  { id: 0, label: 'CBA JOINT ****8802', x: 0.1, y: 0.3, onPath: true, mobileLabelDx: 30 },
+  { id: 1, label: 'CASH', x: 0.28, y: 0.14, onPath: true, flagged: true, labelSide: 'above' },
+  { id: 2, label: 'NAB ****1130', x: 0.46, y: 0.34, onPath: true, labelDx: -60, mobileLabelDy: 12 },
+  { id: 3, label: 'WISE AUD', x: 0.63, y: 0.62, onPath: true, labelDx: 20, mobileLabelDx: 30 },
+  { id: 4, label: 'HDFC ****3321 · INR', x: 0.87, y: 0.44, onPath: true, labelSide: 'above', mobileLabelDx: -25 },
+  { id: 5, label: 'ANZ ****4417', x: 0.24, y: 0.66, hideOnMobile: true },
   { id: 6, label: 'WBC ****5546', x: 0.48, y: 0.82, hideOnMobile: true },
   { id: 7, label: 'CRYPTO EXCH', x: 0.72, y: 0.16, hideOnMobile: true },
   { id: 8, label: 'AMEX ****9010', x: 0.08, y: 0.78, hideOnMobile: true },
@@ -67,11 +96,35 @@ const AMBIENT_EDGES: Array<[number, number]> = [
 ]
 
 /** One evidence annotation per traced segment, revealed as the thread lands. */
-const ANNOTATIONS = [
-  { text: 'A$9,500 · 14 MAR 2021 · FLAGGED', dx: -72, dy: -26, flagged: true, hideOnMobile: false },
-  { text: 'A$9,400 · 16 MAR 2021', dx: 14, dy: -20, flagged: false, hideOnMobile: true },
-  { text: 'A$28,000 · 02 APR 2021', dx: 16, dy: -4, flagged: false, hideOnMobile: false },
-  { text: '₹15,40,000 · 04 APR 2021 · FX MATCH', dx: -48, dy: 22, flagged: false, hideOnMobile: false },
+const ANNOTATIONS: TraceAnnotation[] = [
+  {
+    text: 'A$9,500 · 07 MAR 2024 · SEE P. 214',
+    dx: -72,
+    dy: -26,
+    mobileDx: -30,
+    mobileDy: -34,
+    flagged: true,
+    hideOnMobile: false,
+  },
+  { text: 'A$9,400 · 09 MAR 2024', dx: 14, dy: -20, flagged: false, hideOnMobile: true },
+  {
+    text: 'A$28,000 · 02 APR 2024',
+    dx: 16,
+    dy: -4,
+    mobileDx: -20,
+    mobileDy: 14,
+    flagged: false,
+    hideOnMobile: false,
+  },
+  {
+    text: '₹18,20,000 · 04 APR 2024 · FX MATCH',
+    dx: -48,
+    dy: 22,
+    mobileDx: -140,
+    mobileDy: 62,
+    flagged: false,
+    hideOnMobile: false,
+  },
 ]
 
 /* Thread timeline (seconds): wait, draw, hold with pins lit, fade, repeat. */
@@ -390,6 +443,10 @@ export default function TraceDiagram() {
         {NODES.map((node) => {
           const pathIdx = PATH_IDS.indexOf(node.id)
           const hot = pathIdx !== -1 && pathIdx <= hops && hops > 0
+          const desktopDx = node.labelDx ?? 0
+          const desktopDy = node.labelDy ?? 0
+          const mobileDx = node.mobileLabelDx ?? desktopDx
+          const mobileDy = node.mobileLabelDy ?? desktopDy
           return (
             <span
               key={node.id}
@@ -397,9 +454,19 @@ export default function TraceDiagram() {
                 'tnet-label',
                 hot && 'is-hot',
                 hot && node.flagged && 'is-flagged',
+                node.labelSide === 'above' && 'tnet-label-above',
                 node.hideOnMobile && 'tnet-md-only',
               )}
-              style={{ left: `${node.x * 100}%`, top: `${node.y * 100}%` }}
+              style={
+                {
+                  '--tnx-d': `${desktopDx}px`,
+                  '--tny-d': `${desktopDy}px`,
+                  '--tnx-m': `${mobileDx}px`,
+                  '--tny-m': `${mobileDy}px`,
+                  left: `calc(${node.x * 100}% + var(--tnx))`,
+                  top: `calc(${node.y * 100}% + var(--tny))`,
+                } as TracePositionStyle
+              }
             >
               {node.label}
             </span>
@@ -409,6 +476,8 @@ export default function TraceDiagram() {
         {ANNOTATIONS.map((a, i) => {
           const n1 = NODES[PATH_IDS[i]]
           const n2 = NODES[PATH_IDS[i + 1]]
+          const mobileDx = a.mobileDx ?? a.dx
+          const mobileDy = a.mobileDy ?? a.dy
           return (
             <span
               key={a.text}
@@ -418,10 +487,16 @@ export default function TraceDiagram() {
                 a.flagged && 'is-flagged',
                 a.hideOnMobile && 'tnet-md-only',
               )}
-              style={{
-                left: `calc(${((n1.x + n2.x) / 2) * 100}% + ${a.dx}px)`,
-                top: `calc(${((n1.y + n2.y) / 2) * 100}% + ${a.dy}px)`,
-              }}
+              style={
+                {
+                  '--tnx-d': `${a.dx}px`,
+                  '--tny-d': `${a.dy}px`,
+                  '--tnx-m': `${mobileDx}px`,
+                  '--tny-m': `${mobileDy}px`,
+                  left: `calc(${((n1.x + n2.x) / 2) * 100}% + var(--tnx))`,
+                  top: `calc(${((n1.y + n2.y) / 2) * 100}% + var(--tny))`,
+                } as TracePositionStyle
+              }
             >
               {a.text}
             </span>

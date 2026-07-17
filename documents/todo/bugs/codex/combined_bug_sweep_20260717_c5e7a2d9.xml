@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_sweep>
+  <bug_1>
+    <summary>
+      <title>[Ledger] Flag rule still has no lower clearance from the annotation box</title>
+      <one_line_description>The enlarged crimson rule still ends one pixel above the annotation box instead of leaving the required four-pixel lower gap.</one_line_description>
+    </summary>
+    <file_locations><![CDATA[
+- /Users/sacino/fintrace-root/src/app/engine-network/engine-network.css - selectors: `.eng-lt-flag rect` and `.eng-lt-note`, Lines 1565-1596
+- /Users/sacino/fintrace-root/src/app/engine-network/LedgerPlate.tsx - component: `LedgerPlate`, Lines 119-127
+    ]]></file_locations>
+    <issue_description>
+      <description>The implementation increases the annotation's bottom padding, but the SVG still fills the same flagged-row wrapper and its rectangle still uses `y: 1px` with `height: calc(100% - 2px)`. The annotation is the wrapper's final in-flow child, so increasing its padding grows the wrapper and the overlaid SVG by the same amount; it cannot create clearance between the rectangle and the annotation box. Headed Chromium measurements after the ledger animation completed returned `rect.bottom - note.bottom = -1px` at 1440x900, 700x900 and 390x900, while REQ-1 requires at least 4px. The date and left annotation clearances now pass, but the lower-clearance defect remains. Adjust the rule's lower geometry independently from the annotation's in-flow height so the measured gap can reach the required minimum.</description>
+      <code_example><![CDATA[
+```css
+/* File: src/app/engine-network/engine-network.css, Lines 1565-1596 */
+
+.dsn-engine-network .eng-lt-flag rect {
+  y: 1px;
+  height: calc(100% - 2px);
+}
+
+.dsn-engine-network .eng-lt-note {
+  padding: 0.2rem 0 0.8rem;
+}
+```
+      ]]></code_example>
+      <expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Lower Clearance** | Rectangle bottom sits at least 4px below the annotation box | Rectangle bottom sits 1px above the annotation box at all three tested widths |
+| **Responsive Behaviour** | The clearance passes at 1440px, 700px and 390px | The same -1px result persists at every tested width |
+| **Acceptance Result** | REQ-1 lower-edge assertion passes | REQ-1 lower-edge assertion fails |
+      ]]></expected_vs_actual>
+    </issue_description>
+  </bug_1>
+
+  <bug_2>
+    <summary>
+      <title>[Ledger] Status caption drops vertically when the final state appears</title>
+      <one_line_description>The first two status strings are anchored to the container top while the final in-flow string sits seven pixels lower.</one_line_description>
+    </summary>
+    <file_locations><![CDATA[
+- /Users/sacino/fintrace-root/src/app/engine-network/engine-network.css - selectors: `.eng-lt-status`, `.eng-lt-s1`, `.eng-lt-s2` and `.eng-lt-s3`, Lines 1349-1376
+- /Users/sacino/fintrace-root/src/app/engine-network/LedgerPlate.tsx - component: `LedgerPlate`, Lines 85-92
+    ]]></file_locations>
+    <issue_description>
+      <description>The width-setter change makes the final status an in-flow inline block while the first two states remain absolutely positioned at `top: 0`. The status container's line-box leading places the final string 7px below that top edge, so the supposedly stacked captions do not share a baseline. In headed Chromium at 1440x900, the first state occupied y=415.85-430.72 while the final state occupied y=422.85-437.72; the same 7px offset was measured at 700px and 390px. When categorising fades out and reconciliation fades in, the masthead status visibly drops. Keep the final string as the intrinsic width reference, but align every animated state to the same rendered baseline.</description>
+      <code_example><![CDATA[
+```css
+/* File: src/app/engine-network/engine-network.css, Lines 1366-1376 */
+
+.dsn-engine-network .eng-lt-s1,
+.dsn-engine-network .eng-lt-s2 {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.dsn-engine-network .eng-lt-s3 {
+  position: static;
+  display: inline-block;
+}
+```
+      ]]></code_example>
+      <expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Alignment** | All three rotating statuses occupy one fixed vertical position | The final status renders 7px below the first two |
+| **Animation** | State changes cross-fade without layout movement | The text drops when the final state fades in |
+| **Responsive Behaviour** | The status remains stable at desktop and mobile widths | The 7px offset reproduces at 1440px, 700px and 390px |
+      ]]></expected_vs_actual>
+    </issue_description>
+  </bug_2>
+
+  <bug_3>
+    <summary>
+      <title>[Documentation] Design plan introduction still reports five completed rounds</title>
+      <one_line_description>The round-six documentation update leaves the source-of-truth introduction one round behind its own history and current-state sections.</one_line_description>
+    </summary>
+    <file_locations><![CDATA[
+- /Users/sacino/fintrace-root/documents/plans/fintrace_design_plan.md - source-of-truth introduction, Line 3
+- /Users/sacino/fintrace-root/documents/plans/fintrace_design_plan.md - completed history count and round-six record, Lines 45 and 135-154
+    ]]></file_locations>
+    <issue_description>
+      <description>The round-six update changes the history heading to six completed rounds, adds the complete round-six implementation and validation record, and says the current audit-fix pass is complete. The opening source-of-truth description still says the repository has been built across five rounds. A new contributor following the document from the top therefore receives contradictory project-state information before reaching the corrected history. Update the introduction to say six rounds so the document describes one consistent current state.</description>
+      <code_example><![CDATA[
+```markdown
+# File: documents/plans/fintrace_design_plan.md, Lines 3 and 45
+
+This document is the standalone source of truth ... what has been built across five rounds ...
+
+## History: six completed rounds
+```
+      ]]></code_example>
+      <expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Round count** | Introduction and history both report six completed rounds | Introduction reports five while history reports six |
+| **Source of truth** | A contributor receives one consistent current-state summary | The first summary contradicts the completed round-six record |
+| **Recommendation** | Update the introduction from five rounds to six rounds | Stale wording remains after the round-six documentation sync |
+      ]]></expected_vs_actual>
+    </issue_description>
+  </bug_3>
+</bug_sweep>

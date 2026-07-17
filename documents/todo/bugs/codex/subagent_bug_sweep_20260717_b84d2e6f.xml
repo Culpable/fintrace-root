@@ -1,0 +1,37 @@
+<bug_1>
+<summary>
+<title>[Documentation] Design plan introduction still reports five completed rounds</title>
+<one_line_description>The round-six documentation update leaves the source-of-truth introduction one round behind its own history and current-state sections.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace-root/documents/plans/fintrace_design_plan.md - source-of-truth introduction, Line 3
+- /Users/sacino/fintrace-root/documents/plans/fintrace_design_plan.md - completed history count and round-six record, Lines 45 and 135-154
+</file_locations>
+
+<issue_description>
+<description>The round-six update changes the history heading to six completed rounds, adds the complete round-six implementation and validation record, and says the current audit-fix pass is complete. The opening source-of-truth description still says the repository has been built across five rounds. A new contributor following the document from the top therefore receives contradictory project-state information before reaching the corrected history. Update the introduction to say six rounds so the document describes one consistent current state.</description>
+
+<code_example>
+
+<![CDATA[
+```markdown
+# File: documents/plans/fintrace_design_plan.md, Lines 3 and 45
+
+This document is the standalone source of truth ... what has been built across five rounds ...
+
+## History: six completed rounds
+```
+]]>
+
+</code_example>
+
+<expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Round count** | Introduction and history both report six completed rounds | Introduction reports five while history reports six |
+| **Source of truth** | A contributor receives one consistent current-state summary | The first summary contradicts the completed round-six record |
+| **Recommendation** | Update the introduction from five rounds to six rounds | Stale wording remains after the round-six documentation sync |
+</expected_vs_actual>
+</issue_description>
+</bug_1>

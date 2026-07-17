@@ -2,15 +2,15 @@
  * Cross-currency match — reconstructed. The investigative set-piece, rendered
  * entirely in the engine's obsidian-and-gold language.
  *
- * A rupee amount leaves an overseas HDFC account, passes through Wise and
- * lands in an Australian ANZ account as dollars. The amount chip physically
- * travels the dotted route (CSS motion path in SVG user units, so it scales
- * with the viewBox), swaps currency mid-journey at the Wise node, and a
- * MATCHED plate stamps in at arrival. The plate sits a clear band above the
- * chip's landing spot so verdict and amount never overlap, and the viewBox
- * carries enough side padding that no station label clips. All animation is
- * pure CSS, armed when the parent <Reveal> gains `.is-visible`, then looping
- * on a long cycle.
+ * The A$28,000 Wise hop from the trace above is expanded here: dollars leave
+ * NAB, convert at an exact 65.00 rate and land at HDFC as ₹18,20,000 two days
+ * later. The amount chip physically travels the dotted route (CSS motion path
+ * in SVG user units, so it scales with the viewBox), swaps currency
+ * mid-journey at the Wise node, and a MATCHED plate stamps in at arrival. The
+ * plate sits a clear band above the chip's landing spot so verdict and amount
+ * never overlap, and the viewBox carries enough side padding that no station
+ * label clips. All animation is pure CSS, armed when the parent <Reveal>
+ * gains `.is-visible`, then looping on a long cycle.
  *
  * Server component by design: the SVG is static markup; CSS does the work.
  */
@@ -22,55 +22,55 @@ export default function CurrencyMatch() {
         className="ecm"
         viewBox="0 0 560 200"
         role="img"
-        aria-label="A rupee transfer matched to an Australian dollar deposit via Wise"
+        aria-label="An Australian dollar transfer matched to a rupee deposit via Wise"
       >
         {/* Dotted route with marching dashes flowing in the money's direction */}
         <path className="ecm-path" d="M 76 118 Q 178 52 280 118 Q 382 52 484 118" fill="none" />
 
-        {/* Station 1: the overseas source account */}
+        {/* Station 1: the Australian source account */}
         <g className="ecm-st">
           <circle className="ecm-ring" cx="76" cy="118" r="9" />
           <circle className="ecm-dot" cx="76" cy="118" r="4.5" />
           <text className="ecm-name" x="76" y="144" textAnchor="middle">
-            HDFC ****3321
+            NAB ****1130
           </text>
           <text className="ecm-sub" x="76" y="162" textAnchor="middle">
-            OUT ₹15,40,000 · 04 APR
+            OUT A$28,000 · 02 APR
           </text>
         </g>
 
         {/* Station 2: the FX bridge where the currency swap happens */}
-        <g className="ecm-st ecm-st2">
+        <g className="ecm-st">
           <circle className="ecm-ring" cx="280" cy="118" r="9" />
           <circle className="ecm-dot" cx="280" cy="118" r="4.5" />
           <text className="ecm-name" x="280" y="144" textAnchor="middle">
             WISE
           </text>
           <text className="ecm-sub" x="280" y="162" textAnchor="middle">
-            FX 0.01818
+            FX 65.00
           </text>
         </g>
 
-        {/* Station 3: the Australian destination account */}
-        <g className="ecm-st ecm-st3">
+        {/* Station 3: the overseas destination account */}
+        <g className="ecm-st">
           <circle className="ecm-ring" cx="484" cy="118" r="9" />
           <circle className="ecm-dot" cx="484" cy="118" r="4.5" />
           <text className="ecm-name" x="484" y="144" textAnchor="middle">
-            ANZ ****4417
+            HDFC ****3321
           </text>
           <text className="ecm-sub" x="484" y="162" textAnchor="middle">
-            IN A$28,004 · 04 APR
+            IN ₹18,20,000 · 04 APR
           </text>
         </g>
 
-        {/* The travelling amount chip: rupees out, dollars in */}
+        {/* The travelling amount chip: dollars out, rupees in */}
         <g className="ecm-chip">
           <rect x="-48" y="-40" width="96" height="24" rx="3" />
-          <text className="ecm-amt ecm-amt-inr" x="0" y="-23" textAnchor="middle">
-            ₹15,40,000
+          <text className="ecm-amt ecm-amt-out" x="0" y="-23" textAnchor="middle">
+            A$28,000
           </text>
-          <text className="ecm-amt ecm-amt-aud" x="0" y="-23" textAnchor="middle">
-            A$28,004
+          <text className="ecm-amt ecm-amt-in" x="0" y="-23" textAnchor="middle">
+            ₹18,20,000
           </text>
         </g>
 

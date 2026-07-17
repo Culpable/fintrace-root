@@ -47,12 +47,12 @@ const STAGES = [
   {
     numeral: '02',
     name: 'Extraction',
-    copy: 'Thousands of pages become one structured Excel ledger: file name, person, date, financial year, description, debit, credit, amount, category.',
+    copy: 'Thousands of pages become one structured Excel ledger: file name, person, date, financial year, description, debit and credit, amount, category.',
   },
   {
     numeral: '03',
     name: 'Analysis',
-    copy: 'The engine looks deeper — cash-withdrawal patterns, gambling and crypto activity, transfers between related accounts, and cross-currency matches.',
+    copy: 'The engine looks deeper — cash-withdrawal patterns, gambling and crypto activity, transfers between related accounts and cross-currency matches.',
   },
   {
     numeral: '04',
@@ -72,7 +72,7 @@ const SPECS = [
   {
     index: '02',
     name: 'Structured ledger',
-    copy: 'One Excel workbook holding every transaction: file, person, date, financial year, description, debit and credit, amount, category.',
+    copy: 'One Excel workbook holding every transaction: file name, person, date, financial year, description, debit and credit, amount, category.',
     tag: 'Output',
   },
   {
@@ -84,13 +84,13 @@ const SPECS = [
   {
     index: '04',
     name: 'Anomaly detection',
-    copy: 'Cash-withdrawal patterns, gambling and crypto activity, and transactions that sit outside the account’s normal rhythm — flagged, not buried.',
+    copy: 'Cash-withdrawal patterns, gambling and crypto activity and transactions that sit outside the account’s normal rhythm — flagged, not buried.',
     tag: 'Analysis',
   },
   {
     index: '05',
     name: 'Cross-account tracing',
-    copy: 'Money followed between related accounts, including cross-currency matches — rupees to Australian dollars through Wise, reconciled line to line.',
+    copy: 'Money followed between related accounts, including cross-currency matches — Australian dollars to rupees through Wise, reconciled line to line.',
     tag: 'Analysis',
   },
   {
@@ -105,13 +105,13 @@ const SPECS = [
 const AUDIENCES = [
   {
     name: 'Family law property matters',
-    copy: 'Property pools that turn on years of statements — the matters FinTrace was proven on: thousands of pages, dozens of accounts, fifteen years of history.',
+    copy: 'Property pools that turn on years of statements — the matters FinTrace was proven on: thousands of pages, fifty accounts, fifteen years of history.',
     note: 'The proven wedge',
     featured: true,
   },
   {
     name: 'Public trustees & government legal',
-    copy: 'Engaged per matter as a specialist provider — suited to procurement, and to overloaded teams with every reason to save time.',
+    copy: 'Engaged per matter as a specialist provider — suited to procurement and to overloaded teams with every reason to save time.',
     featured: false,
   },
   {
@@ -196,9 +196,9 @@ export default function EnginePage() {
                 Every line entered. <span className="eng-gold-text">Every line sourced.</span>
               </h2>
               <p className="eng-lede">
-                The story starts with structure: thousands of pages become one ledger. Watch the engine work —
-                statement lines entered, categorised and reconciled, and the one that warrants attention, flagged with
-                its source page attached.
+                The story starts with structure: thousands of pages become one ledger. Watch the engine work:
+                statement lines entered, categorised and reconciled — and the one that warrants attention flagged,
+                with its source page attached.
               </p>
             </Reveal>
             <Reveal delay={120}>
@@ -219,14 +219,14 @@ export default function EnginePage() {
               </h2>
               <p className="eng-lede">
                 From that ledger the engine maps every account it reads, then follows the money between them — joint
-                account to cash, cash to a related account, onwards through Wise to an overseas ledger. Each hop is
-                dated, valued, and cited to its source page.
+                account to cash, cash to a related account, onwards through Wise to an overseas account. Each hop is
+                dated, valued and cited to its source page.
               </p>
             </Reveal>
             <Reveal className="eng-plate eng-tnet-plate" delay={120}>
               <TraceDiagram />
               <p className="eng-diagram-caption">
-                Reconstructed route on a live matter — the flagged cash withdrawal is the single crimson hop.
+                The route, reconstructed from the extract above — the flagged withdrawal is the single crimson hop.
               </p>
             </Reveal>
           </div>
@@ -242,11 +242,11 @@ export default function EnginePage() {
                 Same funds. <span className="eng-gold-text">Two currencies. One match.</span>
               </h2>
               <p className="eng-lede">
-                And the thread holds even where the trail changes currency: rupees leaving an overseas account are
-                matched to the dollars that landed here — with source pages cited for both sides.
+                And the thread holds even where the trail changes currency: the dollars that left through Wise are
+                matched to the rupees that landed overseas two days later — down to the exchange rate.
               </p>
             </Reveal>
-            <Reveal className="eng-plate eng-ecm-plate">
+            <Reveal className="eng-plate eng-ecm-plate" delay={120}>
               <CurrencyMatch />
             </Reveal>
           </div>
@@ -351,7 +351,7 @@ export default function EnginePage() {
               </h2>
               <p className="eng-lede eng-cta-lede">
                 FinTrace is a specialist forensic service, engaged per matter — a flat engagement fee plus per-page
-                pricing. Send the statements; receive the ledger, the findings, and the sources to back them.
+                pricing. Send the statements; receive the ledger, the findings and the sources to back them.
               </p>
               <div className="eng-hero-ctas">
                 <a className="eng-btn-gold eng-btn-loop" href="mailto:hello@fintrace.com.au">
@@ -386,14 +386,6 @@ export default function EnginePage() {
           <p>© 2026 FinTrace. Every finding traceable to its source.</p>
         </div>
       </footer>
-
-      {/* Fixed return chip to the design-lab index */}
-      <Link href="/" className="eng-lab-chip">
-        <svg width="8" height="10" viewBox="0 0 8 10" fill="none" aria-hidden="true">
-          <path d="M7 1 2 5l5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-        </svg>
-        Design lab · Engine — network
-      </Link>
     </div>
   )
 }

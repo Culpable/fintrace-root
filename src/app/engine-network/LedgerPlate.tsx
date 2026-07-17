@@ -135,8 +135,7 @@ export default function LedgerPlate() {
       </div>
 
       <figcaption className="eng-lt-caption">
-        Extract 04 · rendered from westpac_2019_q3.pdf and 41 companion statements · column order follows the
-        delivered spreadsheet
+        Extract 04 · rendered from cba_joint_8802_mar24.pdf and 41 companion statements
       </figcaption>
     </figure>
   )

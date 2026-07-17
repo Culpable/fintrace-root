@@ -137,6 +137,16 @@
   animation: engnet-sheen 3.9s ease-in-out infinite;
 }
 
+/* Keep the kicker legible while bright statement pages pass directly behind
+   its band on their way into the gate; the lower scrim pocket cannot protect
+   this higher strip without flattening the validated hero composition. */
+.dsn-engine-network .eng-hero .eng-kicker {
+  text-shadow:
+    0 0 6px rgba(13, 11, 9, 0.95),
+    0 0 16px rgba(13, 11, 9, 0.85),
+    0 0 32px rgba(13, 11, 9, 0.7);
+}
+
 @keyframes engnet-sheen {
   0%,
   100% {
@@ -980,53 +990,6 @@
   color: rgba(163, 154, 141, 0.55);
 }
 
-/* ------------------------------- Lab chip ------------------------------- */
-
-.dsn-engine-network .eng-lab-chip {
-  position: fixed;
-  bottom: 1.1rem;
-  left: 1.1rem;
-  z-index: 50;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-eng-mono), monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--grey-warm);
-  background: rgba(13, 11, 9, 0.82);
-  border: 1px solid var(--hairline-dim);
-  padding: 0.6em 1em;
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
-  transition:
-    color 0.3s ease,
-    border-color 0.3s ease,
-    scale 0.15s ease-out;
-}
-
-/* The chip is ~22px tall: extend its touch target to the 44px minimum.
-   It sits alone in the corner, so the extension cannot collide. */
-.dsn-engine-network .eng-lab-chip::after {
-  content: '';
-  position: absolute;
-  left: -6px;
-  right: -6px;
-  top: 50%;
-  height: 44px;
-  transform: translateY(-50%);
-}
-
-.dsn-engine-network .eng-lab-chip:hover {
-  color: var(--gold-bright);
-  border-color: var(--hairline);
-}
-
-.dsn-engine-network .eng-lab-chip:active {
-  scale: 0.96;
-}
-
 /* ============================== Responsive ============================== */
 
 @media (max-width: 900px) {
@@ -1202,11 +1165,11 @@
   letter-spacing: 0.04em;
 }
 
-.dsn-engine-network .ecm-amt-inr {
+.dsn-engine-network .ecm-amt-out {
   fill: var(--gold-bright);
 }
 
-.dsn-engine-network .ecm-amt-aud {
+.dsn-engine-network .ecm-amt-in {
   fill: var(--gold-bright);
   opacity: 0;
 }
@@ -1232,7 +1195,7 @@
 }
 
 /* Armed by the parent Reveal: the journey loops on a 9s cycle —
-   depart HDFC, dwell + swap currency at Wise, land at ANZ, stamp MATCHED.
+   depart NAB, dwell + swap currency at Wise, land at HDFC, stamp MATCHED.
    Gated on offset-path support: without it the chip would sit at the SVG
    origin, so browsers lacking motion paths keep the static diagram only. */
 @supports (offset-path: path('M 0 0 L 1 1')) {
@@ -1240,12 +1203,12 @@
     animation: ecmnet-travel 9s cubic-bezier(0.45, 0, 0.3, 1) 0.4s infinite;
   }
 
-  .dsn-engine-network .eng-reveal.is-visible .ecm-amt-inr {
-    animation: ecmnet-inr 9s linear 0.4s infinite;
+  .dsn-engine-network .eng-reveal.is-visible .ecm-amt-out {
+    animation: ecmnet-out 9s linear 0.4s infinite;
   }
 
-  .dsn-engine-network .eng-reveal.is-visible .ecm-amt-aud {
-    animation: ecmnet-aud 9s linear 0.4s infinite;
+  .dsn-engine-network .eng-reveal.is-visible .ecm-amt-in {
+    animation: ecmnet-in 9s linear 0.4s infinite;
   }
 
   .dsn-engine-network .eng-reveal.is-visible .ecm-match {
@@ -1270,38 +1233,36 @@
   }
   82% {
     offset-distance: 100%;
+  }
+  95% {
+    offset-distance: 100%;
     opacity: 1;
   }
-  88%,
   100% {
     offset-distance: 100%;
     opacity: 0;
   }
 }
 
-@keyframes ecmnet-inr {
+@keyframes ecmnet-out {
   0%,
-  43% {
+  43.5% {
     opacity: 1;
   }
-  47%,
+  45%,
   100% {
     opacity: 0;
   }
 }
 
-@keyframes ecmnet-aud {
+@keyframes ecmnet-in {
   0%,
-  43% {
+  45.5% {
     opacity: 0;
   }
   47%,
-  84% {
-    opacity: 1;
-  }
-  88%,
   100% {
-    opacity: 0;
+    opacity: 1;
   }
 }
 
@@ -1312,7 +1273,7 @@
     transform: scale(1.35);
   }
   84%,
-  94% {
+  96% {
     opacity: 1;
     transform: scale(1);
   }
@@ -1385,22 +1346,23 @@
   color: var(--gold);
 }
 
-/* Rotating status caption: three stacked spans keyed to the run clock */
+/* Stack every rotating state in one grid cell so all three baselines stay
+   fixed while the longest final line sets the intrinsic width. */
 .dsn-engine-network .eng-lt-status {
   position: relative;
-  height: 1rem;
-  min-width: 20ch;
+  display: inline-grid;
   text-align: right;
 }
 
 .dsn-engine-network .eng-lt-status span {
-  position: absolute;
-  inset: 0;
+  grid-area: 1 / 1;
+  justify-self: end;
   font-size: 0.62rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--grey-warm);
   opacity: 0;
+  white-space: nowrap;
 }
 
 .dsn-engine-network .eng-lt.is-run .eng-lt-s1 {
@@ -1408,12 +1370,12 @@
 }
 
 .dsn-engine-network .eng-lt.is-run .eng-lt-s2 {
-  animation: engnet-lt-status-hold 1.9s ease 2.3s forwards;
+  animation: engnet-lt-status-hold 3.3s ease 2.3s forwards;
 }
 
 .dsn-engine-network .eng-lt.is-run .eng-lt-s3 {
   color: var(--gold-bright);
-  animation: engnet-lt-fade-in 0.5s ease 4.2s forwards;
+  animation: engnet-lt-fade-in 0.5s ease 5.6s forwards;
 }
 
 @keyframes engnet-lt-status-hold {
@@ -1565,10 +1527,17 @@
   position: relative;
 }
 
+/* Reserve a fixed gutter after the in-flow note before sizing the absolute
+   SVG. Keep this separate from note padding: changing the note's own height
+   also grows the overlay and leaves both bottom edges locked together. */
+.dsn-engine-network .eng-lt-wrap.is-flagged {
+  padding-bottom: 5px;
+}
+
 .dsn-engine-network .eng-lt-wrap.is-flagged::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: 0 -0.75rem;
   background: linear-gradient(90deg, rgba(210, 74, 53, 0.1), rgba(210, 74, 53, 0.03));
   opacity: 0;
   pointer-events: none;
@@ -1591,9 +1560,9 @@
 }
 
 .dsn-engine-network .eng-lt-flag rect {
-  x: 1px;
+  x: -0.75rem;
   y: 1px;
-  width: calc(100% - 2px);
+  width: calc(100% + 1.5rem);
   height: calc(100% - 2px);
   rx: 2px;
   fill: none;
@@ -1620,7 +1589,7 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--flag);
-  padding: 0.2rem 0 0.55rem;
+  padding: 0.2rem 0 0.8rem;
   opacity: 0;
 }
 
@@ -1690,6 +1659,10 @@
     width: 100%;
   }
 
+  .dsn-engine-network .eng-lt-status span {
+    justify-self: start;
+  }
+
   /* Drop balance and the category header; chips wrap beneath the row */
   .dsn-engine-network .eng-lt-row {
     grid-template-columns: 4.2rem minmax(0, 1fr) 6rem;
@@ -1709,6 +1682,15 @@
   .dsn-engine-network .eng-lt-data,
   .dsn-engine-network .eng-lt-date {
     font-size: 0.68rem;
+  }
+
+  .dsn-engine-network .eng-lt-wrap.is-flagged::before {
+    inset: 0 -0.625rem;
+  }
+
+  .dsn-engine-network .eng-lt-flag rect {
+    x: -0.625rem;
+    width: calc(100% + 1.25rem);
   }
 }
 
@@ -1751,6 +1733,15 @@
   pointer-events: none;
 }
 
+/* Resolve desktop/mobile offsets through stylesheet-owned current variables.
+   Keep the source values inline so the media query can switch them without
+   fighting inline-style specificity. */
+.dsn-engine-network .tnet-label,
+.dsn-engine-network .tnet-note {
+  --tnx: var(--tnx-d);
+  --tny: var(--tny-d);
+}
+
 /* Account labels ride the canvas's normalised grid; hot = reached by thread */
 .dsn-engine-network .tnet-label {
   position: absolute;
@@ -1764,6 +1755,12 @@
   transition:
     color 0.35s ease,
     opacity 0.35s ease;
+}
+
+/* Put a label above its node when every bright route thread approaches from
+   below; keep the default below-node placement for all unmarked accounts. */
+.dsn-engine-network .tnet-label-above {
+  transform: translate(-50%, calc(-100% - 10px));
 }
 
 .dsn-engine-network .tnet-label.is-hot {
@@ -1828,11 +1825,55 @@
     font-size: 0.54rem;
   }
 
+  /* Switch to compact offsets and wrap long evidence notes inside the plate
+     instead of relying on paint containment to hide clipped text. */
+  .dsn-engine-network .tnet-label,
+  .dsn-engine-network .tnet-note {
+    --tnx: var(--tnx-m);
+    --tny: var(--tny-m);
+  }
+
   .dsn-engine-network .tnet-note {
     font-size: 0.52rem;
+    white-space: normal;
+    max-width: 140px;
+    line-height: 1.5;
   }
 
   .dsn-engine-network .tnet-root {
     height: 340px;
+  }
+
+  .dsn-engine-network .ecm-name {
+    font-size: 16px;
+  }
+
+  .dsn-engine-network .ecm-sub {
+    font-size: 12px;
+  }
+
+  .dsn-engine-network .ecm-amt {
+    font-size: 16px;
+  }
+
+  .dsn-engine-network .ecm-match text {
+    font-size: 13px;
+  }
+
+  .dsn-engine-network .ecm-chip rect {
+    x: -54px;
+    width: 108px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dsn-engine-network .eng-stat-value {
+    font-size: 1.9rem;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .dsn-engine-network .eng-proof-stats {
+    gap: 1.6rem 1rem;
   }
 }

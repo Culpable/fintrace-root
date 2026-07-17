@@ -192,14 +192,14 @@ const NODES_DESKTOP: NetNode[] = [
   // down-left, so the only thread-free side is the LEFT horizontal.
   { label: 'ANZ ··4417', slot: [2.35, 0.05, -0.2], labelOffset: [-0.73, 0] },
   { label: 'WISE', slot: [1.7, 1.5, -0.55], labelOffset: [-0.73, 0] }, // threads right+top → label left
-  { label: 'CBA ··0092', slot: [3.3, 1.15, -0.9], labelOffset: [-0.73, 0] }, // threads below+above-right → label left
+  { label: 'CBA ··8802', slot: [3.3, 1.15, -0.9], labelOffset: [-0.73, 0] }, // threads below+above-right → label left
   { label: 'CASH ATM', slot: [2.6, -1.6, 0], labelOffset: [0, -0.38], flag: true }, // thread above → label below
-  { label: 'AMEX ··3010', slot: [1.45, -1.3, -0.35], labelOffset: [0, -0.38] }, // thread above → label below
+  { label: 'AMEX ··9010', slot: [1.45, -1.3, -0.35], labelOffset: [0, -0.38] }, // thread above → label below
   // The two crown nodes sit well apart (round-four follow-up: NAB moved
   // right and deeper, HDFC left and higher, so NAB's plate clears HDFC's
   // ring by a full plate-height even under maximum camera parallax)
   { label: 'HDFC ··3321', slot: [2.35, 2.55, -0.9], labelOffset: [0, 0.38] }, // thread below → label above
-  { label: 'NAB ··7793', slot: [3.4, 2, -1.5], labelOffset: [0, 0.38] }, // thread below → label above
+  { label: 'NAB ··1130', slot: [3.4, 2, -1.5], labelOffset: [0, 0.38] }, // thread below → label above
   { label: 'BTC WALLET', slot: [3.45, -0.55, -1.1], labelOffset: [0, -0.38] }, // thread above → label below
 ]
 
@@ -222,7 +222,7 @@ const EDGES_DESKTOP: Array<[number, number]> = [
 const NODES_MOBILE: NetNode[] = [
   { label: 'ANZ ··4417', slot: [1.15, 0.55, -0.2], labelOffset: [0.73, 0] }, // threads left+up → label right
   { label: 'WISE', slot: [0.5, 1.8, -0.5], labelOffset: [-0.73, 0] }, // threads right → label left
-  { label: 'CBA ··0092', slot: [1.95, 1.7, -0.6], labelOffset: [0, 0.38] }, // thread below-left → label above
+  { label: 'CBA ··8802', slot: [1.95, 1.7, -0.6], labelOffset: [0, 0.38] }, // thread below-left → label above
   { label: 'CASH ATM', slot: [0.65, -0.75, 0.1], labelOffset: [0, -0.38], flag: true }, // thread above → label below
   { label: 'HDFC ··3321', slot: [1.55, 2.75, -0.9], labelOffset: [0, 0.38] }, // thread below → label above
 ]

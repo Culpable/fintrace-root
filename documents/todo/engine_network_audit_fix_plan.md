@@ -1,4 +1,4 @@
-# /engine-network/ Canonical Home Page Audit-Fix Plan
+# ~~/engine-network/ Canonical Home Page Audit-Fix Plan~~ ✅ **COMPLETED**
 
 <critical_warning>
 > **CRITICAL WARNING:** Step 6 edits baked label strings inside the hero WebGL scene (`Scene.tsx`). Per the binding project rule in `AGENTS.md` and `documents/plans/fintrace_design_plan.md`, ANY `/engine-network` hero change — even text-only — requires headed real-GPU re-verification at the full seven-viewport matrix (1440x900, 1998x750, 2560x1080, 3425x1245, 1024x768, 900x1080, 390x900) plus fallback and lifecycle checks. Do not skip this because the change "is only text". Replacement strings were chosen with identical character counts so plate-fit geometry is untouched, but only the browser proves it.
@@ -157,27 +157,27 @@ flowchart LR
 ### 3.3 Verification Checklist
 
 **Functional:**
-- [ ] Flag-rule clearances measured ≥10 px left, ≥4 px bottom (script-measured at 1440 and 390)
-- [ ] All three ledger statuses single-line; final status ≥5.6 s
-- [ ] Trace invariants (REQ-5) pass at 1440x900, 1024x768, 390x900 over a full cycle
-- [ ] Match chip swap clean; stamp+chip coexist ≥0.8 s; FX maths exact on-screen
-- [ ] Hero kicker legible over passing documents at 1440 and 390 (screenshot evidence at ≥2 phases)
-- [ ] Proof stats single-line at 390
-- [ ] No `.eng-lab-chip` in DOM; © line fully visible at both viewports
+- [x] Flag-rule clearances measured ≥10 px left, ≥4 px bottom (script-measured at 1440 and 390)
+- [x] All three ledger statuses single-line; final status ≥5.6 s
+- [x] Trace invariants (REQ-5) pass at 1440x900, 1024x768, 390x900 over a full cycle
+- [x] Match chip swap clean; stamp+chip coexist ≥0.8 s; FX maths exact on-screen
+- [x] Hero kicker legible over passing documents at 1440 and 390 (screenshot evidence at ≥2 phases)
+- [x] Proof stats single-line at 390
+- [x] No `.eng-lab-chip` in DOM; © line fully visible at both viewports
 
 **Story consistency:**
-- [ ] A$9,500 / 07 MAR 2024 appears in both ledger (row + p. 214 note) and trace (flagged hop annotation)
-- [ ] A$28,000 · 02 APR and ₹15,38,040 · 04 APR appear identically in trace hop annotations and match stations
-- [ ] 28,000 × 54.93 = 15,38,040 exactly; the displayed rate is 54.93
-- [ ] Account cast identical across hero, trace, match: ANZ ··4417 / CBA (JOINT) ··8802 / NAB ··1130 / AMEX ··9010 / HDFC ··3321 / WISE / CASH
+- [x] A$9,500 / 07 MAR 2024 appears in both ledger (row + p. 214 note) and trace (flagged hop annotation)
+- [x] A$28,000 · 02 APR and ₹15,38,040 · 04 APR appear identically in trace hop annotations and match stations
+- [x] 28,000 × 54.93 = 15,38,040 exactly; the displayed rate is 54.93
+- [x] Account cast identical across hero, trace, match: ANZ ··4417 / CBA (JOINT) ··8802 / NAB ··1130 / AMEX ··9010 / HDFC ··3321 / WISE / CASH
 
 **Compatibility:**
-- [ ] `git diff --stat` shows changes ONLY under `src/app/engine-network/` and `documents/`
-- [ ] Grep confirms no new un-prefixed `@keyframes` names; `ecmnet-inr`/`ecmnet-aud` fully renamed with no dangling references
+- [x] `git diff --stat` shows changes ONLY under `src/app/engine-network/` and `documents/`
+- [x] Grep confirms no new un-prefixed `@keyframes` names; `ecmnet-inr`/`ecmnet-aud` fully renamed with no dangling references
 
 **Ops/Docs:**
-- [ ] `documents/plans/fintrace_design_plan.md` records this round (decisions, final trace offsets, validation results)
-- [ ] Lint zero errors; build exports; screenshots saved under `~/.dev-browser/tmp/` with a round-unique prefix (`r6-*`)
+- [x] `documents/plans/fintrace_design_plan.md` records this round (decisions, final trace offsets, validation results)
+- [x] Lint zero errors; build exports; screenshots saved under `~/.dev-browser/tmp/` with a round-unique prefix (`r6-*`)
 
 ---
 
@@ -205,7 +205,7 @@ flowchart LR
 - **Ambient-edge label crossings in the trace are accepted:** ambient edges render at 0.10 alpha and read as atmosphere; only the bright route thread (0.92–0.95 alpha) crossing label text is a defect. Occasional pulse dots crossing labels are accepted noise.
 - **Annotations may sit ON the route thread** (plate pinned to the thread is established evidence-board language); they must never cover a LABEL.
 - **`content-visibility: auto` masked the mobile overflow:** the section's paint containment clips the FX-note overflow at the viewport, so `scrollWidth` stayed clean while text was visibly cut — do not rely on the page-overflow number alone when verifying the trace fixes; measure the note boxes.
-- **Why the status caption fix uses an in-flow width-setter:** any `min-width` guess re-breaks at some letter-spacing/viewport combination; making the LONGEST span (`.eng-lt-s3`) position-static with `white-space: nowrap` makes the flex item size itself to the true longest line at every width, while the other two spans overlay it absolutely. Its `opacity: 0` initial state already reserves the space invisibly.
+- **Why the status caption fix uses one inline-grid cell:** any `min-width` guess re-breaks at some letter-spacing/viewport combination. Overlaying all three spans in the same grid area lets the longest final string set the true intrinsic width while keeping every animation state on one baseline. Desktop uses end alignment and the ≤700 px layout switches the shared cell to start alignment.
 - **Chip-rect and SVG text sizes on mobile are changed via CSS geometry properties** (`x`, `width` on `rect`; `font-size` on `text`) inside a `max-width: 767px` media query — SVG attributes cannot be media-queried, but CSS geometry properties can, and the codebase already uses this technique on `.eng-lt-flag rect`.
 - **Audit evidence** (screenshots + measured geometry) from this round is in `~/.dev-browser/tmp/audit-*.png`; key measurements are quoted in §2.2 so the executor does not depend on those transient files.
 - The dev server on port 3004 was already running during the audit; reuse it (dev-server policy).
@@ -215,7 +215,7 @@ flowchart LR
 
 ## 5. Implementation Plan
 
-### Step 1: LedgerPlate — flag-rule breathing room, status caption, timing, caption copy
+### ~~Step 1: LedgerPlate — flag-rule breathing room, status caption, timing, caption copy~~ ✅ **COMPLETED**
 
 **Objective:** Fix the user-reported rule-hugging defect plus the three other ledger findings (A1–A5) without touching row data or the run choreography's overall shape.
 
@@ -227,8 +227,9 @@ Files: `src/app/engine-network/engine-network.css`, `src/app/engine-network/Ledg
    - `.dsn-engine-network .eng-lt-flag rect`: change `x: 1px` → `x: -0.75rem`; `width: calc(100% - 2px)` → `width: calc(100% + 1.5rem)`. Keep `y`, `height`, `rx`, dash draw and `vector-effect: non-scaling-stroke` unchanged (`.eng-lt-flag` already has `overflow: visible`).
    - `.dsn-engine-network .eng-lt-wrap.is-flagged::before` (the crimson wash): change `inset: 0` → `inset: 0 -0.75rem` so the wash fills the enlarged rule.
    - Add a `@media (max-width: 700px)` override inside the existing ledger mobile block: rect `x: -0.5rem; width: calc(100% + 1rem)`; wash `inset: 0 -0.5rem` (the figure's padding-inline floors at 1.1rem ≈ 17.6 px on phones; a 0.75rem bleed would leave only ~5.6 px to the plate border).
-   - `.dsn-engine-network .eng-lt-note`: `padding: 0.2rem 0 0.55rem` → `padding: 0.2rem 0 0.8rem` (cures the −1 px note-bottom overlap; grows the wrap so the rule's bottom edge moves down with it).
-2. **Status caption layout (A2).** Restructure `.eng-lt-status`: remove `height: 1rem` and `min-width: 20ch`; add `position: relative`. Make all three spans `white-space: nowrap`. `.eng-lt-s1`/`.eng-lt-s2`: `position: absolute; right: 0; top: 0` (no `inset`). `.eng-lt-s3`: `position: static; display: inline-block` — the in-flow, invisible width-setter. In the existing ≤700 px masthead block (status is left-aligned there) add `.eng-lt-s1, .eng-lt-s2 { right: auto; left: 0; }`. Add an imperative comment explaining the width-setter pattern.
+   - `.dsn-engine-network .eng-lt-note`: `padding: 0.2rem 0 0.55rem` → `padding: 0.2rem 0 0.8rem` for more visual air beneath the annotation text.
+   - Post-audit correction: add `.dsn-engine-network .eng-lt-wrap.is-flagged { padding-bottom: 5px; }`. The SVG rect ends 1 px inside its wrapper, so this fixed after-note gutter puts the rect bottom exactly 4 px below the note. Note padding alone cannot create that clearance because it grows the wrapper and its absolute overlay together.
+2. **Status caption layout (A2).** Restructure `.eng-lt-status`: remove `height: 1rem` and `min-width: 20ch`; use `display: inline-grid`; place all three spans in `grid-area: 1 / 1` with `white-space: nowrap`. The longest final status now establishes the intrinsic width while every state occupies the same line box and baseline. Use `justify-self: end` on desktop and `justify-self: start` in the existing ≤700 px block. Add an imperative comment explaining the shared-cell invariant.
 3. **Status timing (A3).** `.eng-lt.is-run .eng-lt-s2`: animation `engnet-lt-status-hold 1.9s ease 2.3s` → `engnet-lt-status-hold 3.3s ease 2.3s` (covers categorising + flag draw, 2.3–5.6 s). `.eng-lt.is-run .eng-lt-s3`: delay `4.2s` → `5.6s` (fades in as the total rises at 5.8 s). No keyframe changes.
 4. **Caption copy (A4).** In `LedgerPlate.tsx`, figcaption becomes exactly: `Extract 04 · rendered from cba_joint_8802_mar24.pdf and 41 companion statements` (drops the false column-order claim; CBA matches the NETBANK row and the trace's CBA JOINT ****8802 origin; mar24 matches the row dates). Update the component's doc comment if it references the old caption.
 5. Do not change: row data, chip/animation delays for rows and chips, total timing (5.8 s), `pathLength` draw mechanics.
@@ -240,7 +241,7 @@ Files: `src/app/engine-network/engine-network.css`, `src/app/engine-network/Ledg
 - Rendered figcaption text equals the exact string above (assert via `textContent`).
 - Rows still enter at 0.12 s + i×0.24 s, chips at 2.2 s + i×0.18 s, flag rule at 4.1 s, note at 5.1 s, total at 5.8 s (unchanged delays in CSS).
 
-### Step 2: TraceDiagram — label sides, mobile placement, dates and amounts
+### ~~Step 2: TraceDiagram — label sides, mobile placement, dates and amounts~~ ✅ **COMPLETED**
 
 **Objective:** Make the trace diagram collision-free at all three widths (B1–B3) and rewrite its annotations so it is the same matter as the ledger (B4), keeping the 15 s cycle and canvas rendering untouched.
 
@@ -280,7 +281,7 @@ Files: `src/app/engine-network/TraceDiagram.tsx`, `src/app/engine-network/engine
 - The flagged note and CASH label are BOTH fully legible simultaneously when hop 1 completes (screenshot).
 - Cycle behaviour unchanged: notes retract and labels cool at cycle reset (observe one full 15 s loop without console errors).
 
-### Step 3: CurrencyMatch — direction flip, exact FX, swap and stamp choreography, mobile legibility
+### ~~Step 3: CurrencyMatch — direction flip, exact FX, swap and stamp choreography, mobile legibility~~ ✅ **COMPLETED**
 
 **Objective:** Rebuild the match diagram's content as the trace's FX hop (C1–C2), fix the two choreography defects (C3–C4), and make it legible on phones (C6), preserving the canonical geometry (viewBox, path, stations at x 76/280/484, chip band y 78–102, MATCHED band y 40–64).
 
@@ -313,7 +314,7 @@ Files: `src/app/engine-network/CurrencyMatch.tsx`, `src/app/engine-network/engin
 - Grep finds zero occurrences of `ecm-amt-inr`, `ecm-amt-aud`, `ecmnet-inr`, `ecmnet-aud`, `ecm-st2`, `ecm-st3` under `src/app/engine-network/`.
 - `#match` renders after scroll with the same 120 ms reveal delay as `#ledger`/`#tracing` (code inspection).
 
-### Step 4: Hero — kicker legibility and account-cast unification
+### ~~Step 4: Hero — kicker legibility and account-cast unification~~ ✅ **COMPLETED**
 
 **Objective:** Keep the kicker readable at every phase (D1) and align the hero's account cast with the diagrams (D2) with zero geometry change.
 
@@ -335,7 +336,7 @@ Files: `src/app/engine-network/engine-network.css`, `src/app/engine-network/Scen
 - Full hero matrix passes (see Testing Plan): seven viewports, zero console/page errors, zero horizontal overflow, one canvas per page, no label plate clipping or new crowding at the 1.3 fit cap (3425x1245), compact fallback/WebGL alignment unchanged at 390x900 and 900x1080.
 - Lifecycle spot-checks pass: scene rAF stops when scrolled offscreen and when the tab is hidden, resumes on return; a forced renderer failure still leaves the static fallback (unchanged behaviour, re-confirmed because Scene.tsx was edited).
 
-### Step 5: page.tsx copy pass
+### ~~Step 5: page.tsx copy pass~~ ✅ **COMPLETED**
 
 **Objective:** Apply every copy fix (A5, B5, C5, G1–G5) exactly, in British English with the page's established no-Oxford-comma style.
 
@@ -365,7 +366,7 @@ Unchanged by explicit decision: all h2s/kickers, hero kicker/h1/lede, hero stat 
 - All copy remains British English; no straight apostrophes `'` in any user-facing string (grep JSX text for `'` used as apostrophe returns zero).
 - Section flow reads: structured → connected → matched with the match lede referencing "two days later" consistent with 02→04 APR (cross-check against Step 3 strings).
 
-### Step 6: Remove the lab chip
+### ~~Step 6: Remove the lab chip~~ ✅ **COMPLETED**
 
 **Objective:** Execute the user's decision to drop the design-lab chip from the canonical home page (F1); this also removes the © line and hero-strip occlusions outright.
 
@@ -381,7 +382,7 @@ Files: `src/app/engine-network/page.tsx`, `src/app/engine-network/engine-network
 - At full scroll on 1440x900 and 390x900, the © line (`© 2026 FinTrace. Every finding traceable to its source.`) is fully visible with no overlay; on 390x900 the hero stat strip's full text is visible.
 - `npm run build` still exports the gallery `/` route unchanged (chip removal touches only this route's files).
 
-### Step 7: Proof stats — mobile wrap fix
+### ~~Step 7: Proof stats — mobile wrap fix~~ ✅ **COMPLETED**
 
 **Objective:** Stop "10 hrs" / "15 yrs" wrapping onto two lines on phones (E1).
 
@@ -398,7 +399,7 @@ Rationale: at 390 px the 2-column grid yields ~111 px columns; 1.9 rem (30.4 px)
 - At 390x900, each `.eng-stat-value` bounding box height equals a single line (< 45 px measured) both DURING the 50→10 countdown and after settling; no value's box exceeds its grid column (no horizontal overflow measured on the plate).
 - At 1440x900 and 768x900 the stat sizes are unchanged (the new rule applies only ≤480 px).
 
-### Step 8: Documentation synchronisation
+### ~~Step 8: Documentation synchronisation~~ ✅ **COMPLETED**
 
 **Objective:** Keep `documents/plans/fintrace_design_plan.md` the accurate source of truth (binding rule).
 
@@ -473,3 +474,44 @@ Use a task-scoped browser name; save screenshots with prefix `r6-`. Close the br
    - Action: capture ledger caption, trace annotations and match stations in one session.
    - Expected: the §3.3 story-consistency checklist passes verbatim (same amounts/dates/accounts across set-pieces).
    - Verify: screenshot set + `textContent` assertions.
+
+---
+
+## Implemented Solution
+
+### Outcome
+
+Implemented all eight steps for the canonical `/engine-network/` page. The ledger, trace and currency-match set-pieces now tell one March-April 2024 matter story; the animation defects and mobile clipping are resolved; the hero cast and kicker are aligned; the route copy is internally consistent; the fixed lab chip is gone; and the binding design documentation records round six.
+
+### Files changed
+
+- `src/app/engine-network/LedgerPlate.tsx`: replaced the contradictory source caption while preserving all ledger rows, balances and event timing.
+- `src/app/engine-network/TraceDiagram.tsx`: added route-side and responsive label offsets, rewrote the four evidence annotations and retained the 15 s route cycle and graph geometry.
+- `src/app/engine-network/CurrencyMatch.tsx`: flipped the set-piece to NAB AUD → WISE → HDFC INR, used exact FX 54.93 content and renamed the travelling-amount states.
+- `src/app/engine-network/Scene.tsx`: changed only the baked CBA, NAB and AMEX account strings; all slot, edge, camera and timing geometry remains unchanged.
+- `src/app/engine-network/page.tsx`: applied the exact copy table, aligned the story ledes, set the match reveal delay to 120 ms and removed the route's fixed Design lab chip.
+- `src/app/engine-network/engine-network.css`: widened the ledger rule, reserved a fixed 5 px after-note gutter, aligned all statuses in one inline-grid cell, added trace offsets and wrapping, retimed the 9 s currency-match states, enlarged mobile SVG text, protected the kicker with a dark text shadow and kept proof values on one line at ≤480 px.
+- `documents/plans/fintrace_design_plan.md`: added the round-six decision, implementation and validation record; updated the current inventory, canonical match divergence, account cast and open items; corrected the source-of-truth introduction to six rounds.
+- `documents/todo/bugs/codex/subagent_bug_sweep_20260717_a91f3c7b.xml`, `documents/todo/bugs/codex/subagent_bug_sweep_20260717_b84d2e6f.xml` and `documents/todo/bugs/codex/combined_bug_sweep_20260717_c5e7a2d9.xml`: retained the required independent audit evidence and valid consolidated report.
+
+### Validation completed
+
+- `npm run lint`: passed with zero ESLint errors after the post-audit fixes.
+- `npm run build`: compiled, typechecked and statically exported all 15 routes after the post-audit fixes.
+- `git diff --check`: passed; the change scope is limited to `src/app/engine-network/` and `documents/`.
+- Ledger final audit at 1440, 700 and 390 px: bottom clearance is 4 px; date/note left clearance is 12/12 px, 10/10 px and 10/10 px; figure clearance is 24.19 px, 12 px and 8.59 px. All three statuses share a zero-pixel top offset, measure 14.875 px high and finish with only reconciliation visible. Browser errors and horizontal overflow are zero.
+- Trace at 1440x900, 1024x768 and 390x900: all visible label-note intersection and note-containment assertions returned zero through a complete 15 s reset.
+- Currency match at 1440x900 and 390x900: the amount-swap gap contains no superimposition; the landed chip and MATCHED verdict coexist at full opacity for 0.99 s; mobile names, subs, amounts and verdict remain legible and contained.
+- Hero at 1440x900, 1998x750, 2560x1080, 3425x1245, 1024x768, 900x1080 and 390x900: a headed Metal/Apple M2 Max renderer produced one canvas, zero page/console errors and zero horizontal overflow at every viewport. Live resize retained the same canvas; offscreen and controlled hidden-state checks paused rAF and resumed it; a temporary renderer-failure probe left the static fallback visible and was removed immediately.
+- Proof at 390x900 and 480x900: each value remained a single 42.56 px line during and after animation; 768 px typography remained unchanged.
+- Footer at 1440x900 and 390x900: no lab chip exists, the copyright is unobstructed and page overflow is zero.
+
+### Post-change multi-agent audit
+
+Two independent `codebase-auditor` workers inspected the diagram/animation implementation and route/documentation integration. The consolidated report contained three potential defects. Three independent post-audit verifiers reproduced every finding as real and fixed them end to end:
+
+1. Added the flagged-wrapper gutter after reproducing the rule's −1 px lower clearance; final clearance is 4 px at 1440, 700 and 390 px.
+2. Replaced the mixed absolute/in-flow status stack with one shared inline-grid cell after reproducing a 7 px final-state drop; final top offsets are identical at all three widths.
+3. Corrected the design-plan introduction from five to six rounds after confirming it contradicted the new history and current-state sections.
+
+No audit finding remains unresolved. The final ledger screenshots are `~/.dev-browser/tmp/r6-root-ledger-final-audit-1440.png` and `~/.dev-browser/tmp/r6-root-ledger-final-audit-390.png`; the full implementation evidence uses the `r6-root-*` prefix.
