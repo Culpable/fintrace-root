@@ -9,7 +9,7 @@
 </critical_warning>
 
 <important_note>
-> **IMPORTANT NOTE:** The user does not need to create a repository, GitHub token, Pages secret, deploy key, or API key. `Culpable/fintrace` already exists as an empty public repository, the local GitHub CLI is authenticated as `Culpable` with repository access, and GitHub Actions supplies deployment identity through `pages: write` plus `id-token: write`. The only likely user interruption is signing into the DNS control panel and approving 2FA if no reusable session exists.
+> **IMPORTANT NOTE:** The user does not need to create a repository, GitHub token, Pages secret, deploy key, or API key. `Culpable/fintrace-root` is the public website repository, its `main` branch already contains the preserved local design-lab history, the local GitHub CLI is authenticated as `Culpable` with repository access, and GitHub Actions supplies deployment identity through `pages: write` plus `id-token: write`. The only likely user interruption is signing into the DNS control panel and approving 2FA if no reusable session exists.
 </important_note>
 
 ## 1. Goal
@@ -46,11 +46,11 @@ Overall success means:
 
 ### 2.1 FinTrace Application
 
-- Repository root: `/Users/sacino/fintrace`.
+- Repository root: `/Users/sacino/fintrace-root`.
 - Local branch: `main`.
-- Local Git remote: none.
-- Remote repository: `https://github.com/Culpable/fintrace`.
-- Remote state: public and empty, with no Pages site configured.
+- Local Git remote: `git@github.com:Culpable/fintrace-root.git`.
+- Remote repository: `https://github.com/Culpable/fintrace-root`.
+- Remote state: public with the preserved website history on `main`; no Pages site is configured.
 - Runtime: Node.js `22.23.1`, matching `package.json` and the local runtime.
 - Static hosting prerequisites already exist in `next.config.ts`:
   - `output: 'export'`
@@ -137,7 +137,7 @@ flowchart LR
 ### 2.7 Technical Constraints
 
 - Preserve static export. Do not add server actions, API routes, middleware, runtime redirects, or runtime image optimisation.
-- Keep `basePath` empty because the final site is hosted at the custom apex domain, not under `/fintrace/`.
+- Keep `basePath` empty because the final site is hosted at the custom apex domain, not under `/fintrace-root/`.
 - Preserve all existing route visual systems and WebGL behaviour.
 - Use Server Components by default and keep browser logic in existing Client Components.
 - Use the `vercel-react-best-practices` skill before implementing the React and Next.js route changes.
@@ -162,7 +162,7 @@ flowchart LR
 
 ### 3.1 Deployment Requirements
 
-- **REQ-1 (MUST):** Add `origin` as `git@github.com:Culpable/fintrace.git` without changing the current `main` branch.
+- **REQ-1 (MUST):** Preserve `origin` as `git@github.com:Culpable/fintrace-root.git` without changing the current `main` branch.
 - **REQ-2 (MUST):** Configure GitHub Pages with `build_type: workflow`.
 - **REQ-3 (MUST):** Deploy `out/` through a native GitHub Pages workflow triggered by pushes to `main` and by `workflow_dispatch`.
 - **REQ-4 (MUST):** Use explicit workflow permissions:
@@ -311,7 +311,7 @@ flowchart LR
 1. Use Bulma Root's native Pages architecture, updated to current official Pages action majors.
 2. Do not copy Embeddings' legacy `gh-pages` branch deployment.
 3. Do not add a `CNAME` file because custom Actions workflows use repository Pages settings for the domain.
-4. Keep `basePath` empty because the custom apex is the production host.
+4. Keep `basePath` empty because the custom apex is the production host, not `/fintrace-root/`.
 5. Keep internal routes publicly reachable but unlinked and `noindex`; no password protection is added.
 6. Reuse a single Engine Network presentation component for `/` and `/engine-network/` so production and internal comparison renders cannot drift.
 7. Allow the shared presentation component to show the internal Design Lab chip only on `/engine-network/`, never on `/`.
@@ -491,16 +491,16 @@ flowchart LR
 - Documentation explicitly warns that noindex is not access control.
 - `git diff --check` exits 0 after documentation updates.
 
-### Step 6: Establish the Remote Repository and Enable Pages
+### Step 6: Verify the Remote Repository and Enable Pages
 
-**Objective:** Connect the local history to the existing empty GitHub repository and enable native workflow publishing without generating a failed Pages deployment.
+**Objective:** Verify the preserved local history in the existing website repository and enable native workflow publishing without generating a failed Pages deployment.
 
 #### High-Level Approach
 
-- Add the SSH remote:
-  - `git remote add origin git@github.com:Culpable/fintrace.git`
+- Verify the SSH remote:
+  - `git remote get-url origin` must return `git@github.com:Culpable/fintrace-root.git`.
 - Commit the route, SEO, and documentation readiness changes without the deployment workflow.
-- Push `main` to the empty remote and set upstream tracking.
+- Push the readiness commit to the established remote and preserve upstream tracking.
 - Confirm the remote default branch is `main`.
 - Create the Pages site through the GitHub Pages REST API with `build_type: workflow`.
 - Confirm repository Actions default permission remains `read`.
@@ -508,11 +508,11 @@ flowchart LR
 
 #### Success Criteria
 
-- `git remote -v` lists `origin` as `git@github.com:Culpable/fintrace.git` for fetch and push.
+- `git remote -v` lists `origin` as `git@github.com:Culpable/fintrace-root.git` for fetch and push.
 - `git status --branch --short` shows `main...origin/main`.
 - `git ls-remote origin refs/heads/main` returns the pushed main commit.
-- `gh api repos/Culpable/fintrace/pages` returns `build_type: workflow`.
-- `gh api repos/Culpable/fintrace` returns `has_pages: true`.
+- `gh api repos/Culpable/fintrace-root/pages` returns `build_type: workflow`.
+- `gh api repos/Culpable/fintrace-root` returns `has_pages: true`.
 - `git branch -a` contains no local or remote `gh-pages` branch.
 - GitHub repository secrets contain no deployment secret added by this task.
 
@@ -583,7 +583,7 @@ If the DNS provider requires a new login, ask the user only to sign in or approv
 
 - The GitHub profile Pages settings show `fintrace.com.au` as verified.
 - The verification TXT record remains published.
-- `gh api repos/Culpable/fintrace/pages` returns:
+- `gh api repos/Culpable/fintrace-root/pages` returns:
   - `cname: fintrace.com.au`
   - `build_type: workflow`
   - certificate state `approved`
@@ -592,7 +592,7 @@ If the DNS provider requires a new login, ask the user only to sign in or approv
 - Public DNS returns `culpable.github.io.` for the `www` CNAME.
 - The six existing Google Workspace MX records remain present with the same priorities and hosts.
 - No wildcard record is introduced.
-- `gh api repos/Culpable/fintrace/pages/health` returns a passing DNS result.
+- `gh api repos/Culpable/fintrace-root/pages/health` returns a passing DNS result.
 - `curl -I https://fintrace.com.au/` completes with a valid certificate and an HTTP success response.
 - `curl -I https://www.fintrace.com.au/` redirects to `https://fintrace.com.au/`.
 - If the cutover must be reversed, restoring `103.42.108.46` returns the apex DNS to the recorded pre-change state without changing MX records.
@@ -685,10 +685,10 @@ No bug-specific regression input exists. The following files and external states
 | --- | --- | --- |
 | `/Users/sacino/bulma-root/.github/workflows/deploy.yml` | Proven native Pages workflow in the same workspace | FinTrace uses the same build-artifact-deploy architecture, updated to current action majors and root working directory |
 | `/Users/sacino/embeddings/.github/workflows/deploy.yml` | Proven legacy Pages workflow | FinTrace does not copy its `gh-pages` branch or third-party deploy action |
-| `/Users/sacino/fintrace/next.config.ts` | Static export contract | `output`, `images.unoptimized`, and `trailingSlash` remain enabled |
-| `/Users/sacino/fintrace/src/app/engine-network/page.tsx` | Current flagship source | Production `/` renders the same page through one shared component |
-| `/Users/sacino/fintrace/src/app/page.tsx` | Current gallery source | Gallery content moves intact to `/internal-design/` |
-| GitHub repository `Culpable/fintrace` | Existing remote target | Contains local history, uses `main`, Pages workflow enabled, no `gh-pages` branch |
+| `/Users/sacino/fintrace-root/next.config.ts` | Static export contract | `output`, `images.unoptimized`, and `trailingSlash` remain enabled |
+| `/Users/sacino/fintrace-root/src/app/engine-network/page.tsx` | Current flagship source | Production `/` renders the same page through one shared component |
+| `/Users/sacino/fintrace-root/src/app/page.tsx` | Current gallery source | Gallery content moves intact to `/internal-design/` |
+| GitHub repository `Culpable/fintrace-root` | Existing remote target | Contains local history, uses `main`, Pages workflow enabled, no `gh-pages` branch |
 | Current apex A `103.42.108.46` | DNS rollback source | Replaced only after capture; retained as the exact rollback value |
 | Current Google Workspace MX set | Mail safety source | Remains unchanged after web-host cutover |
 | User route decision | Product routing source | Engine Network at `/`; unlinked noindex lab at `/internal-design/` |
@@ -739,13 +739,13 @@ Expected:
 ### 6.4 GitHub Integration Scenarios
 
 1. **Initial source push**
-   - Action: Push readiness commits to empty `Culpable/fintrace`.
+   - Action: Push readiness commits to `Culpable/fintrace-root`.
    - Expected: Remote `main` matches local `main`.
    - Verify: `git ls-remote`, GitHub repository API, and `git status --branch`.
 2. **Pages enablement**
    - Action: Create the Pages site with `build_type: workflow`.
    - Expected: Pages API returns the workflow build type.
-   - Verify: `gh api repos/Culpable/fintrace/pages`.
+   - Verify: `gh api repos/Culpable/fintrace-root/pages`.
 3. **Workflow push**
    - Action: Push `.github/workflows/deploy.yml`.
    - Expected: One workflow run starts from the `main` push and completes successfully.

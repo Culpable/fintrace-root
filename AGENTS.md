@@ -9,7 +9,7 @@
 <code_standards>
 
 - Write all user-facing text in British English. Use the curly apostrophe `’`, never `'`, in frontend copy. Do not use emoji in UI copy.
-- Ground product claims in `/Users/sacino/statement-analysis/documents/reference/brand_naming_background.md`. Preserve service-not-software positioning; do not invent capabilities, proof, clients, or production features.
+- Ground product claims in `/Users/sacino/fintrace/documents/reference/brand_naming_background.md`. Preserve service-not-software positioning; do not invent capabilities, proof, clients, or production features.
 
 <commenting_standards>
 - Explain non-obvious logic with thorough imperative-mood comments, especially animation lifecycles, WebGL resources, responsive scenes, and design isolation.
@@ -44,8 +44,8 @@ FinTrace Design Lab is working through six original homepage concepts and five d
 
 | System | Source | Read when |
 | --- | --- | --- |
-| Product claims and positioning | [`brand_naming_background.md`](/Users/sacino/statement-analysis/documents/reference/brand_naming_background.md) | Writing or changing user-facing copy, capability claims, proof points, audiences, or service positioning. |
-| Ongoing design work and current state | [`fintrace_design_plan.md`](/Users/sacino/fintrace/documents/plans/fintrace_design_plan.md) | Read before any design work; update after every design change. |
+| Product claims and positioning | [`brand_naming_background.md`](/Users/sacino/fintrace/documents/reference/brand_naming_background.md) | Writing or changing user-facing copy, capability claims, proof points, audiences, or service positioning. |
+| Ongoing design work and current state | [`fintrace_design_plan.md`](/Users/sacino/fintrace-root/documents/plans/fintrace_design_plan.md) | Read before any design work; update after every design change. |
 
 <documentation_synchronisation>
 The lab is still working through its designs. Record every design decision and implementation update in this plan in the same task; do not leave design state only in code or chat.

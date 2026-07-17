@@ -2,6 +2,8 @@
 
 Six candidate homepage designs for **FinTrace**, the forensic bank-statement analysis service for legal teams (the new brand for the Statement Analysis tool). Each design is a complete, self-contained homepage with its own typography, palette, motion system, and brand voice, so the strongest direction can be chosen from working pages rather than static mock-ups.
 
+This front-facing design repository lives at `/Users/sacino/fintrace-root` and is published to the public GitHub repository `Culpable/fintrace-root`. The private application repository lives separately at `/Users/sacino/fintrace`.
+
 ## Viewing the designs
 
 ```bash

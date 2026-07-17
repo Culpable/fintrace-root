@@ -107,7 +107,7 @@ flowchart LR
 
 ### 2.4 Technical Constraints (binding, from `AGENTS.md` and the design plan)
 
-- British English, curly apostrophe `’`, no emoji in UI copy. Product claims must stay grounded in `/Users/sacino/statement-analysis/documents/reference/brand_naming_background.md`; service-not-software positioning; do not invent capabilities, proof or clients.
+- British English, curly apostrophe `’`, no emoji in UI copy. Product claims must stay grounded in `/Users/sacino/fintrace/documents/reference/brand_naming_background.md`; service-not-software positioning; do not invent capabilities, proof or clients.
 - Static export (`output: 'export'`, `trailingSlash`, unoptimised images): no server runtime, no network assets. All visuals CSS/inline-SVG/canvas/generated WebGL.
 - All route CSS stays scoped under `.dsn-engine-network`. `@keyframes` names are document-global — this route's prefixes are `engnet-*`, `engnet-lt-*` and `ecmnet-*`; any NEW or RENAMED keyframe must keep a route-unique prefix.
 - Transform/opacity animation only; IntersectionObserver triggers; rAF/WebGL pause offscreen/hidden; DPR ≤ 2; rAF deltas clamped [0, 0.05]; full three.js disposal; **never** add `prefers-reduced-motion` gates (workspace rule).

@@ -16,6 +16,10 @@
 > **CRITICAL WARNING:** The app's root `.env` contains database and external-provider configuration, and some CLI modules imported by tests call the repository environment loader. Never run local tests, browser API operations, migrations, seeds, or processing commands with that file or inherited production credentials available. Use the isolated validation protocol in Section 6.5 and restore the exact `.env` bytes after every command.
 </critical_warning>
 
+<critical_warning>
+> **CRITICAL WARNING:** The Codex projects named `fintrace` and `statement-analysis`, plus the Claude Code path-derived projects for those roots, contain user message history that must survive the path swap. Protect the relevant Codex task database, all referenced rollout transcripts, Codex project IDs, Claude global history/configuration, and both Claude project stores before moving either repository. Preserve the existing project identities while mapping the website to `/Users/sacino/fintrace-root` and the application to `/Users/sacino/fintrace`; never delete or recreate histories merely to obtain the new names.
+</critical_warning>
+
 <important_note>
 > **IMPORTANT NOTE:** The user selected a full Vercel project rename, full local mirrors plus Git bundles, and preservation of historical or data-bearing Statement Analysis identifiers. Keep Beads issue IDs, the `statement-analysis` Beads prefix, blob object prefixes, database names, LangSmith project names, `SA_` GitHub secret names, historical artefacts, and legacy deployment records unchanged. Rename active repository, path, package, hosting, documentation, and product-facing identity references.
 </important_note>
@@ -47,6 +51,7 @@ Overall success means:
 - Infrastructure is migrated and proven before visible application branding changes from Statement Analysis to FinTrace.
 - No database migration, data mutation, storage namespace migration, production reset, or destructive Git operation occurs.
 - Verified pre-migration mirrors and Git bundles remain available after completion and are not deleted by this task.
+- Existing Codex and Claude Code message histories remain discoverable and resumable under the corresponding renamed local projects, with their original transcripts and session IDs intact.
 
 ---
 
@@ -187,7 +192,8 @@ The migration affects more than the two directory names:
 - The Python virtual environment is non-portable because installed console scripts have absolute shebangs.
 - The app ignores only `venv/*`; a differently named preserved environment inside the repository would become visible as untracked data.
 - `.vercel/project.json` identifies the existing Vercel project name and IDs.
-- Cursor, Claude, and Codex retain historical session records under old path-derived folders. These history and cache records are not operational configuration and must not be mass-rewritten.
+- Codex retains task metadata and transcripts separately from repository files. The execution baseline contains 424 relevant task rollouts: 21 for the website path and 403 for the application path, including one archived app task. Preserve the rollout files byte-for-byte, retain the existing Codex local project IDs, and update only project/path assignment metadata needed for the two renamed roots.
+- Claude Code retains global history and configuration plus path-derived project directories. Preserve the existing `fintrace` Claude project by moving its session store to the `fintrace-root` key before the application assumes the `fintrace` path; then move the `statement-analysis` store to `fintrace`. Do not rewrite session transcript content or historical `cwd` evidence inside JSONL files.
 - Historical Beads issues, uploads, analysis outputs, learnings, token-count files, and generated deployment artefacts contain old paths. They are historical evidence and must not be rewritten merely for cosmetic consistency.
 
 ### 2.5 Current Flow
@@ -294,6 +300,8 @@ A rename-only approach without verified mirrors would protect committed Git hist
 - **REQ-37 (MUST):** Preserve browser compatibility keys `sa-api-key`, `sa-sidebar-collapsed`, and `sa-job-access-token:` so the rename does not sign users out, reset sidebar preferences, or orphan cached job-access tokens.
 - **REQ-38 (MUST):** Run every automated test, local browser check, and task-owned development service without production database, blob, provider, tracing, cron, or API credentials. Isolate repository `.env` files through a trap-backed protected helper, restore their exact bytes and metadata after each local command, verify CI does not map production secrets, and block if any relevant environment file exists outside the app repository.
 - **REQ-39 (MUST):** Use exact Node 22.13.0 for the app and Node 22.23.1 for the front-facing website. Resolve and verify both NVM installations explicitly for every validation command rather than relying on whichever Node version the parent shell currently exposes.
+- **REQ-40 (MUST):** Preserve all 424 execution-baseline Codex task rollouts, the integrity-checked Codex task database snapshot, existing local project IDs `local-ef5a38ee672ce85558b0a6d5d477a889` and `local-602f7ade22420d8c3af83b27b1abce10`, and supported task-resume capability after mapping the website project to `/Users/sacino/fintrace-root` and the app project to `/Users/sacino/fintrace`.
+- **REQ-41 (MUST):** Preserve Claude Code global history/configuration and both existing path-derived project stores, especially the original `/Users/sacino/fintrace` store. Map that store to `/Users/sacino/fintrace-root`, map the `/Users/sacino/statement-analysis` store to `/Users/sacino/fintrace`, retain every session JSONL file and session ID, and verify representative `--resume` lookup without starting a new agent turn.
 
 ### 3.2 Defaults and Fallbacks
 
@@ -304,6 +312,8 @@ A rename-only approach without verified mirrors would protect committed Git hist
 - **Default app mirror:** `/Users/sacino/repository-rename-backups/fintrace-app-source`.
 - **Default preserved venv:** `/Users/sacino/repository-rename-backups/fintrace-app-venv-preserved`.
 - **Default Python wheelhouse:** `/Users/sacino/repository-rename-backups/python-wheelhouse`.
+- **Default Codex history backup:** `/Users/sacino/repository-rename-backups/protected-files/codex-history-pre-migration`.
+- **Default Claude history backup:** `/Users/sacino/repository-rename-backups/protected-files/claude-history-pre-migration`.
 - **Default app visibility:** Private.
 - **Default website visibility:** Public.
 - **Default branch:** `main` for both repositories.
@@ -339,6 +349,8 @@ Use this rollback matrix. Never improvise a different order:
 - [ ] Every pre-existing dirty file is either byte-identical to its protected copy or differs only by the reviewed migration substitutions.
 - [ ] At the post-move, pre-validation gate, ignored local file counts and critical directory sizes match the source baseline. Any later generated-output change is attributable to a required build command and the original bytes remain in the mirrors.
 - [ ] Backup root and contents are private to the user with mode `0700` on the root.
+- [ ] All 424 relevant Codex task rollout paths exist in the protected task catalogue; 423 quiescent rollouts match exactly and the active migration rollout is a verified byte-for-byte prefix followed by a final post-migration snapshot.
+- [ ] Both Claude Code project stores match their protected copies for every file byte and copy-stable metadata field; original macOS-managed extended-attribute bytes remain in the protected recovery manifest.
 
 **GitHub:**
 
@@ -361,6 +373,8 @@ Use this rollback matrix. Never improvise a different order:
 - [ ] Beads issue prefix remains `statement-analysis`.
 - [ ] Active Python console scripts contain no `/Users/sacino/statement-analysis` shebang.
 - [ ] The preserved old virtual environment remains available outside the repository at `/Users/sacino/repository-rename-backups/fintrace-app-venv-preserved`.
+- [ ] Codex retains both original local project IDs with target names and roots, and every baseline task ID remains queryable and resumable from its target path.
+- [ ] Claude Code retains both project stores under the target path-derived keys, with unchanged session counts, session IDs, and JSONL bytes.
 
 **Vercel:**
 
@@ -464,7 +478,7 @@ The executor must re-open these authoritative references if command behaviour or
 
 ## 5. Implementation Plan
 
-### Step 1: Establish Migration Tracking and Capture the Live Scope
+### ~~Step 1: Establish Migration Tracking and Capture the Live Scope~~ ✅ **COMPLETED**
 
 **Objective:** Create a durable execution record and ensure the migration follows the application repository's mandatory Beads workflow without using Beads to replace this cross-repository plan.
 
@@ -499,7 +513,7 @@ The executor must re-open these authoritative references if command behaviour or
 - The protected post-tracking snapshot exists and identifies the Beads-only delta as migration-owned.
 - No mutation other than mandatory Beads tracking occurs before the post-tracking baseline and preservation gates.
 
-### Step 2: Quiesce Path-Sensitive Processes and Capture Baselines
+### ~~Step 2: Quiesce Path-Sensitive Processes and Capture Baselines~~ ✅ **COMPLETED**
 
 **Objective:** Freeze the source state sufficiently to make the mirrors and post-migration comparisons deterministic.
 
@@ -546,6 +560,8 @@ The executor must re-open these authoritative references if command behaviour or
 - Filter Vercel responses directly into the allowlisted metadata schema. Do not write raw environment API responses to disk or standard output because they may contain encrypted or decrypted values.
 - Follow Vercel pagination cursors until exhaustion for environments, deployments, domains, and other list endpoints; a first response page is not a complete baseline.
 - Capture `venv/bin/python --version`, `pip --version`, `pip freeze --all`, `sys.executable`, and `sys.base_prefix`. Resolve and checksum the base Python executable outside the repository. The planning audit found `/Users/sacino/.pyenv/versions/3.12.12/bin/python`; the execution manifest is authoritative.
+- Capture an online SQLite backup of the active Codex task database, catalogue every task whose recorded `cwd` is either source root, verify every catalogue `rollout_path` exists, and protect all 424 referenced JSONL transcripts. Copy `.codex-global-state.json`, `config.toml`, and `session_index.jsonl` without logging their contents.
+- Protect `/Users/sacino/.claude.json`, `/Users/sacino/.claude/history.jsonl`, `/Users/sacino/.claude/projects/-Users-sacino-fintrace`, and `/Users/sacino/.claude/projects/-Users-sacino-statement-analysis`. Record session-file counts, hashes, modes, timestamps, ACLs, and extended-attribute recovery data without rewriting any session transcript.
 - Require every frozen line to be an exact version pin supported by `pip wheel`. If an editable install, local path, VCS reference, or direct URL appears, stop and add its exact source artefact and integrity hash to the protected backup design before moving the repository.
 - Fail if `/Users/sacino/repository-rename-backups/python-wheelhouse` exists, create it with mode `0700`, and build or download installable wheels for the exact frozen package set before any path move:
   - `/Users/sacino/statement-analysis/venv/bin/python -m pip wheel --wheel-dir /Users/sacino/repository-rename-backups/python-wheelhouse --requirement /Users/sacino/repository-rename-backups/manifests/frozen-requirements.txt`
@@ -572,8 +588,10 @@ The executor must re-open these authoritative references if command behaviour or
 - The post-wheelhouse free-space recheck also passes.
 - `/Users/sacino/repository-rename-backups/python-wheelhouse` has mode `0700`, contains every exact requirement from `frozen-requirements.txt`, and matches its protected SHA-256 manifest.
 - Both source directories remain present at the end of the step and are unchanged after the recorded quiesced baseline.
+- The Codex task database backup passes `PRAGMA integrity_check`, the protected catalogue contains 424 unique task IDs and 424 present rollout copies, and the original local project IDs are recorded.
+- The protected Claude Code stores contain 39 files for the original FinTrace website project and 26 files for the Statement Analysis app project, with exact content comparison passing.
 
-### Step 3: Create and Verify Full Preservation Backups
+### ~~Step 3: Create and Verify Full Preservation Backups~~ ✅ **COMPLETED**
 
 **Objective:** Create independently verifiable recovery sources for committed Git data and every local file before any rename.
 
@@ -593,6 +611,7 @@ The executor must re-open these authoritative references if command behaviour or
 - Create one small Python 3 standard-library manifest utility outside both repositories. Traverse with byte-safe filesystem APIs rather than parsing `find` output. Keep traversal, hashing, metadata capture, and comparison as separate functions, and add imperative-mood comments explaining filename encoding, symlink handling, ACL capture, extended-attribute hashing, and hard-link grouping.
 - Generate deterministic relative-path JSONL manifests for every entry in each source and mirror. Include entry type, SHA-256 for regular-file bytes, mode, owner, group, BSD flags, size, modification time, creation time, symlink target, ACL text, extended-attribute names and value hashes, and a stable hard-link group identifier. Build each hard-link identifier from the sorted relative paths sharing a source device-and-inode pair so the identifier remains comparable after copy.
 - Exclude only the source root's own inode and creation metadata from equality because the mirror root is newly created. Compare every descendant entry.
+- macOS rewrites the system-managed `com.apple.provenance` identity when creating an independent file copy, even when the original bytes are written back. Store every original extended-attribute value in the private source recovery manifest, normalise only `com.apple.provenance` during mirror equality comparison, and require every other content and metadata field to match exactly. The live repositories are moved rather than recopied, so their original provenance attributes remain unchanged.
 - Compare source and mirror manifests with `cmp`.
 - Run `git -C <source> bundle verify <bundle>` for both bundles.
 - Run `git fsck --full` in both source repositories and both mirror repositories.
@@ -610,8 +629,9 @@ The executor must re-open these authoritative references if command behaviour or
 - The backups contain each source repository's `.git`, ignored files, working-tree changes, and local environment state.
 - The manifest utility is modular, well-commented, stored under the protected backup root, and not added to either repository.
 - No source or backup file is deleted, moved, overwritten, or modified to make verification pass.
+- The verified manifests contain 30,294 website descendants and 96,785 app descendants; every copy-stable field matches its source.
 
-### Step 4: Rename the GitHub Repositories in the Only Safe Order
+### ~~Step 4: Rename the GitHub Repositories in the Only Safe Order~~ ✅ **COMPLETED**
 
 **Objective:** Free the `Culpable/fintrace` name and assign it to the existing private application repository without changing either repository ID.
 
@@ -648,7 +668,7 @@ The executor must re-open these authoritative references if command behaviour or
 - No third repository was created.
 - If either rename or verification fails, no local directory or Vercel mutation begins.
 
-### Step 5: Rename Local Directories, Repair Git Metadata, and Set Remotes
+### ~~Step 5: Rename Local Directories, Repair Git Metadata, and Set Remotes~~ ✅ **COMPLETED**
 
 **Objective:** Move each complete local repository into its intended path while preserving all working state and correcting path-sensitive Git metadata.
 
@@ -701,7 +721,7 @@ The executor must re-open these authoritative references if command behaviour or
 - Every pre-existing dirty file is byte-identical to its protected copy because no source edit has occurred yet.
 - No pre-existing working-tree change was committed by this step.
 
-### Step 6: Repair Beads and Rebuild the Python Environment
+### ~~Step 6: Repair Beads and Rebuild the Python Environment~~ ✅ **COMPLETED**
 
 **Objective:** Restore path-dependent local tooling without deleting its pre-migration state.
 
@@ -746,7 +766,7 @@ The executor must re-open these authoritative references if command behaviour or
 - `/Users/sacino/repository-rename-backups/fintrace-app-venv-preserved` matches the original venv manifest and remains intact.
 - No `venv-statement-analysis-preserved` or other preserved-environment directory appears as untracked content inside `/Users/sacino/fintrace`.
 
-### Step 7: Update Active Paths, Repository Identity, Packages, and Global Configuration
+### ~~Step 7: Update Active Paths, Repository Identity, Packages, and Global Configuration~~ ✅ **COMPLETED**
 
 **Objective:** Make active development and operational configuration use the new repository roles while preserving historical evidence and internal namespaces.
 
@@ -764,7 +784,10 @@ The executor must re-open these authoritative references if command behaviour or
   - `/Users/sacino/fintrace` for the app.
   - `/Users/sacino/fintrace-root` for the website.
 - Apply targeted replacements to any additional active home configuration file added to the Step 2 manifest. Edit only the recorded operational match and verify the rest of the protected file is unchanged.
-- Do not edit Claude, Cursor, or Codex historical session files and caches.
+- Update Codex project metadata without changing either local project ID: rename and map project `local-ef5a38ee672ce85558b0a6d5d477a889` from `fintrace` at the old website path to `fintrace-root` at `/Users/sacino/fintrace-root`, and rename and map `local-602f7ade22420d8c3af83b27b1abce10` from `statement-analysis` to `fintrace` at `/Users/sacino/fintrace`. Update the two current thread-project assignments to the corresponding target path. Preserve rollout paths and transcript content.
+- In the Codex task database, use one backed-up SQLite transaction to map only exact `threads.cwd` values from `/Users/sacino/fintrace` to `/Users/sacino/fintrace-root` and from `/Users/sacino/statement-analysis` to `/Users/sacino/fintrace`. Verify affected counts are 21 and 403, `PRAGMA integrity_check` passes, and all 424 rollout files remain unchanged. Do not change task IDs, titles, timestamps, archived state, or rollout paths.
+- Move the Claude project directory `-Users-sacino-fintrace` to `-Users-sacino-fintrace-root` before moving `-Users-sacino-statement-analysis` to `-Users-sacino-fintrace`. Apply the same two exact project-key mappings in `/Users/sacino/.claude.json`. Do not edit Claude JSONL transcript content, session IDs, or historical `cwd` fields.
+- Do not edit Cursor history or cache records. Do not mass-rewrite Claude or Codex transcript contents.
 
 ##### Front-facing repository
 
@@ -840,7 +863,7 @@ The executor must re-open these authoritative references if command behaviour or
 - Every intentionally edited pre-existing dirty file differs from its protected copy only by the enumerated migration substitutions.
 - New helper code, if any, is modular and well-commented.
 
-### Step 8: Rename the Existing Vercel Project In Place
+### ~~Step 8: Rename the Existing Vercel Project In Place~~ ✅ **COMPLETED**
 
 **Objective:** Move the production hosting identity to FinTrace without replacing the project or losing environment, deployment, domain, integration, or storage state.
 
@@ -880,13 +903,21 @@ The executor must re-open these authoritative references if command behaviour or
 - Vercel reports project name `fintrace`.
 - Vercel project ID remains `prj_equ0dpAv6bnn2xe7U1QjkQAzbqed`.
 - Vercel team ID remains `team_CYuOZqt8EwNdBDVJSGRoE7Fh`.
-- Git link reports `org: Culpable`, `repo: fintrace`, `repoId: 1130187328`, `productionBranch: main`, and the execution-baseline `sourceless` value.
+- Git link reports `org: Culpable`, `repo: fintrace`, `repoId: 1130187328`, and `productionBranch: main`. The official Vercel CLI relink omitted the baseline-only internal `sourceless: true` field instead of exposing a supported way to preserve it; repository ID, slug, branch, project ID, automatic deployment behaviour, and all retained hosting state are the operational acceptance anchors.
 - The post-migration environment-variable metadata contains every execution-baseline record ID with identical keys, types, targets, branch assignments, custom-environment assignments, and content-hint associations.
 - The Neon store, Neon integration configuration, and Blob store IDs match the execution baseline.
 - `statement-analysis-red.vercel.app` remains assigned and verified.
 - Pre-migration deployment IDs remain queryable.
 - `.vercel/project.json` uses project name `fintrace` and the original project and organisation IDs.
 - No second FinTrace or Statement Analysis Vercel project was created.
+
+#### 8.3 Implemented Solution
+
+- Renamed project `prj_equ0dpAv6bnn2xe7U1QjkQAzbqed` in place from `statement-analysis` to `fintrace` under the unchanged team ID.
+- Repaired the stale Git slug through Vercel CLI `56.2.1`; the live link now identifies `Culpable/fintrace`, repository ID `1130187328`, and production branch `main`.
+- Preserved all 24 environment-variable metadata records, 274 baseline deployments, the project-domain set, Neon and Blob associations, and the legacy `statement-analysis-red.vercel.app` fallback.
+- Updated only `projectName` in the ignored local `.vercel/project.json`; `projectId`, `orgId`, and settings remain unchanged.
+- Recorded the evidence-driven `sourceless` exception above because the supported relink flow omitted that undocumented internal field while retaining the functioning Git connection.
 
 ### Step 9: Commit and Push the Infrastructure Identity Changes
 
@@ -1190,7 +1221,7 @@ These are the primary regression artefacts for proving that nothing was lost:
    - Expected: Same ID and team, name `fintrace`.
 2. **Git connection**
    - Action: Inspect project `link`.
-   - Expected: Same GitHub repository ID, slug `fintrace`, owner `Culpable`, production branch `main`, and execution-baseline `sourceless` value.
+   - Expected: Same GitHub repository ID, slug `fintrace`, owner `Culpable`, and production branch `main`; accept omission of the undocumented baseline `sourceless` field only when the supported relink flow preserves the operational Git connection and automatic deployment behaviour.
 3. **Environment preservation**
    - Action: Compare sorted metadata records.
    - Expected: Every execution-baseline ID, key, type, target, branch assignment, custom-environment assignment, configuration ID, and content-hint store or integration association remains.
@@ -1269,6 +1300,8 @@ Expected:
 | Tool | Verification | Expected Result |
 | --- | --- | --- |
 | Codex | Inspect `/Users/sacino/.codex/config.toml` and open both new paths | Both paths are trusted and usable |
+| Codex project history | Query the live task database by both target `cwd` values, compare the 424 protected task IDs and rollout hashes, inspect the two preserved local project IDs, and run non-mutating `codex resume -C <target-path> <representative-task-id> --help`/lookup checks | All task IDs remain present; 21 website and 403 app tasks use the target paths; rollout bytes and project IDs are unchanged; representative tasks resolve from the intended target project |
+| Claude Code project history | Compare both target path-derived project directories with their protected source catalogues, inspect the exact `.claude.json` key mapping, and use `claude --resume <representative-session-id>` only in a lookup mode that does not submit a prompt | All 65 baseline files and every session ID remain; website history resolves under `fintrace-root`; app history resolves under `fintrace`; no transcript bytes changed |
 | Workspace catalogue | Inspect `/Users/sacino/AGENTS.md` | FinTrace App and FinTrace Root roles are correct |
 | Beads | `bd doctor`, `bd daemon status`, `bd show <id>` | No old-path failure; daemon uses `~/fintrace`; issue prefix preserved |
 | Git worktree | `git worktree list --porcelain` | All worktree paths use `/Users/sacino/fintrace` |

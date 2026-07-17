@@ -25,7 +25,7 @@ The user reviewed the hero in a ~1998×750 logical browser window (aspect ≈ 2.
 
 ### 2.1 Current Implementation Overview
 
-`/engine-network/` is the flagship of five dark "Evidence Engine" variations in the FinTrace design lab (`/Users/sacino/fintrace`, Next.js 16 App Router, React 19, Tailwind v4, static export, dev port 3004). Its hero is a three.js scene (`src/app/engine-network/Scene.tsx`, dynamically imported client-side by `src/app/engine-network/Hero.tsx`): paper bank-statement documents stream in from the left, pass through a luminous golden gate at the stage origin, and re-emerge on the right as an account-network constellation — eight labelled nodes (wide layout) joined by gold threads, with one flagged CASH ATM hop in restrained crimson. The DOM headline block (kicker, h1 "The evidence engine.", lede, two CTAs) sits lower-left over the canvas; a scrim guarantees contrast; a mono stat strip pins the hero's bottom edge.
+`/engine-network/` is the flagship of five dark "Evidence Engine" variations in the FinTrace design lab (`/Users/sacino/fintrace-root`, Next.js 16 App Router, React 19, Tailwind v4, static export, dev port 3004). Its hero is a three.js scene (`src/app/engine-network/Scene.tsx`, dynamically imported client-side by `src/app/engine-network/Hero.tsx`): paper bank-statement documents stream in from the left, pass through a luminous golden gate at the stage origin, and re-emerge on the right as an account-network constellation — eight labelled nodes (wide layout) joined by gold threads, with one flagged CASH ATM hop in restrained crimson. The DOM headline block (kicker, h1 "The evidence engine.", lede, two CTAs) sits lower-left over the canvas; a scrim guarantees contrast; a mono stat strip pins the hero's bottom edge.
 
 Key scene constants (all in `Scene.tsx`):
 
@@ -80,7 +80,7 @@ Residual accepted at 1440×900: even after the gate lift/shrink in this plan, th
 
 ### 2.5 Technical Constraints
 
-All binding, from `/Users/sacino/fintrace/AGENTS.md` and `documents/plans/fintrace_design_plan.md` (Technical rules):
+All binding, from `/Users/sacino/fintrace-root/AGENTS.md` and `documents/plans/fintrace_design_plan.md` (Technical rules):
 
 - Static export (`output: 'export'`, `images.unoptimized`, `trailingSlash`): no server runtime, no network assets; visuals are CSS/inline SVG/canvas/generated WebGL textures only. `three` imported only from `src/app/engine*/Scene.tsx` via the colocated client hero's dynamic import.
 - Route isolation: all CSS scoped under `.dsn-engine-network`; `@keyframes` names document-global → new keyframes must use an `engnet-` prefix (route already uses `engnet-lt-*`, `ecmnet-*`).
@@ -171,8 +171,8 @@ All binding, from `/Users/sacino/fintrace/AGENTS.md` and `documents/plans/fintra
 - **Why the whole-net scale is safe for label/thread clear-air:** uniform group scaling multiplies node positions, plate sizes, and rim insets together, so 2D slot-space relationships are preserved; the residual risk is PROJECTED crowding of deep nodes (NAB z −1.5 scales to −1.95 at fit 1.3, pulling it toward the vanishing centre) — hence the explicit NAB/HDFC clearance check in 6.3.
 - **Why fit caps at 1.3:** rightmost extent ≈ 3.9 × 1.3 ≈ 5.07 world units + 0.95 sway margin = 6.02, versus usable half-width minus shift of 3.21a − 0.6875a = 2.5225a → satisfied for every aspect at which the cap engages (a ≥ 2.04 gives ≥ 5.15 − 0.35 = 4.80 rest / with the growing frustum the budget keeps widening faster than the capped net). Beyond ~1.3 the 256×64-baked labels also soften — mitigated by the 2× re-bake but not indefinitely.
 - **Gate-breathing period maths for D5:** the scene uses `sin(elapsed × 1.6)` — 1.6 rad/s → period 2π/1.6 ≈ 3.93 s. The CSS sheen cannot phase-lock to the WebGL clock (the scene clock starts at canvas mount and pauses offscreen); matching the period is the design intent, exact phase sync is NOT required.
-- **Product/brand guardrails:** this is an internal brand-selection lab, not the production service. Ground any copy in `/Users/sacino/statement-analysis/documents/reference/brand_naming_background.md`; service-not-software positioning; no invented capabilities. No copy changes are planned; if any label text is ever touched it must stay consistent with the traced-accounts story (ANZ hub, Wise→HDFC overseas leg, CBA→NAB/BTC chain, AMEX, flagged CASH ATM).
-- **Repo working state:** branch `main`, clean at planning time; last commit `342c7c6` (post-4.1 BTC spacing). No git remote. Do not commit unless the user asks. Parallel workers must not run `npm run dev`/`npm run build`/git; a single executor validates centrally.
+- **Product/brand guardrails:** this is an internal brand-selection lab, not the production service. Ground any copy in `/Users/sacino/fintrace/documents/reference/brand_naming_background.md`; service-not-software positioning; no invented capabilities. No copy changes are planned; if any label text is ever touched it must stay consistent with the traced-accounts story (ANZ hub, Wise→HDFC overseas leg, CBA→NAB/BTC chain, AMEX, flagged CASH ATM).
+- **Repo working state:** branch `main`, tracking public remote `git@github.com:Culpable/fintrace-root.git`; last pre-migration commit `cc9e0a69426e080881d8d5224995403e0f60b8c1`. Parallel workers must not run `npm run dev`/`npm run build`/git; a single executor validates centrally.
 
 ---
 

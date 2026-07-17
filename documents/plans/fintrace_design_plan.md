@@ -4,13 +4,13 @@ This document is the standalone source of truth for the FinTrace design-lab repo
 
 ## Why (context and goal)
 
-FinTrace is the new brand name for the Statement Analysis (SA) tool (`/Users/sacino/statement-analysis`): a forensic financial analysis service that converts bulk PDF bank statements (any bank, any order, scanned paper included, no pre-sorting) into a single structured, source-traceable Excel ledger (file name, person, date, financial year, description, debit/credit, amount, category), auto-categorises transactions (Woolworths -> groceries), flags suspicious activity (cash-withdrawal patterns, gambling/crypto, transfers between related accounts, cross-currency matches such as rupee-to-AUD via Wise), and produces a written findings report with every finding traceable to its exact source PDF page (human-verifiable, no hallucination risk). Proven value: a ~50 hour manual lawyer job completed in ~10, findings matching the lawyer's independent analysis; real matters run to thousands of pages, ~50 accounts, 15 years.
+FinTrace is the new brand name for the application formerly called Statement Analysis (`/Users/sacino/fintrace`): a forensic financial analysis service that converts bulk PDF bank statements (any bank, any order, scanned paper included, no pre-sorting) into a single structured, source-traceable Excel ledger (file name, person, date, financial year, description, debit/credit, amount, category), auto-categorises transactions (Woolworths -> groceries), flags suspicious activity (cash-withdrawal patterns, gambling/crypto, transfers between related accounts, cross-currency matches such as rupee-to-AUD via Wise), and produces a written findings report with every finding traceable to its exact source PDF page (human-verifiable, no hallucination risk). Proven value: a ~50 hour manual lawyer job completed in ~10, findings matching the lawyer's independent analysis; real matters run to thousands of pages, ~50 accounts, 15 years.
 
 Buyers: lawyers in document-heavy financial disputes (family law is the proven wedge), government legal bodies (Public Trustee / Dept of Justice), misappropriation and elder financial abuse matters, forensic accountants, insolvency practitioners. Trust and credibility are the biggest barrier (LexisNexis-grade gravitas benchmark). Positioned as a service, not software (flat cost + per-page pricing, engaged per matter). Mock contact used in copy: hello@fintrace.com.au; CTA style "Request a matter assessment".
 
-Full brand brief: `/Users/sacino/statement-analysis/documents/reference/brand_naming_background.md`
+Full brand brief: `/Users/sacino/fintrace/documents/reference/brand_naming_background.md`
 
-Goal of this repo (`/Users/sacino/fintrace`): build multiple unique, extremely polished candidate homepage designs, each on its own route, so the team can compare working pages and pick a brand direction. Wow factor required; all must align with the product's purpose and carry a FinTrace-specific brand voice.
+Goal of this repo (`/Users/sacino/fintrace-root`): build multiple unique, extremely polished candidate homepage designs, each on its own route, so the team can compare working pages and pick a brand direction. Wow factor required; all must align with the product's purpose and carry a FinTrace-specific brand voice.
 
 ## Decisions locked in via blindspot pass (user-approved, round one)
 
@@ -37,7 +37,7 @@ Goal of this repo (`/Users/sacino/fintrace`): build multiple unique, extremely p
 - `npm run dev` → http://localhost:3004 (assume it may already be running; check before starting another instance).
 - `npm run build` → static export into `out/`. `npm run lint` → ESLint, must be zero errors.
 - Browser verification is done with the `dev-browser` CLI (headed Chromium, real GPU, Playwright Page API in a sandboxed script runtime; screenshots land in `~/.dev-browser/tmp/`).
-- No tests exist; validation is lint + build + browser. No deployment is configured. No git remote is configured - the repo is local-only.
+- No tests exist; validation is lint + build + browser. No deployment is configured. The public Git remote is `git@github.com:Culpable/fintrace-root.git`.
 - Repo-root `AGENTS.md` carries the binding content/isolation/animation/testing rules and mirrors the rules above.
 
 ---
@@ -203,7 +203,7 @@ Hero output: three static quadratic-bezier money trails leaving a shared start j
 
 ## Repo state (current)
 
-- Branch `main`. History includes `9a8c906` (round-four consolidation), `342c7c6` (post-4.1 BTC spacing), and `f1d9a65` (round-five implementation plan) after the earlier scaffold/design commits. Round-five implementation and documentation are currently working-tree changes. NO git remote is configured - everything is local; nothing has been pushed anywhere.
+- Branch `main`, tracking `origin/main` in public repository `Culpable/fintrace-root`. The pre-migration website history was first pushed at `cc9e0a69426e080881d8d5224995403e0f60b8c1`; current migration documentation remains a working-tree change until its scoped commit. History includes `9a8c906` (round-four consolidation), `342c7c6` (post-4.1 BTC spacing), and `f1d9a65` (round-five implementation plan) after the earlier scaffold/design commits.
 - Static build generated 15 pages across the gallery, original concepts, engine reference, five variations, not-found page and icon route. Every route remains exportable; only `/engine-network` changed in round five.
 - README documents the earlier rounds and variations table. This file is the current round-five source of truth; `AGENTS.md` carries the binding rules.
 - Verification screenshots are transient under `~/.dev-browser/tmp/`: round-five evidence uses `r5-net-final-*`, the delight contact sheet is `r5-net-delight-contact-sheet.png`, and pre-change baselines use `r5-net-before-*`.
