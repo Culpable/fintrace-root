@@ -1,0 +1,47 @@
+<bug_1>
+<summary>
+<title>[GitHub Pages Integration] No defects found in the deployment and static-export contract</title>
+<one_line_description>The audited workflow, static-export configuration, published route artefacts, and deployment controls satisfy the documented GitHub Pages requirements.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace-root/.github/workflows/deploy.yml - jobs: `build`, `deploy`, Lines 1-57
+- /Users/sacino/fintrace-root/next.config.ts - static export configuration, Lines 10-19
+- /Users/sacino/fintrace-root/src/app/layout.tsx - metadata: `metadata`, Lines 11-19
+- /Users/sacino/fintrace-root/src/app/robots.ts - function: `robots`, Lines 3-9
+- /Users/sacino/fintrace-root/src/app/sitemap.ts - function: `sitemap`, Lines 3-7
+- /Users/sacino/fintrace-root/src/app/internal-design-metadata.ts - constant: `internalRobots`, Lines 3-13
+</file_locations>
+
+<issue_description>
+<description>No concrete potential bug was found in the deployment and integration partition. The workflow triggers on pushes to `main` and manual dispatch, grants the required explicit permissions, serialises Pages deployments without cancelling an active run, makes `deploy` depend on `build`, and uses the native configure, artifact, and deploy actions with `out` as the artifact path and `github-pages` as the environment. The Next.js configuration preserves static export, unoptimised images, and trailing slashes. Source inspection and live artefact probes confirmed a root page, GitHub Pages 404 response, robots file, one-entry sitemap, internal gallery, all 11 candidate routes, and route assets. The live internal routes emit `noindex` and `nofollow`, while the root remains indexable and contains no internal-gallery link. Repository state contains no `gh-pages` branch, CNAME file, deployment secret, third-party deploy action, or secret reference. GitHub run 29584302589 was triggered by a push to `main`; its build and deploy jobs and every required install, lint, build, upload, and deployment step completed successfully.</description>
+
+<code_example>
+
+```yaml
+# File: /Users/sacino/fintrace-root/.github/workflows/deploy.yml, Lines 43-57
+
+- name: Upload artifact
+  uses: actions/upload-pages-artifact@v4
+  with:
+    path: out
+
+deploy:
+  environment:
+    name: github-pages
+    url: ${{ steps.deployment.outputs.page_url }}
+  needs: build
+```
+
+</code_example>
+
+<expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Workflow** | Push and manual triggers run build before native Pages deployment | Workflow matches the contract and the latest push-triggered run completed successfully |
+| **Static Export** | The complete `out/` artefact includes root, 404, metadata files, gallery, routes, and assets | Live probes returned the expected root, 404, robots, sitemap, gallery, and all candidate routes |
+| **Security** | No deployment secret, CNAME file, third-party deploy action, or `gh-pages` branch | None is present in the audited repository or GitHub deployment state |
+| **User Impact** | GitHub Pages serves the production root while keeping internal routes crawlable but unindexed | The published root is indexable and internal routes emit `noindex, nofollow` |
+</expected_vs_actual>
+</issue_description>
+</bug_1>

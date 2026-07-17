@@ -1,4 +1,4 @@
-# FinTrace GitHub Pages Production Deployment Plan 🔄 **IN PROGRESS**
+# ~~FinTrace GitHub Pages Production Deployment Plan~~ ✅ **COMPLETED**
 
 <critical_warning>
 > **CRITICAL WARNING:** The production cutover changes the public web-host records for `fintrace.com.au`. Limit this deployment's DNS changes and validation to the four required GitHub Pages apex A records, the `www` CNAME, and the GitHub domain-verification TXT record. Do not add a wildcard; unrelated records are out of scope.
@@ -247,43 +247,43 @@ flowchart LR
 
 **Functional:**
 
-- [ ] `/` renders Engine Network with no Design Lab link.
-- [ ] `/internal-design/` renders the neutral gallery and links to all 11 retained routes.
-- [ ] Every candidate route returns to `/internal-design/`.
-- [ ] `/engine-network/` and `/` render the same flagship content.
+- [x] `/` renders Engine Network with no Design Lab link.
+- [x] `/internal-design/` renders the neutral gallery and links to all 11 retained routes.
+- [x] Every candidate route returns to `/internal-design/`.
+- [x] `/engine-network/` and `/` render the same flagship content.
 
 **Indexing:**
 
-- [ ] Root HTML is indexable and has canonical `https://fintrace.com.au/`.
-- [ ] All 12 internal URLs emit `noindex, nofollow`.
-- [ ] `sitemap.xml` contains only the production root.
-- [ ] Root HTML contains no link to `/internal-design/`.
+- [x] Root HTML is indexable and has canonical `https://fintrace.com.au/`.
+- [x] All 12 internal URLs emit `noindex, nofollow`.
+- [x] `sitemap.xml` contains only the production root.
+- [x] Root HTML contains no link to `/internal-design/`.
 
 **Deployment:**
 
-- [ ] Push to `main` triggers the Pages workflow.
-- [ ] Workflow passes install, lint, build, artifact upload, and deploy.
-- [ ] GitHub reports Pages `build_type: workflow`.
-- [ ] No `gh-pages` branch exists.
-- [ ] No deployment secret is added.
+- [x] Push to `main` triggers the Pages workflow.
+- [x] Workflow passes install, lint, build, artifact upload, and deploy.
+- [x] GitHub reports Pages `build_type: workflow`.
+- [x] No `gh-pages` branch exists.
+- [x] No deployment secret is added.
 
 **Domain:**
 
-- [ ] GitHub account reports `fintrace.com.au` verified.
-- [ ] Apex resolves to the four GitHub Pages A records.
-- [ ] `www` resolves through `culpable.github.io`.
-- [ ] Cloudflare publishes the required GitHub Pages A, CNAME, and verification TXT records.
-- [ ] GitHub Pages DNS health passes.
-- [ ] HTTPS is enforced and valid at the apex.
-- [ ] `www` redirects to the apex.
+- [x] GitHub account reports `fintrace.com.au` verified.
+- [x] Apex resolves to the four GitHub Pages A records.
+- [x] `www` resolves through `culpable.github.io`.
+- [x] Cloudflare publishes the required GitHub Pages A, CNAME, and verification TXT records.
+- [x] GitHub Pages DNS health passes.
+- [x] HTTPS is enforced and valid at the apex.
+- [x] `www` redirects to the apex.
 
 **Quality:**
 
-- [ ] `npm run lint` exits 0.
-- [ ] `npm run build` exits 0 and produces the expected static files.
-- [ ] `git diff --check` exits 0.
-- [ ] Required local and live browser checks pass with zero page errors, console errors, or horizontal overflow.
-- [ ] Documentation matches the deployed architecture.
+- [x] `npm run lint` exits 0.
+- [x] `npm run build` exits 0 and produces the expected static files.
+- [x] `git diff --check` exits 0.
+- [x] Required local and live browser checks pass with zero page errors, console errors, or horizontal overflow.
+- [x] Documentation matches the deployed architecture.
 
 ---
 
@@ -549,7 +549,7 @@ flowchart LR
 
 **Objective:** Securely attach `fintrace.com.au` and enable HTTPS using only the required GitHub Pages DNS records.
 
-**Completed validation (17 July 2026):** Cloudflare authoritatively serves the four required apex A records, the `www` CNAME, and GitHub's verification TXT record. GitHub reports the account domain verified, `build_type: workflow`, `cname: fintrace.com.au`, and `https_enforced: true`. Let’s Encrypt certificates cover the apex and `www`; the apex returns `200`, HTTP upgrades to HTTPS with `307`, and `https://www.fintrace.com.au/` redirects to the apex with `301`.
+**Completed validation (17 July 2026):** Cloudflare authoritatively serves the four required apex A records, the `www` CNAME, and GitHub's verification TXT record. GitHub reports the account domain verified, `build_type: workflow`, `cname: fintrace.com.au`, and `https_enforced: true`. Let’s Encrypt certificates cover the apex and `www`; the apex returns `200`, HTTP upgrades to HTTPS with `301`, and `https://www.fintrace.com.au/` redirects to the apex with `301`.
 
 #### High-Level Approach
 
@@ -635,9 +635,11 @@ If the DNS provider requires a new login, ask the user only to sign in or approv
 - Live `https://www.fintrace.com.au/` resolves through the expected redirect.
 - No screenshot contains credentials, DNS values from an authenticated control panel, or environment secrets.
 
-### Step 10: Verify the Deployed Contract and Hand Off 🔄 **IN PROGRESS**
+### ~~Step 10: Verify the Deployed Contract and Hand Off~~ ✅ **COMPLETED**
 
 **Objective:** Confirm future pushes are automatic and provide a self-contained completion record.
+
+**Completed validation (17 July 2026):** Documentation push `30febf9` automatically triggered recurring Pages run `29584302589`, and both build job `87897325053` and deploy job `87897501743` succeeded without manual configuration. A final state check confirmed the workflow build type, verified custom domain, approved certificate, HTTPS enforcement, four authoritative apex A records, `www` CNAME, verification TXT record, zero repository secrets, and no `gh-pages` branch. The post-change documentation check found the routed design plan accurate. Two independent audit workers reported zero potential bugs, so the post-audit bug-fixer was not triggered. The post-work report passed static validation and browser checks at `390x900`, `1440x900`, and `1920x1080`, including image-viewer keyboard navigation.
 
 #### High-Level Approach
 
@@ -793,3 +795,107 @@ The implementation is complete only when:
 - Every required local and live browser route passes at both required viewports.
 - Documentation is synchronised.
 - No user-provided API key, repository secret, deploy key, or `gh-pages` branch was introduced.
+
+---
+
+## 7. Implemented Solution
+
+### 7.1 Delivered Architecture
+
+- The production website is live at `https://fintrace.com.au/` and renders the selected Engine Network homepage from one shared Server Component.
+- `/engine-network/` uses the same shared presentation for internal comparison. Its Design Lab chip points to `/internal-design/`, and its canonical points to the production root.
+- `/internal-design/` retains the neutral gallery and all 11 candidate routes. The gallery and candidates remain public but unlinked from production navigation, excluded from the sitemap, and marked `noindex, nofollow, nocache`.
+- `src/app/sitemap.ts` emits exactly one production URL. `src/app/robots.ts` permits crawling so internal route-level `noindex` metadata can be observed.
+- `.github/workflows/deploy.yml` deploys every push to `main` through GitHub's native Pages artefact flow after `npm ci`, lint, and the static build. It pins Node.js `22.23.1`, publishes `out/`, and uses explicit `contents: read`, `pages: write`, and `id-token: write` permissions.
+- GitHub Pages stores `fintrace.com.au` as the custom domain, reports `build_type: workflow`, verifies the protected domain, serves an approved Let’s Encrypt certificate for the apex and `www`, and enforces HTTPS.
+- Cloudflare authoritatively publishes only the deployment's required record set: the four GitHub Pages apex A records, `www` CNAME `culpable.github.io.`, and `_github-pages-challenge-Culpable` TXT challenge. MX, wildcard, and unrelated records are outside this deployment.
+- No `gh-pages` branch, CNAME file, third-party deployment action, repository secret, deploy key, personal access token, or user-supplied API key was introduced.
+
+### 7.2 Files Changed
+
+- Deployment and static-export contract:
+  - `.github/workflows/deploy.yml`
+  - `next.config.ts`
+- Production and internal routing:
+  - `src/app/page.tsx`
+  - `src/app/engine-network/EngineNetworkPage.tsx`
+  - `src/app/engine-network/internal-engine-network.css`
+  - `src/app/engine-network/page.tsx`
+  - `src/app/internal-design/page.tsx`
+  - `src/app/internal-design/internal-design.css`, moved from `src/app/gallery.css`
+  - `src/app/internal-design-metadata.ts`
+- Candidate route metadata and return navigation:
+  - `src/app/chambers/page.tsx`
+  - `src/app/clarity/page.tsx`
+  - `src/app/engine-flow/page.tsx`
+  - `src/app/engine-ledger/page.tsx`
+  - `src/app/engine-refined/page.tsx`
+  - `src/app/engine-trace/page.tsx`
+  - `src/app/engine/page.tsx`
+  - `src/app/exhibit/page.tsx`
+  - `src/app/ledger/page.tsx`
+  - `src/app/trace/page.tsx`
+- Production metadata and crawler output:
+  - `src/app/layout.tsx`
+  - `src/app/robots.ts`
+  - `src/app/sitemap.ts`
+- Repository and architecture documentation:
+  - `AGENTS.md`
+  - `README.md`
+  - `documents/plans/fintrace_design_plan.md`
+  - `documents/todo/fintrace_github_pages_deployment_plan.md`
+- Post-change audit records:
+  - `documents/todo/bugs/codex/subagent_bug_sweep_20260717_route_seo_a7f3.xml`
+  - `documents/todo/bugs/codex/subagent_bug_sweep_20260717_pages_integration_b9c1.xml`
+  - `documents/todo/bugs/codex/combined_bug_sweep_20260717_c4d2.xml`
+
+### 7.3 Commits and Remote Deployment
+
+- `9623ba8 fix(engine-network): improve hero texture sharpness and record deployment plan` preserved the reviewed pre-deployment Engine Network state and created this deployment plan.
+- `85a1cac feat(site): promote engine network to production homepage` implemented route promotion, internal-lab isolation, metadata, sitemap, robots, and documentation.
+- `13bf3f2 ci(pages): add native github pages deployment` added and pushed the native Pages workflow.
+- `30febf9 docs(deployment): record production pages verification` recorded the verified domain and live release; its push automatically triggered the recurring deployment proof.
+- Successful workflow runs:
+  - Push run `29573382952` for the first workflow release.
+  - Workflow-dispatch run `29583384962` after DNS cutover.
+  - Push run `29584302589` for the recurring documentation deployment; build job `87897325053` and deploy job `87897501743` both succeeded.
+
+### 7.4 Validation Results
+
+- `npm run lint` exited 0 with zero ESLint errors.
+- `npm run build` exited 0 and exported 18 static pages.
+- Static artefact assertions passed for 17 required outputs, 12 internal noindex/nofollow pages, one sitemap URL, all 11 gallery links, the production root canonical, and the duplicate Engine Network canonical.
+- `git diff --check` exited 0.
+- The local browser matrix passed all 13 routes at `1440x900` and `390x900`, producing 26 successful route checks with zero page errors, console errors, or horizontal overflow.
+- Live production checks passed at `1440x900` and `390x900` with HTTP `200`, the expected title and heading, one ready real-GPU WebGL canvas, the static fallback retained, visible keyboard focus, no internal-lab link, and zero errors or overflow.
+- Authoritative DNS returned all four required apex A records, `culpable.github.io.` for `www`, and the GitHub verification TXT value. The apex returned `200`, HTTP upgraded to HTTPS with `301`, and HTTPS `www` redirected to the apex with `301`.
+- The Pages API returned `build_type: workflow`, `cname: fintrace.com.au`, `protected_domain_state: verified`, certificate state `approved`, and `https_enforced: true`.
+- The post-work report passed its static contract and browser checks at `390x900`, `1440x900`, and `1920x1080` with loaded regular, italic, bold, and bold-italic fonts, no broken images, no console errors, no horizontal overflow, and working End, Home, and Escape image-viewer controls.
+- A browser automation execution-context failure during the report viewer check was classified as a test-race caused by an incompatible file-URL wait pattern. Focused user-like reruns proved the viewer behaviour correct, so no report or application patch was required.
+- A separate Next.js 16.2.10 Turbopack HMR panic during a fresh `/exhibit/` development recheck did not reproduce in isolated direct requests, and the production static build remained green. Failure triage classified it as development tooling rather than application behaviour.
+
+### 7.5 Independent Audit and Documentation Synchronisation
+
+- Two post-change audit workers independently reviewed:
+  - Production and internal routes, shared presentation, metadata, canonical URLs, robots output, sitemap output, gallery coverage, generated HTML, and 404 output.
+  - Workflow triggers, permissions, concurrency, dependencies, native Pages actions, artefact path, remote runs, prohibited deployment mechanisms, and repository state.
+- Both workers reported zero potential bugs. The combined audit is `documents/todo/bugs/codex/combined_bug_sweep_20260717_c4d2.xml`.
+- Because the audit reported no potential bug, the `post-audit-bug-fixer` skill was not read or invoked.
+- The post-change documentation synchronisation check compared the affected deployment and routing systems with `documents/plans/fintrace_design_plan.md` and found the architecture record current; no additional architecture edit was required.
+
+### 7.6 User Actions, Evidence, and Remaining Work
+
+- User actions actually required:
+  - Sign in to GitHub for the domain-verification flow.
+  - Point the domain's nameservers to Cloudflare.
+  - Add the four A records, one `www` CNAME, and one GitHub verification TXT record supplied by the agent.
+- Remaining user action: none.
+- No API key, token, deploy key, or repository secret was required.
+- Live screenshots:
+  - `/Users/sacino/.dev-browser/tmp/ft-pages-live-desktop-root.png`
+  - `/Users/sacino/.dev-browser/tmp/ft-pages-live-mobile-root.png`
+- Navigable completion report:
+  - `/Users/sacino/.codex/skills/post-work-response/tmp/fintrace-root/20260717-2144-github-pages-deployment/index.html`
+- The local macOS resolver temporarily retained the retired `103.42.108.46` address under its original TTL after authoritative DNS had completed the cutover. Authoritative DNS, GitHub edge checks, and live production browser checks proved the public deployment correct.
+- The task-created Chrome profile `/tmp/fintrace-live-chrome-profile-20260717` remains recoverable under the workspace deletion policy and can be deleted by the user if no longer needed.
+- Pending or skipped required validation: none.

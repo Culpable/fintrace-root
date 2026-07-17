@@ -1,0 +1,55 @@
+<bug_1>
+<summary>
+<title>[Route and SEO] No defects found in the production and internal route partition</title>
+<one_line_description>The audited source and existing static artefacts satisfy the specified production-root, internal-gallery, indexing, canonical, sitemap, robots, and trailing-slash contracts.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace-root/src/app/page.tsx - component: `HomePage`, Lines 4-14
+- /Users/sacino/fintrace-root/src/app/engine-network/page.tsx - component: `InternalEngineNetworkPage`, Lines 6-16
+- /Users/sacino/fintrace-root/src/app/engine-network/EngineNetworkPage.tsx - component: `EngineNetworkPage`, Lines 128-156 and 366-394
+- /Users/sacino/fintrace-root/src/app/internal-design/page.tsx - component: `DesignLabIndex`, Lines 29-141 and 143-322
+- /Users/sacino/fintrace-root/src/app/internal-design-metadata.ts - constant: `internalRobots`, Lines 1-13
+- /Users/sacino/fintrace-root/src/app/layout.tsx - constant: `metadata`, Lines 12-21
+- /Users/sacino/fintrace-root/src/app/sitemap.ts - function: `sitemap`, Lines 1-7
+- /Users/sacino/fintrace-root/src/app/robots.ts - function: `robots`, Lines 1-10
+- /Users/sacino/fintrace-root/next.config.ts - constant: `nextConfig`, Lines 1-23
+- /Users/sacino/fintrace-root/src/app/{ledger,trace,clarity,engine,exhibit,chambers,engine-refined,engine-trace,engine-ledger,engine-flow}/page.tsx - route metadata and Design Lab return links
+</file_locations>
+
+<issue_description>
+<description>No concrete potential bug was found within the assigned route and SEO partition. The production root renders the shared Engine Network presentation without the internal Design Lab link. The comparison route renders the same component with exactly one return link and canonicalises to the production root. The gallery registers all 11 candidate routes, every candidate applies the shared noindex, nofollow, and nocache policy, and every candidate returns to `/internal-design/`. The root metadata is indexable and canonical, while the sitemap contains only the production root and robots.txt allows crawling so internal pages can expose their noindex directives. Existing generated artefacts were inspected without rebuilding and corroborate these source contracts, including trailing-slash route directories, `out/404.html`, one sitemap URL, no root link to the internal gallery, and the expected metadata tags.</description>
+
+<code_example>
+
+```tsx
+// Files: src/app/page.tsx, src/app/engine-network/page.tsx,
+// src/app/internal-design-metadata.ts, src/app/sitemap.ts, src/app/robots.ts
+
+return &lt;EngineNetworkPage showDesignLabLink={false} /&gt;
+return &lt;EngineNetworkPage showDesignLabLink /&gt;
+
+export const internalRobots = {
+  index: false,
+  follow: false,
+  nocache: true,
+}
+
+return [{ url: 'https://fintrace.com.au/' }]
+return { rules: { userAgent: '*', allow: '/' }, sitemap: 'https://fintrace.com.au/sitemap.xml' }
+```
+
+</code_example>
+
+<expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Production route** | Shared Engine Network at `/` with no internal-gallery link | Shared presentation rendered with the link disabled |
+| **Internal routes** | Gallery plus 11 candidates remain reachable and return to `/internal-design/` | Gallery exposes all 11 links and every candidate has the required return link |
+| **Indexing** | Root indexable; 12 internal URLs emit noindex, nofollow, and nocache | Existing generated HTML contains the expected robots and Googlebot directives |
+| **Canonical** | Root and duplicate `/engine-network/` canonicalise to `https://fintrace.com.au/` | Both generated pages contain the production-root canonical |
+| **Discovery** | Sitemap contains only `/`; robots permits crawling and names the sitemap | Existing `sitemap.xml` has one URL and `robots.txt` allows `/` |
+| **Static export** | Folder-based trailing-slash routes and a root `404.html` | Existing `out/` contains route `index.html` files and `out/404.html` |
+</expected_vs_actual>
+</issue_description>
+</bug_1>
