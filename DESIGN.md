@@ -45,7 +45,7 @@ Every claim below carries one of three statuses:
 | Neutral global layer | `src/app/globals.css` | Smooth scroll, font smoothing, overflow-x clip — nothing visual |
 | Site and page metadata | `src/lib/metadata.ts` | Single source for site identity, production titles, descriptions, canonical origin and the social-image reference |
 | Root layout and social metadata | `src/app/layout.tsx` | en-AU lang, metadata base, pipe title template and site-wide Open Graph/Twitter blocks; deliberately font-neutral |
-| Social-share image | `public/images/og/fintrace-og.png` | 1200×630 crawler-facing PNG using the Engine Network wordmark, approved home-title clause and domain; the label-free illustration shows incoming documents, the scanning gate and a cropped six-core gold constellation |
+| Social-share image | `public/images/og/fintrace-og.png` | 1200×630 crawler-facing PNG using the Engine Network wordmark, approved home-title clause and domain; its settled homepage-scene diagram contains the same eight labelled account nodes, seven rim-connected edges, scanning gate and crimson CASH ATM hop as the live hero |
 | Browser identity assets | `src/app/icon.svg`, `src/app/favicon.ico` and `src/app/apple-icon.png` | Geometry-only gate-bar SVG, 16/32/48 px PNG-entry ICO and 180×180 Apple icon derived from one 512×512 Bricolage Grotesque monogram render |
 | Production route wrapper | `src/app/page.tsx` | Thin indexable wrapper rendering the shared page without the lab chip |
 | Internal wrapper chrome | `src/app/engine-network/internal-engine-network.css` | The comparison-only lab chip; never loaded by the production route |

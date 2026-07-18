@@ -1,6 +1,4 @@
 # Project instructions
-
-- Scope: this repository and all descendants without a nearer `AGENTS.md` or `AGENTS.override.md`.
 - Paths are relative to this repository unless stated otherwise.
 - Read the routed sources below before editing copy, route systems, animation, or WebGL.
 
