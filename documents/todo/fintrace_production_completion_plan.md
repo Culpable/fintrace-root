@@ -1,4 +1,4 @@
-# FinTrace Production Completion Plan — og:image, Brand Icon Set, Documentation Reconciliation, Deploy 🔄 **IN PROGRESS**
+# ~~FinTrace Production Completion Plan — og:image, Brand Icon Set, Documentation Reconciliation, Deploy~~ ✅ **COMPLETED**
 
 <critical_warning>
 > **CRITICAL WARNING:** The entire round-seven production-pages build and most of Step 8 (centralised metadata) sit UNCOMMITTED on `main`. Pushing `main` auto-deploys to `https://fintrace.com.au/` through `.github/workflows/deploy.yml`. The user has confirmed the work is being actively completed and that committing and pushing IS part of finishing it — Step 5 of this plan performs the commit, push and post-deploy verification. Do not push before Steps 1–4 pass their success criteria, because a premature push publishes pages whose `og:image` meta tags point at a file that does not exist.
@@ -106,8 +106,8 @@ At plan start, the site's implementation was in a half-landed state: code truth,
 - [x] `documents/learnings/fintrace_site_pages_plan.md` header and Step 8 no longer read IN PROGRESS
 
 **Deployment:**
-- [ ] `git status --porcelain` clean after commit; push completes; `gh run watch` on the deploy workflow exits success
-- [ ] `curl -s https://fintrace.com.au/about/ | grep -c "About | FinTrace"` → ≥1, and equivalents for `/engagement/`, `/contact/`, og:image asset (HTTP 200), `/favicon.ico` (HTTP 200), `/sitemap.xml` (4 `<loc>` entries)
+- [x] `git status --porcelain` clean after implementation commit; push completed; `gh run watch` on deployment run `29636640457` exited success
+- [x] Live About, Engagement, Contact, og:image, browser icons, four-location sitemap and branded 404 checks passed at `https://fintrace.com.au/`
 
 ---
 
@@ -237,7 +237,7 @@ This plan executes inside the `/build-website` sequence, which requires applying
 - Zero console errors and zero page errors on all four routes.
 - This plan's Implemented Solution states each validation result with its evidence prefix (`r8-*` screenshots under `~/.dev-browser/tmp/`).
 
-### Step 5: Commit, push, deploy and live verification
+### ~~Step 5: Commit, push, deploy and live verification~~ ✅ **COMPLETED**
 
 **Objective:** Land the complete production site on `main`, deploy through the existing Pages workflow and prove the live result — the explicit final act of this work per the user's decision.
 
@@ -320,8 +320,8 @@ No automated test suite exists (per `AGENTS.md`); validation is lint + build + s
 
 ### Current delivery state
 
-- Steps 1–4 are implemented and validated. Step 5 remains open: the scoped commit, push, Pages workflow and live-production checks have not yet been recorded.
-- The plan-level status remains in progress because deployment is a required part of the plan. No deployment result, commit SHA or workflow run ID is inferred before Step 5 executes.
+- Steps 1–5 are implemented and validated. The production implementation was committed as `9a0032235e2f10a1a141c568104728960490c9fa`, pushed to `origin/main` and deployed through GitHub Pages run `29636640457`.
+- The plan-level status is complete because every implementation, documentation, audit, local-validation, deployment and live-production gate has passed.
 
 ### Assets and implementation
 
@@ -342,7 +342,7 @@ No automated test suite exists (per `AGENTS.md`); validation is lint + build + s
 ### Decisions and deferred work
 
 - The real public Formspree ID `xwvgoenw` ships unchanged. A live HTTP 200 submission and dashboard receipt were deliberately not run by user decision, so the production success path remains unproven until the first real enquiry.
-- Commit and push to `main`, the Pages workflow and live-site verification remain required under Step 5.
+- Commit and push to `main`, the Pages workflow and live-site verification completed under Step 5.
 - Safari/Firefox verification, formal accessibility review, rendered contrast measurement, notification-mailbox verification, analytics and lab-route housekeeping remain deferred by user decision.
 - Asset-generation HTML and intermediate icon renders remained outside the repository; only the final static artefacts were retained.
 
@@ -353,7 +353,15 @@ No automated test suite exists (per `AGENTS.md`); validation is lint + build + s
 - Headed Chromium passed on `/`, `/about/`, `/engagement/`, `/contact/` and the branded unknown route at 1440×900 and 390×900. Exact titles, favicon and Apple icon links, the absolute social-image URL, horizontal overflow and application console/page errors all met the contract. The expected browser diagnostic for the 404 document was excluded from application-error counts.
 - Round-eight evidence is stored under `~/.dev-browser/tmp/` with the `r8-*` prefix: desktop and mobile captures for home, About, Engagement, Contact and the branded 404, plus `r8-og-final-compressed.png` and `r8-icon-master.png`.
 - The requested two-worker post-change audit produced `subagent_bug_sweep_20260718_q8m3v6n2.xml`, `subagent_bug_sweep_20260718_u4m7q2x9.xml` and consolidated `combined_bug_sweep_20260718_n5c8r2v4.xml`. The asset/metadata partition found no defect. Both documentation findings were independently verified as real, fixed in this plan, `DESIGN.md` and `documents/learnings/fintrace_design_plan.md`, then revalidated.
-- The intentionally skipped live Formspree submission is not represented as passed. Step 5 deployment and production checks are also pending, so this plan is not yet eligible for a completed plan-level title.
+- The intentionally skipped live Formspree submission is not represented as passed. This user-approved exclusion does not block completion because the real public ID and residual risk are explicitly recorded.
+
+### Deployment and live-production evidence
+
+- Implementation commit `9a0032235e2f10a1a141c568104728960490c9fa` pushed from `main` to `origin/main` with a clean post-commit working tree.
+- GitHub Pages run `29636640457` completed successfully: dependency install, lint, static build, artefact upload and Pages deployment all passed. GitHub emitted non-blocking maintenance warnings that the current action versions target Node.js 20 and were forced onto Node.js 24.
+- Live HTTP checks returned 200 for `/`, `/about/`, `/engagement/`, `/contact/`, `/favicon.ico`, `/apple-icon.png`, `/icon.svg`, `/images/og/fintrace-og.png` and `/sitemap.xml`; the unknown route returned the required 404.
+- Live titles match the five built-title assertions. Contact contains `formspree.io/f/xwvgoenw` without any submission. The sitemap exposes exactly four `<loc>` entries, and the 404 contains both parts of “No trace of this page.” in its streamed markup.
+- The live social PNG reports `image/png` and SHA-256 `3890469100973392ce1d915e2c0094276c3f3e7db0cdf8c714ea06f4fb06dac7`, exactly matching the verified local 291,784-byte source.
 
 ### Skill resolution
 
