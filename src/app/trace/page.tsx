@@ -123,8 +123,8 @@ export default function TracePage() {
             FIN<span className="tr-logo-trace">TRACE</span>
           </Link>
           <div className="tr-header-right">
-            <a href="mailto:hello@fintrace.com.au" className="tr-header-mail">
-              hello@fintrace.com.au
+            <a href="/contact/" className="tr-header-mail">
+              Contact FinTrace
             </a>
             <a href="#cta" className="btn-primary">
               Request assessment
@@ -303,11 +303,11 @@ export default function TracePage() {
                 software subscription. Send the statements; receive the ledger, the trace and the findings report.
               </p>
               <div className="tr-hero-ctas tr-cta-ctas">
-                <a href="mailto:hello@fintrace.com.au" className="btn-primary">
+                <a href="/contact/" className="btn-primary">
                   Request a matter assessment
                 </a>
-                <a href="mailto:hello@fintrace.com.au" className="tr-header-mail">
-                  hello@fintrace.com.au
+                <a href="/contact/" className="tr-header-mail">
+                  Contact FinTrace
                 </a>
               </div>
             </Reveal>

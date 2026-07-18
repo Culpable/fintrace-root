@@ -1,0 +1,41 @@
+<bug_1>
+<summary>
+<title>[Contact navigation] Shared anchor offset overrides the form plate clearance</title>
+<one_line_description>The Request assessment anchor uses a 4rem shared scroll offset instead of the contact form’s intended 6rem header clearance.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace-root/src/app/contact/page.tsx - function: `ContactPage`, Lines 23-59
+- /Users/sacino/fintrace-root/src/app/contact/contact.css - selector: `.dsn-engine-network .eng-ct-form-plate`, Lines 55-57
+- /Users/sacino/fintrace-root/src/app/engine-network/engine-network.css - selector: `.dsn-engine-network section[id]`, Lines 58-60
+- /Users/sacino/fintrace-root/src/app/engine-network/SiteChrome.tsx - function: `SiteHeader`, Lines 8-23
+</file_locations>
+
+<issue_description>
+<description>The Contact page passes `#enquire` to the shared header and assigns that ID to the form plate. Contact CSS attempts to reserve 6rem above the anchored plate, but the shared `.dsn-engine-network section[id]` selector has greater specificity than `.dsn-engine-network .eng-ct-form-plate`. Its 4rem value therefore wins despite being declared in an earlier imported stylesheet. Activating Request assessment can place the form heading inside the absolute header’s visual area instead of providing the planned clearance. Increase the contact override’s specificity or target the ID-bearing section explicitly so the 6rem route-specific offset wins.</description>
+
+<code_example>
+
+```css
+/* File: src/app/engine-network/engine-network.css, Lines 58-60 */
+.dsn-engine-network section[id] {
+  scroll-margin-top: 4rem;
+}
+
+/* File: src/app/contact/contact.css, Lines 55-57 */
+.dsn-engine-network .eng-ct-form-plate {
+  scroll-margin-top: 6rem;
+}
+```
+
+</code_example>
+
+<expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Anchor offset** | The `#enquire` plate reserves 6rem above its heading | The higher-specificity shared rule applies a 4rem offset |
+| **Header clearance** | Request assessment reveals the full form heading below the absolute header | The heading can sit beneath the header’s visual area |
+| **Plan contract** | The contact-specific `scroll-margin-top: 6rem` requirement is effective | The declared contact value is present but never wins the cascade |
+</expected_vs_actual>
+</issue_description>
+</bug_1>

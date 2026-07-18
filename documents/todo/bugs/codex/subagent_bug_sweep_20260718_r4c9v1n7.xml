@@ -1,0 +1,40 @@
+<bug_1>
+<summary>
+<title>[Documentation] Current-state records still describe the completed metadata and Formspree work as absent</title>
+<one_line_description>The implementation plan and design register contradict the built output, leaving future executors with false blockers and obsolete architecture.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace-root/documents/todo/fintrace_site_pages_plan.md - plan status and Implemented Solution, Lines 1, 11-13, 496-505, 643-658
+- /Users/sacino/fintrace-root/documents/plans/fintrace_design_plan.md - current repo-state register, Lines 261-269
+- /Users/sacino/fintrace-root/DESIGN.md - status legend and social-share image inventory, Lines 17-21 and 46-48
+</file_locations>
+
+<issue_description>
+<description>The active implementation plan still says the Formspree ID has not been supplied, Step 8 has not been implemented, metadata remains hardcoded and no public asset exists. The current code and freshly built export prove the opposite: ContactForm.tsx uses form xwvgoenw; src/lib/metadata.ts exists; every production title and description consumes it; all 19 built HTML artefacts carry the absolute social image tags; and the 1200x630 PNG is exported at 66,983 bytes. The design plan separately calls itself the current round-six source of truth even though it now contains rounds seven and eight. DESIGN.md duplicates the Shipped status in a three-status legend and its required brand-asset inventory omits the image's scratch-HTML/dev-browser production method. These contradictions violate the plan-tracking and documentation-synchronisation contract, and can cause the next executor to repeat work, replace a live endpoint or treat shipped architecture as pending.</description>
+
+<code_example>
+
+```markdown
+# File: documents/todo/fintrace_site_pages_plan.md, Lines 657-658
+
+- **Pending required validation:** a real Formspree ID has not been supplied. ...
+- **Pending implementation:** Step 8 ... has not been implemented. Titles currently render with the `— FinTrace` template and remain hardcoded per page.
+
+# File: documents/plans/fintrace_design_plan.md, Line 268
+
+- README documents the earlier rounds and variations table. This file is the current round-six source of truth; `AGENTS.md` carries the binding rules.
+```
+
+</code_example>
+
+<expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Plan tracking** | Completed implementation and passed validations are reflected in the active step statuses and Implemented Solution | The plan still reports the live Formspree ID and Step 8 implementation as missing |
+| **Current-state authority** | The design plan identifies the latest implemented round and records only genuinely pending checks | Its current repo-state section still identifies round six as current despite rounds seven and eight |
+| **Asset inventory** | DESIGN.md records the social PNG location, dimensions, copy set and scratch-HTML/dev-browser production method | It records location, dimensions and copy but omits the production method, while duplicating the Shipped legend entry |
+| **User impact** | Future work starts from accurate architecture and remaining tasks | Future agents can repeat shipped work or mistake a live endpoint for a placeholder |
+</expected_vs_actual>
+</issue_description>
+</bug_1>

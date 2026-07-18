@@ -19,7 +19,11 @@
 
 - Use Server Components by default. Put hooks, browser APIs, and interactivity in separate colocated Client Components with `'use client'`.
 - Preserve `output: 'export'`, `images.unoptimized: true`, and `trailingSlash: true`: no server actions, API routes, dynamic runtime APIs, runtime image optimisation, or network visual assets. Use CSS, inline SVG, canvas, or generated WebGL textures.
-- Keep each route's visual system in `src/app/<route>/`: `page.tsx`, `fonts.ts`, `<route>.css`, and colocated components. Scope its CSS beneath `.dsn-<route>`; keep `globals.css` and `layout.tsx` minimal and neutral.
+- The contact form's browser-side POST to `https://formspree.io/f/<id>` is the approved runtime network exception. The public form ID is not a secret; keep credentials and private keys out of the repository.
+- Keep site identity, default and per-page titles, descriptions and social metadata in `src/lib/metadata.ts`; production page and layout metadata must consume that single source.
+- Keep the single social-share image at `public/images/og/fintrace-og.png`. It is a static export artefact fetched by social crawlers, not a runtime page visual or network asset.
+- Keep browser identity assets at `src/app/icon.svg`, `src/app/favicon.ico` and `src/app/apple-icon.png`. They are static-export browser-chrome artefacts, not page-rendered visuals or runtime network assets.
+- Keep lab candidates' visual systems in `src/app/<route>/`: `page.tsx`, `fonts.ts`, `<route>.css`, and colocated components, with CSS scoped beneath `.dsn-<route>`. Production routes (`/`, `/about/`, `/engagement/`, `/contact/` and the root `not-found`) share `.dsn-engine-network`; scope additions with `eng-ab-`, `eng-eg-`, `eng-ct-`, `eng-nf-` or shared `eng-page-` prefixes. Keep `globals.css` and `layout.tsx` minimal and neutral.
 - Keep the production Engine Network homepage at `src/app/page.tsx`. Keep the neutral gallery in `src/app/internal-design/` so it does not bias comparison.
 - Keep `/internal-design/` and every candidate route public but unlinked from production navigation, excluded from the sitemap, and marked `noindex`; this policy is not access control.
 - Load fonts per route with `next/font/google`. Do not introduce Inter, Roboto, Arial, or system-default fonts.
@@ -38,18 +42,25 @@
 <container_information>
 
 <description>
-FinTrace Root serves the selected Engine Network homepage for a legal-team forensic bank-statement analysis service. It retains six original concepts and five dark Evidence Engine variations in an unlinked internal design lab.
+FinTrace Root serves the Engine Network production site for a legal-team forensic bank-statement analysis service: the homepage, About, Engagement & pricing, Contact and a branded 404. It retains six original concepts and five dark Evidence Engine variations in an unlinked internal design lab.
 </description>
+
+<production_routes>
+- `/` - selected Engine Network homepage.
+- `/about/` - service story and verifiability standard.
+- `/engagement/` - engagement sequence, deliverables and pricing shape.
+- `/contact/` - Formspree matter-enquiry form with retry-safe error handling.
+- Root `not-found` - branded 404 returned for unknown routes.
+</production_routes>
 
 <system_architecture_documentation>
 
 | System | Source | Read when |
 | --- | --- | --- |
 | Product claims and positioning | [`brand_naming_background.md`](/Users/sacino/fintrace/documents/reference/brand_naming_background.md) | Writing or changing user-facing copy, capability claims, proof points, audiences, or service positioning. |
-| Ongoing design work and current state | [`fintrace_design_plan.md`](/Users/sacino/fintrace-root/documents/plans/fintrace_design_plan.md) | Read before any design work; update after every design change. |
 
 <documentation_synchronisation>
-The lab is still working through its designs. Record every design decision and implementation update in this plan in the same task; do not leave design state only in code or chat.
+The Engine Network production design is selected. Keep `DESIGN.md` truthful in the same task as every production design or interaction change; do not leave current design state only in code or chat.
 </documentation_synchronisation>
 
 </system_architecture_documentation>
@@ -63,9 +74,11 @@ The lab is still working through its designs. Record every design decision and i
 </design_documentation>
 
 <environments>
+
 - Development: Node.js `>=22.23.1 <23`; `npm run dev` serves local Next.js at `http://localhost:3004`. There is no database or backend.
 - Validation: local lint, static build, and browser checks; no automated unit, integration, or Playwright suite exists.
 - Production: GitHub Pages deploys the static `out/` artefact from `main` to `https://fintrace.com.au/` through `.github/workflows/deploy.yml`.
+
 </environments>
 
 <technology_stack>

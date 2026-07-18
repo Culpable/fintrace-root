@@ -929,11 +929,10 @@
 }
 
 .dsn-engine-network .eng-footer-inner {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(16rem, 1fr) auto minmax(16rem, 1fr);
   align-items: flex-start;
-  gap: 2rem;
+  gap: 2rem 3rem;
 }
 
 .dsn-engine-network .eng-footer-mark {
@@ -958,6 +957,32 @@
   gap: 0.6rem;
 }
 
+/* Give the shared production page navigation real in-flow touch targets so
+   wrapped links can never overlap invisible pseudo-element hit areas. */
+.dsn-engine-network .eng-footer-nav {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  align-items: flex-start;
+  column-gap: 1.6rem;
+  row-gap: 0.2rem;
+}
+
+.dsn-engine-network .eng-footer-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey-warm);
+  transition: color 0.3s ease;
+}
+
+.dsn-engine-network .eng-footer-nav a:hover {
+  color: var(--gold-bright);
+}
+
 .dsn-engine-network .eng-footer-meta a {
   position: relative;
   display: inline-block;
@@ -965,8 +990,8 @@
   transition: color 0.3s ease;
 }
 
-/* Footer mail link: extend the ~12px-tall text to a 44px touch target;
-   the metadata line below is not interactive, so no collision is possible */
+/* Extend the compact footer action to a 44px touch target without changing
+   the measured height of the metadata stack. */
 .dsn-engine-network .eng-footer-meta a::after {
   content: '';
   position: absolute;
@@ -988,6 +1013,34 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(163, 154, 141, 0.55);
+}
+
+@media (max-width: 1000px) {
+  .dsn-engine-network .eng-footer-inner {
+    grid-template-columns: minmax(16rem, 1fr) auto;
+  }
+
+  .dsn-engine-network .eng-footer-meta {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 700px) {
+  .dsn-engine-network .eng-footer-inner {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .dsn-engine-network .eng-footer-nav {
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .dsn-engine-network .eng-footer-meta {
+    grid-column: auto;
+  }
 }
 
 /* ============================== Responsive ============================== */

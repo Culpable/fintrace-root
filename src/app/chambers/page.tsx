@@ -188,7 +188,7 @@ function Header() {
           <Wordmark />
         </Link>
         <a
-          href="mailto:hello@fintrace.com.au"
+          href="/contact/"
           className="ch-textlink ch-press hidden sm:inline-block"
           style={{ animationDelay: '160ms' }}
         >
@@ -240,7 +240,7 @@ function Hero() {
           className="ch-press mt-14 flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-10"
           style={{ animationDelay: '1250ms' }}
         >
-          <a href="mailto:hello@fintrace.com.au" className="ch-btn ch-btn--on-green">
+          <a href="/contact/" className="ch-btn ch-btn--on-green">
             Request a matter assessment
           </a>
           <a href="#engagement" className="ch-textlink">
@@ -455,10 +455,10 @@ function Invitation() {
               Engagements are accepted per matter — a flat cost with per-page pricing, agreed before work begins.
               Statements are received in confidence; findings are returned in a form that stands before a court.
             </p>
-            <a href="mailto:hello@fintrace.com.au" className="ch-btn ch-btn--solid mt-12">
+            <a href="/contact/" className="ch-btn ch-btn--solid mt-12">
               Request a matter assessment
             </a>
-            <p className="ch-muted-on-parchment mt-8 text-sm tracking-wide">hello@fintrace.com.au</p>
+            <p className="ch-muted-on-parchment mt-8 text-sm tracking-wide">Contact FinTrace</p>
           </div>
         </Reveal>
       </div>
@@ -479,11 +479,11 @@ function Footer() {
           Engaged per matter · Flat cost with per-page pricing · Australia
         </p>
         <a
-          href="mailto:hello@fintrace.com.au"
+          href="/contact/"
           className="ch-textlink mt-6 inline-block"
           style={{ letterSpacing: '0.18em' }}
         >
-          hello@fintrace.com.au
+          Contact FinTrace
         </a>
         <div className="ch-hairline mx-auto mt-12 max-w-xs" />
         <p className="ch-muted-on-green mt-8 text-xs tracking-[0.22em] uppercase">

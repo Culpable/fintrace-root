@@ -1,0 +1,55 @@
+<bug_1>
+<summary>
+<title>No defects found</title>
+<one_line_description>The focused production asset and metadata audit found no integration, static-export or plan-compliance defects.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace-root/public/images/og/fintrace-og.png - production Open Graph image, 1200 x 630, 291784 bytes
+- /Users/sacino/fintrace-root/src/app/icon.svg - geometry-only scalable browser icon, Lines 1-21
+- /Users/sacino/fintrace-root/src/app/favicon.ico - PNG-compressed 16 x 16, 32 x 32 and 48 x 48 icon entries
+- /Users/sacino/fintrace-root/src/app/apple-icon.png - 180 x 180 Apple touch icon
+- /Users/sacino/fintrace-root/src/lib/metadata.ts - siteMetadata and pageMetadata, Lines 1-39
+- /Users/sacino/fintrace-root/src/app/layout.tsx - root metadata export, Lines 12-41
+- /Users/sacino/fintrace-root/src/app/page.tsx - home metadata consumption, Lines 1-10
+- /Users/sacino/fintrace-root/src/app/about/page.tsx - About metadata consumption, Lines 1-15
+- /Users/sacino/fintrace-root/src/app/engagement/page.tsx - Engagement metadata consumption, Lines 1-16
+- /Users/sacino/fintrace-root/src/app/contact/page.tsx - Contact metadata consumption, Lines 1-15
+- /Users/sacino/fintrace-root/out/index.html - exported home metadata and icon links
+- /Users/sacino/fintrace-root/out/about/index.html - exported About metadata and icon links
+- /Users/sacino/fintrace-root/out/engagement/index.html - exported Engagement metadata and icon links
+- /Users/sacino/fintrace-root/out/contact/index.html - exported Contact metadata and icon links
+- /Users/sacino/fintrace-root/out/404.html - exported default metadata and icon links
+</file_locations>
+
+<issue_description>
+<description>The source implementation and the existing static-export artefacts satisfy the audited planning constraints. The central metadata source supplies the default identity and all production page title and description pairs. The root layout consumes that source for the title template, site-wide Open Graph block and Twitter card. The home page correctly escapes the title template, each sub-page consumes its matching page metadata and the 404 correctly inherits the default identity. All five exported production HTML files contain the expected title, absolute Open Graph image URL, dimensions, alt text, site name, locale, Twitter large-image card and resolvable ICO, SVG and Apple touch icon links. The source assets match their required formats and dimensions, and their exported copies are byte-identical. No remediation is recommended for this audit partition.</description>
+
+<code_example>
+
+```text
+# Audited source-to-export evidence
+
+siteMetadata.ogImage = /images/og/fintrace-og.png
+exported og:image = https://fintrace.com.au/images/og/fintrace-og.png
+Open Graph PNG = 1200 x 630, 291784 bytes
+Apple touch PNG = 180 x 180
+ICO entries = 16 x 16, 32 x 32, 48 x 48
+SVG = 64 x 64 viewBox, geometry only, no text or font references
+production HTML files checked = 5 of 5 passed
+exported asset hashes = identical to source assets
+```
+
+</code_example>
+
+<expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Metadata ownership** | Central site and page metadata consumed by production routes | `src/lib/metadata.ts` supplies every required identity, title and description value |
+| **Social metadata** | Complete site-wide Open Graph and Twitter image blocks on every production artefact | All five exported HTML files contain the required absolute image URL and social fields |
+| **Asset contract** | 1200 x 630 OG PNG below 300000 bytes, 180 x 180 Apple PNG, three-entry ICO and geometry-only SVG | Every source asset passed its exact format, size and purity assertion |
+| **Static export** | Source assets copied to `out/` and referenced by generated link tags | Exported copies are present, byte-identical and linked from all five production HTML files |
+| **User impact** | Social crawlers and browser chrome resolve the intended FinTrace identity | No broken reference, missing format or metadata mismatch was found |
+</expected_vs_actual>
+</issue_description>
+</bug_1>

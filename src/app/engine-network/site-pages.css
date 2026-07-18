@@ -1,0 +1,75 @@
+/* Give every production sub-page a quieter hero rhythm while retaining the
+   absolute flagship header and the shared Evidence Engine token system. */
+.dsn-engine-network .eng-page-hero {
+  padding: clamp(10rem, 20vh, 13rem) 0 clamp(3rem, 7vh, 5rem);
+  border-bottom: 1px solid var(--hairline-dim);
+}
+
+/* Keep sub-page headlines below the flagship scale so the home hero remains
+   the system's dominant expression. */
+.dsn-engine-network .eng-page-h1 {
+  max-width: 48rem;
+  font-family: var(--font-eng-display);
+  font-size: clamp(2.6rem, 5.4vw, 4.6rem);
+  font-weight: 750;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+}
+
+.dsn-engine-network .eng-page-hero .eng-lede {
+  margin-top: 1.6rem;
+}
+
+/* Use a static specification strip to carry compact supporting facts without
+   repeating the flagship hero's animated or WebGL presentation. */
+.dsn-engine-network .eng-page-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem 1.1rem;
+  border-block: 1px solid var(--hairline-dim);
+  padding: 1.1rem clamp(1.25rem, 4vw, 3rem);
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  line-height: 1.6;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--grey-warm);
+}
+
+/* Keep each decorative divider in the same flex item as the fact it
+   introduces so narrow column layouts cannot create standalone dot rows. */
+.dsn-engine-network .eng-page-strip-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1.1rem;
+}
+
+/* Establish a consistent reading rhythm for narrative sections on every
+   production sub-page without changing the flagship's section spacing. */
+.dsn-engine-network .eng-page-section {
+  position: relative;
+  padding-block: clamp(4rem, 9vh, 6.5rem);
+}
+
+.dsn-engine-network .eng-page-section + .eng-page-section {
+  border-top: 1px solid var(--hairline-dim);
+}
+
+.dsn-engine-network .eng-page-section .eng-section-head {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 480px) {
+  .dsn-engine-network .eng-page-strip {
+    align-items: flex-start;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .dsn-engine-network .eng-page-strip-item {
+    gap: 0.55rem;
+  }
+}

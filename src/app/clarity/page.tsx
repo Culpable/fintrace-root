@@ -145,10 +145,10 @@ function Header() {
           <span className="cl-microlabel hidden lg:inline">Forensic statement analysis</span>
         </div>
         <div className="flex items-center gap-6">
-          <a href="mailto:hello@fintrace.com.au" className="cl-mono hidden text-xs tracking-wide md:inline hover:text-[var(--cobalt)]">
-            hello@fintrace.com.au
+          <a href="/contact/" className="cl-mono hidden text-xs tracking-wide md:inline hover:text-[var(--cobalt)]">
+            Contact FinTrace
           </a>
-          <a href="mailto:hello@fintrace.com.au" className="cl-btn !px-4 !py-2 text-sm">
+          <a href="/contact/" className="cl-btn !px-4 !py-2 text-sm">
             Request assessment
           </a>
         </div>
@@ -181,7 +181,7 @@ function Hero() {
           source page.
         </p>
         <div className="cl-reveal mt-10 flex flex-wrap items-center gap-8" style={{ '--d': '270ms' } as React.CSSProperties}>
-          <a href="mailto:hello@fintrace.com.au" className="cl-btn">
+          <a href="/contact/" className="cl-btn">
             Request a matter assessment
           </a>
           <a href="#how-it-works" className="cl-btn-ghost">
@@ -361,11 +361,11 @@ function CtaSection() {
             pricing. No software to licence, no seats to manage. You send the bundle; we return the evidence.
           </p>
           <div className="cl-reveal mt-8 flex flex-wrap items-center gap-8" style={{ '--d': '120ms' } as React.CSSProperties}>
-            <a href="mailto:hello@fintrace.com.au" className="cl-btn">
+            <a href="/contact/" className="cl-btn">
               Request a matter assessment
             </a>
-            <a href="mailto:hello@fintrace.com.au" className="cl-mono text-xs tracking-wide text-white hover:text-[#8fa4f5]">
-              hello@fintrace.com.au
+            <a href="/contact/" className="cl-mono text-xs tracking-wide text-white hover:text-[#8fa4f5]">
+              Contact FinTrace
             </a>
           </div>
         </Reveal>
@@ -385,8 +385,8 @@ function Footer() {
           <span className="cl-microlabel hidden sm:inline">Forensic statement analysis — Australia</span>
         </div>
         <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
-          <a href="mailto:hello@fintrace.com.au" className="cl-mono text-xs tracking-wide hover:text-[var(--cobalt)]">
-            hello@fintrace.com.au
+          <a href="/contact/" className="cl-mono text-xs tracking-wide hover:text-[var(--cobalt)]">
+            Contact FinTrace
           </a>
           <span className="cl-microlabel">Design study 03 — From Chaos to Clarity</span>
         </div>

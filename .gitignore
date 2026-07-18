@@ -14,5 +14,8 @@ next-env.d.ts
 # Debug logs
 npm-debug.log*
 
+# Local Codex investigation output
+/documents/todo/bugs/codex/
+
 # Local env files
 .env*.local

@@ -10,14 +10,14 @@ description: Obsidian-and-gold Evidence Engine design system for the FinTrace fo
 
 ### Purpose and authority
 
-This document is the visual implementation contract for the FinTrace production website: the Engine Network flagship serving at `/` and the approved production sub-pages that extend it. Read it before any UI work, alongside `AGENTS.md` (binding technical rules — they take precedence over this document) and `documents/plans/fintrace_design_plan.md` (the decision history and current-state register, which must be updated in the same task as any design change).
+This document is the visual implementation contract for the FinTrace production website: the Engine Network flagship serving at `/` and the approved production sub-pages that extend it. Read it before any UI work, alongside `AGENTS.md`; its binding technical rules take precedence over this document.
 
-Token authority is **implementation-authoritative**: every exact colour, type, spacing and shadow value lives in `src/app/engine-network/engine-network.css` as CSS custom properties and rules scoped under the `.dsn-engine-network` class. This document records semantic roles, ownership and behaviour — it never becomes a second token registry. Where this document and the implementation disagree, treat the difference as drift: follow the implementation, then record the discrepancy here and in the design plan.
+Token authority is **implementation-authoritative**: every exact colour, type, spacing and shadow value lives in `src/app/engine-network/engine-network.css` as CSS custom properties and rules scoped under the `.dsn-engine-network` class. This document records semantic roles, ownership and behaviour — it never becomes a second token registry. Where this document and the implementation disagree, treat the difference as drift: follow the implementation, then record the discrepancy here.
 
 Every claim below carries one of three statuses:
 
-- **Shipped** — verified in implementation and in the headed browser rounds recorded in the design plan. Unlabelled claims are shipped.
-- **Approved, not yet implemented** — user-approved in `documents/todo/fintrace_site_pages_plan.md` (the contact, about, engagement and 404 pages). Binding once built; not on the live site today.
+- **Shipped** — verified in implementation and through the required headed browser checks. Unlabelled claims are shipped.
+- **Approved, not yet implemented** — accepted future work recorded in a plan but absent from the current implementation. No production-page work currently carries this status.
 - **Lab** — development-only comparison routes under `/internal-design/`; never production precedent.
 
 ### Product character
@@ -33,7 +33,8 @@ Every claim below carries one of three statuses:
 | --- | --- | --- |
 | Tokens, all component and responsive rules | `src/app/engine-network/engine-network.css` | Palette custom properties, typography, buttons, header/footer, plates, cards, set-piece styling, breakpoints — all scoped under the route class |
 | Fonts | `src/app/engine-network/fonts.ts::bricolage` | Bricolage Grotesque and Fragment Mono via next/font, exposed as CSS variables; the only permitted font instances |
-| Page shell, sections, copy | `src/app/engine-network/EngineNetworkPage.tsx::EngineNetworkPage` | Header, section order, all section copy, footer, the internal-wrapper lab chip toggle |
+| Page shell, sections, copy | `src/app/engine-network/EngineNetworkPage.tsx::EngineNetworkPage` and production route folders | Homepage section order plus About, Engagement, Contact and branded 404 copy |
+| Shared production chrome | `src/app/engine-network/SiteChrome.tsx` and `src/app/engine-network/site-pages.css` | Sub-page header, four-link footer navigation and shared sub-page layout primitives |
 | Hero composition and fallback | `src/app/engine-network/Hero.tsx::Hero` | Layered fallback/scene/scrim/headline/strip structure, load stagger, static SVG echoes |
 | WebGL scene | `src/app/engine-network/Scene.tsx` | Constellation geometry, framing formulas, lifecycle gating, disposal, DPR cap |
 | Entrance choreography | `src/app/engine-network/Reveal.tsx::Reveal` | One-shot IntersectionObserver trigger adding the visible class |
@@ -42,11 +43,13 @@ Every claim below carries one of three statuses:
 | Trace set-piece | `src/app/engine-network/TraceDiagram.tsx` | Canvas account graph, label/note offset variables |
 | Match set-piece | `src/app/engine-network/CurrencyMatch.tsx` | Cross-currency SVG diagram and its labelled-image semantics |
 | Neutral global layer | `src/app/globals.css` | Smooth scroll, font smoothing, overflow-x clip — nothing visual |
-| Root layout and metadata | `src/app/layout.tsx` | en-AU lang, metadata base and title template; deliberately font-neutral |
+| Site and page metadata | `src/lib/metadata.ts` | Single source for site identity, production titles, descriptions, canonical origin and the social-image reference |
+| Root layout and social metadata | `src/app/layout.tsx` | en-AU lang, metadata base, pipe title template and site-wide Open Graph/Twitter blocks; deliberately font-neutral |
+| Social-share image | `public/images/og/fintrace-og.png` | 1200×630 crawler-facing PNG using the Engine Network wordmark, approved home-title clause and domain; the label-free illustration shows incoming documents, the scanning gate and a cropped six-core gold constellation |
+| Browser identity assets | `src/app/icon.svg`, `src/app/favicon.ico` and `src/app/apple-icon.png` | Geometry-only gate-bar SVG, 16/32/48 px PNG-entry ICO and 180×180 Apple icon derived from one 512×512 Bricolage Grotesque monogram render |
 | Production route wrapper | `src/app/page.tsx` | Thin indexable wrapper rendering the shared page without the lab chip |
 | Internal wrapper chrome | `src/app/engine-network/internal-engine-network.css` | The comparison-only lab chip; never loaded by the production route |
-| Design decisions and validation record | `documents/plans/fintrace_design_plan.md` | Round-by-round decisions, framing formulas, verification evidence |
-| Approved future pages | `documents/todo/fintrace_site_pages_plan.md` | Copy decks, form contract, shared chrome and prefixes for the coming pages |
+| Production site pages | `documents/learnings/fintrace_site_pages_plan.md` | Implemented copy decks, form contract, shared chrome and per-page prefixes |
 | Binding project rules | `AGENTS.md` | Isolation, animation, static-export and validation rules; commands and server lifecycle |
 
 ### Foundations
@@ -71,7 +74,7 @@ Every claim below carries one of three statuses:
 | Error / flagged | crimson literals in component rules | The single "flagged" accent — reserved exclusively for the flagged evidence treatment, used sparingly, and paired with text. Not a shared custom property: the base crimson is a literal in scene/diagram code, the ledger flag declares a local variable, and the trace label uses its own tint. Check the owning component before reusing. |
 
 - Theme status: one dark theme only, by explicit user decision ("dark mode only; no light mode"). No light theme is shipped or prepared, and there is no `prefers-color-scheme` handling.
-- Accessibility target: no formal contrast target is recorded. Verification is visual, through the headed browser rounds in the design plan; rendered contrast pairs have not been formally measured, so no WCAG conformance is claimed.
+- Accessibility target: no formal contrast target is recorded. Verification is visual through the required headed browser checks; rendered contrast pairs have not been formally measured, so no WCAG conformance is claimed.
 - Status communication: colour never carries a status alone. The flagged ledger row pairs its crimson rule with a marginal text annotation and a category chip; the trace diagram's crimson hop is captioned in text; the gold "matched" verdict is a text stamp.
 - A page-wide gold-dust film grain (a fixed SVG turbulence tile at 4% alpha) and a gold `::selection` colour keep even incidental surfaces on-brand.
 
@@ -81,16 +84,16 @@ Every claim below carries one of three statuses:
 - Specification role: Fragment Mono through `--font-eng-mono` for kickers, navigation, buttons, tags, stats, strips, captions, footer metadata and all tabular data. Mono text is uppercase with wide letter-spacing; the kicker carries an engraved leading dash.
 - Body role: ledes and body copy render in the display face at reading weight in `--grey-warm`, line-height 1.65.
 - Scale: sizes are clamp-based fluid values owned by the stylesheet — consult `.eng-display`, `.eng-h2`, `.eng-lede` and the mono classes rather than restating values.
-- Measure and wrapping: page container is a 74rem measure; section heads cap at 46rem, ledes at 34rem, the proof note at 42rem. Ledger descriptions truncate with ellipsis; mono strips wrap with row gaps rather than overflowing.
+- Measure and wrapping: page container is a 74rem measure; section heads cap at 46rem, ledes at 34rem, the proof note at 42rem. Ledger descriptions truncate with ellipsis; mono strips wrap with row gaps rather than overflowing. Production sub-page strips group each decorative middle dot with the fact it introduces so narrow column layouts never render punctuation as a standalone row.
 - Numerics: `font-variant-numeric: tabular-nums` on stat values and all ledger data. Amounts use the true minus sign, credits carry a plus and the brighter gold, currency formats follow the canonical evidence story (Australian dollar and Indian rupee lakh formats), and mono strips separate items with middle dots.
 
 ## Layout
 
 - Spacing rhythm: sections use clamp-based block padding (`.eng-section`); plate padding and grid gaps are likewise fluid. There is no numbered spacing scale — rhythm values live in the stylesheet.
 - Breakpoints and frames: 900px (grids stack; the process progress line rotates into a left rail), 767px (header section links hidden — wordmark and gold button remain; touch padding on the small button), 700px (ledger table drops balance and category columns, masthead stacks), 480px (proof stats compress to a single-line rule). The hero has its own compact contract independent of these: width below 768px **or** aspect ratio below 1.2 selects the compact scene, fallback SVG and framing.
-- Navigation and shell: an absolute (not sticky) header over the hero — wordmark left, mono section anchors and the gold assessment button right. Footer carries brand, contact metadata and the copyright line. Sub-pages will share extracted header/footer chrome with page links replacing section anchors, plus a four-link footer page nav — approved, not yet implemented.
+- Navigation and shell: an absolute (not sticky) header over the hero — wordmark left, About / Engagement / Contact links and the gold assessment button right. Every production route uses the same `SiteHeader` contract. The shared footer uses a stable three-column desktop grid for brand, four production page links and the Contact-page action; it collapses to two columns below 1000 px and one column below 700 px.
 - Overflow and dense data: `html, body { overflow-x: clip }` in the global layer; zero horizontal overflow at every verified viewport is a validation gate. Dense data compresses by dropping columns at breakpoints, never by page-level horizontal scrolling.
-- Touch targets: 44px minimum everywhere. Sparse inline links (wordmark, header anchors, footer mail link) extend via invisible pseudo-elements sized to stay clear of neighbours; buttons carry the target in their real padded box because their sheen's `overflow: hidden` clips pseudo extensions. The approved footer page nav must use in-flow 44px boxes — stacked links would otherwise overlap extended targets.
+- Touch targets: 44px minimum everywhere. Sparse inline links (wordmark, header anchors, footer Contact-page action) extend via invisible pseudo-elements sized to stay clear of neighbours; buttons carry the target in their real padded box because their sheen's `overflow: hidden` clips pseudo extensions. The footer page nav uses in-flow 44px boxes because stacked links would otherwise overlap extended targets.
 
 ## Elevation & Depth
 
@@ -101,8 +104,8 @@ Every claim below carries one of three statuses:
 ## Shapes
 
 - Radius and geometry: near-square machined edges — 2px on buttons, chips and tags; 3px on the ledger plate; plates otherwise square with the engraved inner frame. The pill radius exists only on the internal lab chip. Do not introduce rounded-card geometry.
-- Icons: there is no icon set. The only pictograms are bespoke inline SVG diagrams and the wordmark's luminous gate bar. Decorative SVGs (hero fallback, flag rule, stage markers, strip dividers) carry `aria-hidden="true"`.
-- Imagery: no raster images anywhere on the site. All visuals are CSS gradients, inline SVG, canvas-baked textures or WebGL — a static-export rule (no network visual assets) as much as a brand one.
+- Icons: there is no page icon library. The browser-chrome identity set uses the wordmark’s luminous gate bar in geometry-only `icon.svg`, plus an FT monogram in the 16/32/48 px `favicon.ico` and 180×180 Apple icon. Page pictograms remain bespoke inline SVG diagrams; decorative SVGs (hero fallback, flag rule, stage markers, strip dividers) carry `aria-hidden="true"`.
+- Imagery: no raster images render inside production pages. Page visuals are CSS gradients, inline SVG, canvas-baked textures or WebGL. The raster social-share image and browser icons are static-export artefacts fetched only by crawlers or browser chrome.
 
 ## Components
 
@@ -111,7 +114,7 @@ Every claim below carries one of three statuses:
 - Semantics: native `a` and `button` elements only; no custom interactive widgets. The animated set-pieces are non-interactive graphics with deliberate semantics: the trace diagram is `aria-hidden` with a visible text caption alongside; the currency match is a single labelled image (`role="img"` with a descriptive label); the ledger is a `figure` whose decorative status line is hidden from assistive technology.
 - Cursor and stable states: hover states transition colour, border-colour, transform and shadow with explicit transition-property lists — `transition: all` is prohibited. Hover and press are interruptible; entrance animation is owned by the `Reveal` wrapper while the inner element owns hover, so the two transforms never fight.
 - Focus and keyboard: `:focus-visible` renders a 1px `--gold-bright` outline offset 3px on links and buttons, verified visible in headed rounds. Focus order follows DOM order; no focus traps exist because no overlays exist. Complete keyboard flows have not been formally tested — keyboard operation beyond focus visibility is unverified.
-- Names and announcements: the wordmark link is labelled "FinTrace home"; the header nav is labelled "Page sections". No live regions are shipped. The approved contact form specifies status/alert roles, busy state and label associations — approved, not yet implemented.
+- Names and announcements: the wordmark link is labelled "FinTrace home"; header nav labels distinguish page sections from site pages. The contact form ships status/alert roles, busy state and explicit label associations.
 - Motion: transform/opacity only, IntersectionObserver-armed, passive listeners. `Reveal` adds `is-visible` exactly once; stagger via the reveal-delay variable; hero load choreography staggers via the load-delay variable. Keyframe names are document-global, so every keyframe is route-prefixed (`engnet-`, `ecmnet-`, `engnet-lt-`; the approved pages reserve `engab-`/`engeg-`/`engct-`/`engnf-`). rAF and WebGL loops pause when hidden or offscreen; canvas DPR caps at 2. **Never add `prefers-reduced-motion` conditionals — binding workspace rule.**
 
 ### Actions and buttons
@@ -121,17 +124,17 @@ Two-tier hierarchy, both in the mono voice with 2px radius and press `scale: 0.9
 - Gold (`.eng-btn-gold`): dark ink on a champagne metal gradient, hover lift with brightened ring shadow and a light sweep; the CTA plate variant (`.eng-btn-loop`) loops its sweep unattended; the header size (`.eng-btn-sm`) carries its 44px target in its real box. One gold action per surface.
 - Ghost (`.eng-btn-ghost`): gold mono text in a hairline border, hover fills faintly and brightens. The secondary path beside every gold action.
 
-All current CTAs target the assessment mailto or in-page anchors. The approved retarget to the contact page is not yet implemented — and any hero CTA change, even attribute-only, triggers the full seven-viewport hero matrix.
+Every public contact action targets `/contact/` or its `#enquire` form anchor. Any hero CTA change, even attribute-only, triggers the full seven-viewport hero matrix.
 
 ### Forms and selection
 
-None shipped. The approved contact form (site pages plan) defines the complete contract: mono uppercase labels above obsidian fields with hairline borders and gold focus, a fixed six-field order, hidden subject/source/honeypot fields, a submit button in the full gold pattern, an error panel that preserves typed values and offers the mailto fallback, and a success panel that resets the form. Build it from that plan's copy deck and behaviour contract verbatim; it ships as the site's only Client Component form and its Formspree POST is the approved sole runtime network request.
+The contact page ships the complete form contract: mono uppercase labels above obsidian fields with hairline borders and gold focus, a fixed six-field order, hidden subject/source/honeypot fields, a submit button in the full gold pattern, an error panel that preserves typed values and asks the user to check their connection and retry, and a success panel that resets the form. It is the production pages' only Client Component form, and its Formspree POST to public form `xwvgoenw` is the approved sole runtime network request. Local fetch stubs verify the success and failure state transitions. A live HTTP 200 submission and dashboard receipt were deliberately not run by user decision, so the production success path remains unproven until the first real enquiry. The `#enquire` form plate owns a 6rem anchor offset that explicitly outranks the shared 4rem section offset. Its restrained crimson error panel is an explicitly recorded exception to the flagged-evidence-only accent rule because text and alert semantics communicate the state independently of colour.
 
 ### Navigation and search
 
-- Header: wordmark (ivory "Fin", luminous gate bar, gold "Trace") linking home; mono uppercase anchors for Process / Ledger / Tracing / Proof; gold "Request assessment" button. Below 768px the anchors hide and the wordmark and button remain — there is no menu, hamburger or search, and none is planned.
+- Header: wordmark (ivory "Fin", luminous gate bar, gold "Trace") linking home; mono uppercase links for About / Engagement / Contact; gold "Request assessment" button. Below 768px the page links hide and the wordmark and button remain — there is no menu, hamburger or search, and none is planned.
 - Anchored sections set `scroll-margin-top` so smooth scrolling (global) lands clear of content.
-- Approved, not yet implemented: shared sub-page header (About / Engagement / Contact links) and the four-link footer page nav; production pages must never link to `/internal-design/` or any lab route.
+- Every production route uses the shared About / Engagement / Contact header, and the footer exposes exactly Home / About / Engagement & pricing / Contact. Production pages never link to `/internal-design/` or a lab route.
 
 ### Cards, badges, and statuses
 
@@ -145,14 +148,14 @@ The ledger set-piece is the only table and the template for any future dense dat
 
 ### Dialogs, sheets, popovers, and tooltips
 
-None shipped and none planned. Do not introduce an overlay layer without a decision recorded in the design plan.
+None shipped and none planned. Record any decision to introduce an overlay layer in this document before implementation.
 
 ### Alerts, loading, empty, and error states
 
 - Hero resilience is the model: a designed static SVG fallback paints instantly; the WebGL layer cross-fades in only when its first frame has rendered; renderer construction is wrapped so a missing WebGL context leaves the designed fallback rather than a crash. Wide and compact fallbacks mirror the scene's own aspect contract so the cross-fade never jumps.
 - Empty states: none exist (the site has no user data).
-- Error pages: the production 404 is currently Next's unstyled default — known drift. The approved branded 404 (obsidian shell, "No trace of this page.", static constellation echo, gold return button) is specified in the site pages plan.
-- The approved contact form defines the only alert-style panels (success/error) in the system.
+- Error pages: the branded 404 uses the obsidian shell, “No trace of this page.” copy, a static constellation echo and a gold return button.
+- The contact form defines the only alert-style panels (success/error) in the system.
 
 ## Do's and Don'ts
 
@@ -160,8 +163,8 @@ None shipped and none planned. Do not introduce an overlay layer without a decis
 - Do reuse the exported font instances, palette variables and existing component classes before writing new ones.
 - Do ground every visible claim in the brand brief's closed claim set, write British English with curly apostrophes, no emoji, and no Oxford comma in running copy.
 - Do re-run the seven-viewport hero matrix (with fallback and lifecycle checks) for ANY hero change, however trivial, and the standard two-viewport check for everything else — zero console errors, zero page errors, zero horizontal overflow.
-- Do record every design decision in `documents/plans/fintrace_design_plan.md` in the same task, and keep this document truthful when behaviour changes.
-- Don't add fonts, icon sets, UI libraries, raster images, network assets or analytics; the approved Formspree POST is the only permitted runtime network request.
+- Do keep this document truthful in the same task whenever production design or behaviour changes.
+- Don't add fonts, page icon libraries, UI libraries, page-rendered raster images, network assets or analytics; the approved Formspree POST is the only permitted runtime network request, while the social PNG and browser identity files are static-export artefacts.
 - Don't add `prefers-reduced-motion` conditionals, `transition: all`, or unprefixed keyframes.
 - Don't let crimson leave the flagged-evidence role, put more than one gold button on a surface, or wrap more than one clause per heading in gold.
 - Don't duplicate a sentence verbatim between visible copy blocks, and don't link any production page to `/internal-design/` or a lab route.
@@ -173,19 +176,19 @@ None shipped and none planned. Do not introduce an overlay layer without a decis
 - The canonical evidence story is load-bearing copy: the flagged A$9,500 ATM withdrawal (07 Mar 2024, cited to its source page), the A$28,000 Wise transfer (02 Apr) and the ₹18,20,000 arrival at HDFC (04 Apr) at FX 65.00. The ledger's balances genuinely reconcile. Change these numbers only as a recorded decision, and keep ledger, trace and match telling the same transaction.
 - Headline voice: two short declaratives with the payoff clause in gold ("Four stages. One chain of evidence."). Kickers are short mono phrases. Ledes are concrete and rhythmic, heavy on colons and em dashes (true em dashes with spaces). The mono voice owns labels, numerals, buttons and strips.
 - Proof numbers are fixed: an estimated fifty hours delivered in about ten (the signature stat counts backwards), about fifty accounts, fifteen years, thousands of pages, and the finding that results closely matched the instructing lawyer's independent analysis. The allowed claim set is closed — no founders, dates, team, offices, clients, turnaround promises or security claims may be invented.
-- Terminology: "service, not software"; "Engaged per matter · Australia-wide"; the CTA is always "Request a matter assessment"; contact is `hello@fintrace.com.au`. The wordmark is Fin | gate bar | Trace with Trace in gold. Page language is en-AU; sub-page titles flow through the root layout's title template.
+- Terminology: "service, not software"; "Engaged per matter · Australia-wide"; the CTA is always "Request a matter assessment"; every public contact action routes to `/contact/` and no mailbox address is displayed. The wordmark is Fin | gate bar | Trace with Trace in gold. Page language is en-AU; sub-page titles flow through the root layout's title template.
 - The approved pages' copy decks in the site pages plan are verbatim-binding when those pages are built; new-page sentences must not duplicate home-page sentences.
 
 ## Approved Exceptions and Drift
 
-- Approved exceptions: WebGL for the flagship hero only, imported solely through the engine-family scene modules; the Formspree browser POST as the sole future runtime network request; the production pages sharing the flagship scope with per-page class prefixes (about `eng-ab-`, engagement `eng-eg-`, contact `eng-ct-`, 404 `eng-nf-`, shared `eng-page-`) while lab routes keep strict per-route isolation; the internal comparison wrapper rendering the same page with the lab chip and noindex metadata.
-- Known implementation drift: the production 404 is unstyled (branded replacement approved); all CTAs still point at the mailto pending the contact page; the sitemap lists one URL until the approved pages land; the contact mailbox exists in copy but was never verified; OG/social metadata, a favicon set beyond the SVG icon and analytics are deliberately unconfigured; keyboard flows and measured contrast are unverified (see Colors and Components).
+- Approved exceptions: WebGL for the flagship hero only, imported solely through the engine-family scene modules; the Formspree browser POST as the sole runtime network request; the crawler-facing social PNG as the sole raster asset; the production pages sharing the flagship scope with per-page class prefixes (about `eng-ab-`, engagement `eng-eg-`, contact `eng-ct-`, 404 `eng-nf-`, shared `eng-page-`) while lab routes keep strict per-route isolation; the internal comparison wrapper rendering the same page with the lab chip and noindex metadata.
+- Known implementation drift: analytics remain unconfigured. Safari/Firefox, notification-mailbox delivery, complete keyboard flows and rendered contrast pairs remain unverified. No WCAG conformance is claimed. Typography review also records two deferred micro-items: no global `font-synthesis: none` and no deliberate `text-wrap: balance`/`pretty`; both require a separate production CSS change and the full two-viewport validation matrix.
 - Lab-route drift is historical and protected: four variations keep the pre-flip currency direction, the original trace page keeps its overlapping match geometry, and the base engine keeps its point-burst output. Port the canonical story deliberately if a route is ever promoted — never patch piecemeal.
 - Development-only patterns: the neutral gallery and eleven candidate routes (public, unlinked, noindex) each own a full divergent visual system under their own scope class. Nothing there is production precedent.
 
 ## Design Verification
 
-There is no automated design test suite; evidence is lint, static build and headed real-GPU dev-browser checks, with screenshots recorded per round in the design plan. Keep commands and server lifecycle in `AGENTS.md`.
+There is no automated design test suite; evidence is lint, static build and headed real-GPU dev-browser checks. Keep commands and server lifecycle in `AGENTS.md`.
 
 | Viewport or mode | Routes and states | Proof |
 | --- | --- | --- |

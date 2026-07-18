@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/metadata'
 import EngineNetworkPage from './engine-network/EngineNetworkPage'
 
 export const metadata: Metadata = {
-  title: 'FinTrace — Forensic financial analysis for legal matters',
-  description:
-    'FinTrace turns bulk bank statements into a structured transaction ledger and source-linked findings for legal matters.',
+  title: { absolute: pageMetadata.home.title },
+  description: pageMetadata.home.description,
   alternates: { canonical: '/' },
   robots: { index: true, follow: true },
 }

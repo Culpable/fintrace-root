@@ -1,0 +1,51 @@
+.dsn-engine-network .eng-nf-band {
+  position: relative;
+  display: grid;
+  min-height: 78vh;
+  place-content: center;
+  overflow: hidden;
+  padding: 9rem 0 5rem;
+  text-align: center;
+}
+
+.dsn-engine-network .eng-nf-constellation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(90vw, 560px);
+  transform: translate(-50%, -50%);
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1;
+  stroke-opacity: 0.18;
+  pointer-events: none;
+}
+
+.dsn-engine-network .eng-nf-constellation .eng-nf-flag {
+  stroke: #b3231f;
+  stroke-opacity: 0.3;
+}
+
+.dsn-engine-network .eng-nf-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+}
+
+.dsn-engine-network .eng-nf-content .eng-kicker::before {
+  display: none;
+}
+
+.dsn-engine-network .eng-nf-content .eng-lede {
+  margin: 1.5rem auto 2.2rem;
+}
+
+.dsn-engine-network .eng-nf-meta {
+  margin-top: 1.4rem;
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-warm);
+}

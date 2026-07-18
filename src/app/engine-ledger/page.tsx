@@ -143,7 +143,7 @@ function Header() {
         <a href="#process">Process</a>
         <a href="#capabilities">Capabilities</a>
         <a href="#proof">Proof</a>
-        <a className="eng-btn-gold eng-btn-sm" href="mailto:hello@fintrace.com.au">
+        <a className="eng-btn-gold eng-btn-sm" href="/contact/">
           Request assessment
         </a>
       </nav>
@@ -323,11 +323,11 @@ export default function EngineLedgerPage() {
                 pricing. Send the statements; receive the ledger, the findings, and the sources to back them.
               </p>
               <div className="eng-hero-ctas">
-                <a className="eng-btn-gold eng-btn-loop" href="mailto:hello@fintrace.com.au">
+                <a className="eng-btn-gold eng-btn-loop" href="/contact/">
                   Request a matter assessment
                 </a>
-                <a className="eng-btn-ghost" href="mailto:hello@fintrace.com.au">
-                  hello@fintrace.com.au
+                <a className="eng-btn-ghost" href="/contact/">
+                  Contact FinTrace
                 </a>
               </div>
             </Reveal>
@@ -347,7 +347,7 @@ export default function EngineLedgerPage() {
             <p className="eng-footer-line">Forensic financial analysis for the legal profession.</p>
           </div>
           <div className="eng-footer-meta">
-            <a href="mailto:hello@fintrace.com.au">hello@fintrace.com.au</a>
+            <a href="/contact/">Contact FinTrace</a>
             <p>Engaged per matter · Australia-wide</p>
           </div>
         </div>

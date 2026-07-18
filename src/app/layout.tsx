@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { siteMetadata } from '@/lib/metadata'
 import './globals.css'
 
 /**
@@ -9,13 +10,34 @@ import './globals.css'
  * identity and no page pays for another page's fonts.
  */
 export const metadata: Metadata = {
-  metadataBase: new URL('https://fintrace.com.au'),
+  metadataBase: new URL(siteMetadata.siteUrl),
   title: {
-    default: 'FinTrace — Forensic financial analysis for legal matters',
-    template: '%s — FinTrace',
+    default: siteMetadata.title,
+    template: `%s | ${siteMetadata.name}`,
   },
-  description:
-    'FinTrace turns bulk bank statements into a structured transaction ledger and source-linked findings for legal matters.',
+  description: siteMetadata.description,
+  openGraph: {
+    siteName: siteMetadata.name,
+    url: siteMetadata.siteUrl,
+    locale: siteMetadata.locale,
+    type: 'website',
+    title: siteMetadata.title,
+    description: siteMetadata.description,
+    images: [
+      {
+        url: siteMetadata.ogImage,
+        width: 1200,
+        height: 630,
+        alt: 'FinTrace — forensic financial analysis for legal matters',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteMetadata.title,
+    description: siteMetadata.description,
+    images: [siteMetadata.ogImage],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

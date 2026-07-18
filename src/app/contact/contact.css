@@ -1,0 +1,201 @@
+.dsn-engine-network .eng-ct-container {
+  max-width: 80rem;
+}
+
+.dsn-engine-network .eng-ct-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 4.5fr) minmax(0, 7.5fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.dsn-engine-network .eng-ct-next {
+  margin-top: 2rem;
+}
+
+.dsn-engine-network .eng-ct-next-row {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 1rem;
+  border-top: 1px solid var(--hairline-dim);
+  padding: 1.35rem 0;
+}
+
+.dsn-engine-network .eng-ct-numeral,
+.dsn-engine-network .eng-ct-availability,
+.dsn-engine-network .eng-ct-loading {
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.dsn-engine-network .eng-ct-next-row h2 {
+  margin-bottom: 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.dsn-engine-network .eng-ct-next-row div > p,
+.dsn-engine-network .eng-ct-form-intro {
+  color: var(--grey-warm);
+  line-height: 1.6;
+}
+
+.dsn-engine-network .eng-ct-availability {
+  margin-top: 2.8rem;
+  line-height: 1.7;
+}
+
+/* Keep the route-specific anchor clearance above the shared section[id] rule. */
+.dsn-engine-network section.eng-ct-form-plate {
+  scroll-margin-top: 6rem;
+  padding: clamp(2rem, 4vw, 3rem);
+}
+
+.dsn-engine-network .eng-ct-form-plate > h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+}
+
+.dsn-engine-network .eng-ct-form-intro {
+  margin-top: 0.7rem;
+}
+
+.dsn-engine-network .eng-ct-form {
+  margin-top: 2rem;
+}
+
+.dsn-engine-network .eng-ct-field {
+  margin-bottom: 1.4rem;
+}
+
+.dsn-engine-network .eng-ct-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-eng-mono), monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-warm);
+}
+
+.dsn-engine-network .eng-ct-field input,
+.dsn-engine-network .eng-ct-field select,
+.dsn-engine-network .eng-ct-field textarea {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--hairline-dim);
+  border-radius: 2px;
+  background: rgba(243, 236, 221, 0.04);
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  color: var(--paper);
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.dsn-engine-network .eng-ct-field select {
+  appearance: none;
+  padding-right: 3rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='m1 1 6 6 6-6' fill='none' stroke='%23d4a94e'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
+.dsn-engine-network .eng-ct-field textarea {
+  resize: vertical;
+}
+
+.dsn-engine-network .eng-ct-field input:focus,
+.dsn-engine-network .eng-ct-field select:focus,
+.dsn-engine-network .eng-ct-field textarea:focus {
+  border-color: var(--gold);
+  background-color: rgba(243, 236, 221, 0.06);
+}
+
+.dsn-engine-network .eng-ct-field input:focus-visible,
+.dsn-engine-network .eng-ct-field select:focus-visible,
+.dsn-engine-network .eng-ct-field textarea:focus-visible {
+  outline: 1px solid var(--gold-bright);
+  outline-offset: 3px;
+}
+
+.dsn-engine-network .eng-ct-field textarea::placeholder {
+  color: rgba(163, 154, 141, 0.6);
+}
+
+.dsn-engine-network .eng-ct-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 0;
+  height: 0;
+  border: 0;
+  padding: 0;
+  opacity: 0;
+}
+
+.dsn-engine-network .eng-ct-status {
+  margin-top: 1.2rem;
+  border-radius: 2px;
+  padding: 1rem;
+  line-height: 1.55;
+}
+
+.dsn-engine-network .eng-ct-status h3 {
+  margin-bottom: 0.35rem;
+  font-weight: 650;
+}
+
+.dsn-engine-network .eng-ct-error {
+  border: 1px solid rgba(179, 35, 31, 0.45);
+  background: rgba(179, 35, 31, 0.1);
+  color: #f0b9b5;
+}
+
+.dsn-engine-network .eng-ct-error a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dsn-engine-network .eng-ct-success {
+  border: 1px solid var(--hairline);
+  background: rgba(212, 169, 78, 0.08);
+  color: var(--gold-bright);
+}
+
+.dsn-engine-network .eng-ct-submit-region {
+  margin-top: 1.8rem;
+}
+
+.dsn-engine-network .eng-ct-submit-region .eng-btn-gold {
+  min-width: 10rem;
+}
+
+.dsn-engine-network .eng-ct-submit-region .eng-btn-gold:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.dsn-engine-network .eng-ct-loading {
+  margin-top: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .dsn-engine-network .eng-ct-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dsn-engine-network .eng-ct-form-plate {
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .dsn-engine-network section.eng-ct-form-plate {
+    padding: 2rem 1.5rem;
+  }
+}

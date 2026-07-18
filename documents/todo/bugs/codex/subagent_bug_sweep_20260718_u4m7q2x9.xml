@@ -1,0 +1,73 @@
+<bug_1>
+<summary>
+<title>[Plan tracking] Full validation step is completed without its required solution record</title>
+<one_line_description>Step 4 is marked completed even though the plan has no Implemented Solution section and therefore fails its own completion criteria.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace-root/documents/todo/fintrace_production_completion_plan.md - Step 4 and plan-level implementation record, Lines 224-238
+- /Users/sacino/fintrace-root/documents/todo/fintrace_production_completion_plan.md - end of file, Lines 296-315
+</file_locations>
+
+<issue_description>
+<description>The live plan marks Step 4 as completed, but Step 4 explicitly requires its validation results and r8 evidence prefixes to be recorded in this plan's Implemented Solution section. The file ends after the integration scenarios and contains no Implemented Solution heading or record. Validation evidence exists in the separate design-history document, but that does not satisfy the step's explicit same-plan success criterion or the track-implementation-plan-file completion gate. A reviewer therefore cannot use the authoritative live plan to verify what commands passed, which screenshots support the result or whether every Step 4 requirement was met before deployment.</description>
+
+<code_example>
+
+```markdown
+# File: documents/todo/fintrace_production_completion_plan.md, Lines 224-238
+
+### ~~Step 4: Full validation suite~~ ✅ **COMPLETED**
+
+- Record results in this plan's Implemented Solution section.
+
+**Success Criteria:**
+- This plan's Implemented Solution states each validation result with its evidence prefix (`r8-*` screenshots under `~/.dev-browser/tmp/`).
+```
+
+</code_example>
+
+<expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Step status** | Step 4 remains pending testing until every required result is recorded in this plan | Step 4 is marked completed |
+| **Implementation record** | An Implemented Solution section records commands, outcomes and r8 evidence | No Implemented Solution section exists |
+| **Reviewability** | The live plan independently proves its validation gate | Evidence must be inferred from another document |
+</expected_vs_actual>
+</issue_description>
+</bug_1>
+
+<bug_2>
+<summary>
+<title>[Documentation] Social image history describes a composition that the shipped PNG does not contain</title>
+<one_line_description>The design history claims the social image has eight labelled nodes, seven canonical edges and a crimson cash hop, but the shipped raster has an unlabelled cropped constellation without that cash-hop treatment.</one_line_description>
+</summary>
+
+<file_locations>
+- /Users/sacino/fintrace-root/documents/learnings/fintrace_design_plan.md - Round eight implementation record, Line 188
+- /Users/sacino/fintrace-root/public/images/og/fintrace-og.png - shipped 1200x630 social-share raster
+- /Users/sacino/fintrace-root/documents/todo/fintrace_production_completion_plan.md - REQ-1 closed copy contract, Line 83
+</file_locations>
+
+<issue_description>
+<description>The Round eight history says the current social image carries the live hero's exact eight labelled nodes, seven canonical edges, scanning gate and crimson cash hop. Visual inspection of the shipped 1200x630 PNG shows a cropped unlabelled constellation with six visible node cores, no account-label plates and no visible crimson cash-hop edge. The same paragraph also says the asset uses only the wordmark, approved title clause and domain, which conflicts with the assertion that account nodes are labelled. This false implementation record can cause reviewers or future contributors to approve the wrong asset or rebuild it against a composition that never shipped.</description>
+
+<code_example>
+
+```markdown
+# File: documents/learnings/fintrace_design_plan.md, Line 188
+
+`public/images/og/fintrace-og.png` is a 1200×630 crawler-facing Engine Network composition using only the wordmark, approved home-title clause and domain. On 18 July 2026, the simplified constellation was replaced with a DPR 1 capture of the live homepage WebGL scene so the social image now carries the hero’s exact eight labelled nodes, seven canonical edges, scanning gate and crimson cash hop.
+```
+
+</code_example>
+
+<expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Documentation** | Round history describes the raster that is actually shipped | It describes labelled nodes and a crimson hop absent from the PNG |
+| **Copy contract** | Only the wordmark, approved clause and domain are described as visible text | The same record also claims eight labelled account nodes |
+| **Review impact** | Reviewers can compare the PNG against one coherent composition contract | The documented contract is internally contradictory and visually false |
+</expected_vs_actual>
+</issue_description>
+</bug_2>

@@ -8,6 +8,7 @@ import Hero from './Hero'
 import LedgerPlate from './LedgerPlate'
 import Reveal from './Reveal'
 import Stat from './Stat'
+import { SiteFooter, SiteHeader } from './SiteChrome'
 import TraceDiagram from './TraceDiagram'
 
 /**
@@ -124,28 +125,6 @@ const AUDIENCES = [
   },
 ]
 
-/** Site header: bespoke wordmark with the luminous gate bar between Fin and Trace. */
-function Header() {
-  return (
-    <header className="eng-header">
-      <Link href="/" className="eng-wordmark" aria-label="FinTrace home">
-        <span>Fin</span>
-        <span className="eng-wordmark-bar" aria-hidden="true" />
-        <span className="eng-gold-text">Trace</span>
-      </Link>
-      <nav className="eng-header-nav" aria-label="Page sections">
-        <a href="#process">Process</a>
-        <a href="#ledger">Ledger</a>
-        <a href="#tracing">Tracing</a>
-        <a href="#proof">Proof</a>
-        <a className="eng-btn-gold eng-btn-sm" href="mailto:hello@fintrace.com.au">
-          Request assessment
-        </a>
-      </nav>
-    </header>
-  )
-}
-
 type EngineNetworkPageProps = {
   showDesignLabLink: boolean
 }
@@ -153,7 +132,7 @@ type EngineNetworkPageProps = {
 export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPageProps) {
   return (
     <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable)}>
-      <Header />
+      <SiteHeader />
       <main>
         <Hero />
 
@@ -351,11 +330,11 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 pricing. Send the statements; receive the ledger, the findings and the sources to back them.
               </p>
               <div className="eng-hero-ctas">
-                <a className="eng-btn-gold eng-btn-loop" href="mailto:hello@fintrace.com.au">
+                <a className="eng-btn-gold eng-btn-loop" href="/contact/">
                   Request a matter assessment
                 </a>
-                <a className="eng-btn-ghost" href="mailto:hello@fintrace.com.au">
-                  hello@fintrace.com.au
+                <a className="eng-btn-ghost" href="/contact/#enquire">
+                  Start an enquiry
                 </a>
               </div>
             </Reveal>
@@ -363,26 +342,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
         </section>
       </main>
 
-      {/* ----------------------------- Footer ------------------------------ */}
-      <footer className="eng-footer">
-        <div className="eng-container eng-footer-inner">
-          <div>
-            <p className="eng-wordmark eng-footer-mark">
-              <span>Fin</span>
-              <span className="eng-wordmark-bar" aria-hidden="true" />
-              <span className="eng-gold-text">Trace</span>
-            </p>
-            <p className="eng-footer-line">Forensic financial analysis for the legal profession.</p>
-          </div>
-          <div className="eng-footer-meta">
-            <a href="mailto:hello@fintrace.com.au">hello@fintrace.com.au</a>
-            <p>Engaged per matter · Australia-wide</p>
-          </div>
-        </div>
-        <div className="eng-container eng-footer-small">
-          <p>© 2026 FinTrace. Every finding traceable to its source.</p>
-        </div>
-      </footer>
+      <SiteFooter />
       {showDesignLabLink ? (
         <Link href="/internal-design/" className="eng-lab-chip">
           <span aria-hidden="true">←</span>

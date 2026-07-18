@@ -75,7 +75,7 @@ export default function Hero() {
           structured, source-linked evidence that stands up in court.
         </p>
         <div className="eng-hero-ctas eng-load" style={loadDelay(500)}>
-          <a className="eng-btn-gold" href="mailto:hello@fintrace.com.au">
+          <a className="eng-btn-gold" href="/contact/">
             Request a matter assessment
           </a>
           <a className="eng-btn-ghost" href="#process">

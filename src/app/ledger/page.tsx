@@ -120,7 +120,7 @@ export default function LedgerPage() {
             <span className="lg-logotype-tick">.</span>
           </a>
           <span className="lg-masthead-line">Forensic financial analysis — Australia</span>
-          <a className="lg-masthead-cta" href="mailto:hello@fintrace.com.au">
+          <a className="lg-masthead-cta" href="/contact/">
             Request a matter assessment
           </a>
         </div>
@@ -141,7 +141,7 @@ export default function LedgerPage() {
               and returns one court-ready spreadsheet, a written findings report, and a citation for every line.
             </p>
             <div className="lg-hero-meta lg-enter" style={{ '--enter-i': 3 } as React.CSSProperties}>
-              <a className="lg-btn" href="mailto:hello@fintrace.com.au">
+              <a className="lg-btn" href="/contact/">
                 Request a matter assessment
               </a>
               <a className="lg-btn lg-btn-ghost" href="#method">
@@ -299,7 +299,7 @@ export default function LedgerPage() {
                   Nothing to install, nothing to learn.
                 </p>
                 <div className="lg-hero-meta" style={{ justifyContent: 'center' }}>
-                  <a className="lg-btn" href="mailto:hello@fintrace.com.au">
+                  <a className="lg-btn" href="/contact/">
                     Request a matter assessment
                   </a>
                 </div>
@@ -320,7 +320,7 @@ export default function LedgerPage() {
             Forensic financial analysis — every figure traceable to its source
           </span>
           <span className="lg-footer-small">
-            <a href="mailto:hello@fintrace.com.au">hello@fintrace.com.au</a>
+            <a href="/contact/">Contact FinTrace</a>
           </span>
         </div>
       </footer>

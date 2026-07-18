@@ -234,7 +234,7 @@ export default function ExhibitPage() {
             <span className="hidden text-[0.66rem] tracking-[0.2em] uppercase opacity-60 md:inline">
               Doc. FT-05 / 06
             </span>
-            <a className="ex-btn ex-btn-ghost hidden sm:inline-block" href="mailto:hello@fintrace.com.au">
+            <a className="ex-btn ex-btn-ghost hidden sm:inline-block" href="/contact/">
               Request assessment
             </a>
           </div>
@@ -303,7 +303,7 @@ export default function ExhibitPage() {
                   <Fn n={2} /> Nothing is asserted that cannot be checked.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-4">
-                  <a className="ex-btn" href="mailto:hello@fintrace.com.au">
+                  <a className="ex-btn" href="/contact/">
                     Request a matter assessment
                   </a>
                   <a className="ex-btn ex-btn-ghost" href="#procedure">
@@ -479,14 +479,14 @@ export default function ExhibitPage() {
                 returns evidence, not a login.
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-5">
-                <a className="ex-btn ex-btn-paper" href="mailto:hello@fintrace.com.au">
+                <a className="ex-btn ex-btn-paper" href="/contact/">
                   Request a matter assessment
                 </a>
                 <a
                   className="text-[0.8rem] font-semibold tracking-[0.14em] uppercase underline underline-offset-4"
-                  href="mailto:hello@fintrace.com.au"
+                  href="/contact/"
                 >
-                  hello@fintrace.com.au
+                  Contact FinTrace
                 </a>
               </div>
             </Reveal>
@@ -547,7 +547,7 @@ export default function ExhibitPage() {
                 FIN<span className="ex-red">TRACE</span>
               </p>
               <p className="mt-2 uppercase">Forensic financial analysis — prepared as exhibit FT-05 of 06</p>
-              <p className="mt-1 uppercase">© 2026 FinTrace · hello@fintrace.com.au</p>
+              <p className="mt-1 uppercase">© 2026 FinTrace · Contact FinTrace</p>
             </div>
             <Barcode className="ex-barcode w-36" />
           </div>
