@@ -54,6 +54,14 @@ The lab is still working through its designs. Record every design decision and i
 
 </system_architecture_documentation>
 
+<design_documentation>
+
+| System | Source | Read when |
+| --- | --- | --- |
+| Visual implementation contract | [`DESIGN.md`](/Users/sacino/fintrace-root/DESIGN.md) | Before any UI, styling, copy-voice, interaction, motion, or accessibility work on production routes; documents tokens' ownership, component contracts, and shipped-versus-approved status. Keep it truthful in the same task as any design change. |
+
+</design_documentation>
+
 <environments>
 - Development: Node.js `>=22.23.1 <23`; `npm run dev` serves local Next.js at `http://localhost:3004`. There is no database or backend.
 - Validation: local lint, static build, and browser checks; no automated unit, integration, or Playwright suite exists.
