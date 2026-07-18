@@ -172,11 +172,20 @@
   position: relative;
   display: inline-block;
   overflow: hidden;
+  /* Own stacking context so the sheen pseudo-element can sit at z -1: it
+     paints above this rule's gold face but beneath the inline label, so the
+     sweep glints across the metal without ever washing over the glyphs */
+  isolation: isolate;
   font-family: var(--font-eng-mono), monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #1a1408;
+  color: var(--obsidian);
+  /* The root layout's `antialiased` smoothing suits the site's light-on-dark
+     text but thins dark strokes on a light field; restore subpixel rendering
+     here so the single-weight mono keeps its full stroke width on macOS */
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
   background: linear-gradient(120deg, #e7c87f, #d4a94e 45%, #b98d38);
   padding: 1rem 1.6rem;
   border-radius: 2px;
@@ -203,10 +212,12 @@
   scale: 0.96;
 }
 
-/* Light sweep across the gold face on hover */
+/* Light sweep across the gold face on hover; z -1 drops it beneath the
+   label text inside the button's isolated stacking context */
 .dsn-engine-network .eng-btn-gold::after {
   content: '';
   position: absolute;
+  z-index: -1;
   top: -20%;
   bottom: -20%;
   left: 0;
@@ -239,8 +250,8 @@
 .dsn-engine-network .eng-btn-ghost {
   display: inline-block;
   font-family: var(--font-eng-mono), monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
   border: 1px solid var(--hairline);
@@ -268,7 +279,7 @@
    pseudo-element extension, so the real box carries the target) */
 .dsn-engine-network .eng-btn-sm {
   padding: 0.82rem 1.2rem;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
 }
 
 /* -------------------------------- Header ------------------------------- */

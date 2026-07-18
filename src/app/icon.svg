@@ -1,7 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Preserve the production wordmark’s luminous gate as a geometry-only browser mark. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="gate-core" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="letter-gold" x1="0" y1="21" x2="0" y2="43" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0d491" />
+      <stop offset="0.48" stop-color="#d4a94e" />
+      <stop offset="1" stop-color="#d4a94e" />
+    </linearGradient>
+    <linearGradient id="gate-core" x1="32" y1="14" x2="32" y2="50" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#d4a94e" stop-opacity="0" />
       <stop offset="0.2" stop-color="#f0d491" />
       <stop offset="0.5" stop-color="#d4a94e" />
@@ -13,9 +17,25 @@
       <stop offset="0.42" stop-color="#d4a94e" stop-opacity="0.2" />
       <stop offset="1" stop-color="#8a6a2b" stop-opacity="0" />
     </radialGradient>
+    <clipPath id="field-clip">
+      <rect width="64" height="64" rx="12" />
+    </clipPath>
   </defs>
   <rect width="64" height="64" rx="12" fill="#0d0b09" />
-  <ellipse cx="32" cy="32" rx="18" ry="27" fill="url(#gate-halo)" />
-  <rect x="28.5" y="10" width="7" height="44" rx="3.5" fill="url(#gate-core)" />
-  <rect x="30.5" y="12" width="3" height="40" rx="1.5" fill="#f0d491" fill-opacity="0.7" />
+  <g clip-path="url(#field-clip)">
+    <ellipse id="identity-gate-halo" cx="32" cy="32" rx="7" ry="23" fill="url(#gate-halo)" />
+    <g id="letter-f" data-font="Bricolage Grotesque" data-weight="700" data-optical-size="96">
+      <path
+        fill="#f3ecdd"
+        d="M13.077791 43V21H17.894387V43ZM15.422192 34.849961V30.888904H26.788879V34.849961ZM15.422192 25.044389V21H28V25.044389Z"
+      />
+    </g>
+    <g id="letter-t" data-font="Bricolage Grotesque" data-weight="700" data-optical-size="96">
+      <path
+        fill="url(#letter-gold)"
+        d="M41.655583 43V21H46.472178V43ZM36 25.12772V21H52.127761V25.12772Z"
+      />
+    </g>
+    <rect id="identity-gate" x="30.5" y="14" width="3" height="36" rx="1.5" fill="url(#gate-core)" />
+  </g>
 </svg>

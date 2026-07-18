@@ -46,7 +46,7 @@ Every claim below carries one of three statuses:
 | Site and page metadata | `src/lib/metadata.ts` | Single source for site identity, production titles, descriptions, canonical origin and the social-image reference |
 | Root layout and social metadata | `src/app/layout.tsx` | en-AU lang, metadata base, pipe title template and site-wide Open Graph/Twitter blocks; deliberately font-neutral |
 | Social-share image | `public/images/og/fintrace-og.png` | 1200×630 crawler-facing PNG using the Engine Network wordmark, approved home-title clause and domain; its settled homepage-scene diagram contains the same eight labelled account nodes, seven rim-connected edges, scanning gate and crimson CASH ATM hop as the live hero |
-| Browser identity assets | `src/app/icon.svg`, `src/app/favicon.ico` and `src/app/apple-icon.png` | Geometry-only gate-bar SVG, 16/32/48 px PNG-entry ICO and 180×180 Apple icon derived from one 512×512 Bricolage Grotesque monogram render |
+| Browser identity assets | `src/app/icon.svg`, `src/app/favicon.ico` and `src/app/apple-icon.png` | Shared Bricolage glow `F | T` SVG, 16/32/48 px PNG-entry ICO and 180×180 Apple icon derived from that vector; the previous Root set remains under `src/assets/browser-identity/` for rollback |
 | Production route wrapper | `src/app/page.tsx` | Thin indexable wrapper rendering the shared page without the lab chip |
 | Internal wrapper chrome | `src/app/engine-network/internal-engine-network.css` | The comparison-only lab chip; never loaded by the production route |
 | Production site pages | `documents/learnings/fintrace_site_pages_plan.md` | Implemented copy decks, form contract, shared chrome and per-page prefixes |
@@ -104,7 +104,7 @@ Every claim below carries one of three statuses:
 ## Shapes
 
 - Radius and geometry: near-square machined edges — 2px on buttons, chips and tags; 3px on the ledger plate; plates otherwise square with the engraved inner frame. The pill radius exists only on the internal lab chip. Do not introduce rounded-card geometry.
-- Icons: there is no page icon library. The browser-chrome identity set uses the wordmark’s luminous gate bar in geometry-only `icon.svg`, plus an FT monogram in the 16/32/48 px `favicon.ico` and 180×180 Apple icon. Page pictograms remain bespoke inline SVG diagrams; decorative SVGs (hero fallback, flag rule, stage markers, strip dividers) carry `aria-hidden="true"`.
+- Icons: there is no page icon library. The browser-chrome identity set uses the same self-contained Bricolage Grotesque 700 `F | T` vector as the FinTrace App, with equal clear space around its luminous gate. `icon.svg` is the canonical active source; the 16/32/48 px PNG-entry `favicon.ico` and 180×180 Apple icon derive from it. The previous Root SVG, ICO and Apple icon remain byte-identical under `src/assets/browser-identity/` for rollback. Page pictograms remain bespoke inline SVG diagrams; decorative SVGs (hero fallback, flag rule, stage markers, strip dividers) carry `aria-hidden="true"`.
 - Imagery: no raster images render inside production pages. Page visuals are CSS gradients, inline SVG, canvas-baked textures or WebGL. The raster social-share image and browser icons are static-export artefacts fetched only by crawlers or browser chrome.
 
 ## Components
