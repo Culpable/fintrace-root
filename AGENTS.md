@@ -40,7 +40,7 @@
 <container_information>
 
 <description>
-FinTrace Root serves the Engine Network production site for a legal-team forensic bank-statement analysis service: the homepage, About, Engagement & pricing, Contact and a branded 404. It retains six original concepts and five dark Evidence Engine variations in an unlinked internal design lab.
+FinTrace Root is the public website for FinTrace, a per-matter forensic bank-statement analysis service for legal teams.
 </description>
 
 <production_routes>
@@ -73,9 +73,11 @@ The Engine Network production design is selected. Keep `DESIGN.md` truthful in t
 
 <environments>
 
-- Development: Node.js `>=22.23.1 <23`; `npm run dev` serves local Next.js at `http://localhost:3004`. There is no database or backend.
-- Validation: local lint, static build, and browser checks; no automated unit, integration, or Playwright suite exists.
-- Production: GitHub Pages deploys the static `out/` artefact from `main` to `https://fintrace.com.au/` through `.github/workflows/deploy.yml`.
+- Development: Node.js `>=22.23.1 <23`; `npm run dev` serves the local Next.js site at `http://localhost:3004`.
+- Validation: local lint, static build and browser checks; no automated unit, integration or Playwright suite exists.
+- Production: GitHub Pages deploys `main` to `https://fintrace.com.au/` through `.github/workflows/deploy.yml`.
+- The repository has no application database or server-side backend. Its only runtime request is the contact form’s browser-side POST to Formspree.
+- Sibling application: FinTrace App at `/Users/sacino/fintrace`, production URL `https://fintrace-red.vercel.app/`; it owns document processing, analysis and Excel outputs through a separate runtime and deployment.
 
 </environments>
 
