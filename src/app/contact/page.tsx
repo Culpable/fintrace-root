@@ -4,7 +4,7 @@ import { pageMetadata } from '@/lib/metadata'
 import '../engine-network/engine-network.css'
 import '../engine-network/site-pages.css'
 import './contact.css'
-import { bricolage, fragmentMono } from '../engine-network/fonts'
+import { bricolage, fragmentMono, fragmentMonoApprox } from '../engine-network/fonts'
 import { SiteFooter, SiteHeader } from '../engine-network/SiteChrome'
 import ContactForm from './ContactForm'
 
@@ -16,13 +16,13 @@ export const metadata: Metadata = {
 
 const NEXT_STEPS = [
   { numeral: '01', name: 'Assessment', copy: 'We review the outline and confirm the engine fits the matter.' },
-  { numeral: '02', name: 'Quote', copy: 'You receive the engagement shape in writing — flat fee plus per-page rate.' },
+  { numeral: '02', name: 'Quote', copy: 'You receive the engagement shape in writing: flat fee plus per-page rate.' },
   { numeral: '03', name: 'Handover', copy: 'Only then do statements change hands, in whatever form you hold them.' },
 ]
 
 export default function ContactPage() {
   return (
-    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable)}>
+    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
       <SiteHeader contactHref="#enquire" />
       <main>
         <section className="eng-page-hero">
@@ -60,7 +60,7 @@ export default function ContactPage() {
             <section className="eng-plate eng-ct-form-plate" id="enquire" aria-labelledby="enquire-heading">
               <h2 id="enquire-heading">Request a matter assessment</h2>
               <p className="eng-ct-form-intro">
-                No confidential detail is needed at this stage — please don’t attach or paste statement data.
+                No confidential detail is needed at this stage. Please don’t attach or paste statement data.
               </p>
               <ContactForm />
             </section>

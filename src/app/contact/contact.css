@@ -24,7 +24,7 @@
 .dsn-engine-network .eng-ct-numeral,
 .dsn-engine-network .eng-ct-availability,
 .dsn-engine-network .eng-ct-loading {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.66rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -74,7 +74,7 @@
 .dsn-engine-network .eng-ct-field label {
   display: block;
   margin-bottom: 0.5rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.66rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;

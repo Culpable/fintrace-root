@@ -11,7 +11,7 @@
 
 .dsn-engine-network .eng-eg-numeral {
   margin-bottom: 1rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   color: var(--gold);

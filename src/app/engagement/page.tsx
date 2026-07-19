@@ -6,7 +6,7 @@ import { pageMetadata } from '@/lib/metadata'
 import '../engine-network/engine-network.css'
 import '../engine-network/site-pages.css'
 import './engagement.css'
-import { bricolage, fragmentMono } from '../engine-network/fonts'
+import { bricolage, fragmentMono, fragmentMonoApprox } from '../engine-network/fonts'
 import Reveal from '../engine-network/Reveal'
 import { SiteFooter, SiteHeader } from '../engine-network/SiteChrome'
 
@@ -20,7 +20,7 @@ const STEPS = [
   {
     numeral: '01',
     name: 'Enquiry',
-    copy: 'Outline the matter — the dispute, roughly how many pages and accounts, the timeframe you’re working to. No statements yet.',
+    copy: 'Outline the matter: the dispute, roughly how many pages and accounts, the timeframe you’re working to. No statements yet.',
   },
   {
     numeral: '02',
@@ -30,7 +30,7 @@ const STEPS = [
   {
     numeral: '03',
     name: 'Handover',
-    copy: 'You send the statements as they are — no sorting, no renaming, no cover sheet. Scanned paper is fine.',
+    copy: 'You send the statements as they are: no sorting, no renaming, no cover sheet. Scanned paper is fine.',
   },
   {
     numeral: '04',
@@ -41,7 +41,7 @@ const STEPS = [
 
 export default function EngagementPage() {
   return (
-    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable)}>
+    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
       <SiteHeader />
       <main>
         <section className="eng-page-hero">
@@ -108,8 +108,8 @@ export default function EngagementPage() {
                 <article className="eng-card">
                   <h3>The ledger</h3>
                   <p>
-                    One Excel workbook holding every transaction — file name, person, date, financial year, description,
-                    debit and credit, amount, category — with every line categorised and ready to interrogate.
+                    One Excel workbook holding every transaction - file name, person, date, financial year, description,
+                    debit and credit, amount, category - with every line categorised and ready to interrogate.
                   </p>
                 </article>
               </Reveal>

@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import clsx from 'clsx'
 import './engine-network.css'
-import { bricolage, fragmentMono } from './fonts'
+import { bricolage, fragmentMono, fragmentMonoApprox } from './fonts'
 import CurrencyMatch from './CurrencyMatch'
 import Hero from './Hero'
 import LedgerPlate from './LedgerPlate'
@@ -36,7 +36,7 @@ const STAGES = [
   {
     numeral: '01',
     name: 'Intake',
-    copy: 'Bulk PDFs in any order, from any bank — scanned paper and born-digital alike. No pre-sorting, no templates: the engine reads bank, account holder and dates itself.',
+    copy: 'Bulk PDFs in any order, from any bank - scanned paper and born-digital alike. No pre-sorting, no templates: the engine reads bank, account holder and dates itself.',
   },
   {
     numeral: '02',
@@ -46,12 +46,12 @@ const STAGES = [
   {
     numeral: '03',
     name: 'Analysis',
-    copy: 'The engine looks deeper — cash-withdrawal patterns, gambling and crypto activity, transfers between related accounts and cross-currency matches.',
+    copy: 'The engine looks deeper: cash-withdrawal patterns, gambling and crypto activity, transfers between related accounts and cross-currency matches.',
   },
   {
     numeral: '04',
     name: 'Findings',
-    copy: 'A written findings report in which every finding cites the exact source page. Human-verifiable, court-ready — evidence, not output.',
+    copy: 'A written findings report in which every finding cites the exact source page. Human-verifiable, court-ready: evidence, not output.',
   },
 ]
 
@@ -60,7 +60,7 @@ const SPECS = [
   {
     index: '01',
     name: 'Universal intake',
-    copy: 'Any bank, any order, any era of statement — scanned paper handled alongside born-digital PDFs, with no pre-sorting required.',
+    copy: 'Any bank, any order, any era of statement: scanned paper handled alongside born-digital PDFs, with no pre-sorting required.',
     tag: 'Input',
   },
   {
@@ -72,25 +72,25 @@ const SPECS = [
   {
     index: '03',
     name: 'Auto-categorisation',
-    copy: 'Every line classified — Woolworths to groceries — so the ledger is ready to filter, pivot and interrogate the day it arrives.',
+    copy: 'Every line classified - Woolworths to groceries - so the ledger is ready to filter, pivot and interrogate the day it arrives.',
     tag: 'Analysis',
   },
   {
     index: '04',
     name: 'Anomaly detection',
-    copy: 'Cash-withdrawal patterns, gambling and crypto activity and transactions that sit outside the account’s normal rhythm — flagged, not buried.',
+    copy: 'Cash-withdrawal patterns, gambling and crypto activity and transactions that sit outside the account’s normal rhythm: flagged, not buried.',
     tag: 'Analysis',
   },
   {
     index: '05',
     name: 'Cross-account tracing',
-    copy: 'Money followed between related accounts, including cross-currency matches — Australian dollars to rupees through Wise, reconciled line to line.',
+    copy: 'Money followed between related accounts, including cross-currency matches: Australian dollars to rupees through Wise, reconciled line to line.',
     tag: 'Analysis',
   },
   {
     index: '06',
     name: 'Source-linked findings',
-    copy: 'A written report in which every finding traces to the exact source PDF page. Human-verifiable at every step — no hallucination risk.',
+    copy: 'A written report in which every finding traces to the exact source PDF page. Human-verifiable at every step: no hallucination risk.',
     tag: 'Report',
   },
 ]
@@ -99,13 +99,13 @@ const SPECS = [
 const AUDIENCES = [
   {
     name: 'Family law property matters',
-    copy: 'Property pools that turn on years of statements — contributions, drawings and transfers traced across every account in the pool.',
+    copy: 'Property pools that turn on years of statements: contributions, drawings and transfers traced across every account in the pool.',
     note: 'The core matter type',
     featured: true,
   },
   {
     name: 'Public trustees & government legal',
-    copy: 'Engaged per matter as a specialist provider — suited to procurement and to overloaded teams with every reason to save time.',
+    copy: 'Engaged per matter as a specialist provider, suited to procurement and to overloaded teams with every reason to save time.',
     featured: false,
   },
   {
@@ -115,7 +115,7 @@ const AUDIENCES = [
   },
   {
     name: 'Insolvency practitioners',
-    copy: 'Dissipated assets followed across accounts, currencies and years — with the paper trail to prove it.',
+    copy: 'Dissipated assets followed across accounts, currencies and years, with the paper trail to prove it.',
     featured: false,
   },
   {
@@ -131,7 +131,7 @@ type EngineNetworkPageProps = {
 
 export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPageProps) {
   return (
-    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable)}>
+    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
       <SiteHeader />
       <main>
         <Hero />
@@ -173,7 +173,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
               </h2>
               <p className="eng-lede">
                 The story starts with structure: thousands of pages become one ledger. Watch the engine work:
-                statement lines entered, categorised and reconciled — and the one that warrants attention flagged,
+                statement lines entered, categorised and reconciled - and the one that warrants attention flagged,
                 with its source page attached.
               </p>
             </Reveal>
@@ -194,7 +194,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 Every account. <span className="eng-gold-text">One thread of evidence.</span>
               </h2>
               <p className="eng-lede">
-                From that ledger the engine maps every account it reads, then follows the money between them — joint
+                From that ledger the engine maps every account it reads, then follows the money between them: joint
                 account to cash, cash to a related account, onwards through Wise to an overseas account. Each hop is
                 dated, valued and cited to its source page.
               </p>
@@ -202,7 +202,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
             <Reveal className="eng-plate eng-tnet-plate" delay={120}>
               <TraceDiagram />
               <p className="eng-diagram-caption">
-                The route, reconstructed from the extract above — the flagged withdrawal is the single crimson hop.
+                The route, reconstructed from the extract above. The flagged withdrawal is the single crimson hop.
               </p>
             </Reveal>
           </div>
@@ -219,7 +219,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
               </h2>
               <p className="eng-lede">
                 And the thread holds even where the trail changes currency: the dollars that left through Wise are
-                matched to the rupees that landed overseas two days later — down to the exchange rate.
+                matched to the rupees that landed overseas two days later, down to the exchange rate.
               </p>
             </Reveal>
             <Reveal className="eng-plate eng-ecm-plate" delay={120}>
@@ -236,7 +236,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
               <h2 className="eng-h2">Built to withstand scrutiny.</h2>
               <p className="eng-lede">
                 Trust is the entire product. Each capability exists so a finding can be put in front of a Principal
-                Legal Officer — or a court — and hold.
+                Legal Officer - or a court - and hold.
               </p>
             </Reveal>
             <div className="eng-specs">
@@ -282,7 +282,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 </div>
               </div>
               <p className="eng-proof-note">
-                If it can’t be checked, it isn’t a finding — anything the engine asserts, a human can verify against
+                If it can’t be checked, it isn’t a finding: anything the engine asserts, a human can verify against
                 its source page in seconds.
               </p>
             </Reveal>
@@ -322,7 +322,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 Put the engine <span className="eng-gold-text">on your matter.</span>
               </h2>
               <p className="eng-lede eng-cta-lede">
-                FinTrace is a specialist forensic service, engaged per matter — a flat engagement fee plus per-page
+                FinTrace is a specialist forensic service, engaged per matter: a flat engagement fee plus per-page
                 pricing. Send the statements; receive the ledger, the findings and the sources to back them.
               </p>
               <div className="eng-hero-ctas">
@@ -342,7 +342,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
       {showDesignLabLink ? (
         <Link href="/internal-design/" className="eng-lab-chip">
           <span aria-hidden="true">←</span>
-          Design lab · Engine variant — network
+          Design lab · Engine variant - network
         </Link>
       ) : null}
     </div>

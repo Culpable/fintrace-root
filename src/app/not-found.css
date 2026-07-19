@@ -43,7 +43,7 @@
 
 .dsn-engine-network .eng-nf-meta {
   margin-top: 1.4rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.66rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;

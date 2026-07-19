@@ -72,7 +72,7 @@
 /* ------------------------------ Typography ----------------------------- */
 
 .dsn-engine-refined .eng-kicker {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.34em;
   text-transform: uppercase;
@@ -129,7 +129,7 @@
   position: relative;
   display: inline-block;
   overflow: hidden;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.78rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -195,7 +195,7 @@
 
 .dsn-engine-refined .eng-btn-ghost {
   display: inline-block;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.78rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -281,7 +281,7 @@
 
 .dsn-engine-refined .eng-header-nav > a:not(.eng-btn-gold) {
   position: relative;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -439,7 +439,7 @@
   flex-wrap: wrap;
   column-gap: 1.4rem;
   row-gap: 0.4rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.66rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -543,7 +543,7 @@
 }
 
 .dsn-engine-refined .eng-stage-numeral {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.3em;
   color: var(--gold);
@@ -597,7 +597,7 @@
 }
 
 .dsn-engine-refined .eng-spec-index {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.3em;
   color: var(--gold-deep);
@@ -620,7 +620,7 @@
 }
 
 .dsn-engine-refined .eng-spec-tag {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.62rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -692,7 +692,7 @@
 }
 
 .dsn-engine-refined .eng-stat-label {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.66rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -781,7 +781,7 @@
 }
 
 .dsn-engine-refined .eng-card-note {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.62rem;
   letter-spacing: 0.26em;
   text-transform: uppercase;
@@ -859,7 +859,7 @@
 }
 
 .dsn-engine-refined .eng-footer-meta {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -895,7 +895,7 @@
 
 .dsn-engine-refined .eng-footer-small {
   margin-top: 2.6rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.62rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -912,7 +912,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.62rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1051,7 +1051,7 @@
 }
 
 .dsn-engine-refined .ecm-kicker {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.62rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -1093,14 +1093,14 @@
 
 .dsn-engine-refined .ecm-name {
   fill: var(--paper);
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 11px;
   letter-spacing: 0.08em;
 }
 
 .dsn-engine-refined .ecm-sub {
   fill: var(--grey-warm);
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 9px;
   letter-spacing: 0.05em;
 }
@@ -1119,7 +1119,7 @@
 }
 
 .dsn-engine-refined .ecm-amt {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 11.5px;
   letter-spacing: 0.04em;
 }
@@ -1149,7 +1149,7 @@
 
 .dsn-engine-refined .ecm-match text {
   fill: var(--gold-bright);
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 11px;
   letter-spacing: 0.22em;
 }
@@ -1248,7 +1248,7 @@
 /* Caption beneath the cross-currency diagram */
 .dsn-engine-refined .ecm-caption {
   margin-top: 1.1rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.66rem;
   letter-spacing: 0.12em;
   color: var(--grey-warm);

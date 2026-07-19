@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import clsx from 'clsx'
 import './engine.css'
-import { bricolage, fragmentMono } from './fonts'
+import { bricolage, fragmentMono, fragmentMonoApprox } from './fonts'
 import Hero from './Hero'
 import Reveal from './Reveal'
 import Stat from './Stat'
@@ -146,7 +146,7 @@ function Header() {
 
 export default function EnginePage() {
   return (
-    <div className={clsx('dsn-engine', bricolage.variable, fragmentMono.variable)}>
+    <div className={clsx('dsn-engine', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
       <Header />
       <main>
         <Hero />

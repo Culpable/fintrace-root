@@ -113,7 +113,7 @@ export default function Hero() {
           The evidence <span className="eng-gold-text">engine</span>.
         </h1>
         <p className="eng-lede eng-load" style={loadDelay(360)}>
-          FinTrace turns thousands of pages of bank statements — any bank, any format, scanned or born-digital — into
+          FinTrace turns thousands of pages of bank statements - any bank, any format, scanned or born-digital - into
           structured, source-linked evidence that stands up in court.
         </p>
         <div className="eng-hero-ctas eng-load" style={loadDelay(500)}>

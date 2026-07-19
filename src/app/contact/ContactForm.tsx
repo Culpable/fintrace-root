@@ -66,7 +66,7 @@ export default function ContactForm() {
       onSubmit={handleSubmit}
       aria-busy={isSubmitting}
     >
-      <input type="hidden" name="_subject" value="New matter enquiry — fintrace.com.au" />
+      <input type="hidden" name="_subject" value="New matter enquiry - fintrace.com.au" />
       <input type="hidden" name="form_source" value="contact_page" />
       <input
         className="eng-ct-honeypot"
@@ -122,7 +122,7 @@ export default function ContactForm() {
           name="message"
           rows={5}
           required
-          placeholder="The dispute, the account footprint, the timeframe — a few lines is plenty."
+          placeholder="The dispute, the account footprint, the timeframe - a few lines is plenty."
         />
       </div>
 

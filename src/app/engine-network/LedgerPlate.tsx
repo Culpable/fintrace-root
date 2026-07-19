@@ -34,10 +34,10 @@ type LedgerLine = {
  *  (23,965.59 → 13,098.05) and demonstrate the real capability set. */
 const LINES: LedgerLine[] = [
   { date: '03 Mar 24', desc: 'WOOLWORTHS 1224 CHATSWOOD', amount: '−214.63', balance: '23,965.59', chip: 'Groceries' },
-  { date: '04 Mar 24', desc: 'TRANSFER TO J HARPER — NETBANK', amount: '−3,000.00', balance: '20,965.59', chip: 'Related acct' },
+  { date: '04 Mar 24', desc: 'TRANSFER TO J HARPER - NETBANK', amount: '−3,000.00', balance: '20,965.59', chip: 'Related acct' },
   {
     date: '07 Mar 24',
-    desc: 'ATM WITHDRAWAL — CROWS NEST',
+    desc: 'ATM WITHDRAWAL - CROWS NEST',
     amount: '−9,500.00',
     balance: '11,465.59',
     chip: 'Cash',
@@ -45,7 +45,7 @@ const LINES: LedgerLine[] = [
   },
   {
     date: '11 Mar 24',
-    desc: 'SALARY — MERIDIAN CONSULTING',
+    desc: 'SALARY - MERIDIAN CONSULTING',
     amount: '+8,412.90',
     credit: true,
     balance: '19,878.49',
@@ -53,7 +53,7 @@ const LINES: LedgerLine[] = [
   },
   { date: '13 Mar 24', desc: 'WISE TRANSFER AUD→INR REF 8841', amount: '−5,200.00', balance: '14,678.49', chip: 'Cross-currency' },
   { date: '18 Mar 24', desc: 'SPORTSBET DEPOSIT 0092', amount: '−400.00', balance: '14,278.49', chip: 'Gambling' },
-  { date: '21 Mar 24', desc: 'BPAY — STRATA PLAN 55211', amount: '−1,180.44', balance: '13,098.05', chip: 'Property' },
+  { date: '21 Mar 24', desc: 'BPAY - STRATA PLAN 55211', amount: '−1,180.44', balance: '13,098.05', chip: 'Property' },
 ]
 
 export default function LedgerPlate() {
@@ -84,11 +84,11 @@ export default function LedgerPlate() {
     <figure className="eng-lt" ref={ref}>
       {/* Masthead: exhibit designation + rotating status caption */}
       <div className="eng-lt-mast">
-        <span className="eng-lt-label">Extract — consolidated statement lines</span>
+        <span className="eng-lt-label">Extract - consolidated statement lines</span>
         <span className="eng-lt-status" aria-hidden="true">
           <span className="eng-lt-s1">Entering statement lines</span>
           <span className="eng-lt-s2">Categorising</span>
-          <span className="eng-lt-s3">Reconciled — one line flagged</span>
+          <span className="eng-lt-s3">Reconciled - one line flagged</span>
         </span>
       </div>
 
@@ -122,7 +122,7 @@ export default function LedgerPlate() {
               <svg className="eng-lt-flag" aria-hidden="true">
                 <rect pathLength={1} />
               </svg>
-              <p className="eng-lt-note">flagged — see source, p. 214</p>
+              <p className="eng-lt-note">flagged - see source, p. 214</p>
             </>
           )}
         </div>
@@ -130,7 +130,7 @@ export default function LedgerPlate() {
 
       {/* Double-gold closing rule: the ledger agrees with itself */}
       <div className="eng-lt-total">
-        <span className="eng-lt-total-label">Closing balance — reconciled to source</span>
+        <span className="eng-lt-total-label">Closing balance - reconciled to source</span>
         <span className="eng-lt-total-value">13,098.05</span>
       </div>
 

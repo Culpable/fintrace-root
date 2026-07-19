@@ -5,7 +5,7 @@ import { pageMetadata } from '@/lib/metadata'
 import '../engine-network/engine-network.css'
 import '../engine-network/site-pages.css'
 import './about.css'
-import { bricolage, fragmentMono } from '../engine-network/fonts'
+import { bricolage, fragmentMono, fragmentMonoApprox } from '../engine-network/fonts'
 import Reveal from '../engine-network/Reveal'
 import { SiteFooter, SiteHeader } from '../engine-network/SiteChrome'
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable)}>
+    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
       <SiteHeader />
       <main>
         <section className="eng-page-hero">
@@ -28,7 +28,7 @@ export default function AboutPage() {
             </h1>
             <p className="eng-lede">
               FinTrace exists to do one job at a forensic standard: turn thousands of pages of bank statements into
-              evidence a legal team can rely on — and hand back the hours that work used to take.
+              evidence a legal team can rely on, and hand back the hours that work used to take.
             </p>
           </div>
         </section>
@@ -56,13 +56,13 @@ export default function AboutPage() {
             <Reveal className="eng-ab-prose" delay={90}>
               <p>
                 Document-heavy matters arrive as paper: thousands of pages of statements, accounts by the dozen,
-                histories running back a decade or more. In one live property matter — about fifty accounts and fifteen
-                years of statements — the manual review was estimated at fifty hours of lawyer time. The engine
+                histories running back a decade or more. In one live property matter - about fifty accounts and fifteen
+                years of statements - the manual review was estimated at fifty hours of lawyer time. The engine
                 delivered the ledger and the findings in about ten.
               </p>
               <p>
                 Those findings closely matched the analysis the instructing lawyer prepared independently, at a fifth of
-                the time — and every finding cited the source page it came from.
+                the time, and every finding cited the source page it came from.
               </p>
               <p className="eng-page-strip eng-ab-strip">
                 ≈50 hrs estimated · ≈10 delivered · ≈50 accounts · 15 yrs of statements
@@ -82,7 +82,7 @@ export default function AboutPage() {
             <Reveal className="eng-ab-prose" delay={90}>
               <p>
                 FinTrace is engaged the way you’d brief a forensic accountant, not the way you’d buy software. There’s
-                no platform to procure, no seats to license and no training to roll out — you send the statements and
+                no platform to procure, no seats to license and no training to roll out: you send the statements and
                 the engine does the work.
               </p>
               <p>
@@ -104,7 +104,7 @@ export default function AboutPage() {
             <Reveal className="eng-ab-prose" delay={90}>
               <p>
                 Every line in the ledger and every finding in the report cites the exact page of the source PDF it came
-                from. Anything the engine asserts, a human can verify in seconds — which makes the output
+                from. Anything the engine asserts, a human can verify in seconds, which makes the output
                 human-verifiable and court-ready.
               </p>
             </Reveal>

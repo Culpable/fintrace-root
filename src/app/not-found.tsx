@@ -4,7 +4,7 @@ import Link from 'next/link'
 import './engine-network/engine-network.css'
 import './engine-network/site-pages.css'
 import './not-found.css'
-import { bricolage, fragmentMono } from './engine-network/fonts'
+import { bricolage, fragmentMono, fragmentMonoApprox } from './engine-network/fonts'
 import { SiteFooter, SiteHeader } from './engine-network/SiteChrome'
 
 // Give the 404 its own tab title via the root layout's `| FinTrace` template
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable)}>
+    <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
       <SiteHeader />
       <main className="eng-nf-band">
         <svg className="eng-nf-constellation" viewBox="0 0 560 420" aria-hidden="true">
@@ -34,7 +34,7 @@ export default function NotFound() {
           <h1 className="eng-page-h1">
             No trace <span className="eng-gold-text">of this page.</span>
           </h1>
-          <p className="eng-lede">The address doesn’t lead anywhere — and unlike the money, it left no trail.</p>
+          <p className="eng-lede">The address doesn’t lead anywhere, and unlike the money, it left no trail.</p>
           <Link className="eng-btn-gold" href="/">
             Back to the home page
           </Link>

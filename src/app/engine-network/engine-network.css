@@ -75,7 +75,7 @@
 /* ------------------------------ Typography ----------------------------- */
 
 .dsn-engine-network .eng-kicker {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.34em;
   text-transform: uppercase;
@@ -176,7 +176,7 @@
      paints above this rule's gold face but beneath the inline label, so the
      sweep glints across the metal without ever washing over the glyphs */
   isolation: isolate;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.8125rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -249,7 +249,7 @@
 
 .dsn-engine-network .eng-btn-ghost {
   display: inline-block;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.8125rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -335,7 +335,7 @@
 
 .dsn-engine-network .eng-header-nav > a:not(.eng-btn-gold) {
   position: relative;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -538,7 +538,7 @@
   flex-wrap: wrap;
   column-gap: 1.4rem;
   row-gap: 0.4rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.66rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -642,7 +642,7 @@
 }
 
 .dsn-engine-network .eng-stage-numeral {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.3em;
   color: var(--gold);
@@ -696,7 +696,7 @@
 }
 
 .dsn-engine-network .eng-spec-index {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.3em;
   color: var(--gold-deep);
@@ -719,7 +719,7 @@
 }
 
 .dsn-engine-network .eng-spec-tag {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.62rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -791,7 +791,7 @@
 }
 
 .dsn-engine-network .eng-stat-label {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.66rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -880,7 +880,7 @@
 }
 
 .dsn-engine-network .eng-card-note {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.62rem;
   letter-spacing: 0.26em;
   text-transform: uppercase;
@@ -957,7 +957,7 @@
 }
 
 .dsn-engine-network .eng-footer-meta {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -982,7 +982,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1019,7 +1019,7 @@
 
 .dsn-engine-network .eng-footer-small {
   margin-top: 2.6rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.62rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -1156,7 +1156,7 @@
 }
 
 .dsn-engine-network .ecm-kicker {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.62rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -1198,14 +1198,14 @@
 
 .dsn-engine-network .ecm-name {
   fill: var(--paper);
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 11px;
   letter-spacing: 0.08em;
 }
 
 .dsn-engine-network .ecm-sub {
   fill: var(--grey-warm);
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 9px;
   letter-spacing: 0.05em;
 }
@@ -1224,7 +1224,7 @@
 }
 
 .dsn-engine-network .ecm-amt {
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 11.5px;
   letter-spacing: 0.04em;
 }
@@ -1253,7 +1253,7 @@
 
 .dsn-engine-network .ecm-match text {
   fill: var(--gold-bright);
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 11px;
   letter-spacing: 0.22em;
 }
@@ -1350,7 +1350,7 @@
 /* Caption beneath the cross-currency diagram */
 .dsn-engine-network .ecm-caption {
   margin-top: 1.1rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.66rem;
   letter-spacing: 0.12em;
   color: var(--grey-warm);
@@ -1389,7 +1389,7 @@
     inset 0 1px 0 rgba(240, 212, 145, 0.08),
     0 30px 80px -40px rgba(0, 0, 0, 0.85);
   padding: 1.7rem clamp(1.1rem, 3vw, 2.2rem) 1.4rem;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
 }
 
 /* ------------------------------ Masthead ------------------------------- */
@@ -1810,7 +1810,7 @@
 .dsn-engine-network .tnet-label {
   position: absolute;
   transform: translate(-50%, 10px);
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.6rem;
   letter-spacing: 0.14em;
   color: var(--grey-warm);
@@ -1840,7 +1840,7 @@
 /* Per-hop evidence notes: amount + date, revealed as the thread lands */
 .dsn-engine-network .tnet-note {
   position: absolute;
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   color: var(--gold);
@@ -1870,7 +1870,7 @@
   margin-top: 1.1rem;
   padding-top: 0.9rem;
   border-top: 1px solid var(--hairline-dim);
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.62rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;

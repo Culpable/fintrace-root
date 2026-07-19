@@ -81,7 +81,7 @@ Every claim below carries one of three statuses:
 ## Typography
 
 - Display role: Bricolage Grotesque through the `--font-eng-display` variable. Hero display sits at weight 760 with tight negative tracking; section headings at 700; card and spec headings at 650. Every h1/h2 wraps exactly one payoff clause in the gold-gradient span (`.eng-gold-text`) — gold type is a gradient clipped to glyphs, never a flat colour.
-- Specification role: Fragment Mono through `--font-eng-mono` for kickers, navigation, buttons, tags, stats, strips, captions, footer metadata and all tabular data. Mono text is uppercase with wide letter-spacing; the kicker carries an engraved leading dash.
+- Specification role: Fragment Mono through `--font-eng-mono` for kickers, navigation, buttons, tags, stats, strips, captions, footer metadata and all tabular data. Mono text is uppercase with wide letter-spacing; the kicker carries an engraved leading dash. Every mono stack leads with the single-glyph companion face `--font-eng-mono-approx` — a self-hosted 716-byte Fragment Mono subset holding only `≈` U+2248 (`src/assets/fonts/fragment-mono-approx.woff2`, loaded per route via next/font/local with the metric fallback disabled) — because the latin subset's unicode-range excludes that glyph; without the companion face it renders in the Arial metric fallback and sits visibly misaligned beside the numerals.
 - Body role: ledes and body copy render in the display face at reading weight in `--grey-warm`, line-height 1.65.
 - Scale: sizes are clamp-based fluid values owned by the stylesheet — consult `.eng-display`, `.eng-h2`, `.eng-lede` and the mono classes rather than restating values.
 - Measure and wrapping: page container is a 74rem measure; section heads cap at 46rem, ledes at 34rem, the proof note at 42rem. Ledger descriptions truncate with ellipsis; mono strips wrap with row gaps rather than overflowing. Production sub-page strips group each decorative middle dot with the fact it introduces so narrow column layouts never render punctuation as a standalone row.
@@ -189,7 +189,7 @@ None shipped and none planned. Record any decision to introduce an overlay layer
 
 ## Design Verification
 
-There is no automated design test suite; evidence is lint, static build and headed real-GPU dev-browser checks. Keep commands and server lifecycle in `AGENTS.md`. Latest hero-matrix run: 2026-07-19, after the hero CTA’s `next/link` conversion — all seven viewports passed every gate (one canvas per load, fallback-first cross-fade, composition and labels unchanged, zero console/page errors, zero horizontal overflow).
+There is no automated design test suite; evidence is lint, static build and headed real-GPU dev-browser checks. Keep commands and server lifecycle in `AGENTS.md`. Latest hero-matrix run: 2026-07-19, after the production-copy em-dash removal (hero lede included) — all seven viewports passed every gate (one canvas per load, fallback-first cross-fade, composition and labels unchanged, zero console/page errors, zero horizontal overflow).
 
 | Viewport or mode | Routes and states | Proof |
 | --- | --- | --- |

@@ -30,7 +30,7 @@
   gap: 0.55rem 1.1rem;
   border-block: 1px solid var(--hairline-dim);
   padding: 1.1rem clamp(1.25rem, 4vw, 3rem);
-  font-family: var(--font-eng-mono), monospace;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.66rem;
   letter-spacing: 0.22em;
   line-height: 1.6;

@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import clsx from 'clsx'
 import './engine-ledger.css'
-import { bricolage, fragmentMono } from './fonts'
+import { bricolage, fragmentMono, fragmentMonoApprox } from './fonts'
 import CurrencyMatch from './CurrencyMatch'
 import Hero from './Hero'
 import LedgerPlate from './LedgerPlate'
@@ -153,7 +153,7 @@ function Header() {
 
 export default function EngineLedgerPage() {
   return (
-    <div className={clsx('dsn-engine-ledger', bricolage.variable, fragmentMono.variable)}>
+    <div className={clsx('dsn-engine-ledger', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
       <Header />
       <main>
         <Hero />
