@@ -17,9 +17,18 @@ export function SiteHeader({ contactHref = '/contact/' }: SiteHeaderProps) {
         <Link href="/about/">About</Link>
         <Link href="/engagement/">Engagement</Link>
         <Link href="/contact/">Contact</Link>
-        <a className="eng-btn-gold eng-btn-sm" href={contactHref}>
-          Request assessment
-        </a>
+        {/* Render route hrefs through Link so the contact page is prefetched and
+            the transition stays client-side; keep hash hrefs as native anchors so
+            the contact page's own button still jumps to #enquire on the same page. */}
+        {contactHref.startsWith('/') ? (
+          <Link className="eng-btn-gold eng-btn-sm" href={contactHref}>
+            Request assessment
+          </Link>
+        ) : (
+          <a className="eng-btn-gold eng-btn-sm" href={contactHref}>
+            Request assessment
+          </a>
+        )}
       </nav>
     </header>
   )

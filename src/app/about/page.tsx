@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import clsx from 'clsx'
 import { pageMetadata } from '@/lib/metadata'
 import '../engine-network/engine-network.css'
@@ -121,12 +122,12 @@ export default function AboutPage() {
                 The fastest way to judge FinTrace is to put a real matter in front of it.
               </p>
               <div className="eng-hero-ctas">
-                <a className="eng-btn-gold eng-btn-loop" href="/contact/">
+                <Link className="eng-btn-gold eng-btn-loop" href="/contact/">
                   Request a matter assessment
-                </a>
-                <a className="eng-btn-ghost" href="/engagement/">
+                </Link>
+                <Link className="eng-btn-ghost" href="/engagement/">
                   Engagement &amp; pricing
-                </a>
+                </Link>
               </div>
             </Reveal>
           </div>

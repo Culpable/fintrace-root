@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import clsx from 'clsx'
 import { pageMetadata } from '@/lib/metadata'
 import '../engine-network/engine-network.css'
@@ -153,12 +154,12 @@ export default function EngagementPage() {
                 Two numbers. <span className="eng-gold-text">One enquiry away.</span>
               </h2>
               <div className="eng-hero-ctas">
-                <a className="eng-btn-gold eng-btn-loop" href="/contact/">
+                <Link className="eng-btn-gold eng-btn-loop" href="/contact/">
                   Request a matter assessment
-                </a>
-                <a className="eng-btn-ghost" href="/contact/#enquire">
+                </Link>
+                <Link className="eng-btn-ghost" href="/contact/#enquire">
                   Start an enquiry
-                </a>
+                </Link>
               </div>
             </Reveal>
           </div>

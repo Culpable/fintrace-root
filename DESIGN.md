@@ -134,6 +134,7 @@ The contact page ships the complete form contract: mono uppercase labels above o
 
 - Header: wordmark (ivory "Fin", luminous gate bar, gold "Trace") linking home; mono uppercase links for About / Engagement / Contact; gold "Request assessment" button. Below 768px the page links hide and the wordmark and button remain — there is no menu, hamburger or search, and none is planned.
 - Anchored sections set `scroll-margin-top` so smooth scrolling (global) lands clear of content.
+- Internal route-target actions — the header and footer links, the hero CTA and every CTA-plate button — render through `next/link`, so production navigation is prefetched and client-side. Same-page hash actions (the hero’s `#process` button and the contact page’s own `#enquire` header button) remain native anchors, keeping their in-page jump behaviour unchanged.
 - Every production route uses the shared About / Engagement / Contact header, and the footer exposes exactly Home / About / Engagement & pricing / Contact. Production pages never link to `/internal-design/` or a lab route.
 
 ### Cards, badges, and statuses
@@ -188,7 +189,7 @@ None shipped and none planned. Record any decision to introduce an overlay layer
 
 ## Design Verification
 
-There is no automated design test suite; evidence is lint, static build and headed real-GPU dev-browser checks. Keep commands and server lifecycle in `AGENTS.md`.
+There is no automated design test suite; evidence is lint, static build and headed real-GPU dev-browser checks. Keep commands and server lifecycle in `AGENTS.md`. Latest hero-matrix run: 2026-07-19, after the hero CTA’s `next/link` conversion — all seven viewports passed every gate (one canvas per load, fallback-first cross-fade, composition and labels unchanged, zero console/page errors, zero horizontal overflow).
 
 | Viewport or mode | Routes and states | Proof |
 | --- | --- | --- |

@@ -330,12 +330,12 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 pricing. Send the statements; receive the ledger, the findings and the sources to back them.
               </p>
               <div className="eng-hero-ctas">
-                <a className="eng-btn-gold eng-btn-loop" href="/contact/">
+                <Link className="eng-btn-gold eng-btn-loop" href="/contact/">
                   Request a matter assessment
-                </a>
-                <a className="eng-btn-ghost" href="/contact/#enquire">
+                </Link>
+                <Link className="eng-btn-ghost" href="/contact/#enquire">
                   Start an enquiry
-                </a>
+                </Link>
               </div>
             </Reveal>
           </div>

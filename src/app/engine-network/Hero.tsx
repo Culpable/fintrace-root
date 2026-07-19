@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import { useState, type CSSProperties } from 'react'
 import clsx from 'clsx'
 
@@ -116,9 +117,9 @@ export default function Hero() {
           structured, source-linked evidence that stands up in court.
         </p>
         <div className="eng-hero-ctas eng-load" style={loadDelay(500)}>
-          <a className="eng-btn-gold" href="/contact/">
+          <Link className="eng-btn-gold" href="/contact/">
             Request a matter assessment
-          </a>
+          </Link>
           <a className="eng-btn-ghost" href="#process">
             See how the engine works
           </a>
