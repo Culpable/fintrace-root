@@ -38,7 +38,7 @@ Every claim below carries one of three statuses:
 | Hero composition and fallback | `src/app/engine-network/Hero.tsx::Hero` | Layered fallback/scene/scrim/headline/strip structure, load stagger, static SVG echoes |
 | WebGL scene | `src/app/engine-network/Scene.tsx` | Constellation geometry, framing formulas, lifecycle gating, disposal, DPR cap |
 | Entrance choreography | `src/app/engine-network/Reveal.tsx::Reveal` | One-shot IntersectionObserver trigger adding the visible class |
-| Animated numerals | `src/app/engine-network/Stat.tsx::Stat` | Count-up/count-down proof stats |
+| Animated numerals | `src/app/engine-network/Stat.tsx::Stat` | Count-up/count-down stats; production uses count-up only (the outcome plate's 100%), count-down remains for lab routes |
 | Ledger set-piece | `src/app/engine-network/LedgerPlate.tsx::LedgerPlate` | Reconciling table data, run choreography trigger, flag rule SVG |
 | Trace set-piece | `src/app/engine-network/TraceDiagram.tsx` | Canvas account graph, label/note offset variables |
 | Match set-piece | `src/app/engine-network/CurrencyMatch.tsx` | Cross-currency SVG diagram and its labelled-image semantics |
@@ -139,7 +139,7 @@ The contact page ships the complete form contract: mono uppercase labels above o
 
 ### Cards, badges, and statuses
 
-- Audience cards (`.eng-card`): hairline border, faint gold corner-gradient surface, hover lift with corner glow; the featured "proven wedge" card spans two tracks with a brighter border and a mono gold note. Card headings 650, body in supporting grey.
+- Audience cards (`.eng-card`): hairline border, faint gold corner-gradient surface, hover lift with corner glow; the featured "core matter type" card spans two tracks with a brighter border and a mono gold note. Card headings 650, body in supporting grey.
 - Badges and tags: mono uppercase chips with hairline borders (spec tags, ledger category chips); the flagged chip borrows the crimson treatment.
 - Status language: run/animation states are one-shot staged keyframes armed by visibility, never spinners. Crimson is reserved for flagged evidence — it must never become a general error/danger colour on new surfaces without a recorded decision.
 
@@ -173,10 +173,10 @@ None shipped and none planned. Record any decision to introduce an overlay layer
 
 ## Product Workflows and Content
 
-- The page is one narrative in a fixed section order: hero → process → ledger ("the evidence, structured") → tracing ("the evidence, connected") → match ("the evidence, matched") → capabilities → proof → audiences → engage → footer. The three set-pieces tell a single transaction's story — the arc runs pages → ledger → network → finding. Do not reorder sections or break the story's continuity.
+- The page is one narrative in a fixed section order: hero → process → ledger ("the evidence, structured") → tracing ("the evidence, connected") → match ("the evidence, matched") → capabilities → outcome (section id "proof") → audiences → engage → footer. The three set-pieces tell a single transaction's story — the arc runs pages → ledger → network → finding. Do not reorder sections or break the story's continuity.
 - The canonical evidence story is load-bearing copy: the flagged A$9,500 ATM withdrawal (07 Mar 2024, cited to its source page), the A$28,000 Wise transfer (02 Apr) and the ₹18,20,000 arrival at HDFC (04 Apr) at FX 65.00. The ledger's balances genuinely reconcile. Change these numbers only as a recorded decision, and keep ledger, trace and match telling the same transaction.
 - Headline voice: two short declaratives with the payoff clause in gold ("Four stages. One chain of evidence."). Kickers are short mono phrases. Ledes are concrete and rhythmic, heavy on colons and em dashes (true em dashes with spaces). The mono voice owns labels, numerals, buttons and strips.
-- Proof numbers are fixed: an estimated fifty hours delivered in about ten (the signature stat counts backwards), about fifty accounts, fifteen years, thousands of pages, and the finding that results closely matched the instructing lawyer's independent analysis. The allowed claim set is closed — no founders, dates, team, offices, clients, turnaround promises or security claims may be invented.
+- The claim set is fixed and closed. Homepage outcome stats: 1,000s of pages consolidated into a single ledger, 100% of findings cited to the exact source page (the plate's single animated numeral, counting up), Decades of statements reconciled end to end, and 0 software to license, install or learn. The hero strip reads "Thousands of pages · Decades of statements · Any bank, any currency · One ledger". The quantified case study — an estimated fifty hours delivered in about ten, about fifty accounts, fifteen years, thousands of pages, and the finding that results closely matched the instructing lawyer's independent analysis — lives only on `/about/`, framed as one live matter. No founders, dates, team, offices, clients, turnaround promises or security claims may be invented, and no unframed founding-matter numbers may return to the homepage.
 - Terminology: "service, not software"; "Engaged per matter · Australia-wide"; the CTA is always "Request a matter assessment"; every public contact action routes to `/contact/` and no mailbox address is displayed. The wordmark is Fin | gate bar | Trace with Trace in gold. Page language is en-AU; sub-page titles flow through the root layout's title template.
 - The approved pages' copy decks in the site pages plan are verbatim-binding when those pages are built; new-page sentences must not duplicate home-page sentences.
 

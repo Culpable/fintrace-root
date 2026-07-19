@@ -133,9 +133,9 @@ export default function Hero() {
       <div className="eng-hero-strip eng-load" style={loadDelay(680)}>
         <span>Thousands of pages</span>
         <span className="eng-strip-div" aria-hidden="true" />
-        <span>≈50 accounts</span>
+        <span>Decades of statements</span>
         <span className="eng-strip-div" aria-hidden="true" />
-        <span>15 years of statements</span>
+        <span>Any bank, any currency</span>
         <span className="eng-strip-div" aria-hidden="true" />
         <span>One ledger</span>
       </div>

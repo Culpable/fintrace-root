@@ -1360,7 +1360,7 @@
 
 /* ========================================================================
    ROUND-FOUR CONSOLIDATION — the network page is the flagship, so it
-   carries every proven set-piece below the fold: the reconciled ledger
+   carries every selected set-piece below the fold: the reconciled ledger
    table (from /engine-ledger) and the account-network trace diagram
    (from /engine-trace), alongside the cross-currency match above.
    Keyframes are re-prefixed engnet-lt-* — keyframe names are document-

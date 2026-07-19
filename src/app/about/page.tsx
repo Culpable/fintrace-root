@@ -48,20 +48,21 @@ export default function AboutPage() {
         <section className="eng-page-section">
           <div className="eng-container">
             <Reveal className="eng-section-head">
-              <p className="eng-kicker">The origin</p>
+              <p className="eng-kicker">In practice</p>
               <h2 className="eng-h2">
-                Built on a real matter, <span className="eng-gold-text">not a demo.</span>
+                One live matter. <span className="eng-gold-text">A fifth of the time.</span>
               </h2>
             </Reveal>
             <Reveal className="eng-ab-prose" delay={90}>
               <p>
-                FinTrace was proven inside a live property matter: thousands of pages of statements, about fifty
-                accounts and fifteen years of history. The manual review was estimated at fifty hours of lawyer time.
-                The engine delivered the ledger and the findings in about ten.
+                Document-heavy matters arrive as paper: thousands of pages of statements, accounts by the dozen,
+                histories running back a decade or more. In one live property matter — about fifty accounts and fifteen
+                years of statements — the manual review was estimated at fifty hours of lawyer time. The engine
+                delivered the ledger and the findings in about ten.
               </p>
               <p>
                 Those findings closely matched the analysis the instructing lawyer prepared independently, at a fifth of
-                the time. That matter set the standard for the service.
+                the time — and every finding cited the source page it came from.
               </p>
               <p className="eng-page-strip eng-ab-strip">
                 ≈50 hrs estimated · ≈10 delivered · ≈50 accounts · 15 yrs of statements

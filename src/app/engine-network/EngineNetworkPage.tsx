@@ -19,7 +19,7 @@ import TraceDiagram from './TraceDiagram'
  * constellation — glowing account nodes joined by golden threads, one flagged
  * hop in restrained crimson.
  *
- * Below the fold this page now consolidates every proven set-piece into one
+ * Below the fold this page now consolidates every selected set-piece into one
  * story — the evidence, structured (the reconciling ledger table from
  * /engine-ledger), connected (the account-network trace diagram from
  * /engine-trace), and matched (the cross-currency reconstruction) — so the
@@ -95,12 +95,12 @@ const SPECS = [
   },
 ]
 
-/** Audience cards; the first is the proven wedge and spans wider on desktop. */
+/** Audience cards; the first is the core matter type and spans wider on desktop. */
 const AUDIENCES = [
   {
     name: 'Family law property matters',
-    copy: 'Property pools that turn on years of statements — the matters FinTrace was proven on: thousands of pages, fifty accounts, fifteen years of history.',
-    note: 'The proven wedge',
+    copy: 'Property pools that turn on years of statements — contributions, drawings and transfers traced across every account in the pool.',
+    note: 'The core matter type',
     featured: true,
   },
   {
@@ -191,7 +191,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
             <Reveal className="eng-section-head">
               <p className="eng-kicker">The evidence, connected</p>
               <h2 className="eng-h2">
-                Fifty accounts. <span className="eng-gold-text">One thread of evidence.</span>
+                Every account. <span className="eng-gold-text">One thread of evidence.</span>
               </h2>
               <p className="eng-lede">
                 From that ledger the engine maps every account it reads, then follows the money between them — joint
@@ -252,42 +252,38 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
           </div>
         </section>
 
-        {/* ----------------------------- Proof ----------------------------- */}
+        {/* ---------------------------- Outcome ---------------------------- */}
         <section className="eng-section eng-cv" id="proof">
           <div className="eng-container">
             <Reveal className="eng-plate eng-proof">
-              <p className="eng-kicker">Proven on a live matter</p>
+              <p className="eng-kicker">The outcome</p>
               <h2 className="eng-h2">
-                Fifty hours of review. <span className="eng-gold-text">Delivered in about ten.</span>
+                Statements in. <span className="eng-gold-text">Evidence out.</span>
               </h2>
               <div className="eng-proof-stats">
                 <div className="eng-proof-stat">
-                  {/* The signature stat runs the meter backwards: 50 → 10 */}
-                  <p className="eng-stat-value">
-                    <Stat from={50} to={10} suffix=" hrs" duration={2200} />
-                  </p>
-                  <p className="eng-stat-label">Hours of review on a real matter — from an estimated fifty</p>
+                  <p className="eng-stat-value">1,000s</p>
+                  <p className="eng-stat-label">Of pages consolidated into a single ledger</p>
                 </div>
                 <div className="eng-proof-stat">
+                  {/* Keep the plate's single animated numeral: a count-up to full coverage */}
                   <p className="eng-stat-value">
-                    <Stat to={50} prefix="≈" />
+                    <Stat to={100} suffix="%" duration={2200} />
                   </p>
-                  <p className="eng-stat-label">Accounts traced in a single matter</p>
+                  <p className="eng-stat-label">Of findings cited to the exact source page</p>
                 </div>
                 <div className="eng-proof-stat">
-                  <p className="eng-stat-value">
-                    <Stat to={15} suffix=" yrs" />
-                  </p>
+                  <p className="eng-stat-value">Decades</p>
                   <p className="eng-stat-label">Of statements reconciled end to end</p>
                 </div>
                 <div className="eng-proof-stat">
-                  <p className="eng-stat-value">1,000s</p>
-                  <p className="eng-stat-label">Of pages consolidated into one ledger</p>
+                  <p className="eng-stat-value">0</p>
+                  <p className="eng-stat-label">Software to license, install or learn</p>
                 </div>
               </div>
               <p className="eng-proof-note">
-                FinTrace’s findings closely matched the analysis the instructing lawyer prepared independently — and
-                arrived in a fifth of the time.
+                If it can’t be checked, it isn’t a finding — anything the engine asserts, a human can verify against
+                its source page in seconds.
               </p>
             </Reveal>
           </div>

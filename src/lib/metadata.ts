@@ -24,7 +24,7 @@ export const pageMetadata = {
   about: {
     title: 'About',
     description:
-      'FinTrace is a specialist AI-assisted forensic bank-statement analysis service for legal teams - proven on a live matter, engaged per matter, Australia-wide.',
+      'FinTrace is a specialist AI-assisted forensic bank-statement analysis service for legal teams - engaged per matter, Australia-wide, verifiable to source pages.',
   },
   engagement: {
     title: 'Engagement & pricing',
