@@ -4,9 +4,9 @@
  */
 export const siteMetadata = {
   name: 'FinTrace',
-  title: 'FinTrace — Forensic financial analysis for legal matters',
+  title: 'FinTrace: AI forensic financial analysis for legal matters',
   description:
-    'FinTrace turns bulk bank statements into a structured transaction ledger and source-linked findings for legal matters.',
+    'FinTrace uses AI to turn bulk bank statements into a structured transaction ledger and source-linked findings - every line verifiable against its source page.',
   siteUrl: 'https://fintrace.com.au',
   ogImage: '/images/og/fintrace-og.png',
   locale: 'en-AU',
@@ -24,12 +24,12 @@ export const pageMetadata = {
   about: {
     title: 'About',
     description:
-      'FinTrace is a specialist forensic bank-statement analysis service for legal teams — proven on a live matter, engaged per matter, Australia-wide.',
+      'FinTrace is a specialist AI-assisted forensic bank-statement analysis service for legal teams - proven on a live matter, engaged per matter, Australia-wide.',
   },
   engagement: {
     title: 'Engagement & pricing',
     description:
-      'FinTrace is engaged per matter: a flat engagement fee plus per-page pricing, quoted after an initial assessment — no licences, no subscriptions.',
+      'FinTrace is engaged per matter - AI-assisted analysis at a flat fee plus per-page pricing, quoted after an initial assessment. No licences, no subscriptions.',
   },
   contact: {
     title: 'Contact',

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import clsx from 'clsx'
 import Link from 'next/link'
 import './engine-network/engine-network.css'
@@ -5,6 +6,12 @@ import './engine-network/site-pages.css'
 import './not-found.css'
 import { bricolage, fragmentMono } from './engine-network/fonts'
 import { SiteFooter, SiteHeader } from './engine-network/SiteChrome'
+
+// Give the 404 its own tab title via the root layout's `| FinTrace` template
+// so an error response never presents itself as the homepage.
+export const metadata: Metadata = {
+  title: 'Page not found',
+}
 
 export default function NotFound() {
   return (
