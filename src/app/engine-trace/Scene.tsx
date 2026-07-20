@@ -105,7 +105,7 @@ function makeCardTexture(): THREE.CanvasTexture {
   // Citation code — the traceability promise in miniature
   ctx.fillStyle = '#f0d491'
   ctx.font = '600 26px "Courier New", monospace'
-  ctx.fillText('FT-0114', 24, 48)
+  ctx.fillText('FT-0943', 24, 48)
 
   // Source + verification line
   ctx.fillStyle = 'rgba(163, 154, 141, 0.85)'

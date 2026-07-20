@@ -661,7 +661,7 @@
   fill: var(--amber);
 }
 
-/* Currency swap: rupees fade out at the Wise dwell, dollars fade in */
+/* Currency swap: rupees fade out at the transfer-service dwell, dollars fade in */
 .dsn-trace .mf-amt-inr {
   opacity: 1;
 }

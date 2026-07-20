@@ -82,7 +82,7 @@ const SPECS = [
   {
     index: '05',
     name: 'Cross-account tracing',
-    copy: 'Money followed between related accounts, including cross-currency matches — rupees to Australian dollars through Wise, reconciled line to line.',
+    copy: 'Money followed between related accounts, including cross-currency matches — rupees to Australian dollars through an international money-transfer service, reconciled line to line.',
     tag: 'Analysis',
   },
   {

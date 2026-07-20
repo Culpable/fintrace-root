@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from 'react'
  * A 2D-canvas evidence graph: account nodes joined by faintly pulsing gold
  * edges (ordinary transaction traffic), over which a bright golden thread
  * progressively draws itself along one suspicious route — joint account →
- * cash → related account → Wise → overseas. The single flagged hop (the cash
+ * cash → related account → international transfer → overseas. The single flagged hop (the cash
  * withdrawal) renders in restrained crimson: the only red on the page.
  * Node labels and per-hop annotations are HTML positioned on the same
  * normalised grid the canvas uses, so text stays crisp at any DPR.
@@ -33,15 +33,15 @@ type GraphNode = {
 /* Nodes spread across the full panel width — this diagram owns its section,
    so there is no headline column to keep clear. */
 const NODES: GraphNode[] = [
-  { id: 0, label: 'CBA JOINT ****8802', x: 0.1, y: 0.3, onPath: true },
+  { id: 0, label: 'CBA JOINT ****5826', x: 0.1, y: 0.3, onPath: true },
   { id: 1, label: 'CASH', x: 0.28, y: 0.14, onPath: true, flagged: true },
-  { id: 2, label: 'NAB ****1130', x: 0.46, y: 0.34, onPath: true },
-  { id: 3, label: 'WISE AUD', x: 0.63, y: 0.62, onPath: true },
-  { id: 4, label: 'HDFC ****3321 · INR', x: 0.87, y: 0.44, onPath: true },
-  { id: 5, label: 'ANZ ****4417', x: 0.24, y: 0.66 },
-  { id: 6, label: 'WBC ****5546', x: 0.48, y: 0.82, hideOnMobile: true },
+  { id: 2, label: 'NAB ****8324', x: 0.46, y: 0.34, onPath: true },
+  { id: 3, label: 'INTL TRANSFER', x: 0.63, y: 0.62, onPath: true },
+  { id: 4, label: 'HDFC ****9878 · INR', x: 0.87, y: 0.44, onPath: true },
+  { id: 5, label: 'ANZ ****7504', x: 0.24, y: 0.66 },
+  { id: 6, label: 'WBC ****3897', x: 0.48, y: 0.82, hideOnMobile: true },
   { id: 7, label: 'CRYPTO EXCH', x: 0.72, y: 0.16, hideOnMobile: true },
-  { id: 8, label: 'AMEX ****9010', x: 0.08, y: 0.78, hideOnMobile: true },
+  { id: 8, label: 'AMEX ****8772', x: 0.08, y: 0.78, hideOnMobile: true },
   { id: 9, label: 'PAYPAL', x: 0.9, y: 0.8, hideOnMobile: true },
 ]
 

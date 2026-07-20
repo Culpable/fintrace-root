@@ -92,13 +92,13 @@ function makeGlowTexture(): THREE.CanvasTexture {
 
 /**
  * The four ledger rows baked onto the record slabs. Real capability copy —
- * groceries auto-categorisation, flagged cash, a cross-currency Wise match,
+ * groceries auto-categorisation, flagged cash, a cross-currency match,
  * salary — so even the hero's data is grounded in what the product does.
  */
 const SLAB_ROWS = [
-  { date: '03 MAR 24', desc: 'WOOLWORTHS 1224 CHATSWOOD', amount: '−214.63', tag: 'GROCERIES' },
+  { date: '03 MAR 24', desc: 'WOOLWORTHS 3646 CHATSWOOD', amount: '−214.63', tag: 'GROCERIES' },
   { date: '07 MAR 24', desc: 'ATM WITHDRAWAL — CROWS NEST', amount: '−9,500.00', tag: 'CASH' },
-  { date: '13 MAR 24', desc: 'WISE AUD→INR REF 8841', amount: '−5,200.00', tag: 'CROSS-CCY' },
+  { date: '13 MAR 24', desc: 'INTL TRANSFER AUD→INR', amount: '−5,200.00', tag: 'CROSS-CCY' },
   { date: '11 MAR 24', desc: 'SALARY — MERIDIAN PTY LTD', amount: '+8,412.90', tag: 'INCOME' },
 ]
 

@@ -68,7 +68,7 @@ const FINDINGS = [
   {
     index: 'F. 04',
     title: 'Cross-currency matches',
-    body: 'Outbound transfers paired with their foreign-currency counterparts — in one matter, rupee-to-AUD movements through Wise, matched both ways.',
+    body: 'Outbound transfers paired with their foreign-currency counterparts — in one matter, rupee-to-AUD movements through an international money-transfer service, matched both ways.',
     note: 'Matched despite the currency change.',
   },
   {

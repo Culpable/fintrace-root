@@ -84,7 +84,7 @@ const SPECS = [
   {
     index: '05',
     name: 'Cross-account tracing',
-    copy: 'Money followed between related accounts, including cross-currency matches: Australian dollars to rupees through Wise, reconciled line to line.',
+    copy: 'Money followed between related accounts, including cross-currency matches: Australian dollars to rupees through an international money-transfer service, reconciled line to line.',
     tag: 'Analysis',
   },
   {
@@ -195,7 +195,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
               </h2>
               <p className="eng-lede">
                 From that ledger the engine maps every account it reads, then follows the money between them: joint
-                account to cash, cash to a related account, onwards through Wise to an overseas account. Each hop is
+                account to cash, cash to a related account, onwards through an international money transfer to an overseas account. Each hop is
                 dated, valued and cited to its source page.
               </p>
             </Reveal>
@@ -218,7 +218,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 Same funds. <span className="eng-gold-text">Two currencies. One match.</span>
               </h2>
               <p className="eng-lede">
-                And the thread holds even where the trail changes currency: the dollars that left through Wise are
+                And the thread holds even where the trail changes currency: the dollars that left Australia are
                 matched to the rupees that landed overseas two days later, down to the exchange rate.
               </p>
             </Reveal>

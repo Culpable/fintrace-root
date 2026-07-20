@@ -147,8 +147,8 @@ type TrailSpec = {
 // paid), so the fan diverges VERTICALLY and only modestly in x — the frame
 // has ±2 units of headroom in y but barely 2 to the right of the gate.
 const TRAILS: TrailSpec[] = [
-  { label: 'ANZ ··4417', control: [2.3, 1.15, -0.25], end: [3.0, 1.7, -0.5], period: 4.6, offset: 0, flagged: false },
-  { label: 'WISE', control: [2.5, -0.12, -0.5], end: [3.35, 0.12, -1.1], period: 5.6, offset: 1.9, flagged: false },
+  { label: 'ANZ ··7504', control: [2.3, 1.15, -0.25], end: [3.0, 1.7, -0.5], period: 4.6, offset: 0, flagged: false },
+  { label: 'INTL TRANSFER', control: [2.5, -0.12, -0.5], end: [3.35, 0.12, -1.1], period: 5.6, offset: 1.9, flagged: false },
   { label: 'CASH ATM', control: [2.15, -1.2, 0.05], end: [2.7, -1.7, 0.15], period: 5.1, offset: 3.4, flagged: true },
 ]
 

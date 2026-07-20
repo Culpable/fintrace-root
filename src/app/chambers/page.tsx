@@ -68,7 +68,7 @@ const CAPABILITIES = [
   },
   {
     title: 'Cross-currency matches',
-    body: 'Funds followed across currencies — rupee-to-AUD transfers through Wise, reconciled to the dollar.',
+    body: 'Funds followed across currencies — rupee-to-AUD transfers through an international money-transfer service, reconciled to the dollar.',
   },
   {
     title: 'Complete categorisation',

@@ -35,12 +35,12 @@ const PAGE_POSES = [
 
 /** The rows the pages dock into: realistic, categorised statement lines. */
 const ROWS = [
-  { date: '14.03.19', desc: 'WOOLWORTHS 1024 CHATSWOOD', debit: '$84.62', credit: '', amount: '−$84.62', cat: 'Groceries', src: 'p. 214', flag: false },
+  { date: '14.03.19', desc: 'WOOLWORTHS 3646 CHATSWOOD', debit: '$84.62', credit: '', amount: '−$84.62', cat: 'Groceries', src: 'p. 214', flag: false },
   { date: '03.04.19', desc: 'ATM WDL — KINGS CROSS', debit: '$800.00', credit: '', amount: '−$800.00', cat: 'Cash', src: 'p. 231', flag: false },
   { date: '03.04.19', desc: 'SALARY — MERIDIAN PTY LTD', debit: '', credit: '$4,120.00', amount: '+$4,120.00', cat: 'Income', src: 'p. 231', flag: false },
-  { date: '17.04.19', desc: 'TRANSFER TO ACC ···4471', debit: '$5,000.00', credit: '', amount: '−$5,000.00', cat: 'Transfer', src: 'p. 236', flag: false },
+  { date: '17.04.19', desc: 'TRANSFER TO ACC ···9272', debit: '$5,000.00', credit: '', amount: '−$5,000.00', cat: 'Transfer', src: 'p. 236', flag: false },
   { date: '29.04.19', desc: 'SPORTSBET DEPOSIT', debit: '$250.00', credit: '', amount: '−$250.00', cat: 'Gambling', src: 'p. 240', flag: false },
-  { date: '02.05.19', desc: 'WISE — INR→AUD SETTLEMENT', debit: '', credit: '$9,384.15', amount: '+$9,384.15', cat: 'FX match', src: 'p. 244', flag: false },
+  { date: '02.05.19', desc: 'INTL TRANSFER — INR→AUD', debit: '', credit: '$9,384.15', amount: '+$9,384.15', cat: 'FX match', src: 'p. 244', flag: false },
   { date: '11.05.19', desc: 'ATM WDL — KINGS CROSS', debit: '$900.00', credit: '', amount: '−$900.00', cat: 'Cash', src: 'p. 252', flag: true },
 ]
 

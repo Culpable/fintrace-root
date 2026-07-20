@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react'
  * A full-bleed 2D-canvas evidence graph: account nodes joined by faintly
  * pulsing edges (ordinary transaction traffic), over which a red thread
  * progressively draws itself along one suspicious route - joint account →
- * cash → related account → Wise → overseas - like investigator's string on
+ * cash → related account → international transfer → overseas - like investigator's string on
  * a pinboard, but algorithmically precise. Node labels and per-hop amount
  * annotations are HTML (crisp text, easy styling) positioned with the same
  * normalised coordinates the canvas uses, inside a shared parallax layer
@@ -30,15 +30,15 @@ type GraphNode = {
 
 /* Node placement keeps the left column clear for the headline on desktop. */
 const NODES: GraphNode[] = [
-  { id: 0, label: 'CBA JOINT ****8802', x: 0.6, y: 0.22, onPath: true },
+  { id: 0, label: 'CBA JOINT ****5826', x: 0.6, y: 0.22, onPath: true },
   { id: 1, label: 'CASH', x: 0.745, y: 0.13, onPath: true },
-  { id: 2, label: 'NAB ****1130', x: 0.885, y: 0.27, onPath: true },
-  { id: 3, label: 'WISE AUD', x: 0.79, y: 0.5, onPath: true },
-  { id: 4, label: 'HDFC ****3321 · INR', x: 0.895, y: 0.73, onPath: true },
-  { id: 5, label: 'ANZ ****4417', x: 0.625, y: 0.645 },
-  { id: 6, label: 'WBC ****5546', x: 0.72, y: 0.87, hideOnMobile: true },
+  { id: 2, label: 'NAB ****8324', x: 0.885, y: 0.27, onPath: true },
+  { id: 3, label: 'INTL TRANSFER', x: 0.79, y: 0.5, onPath: true },
+  { id: 4, label: 'HDFC ****9878 · INR', x: 0.895, y: 0.73, onPath: true },
+  { id: 5, label: 'ANZ ****7504', x: 0.625, y: 0.645 },
+  { id: 6, label: 'WBC ****3897', x: 0.72, y: 0.87, hideOnMobile: true },
   { id: 7, label: 'CRYPTO EXCH', x: 0.94, y: 0.1, hideOnMobile: true },
-  { id: 8, label: 'AMEX ****9010', x: 0.54, y: 0.42, hideOnMobile: true },
+  { id: 8, label: 'AMEX ****8772', x: 0.54, y: 0.42, hideOnMobile: true },
   { id: 9, label: 'PAYPAL', x: 0.46, y: 0.845, hideOnMobile: true },
 ]
 

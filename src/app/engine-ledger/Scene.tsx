@@ -100,17 +100,17 @@ function makeDotTexture(): THREE.CanvasTexture {
 
 /**
  * Ledger rows entered onto the sheet, in landing order. Grounded in what the
- * product actually finds: auto-categorised groceries and fuel, salary, a Wise
+ * product actually finds: auto-categorised groceries and fuel, salary, a
  * cross-currency transfer, gambling — and the flagged ATM withdrawal at index
  * 2, drawn in crimson as the anomaly the engine catches.
  */
 const SHEET_ROWS = [
-  { date: '03 MAR', desc: 'WOOLWORTHS 1224 CHATSWOOD', debit: '214.63', credit: '', tag: 'GROCERIES', flag: false },
+  { date: '03 MAR', desc: 'WOOLWORTHS 3646 CHATSWOOD', debit: '214.63', credit: '', tag: 'GROCERIES', flag: false },
   { date: '04 MAR', desc: 'SALARY — MERIDIAN PTY LTD', debit: '', credit: '8,412.90', tag: 'INCOME', flag: false },
   { date: '07 MAR', desc: 'ATM WITHDRAWAL — CROWS NEST', debit: '9,500.00', credit: '', tag: 'CASH', flag: true },
   { date: '09 MAR', desc: 'BP CONNECT MOSMAN', debit: '86.40', credit: '', tag: 'FUEL', flag: false },
-  { date: '11 MAR', desc: 'TRANSFER — J SACINO ****4417', debit: '3,000.00', credit: '', tag: 'INTERNAL', flag: false },
-  { date: '13 MAR', desc: 'WISE AUD→INR REF 8841', debit: '5,200.00', credit: '', tag: 'CROSS-CCY', flag: false },
+  { date: '11 MAR', desc: 'TRANSFER — J HARPER ****7504', debit: '3,000.00', credit: '', tag: 'INTERNAL', flag: false },
+  { date: '13 MAR', desc: 'INTL TRANSFER AUD→INR', debit: '5,200.00', credit: '', tag: 'CROSS-CCY', flag: false },
   { date: '14 MAR', desc: 'SPORTSBET DEPOSIT', debit: '500.00', credit: '', tag: 'GAMBLING', flag: false },
   { date: '15 MAR', desc: 'RENT RECEIVED — NEUTRAL BAY', debit: '', credit: '650.00', tag: 'INCOME', flag: false },
 ]

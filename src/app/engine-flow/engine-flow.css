@@ -1156,7 +1156,7 @@
 }
 
 /* Armed by the parent Reveal: the journey loops on a 9s cycle —
-   depart HDFC, dwell + swap currency at Wise, land at ANZ, stamp MATCHED.
+   depart HDFC, dwell + swap currency at the transfer service, land at ANZ, stamp MATCHED.
    Gated on offset-path support: without it the chip would sit at the SVG
    origin, so browsers lacking motion paths keep the static diagram only. */
 @supports (offset-path: path('M 0 0 L 1 1')) {
@@ -1189,7 +1189,7 @@
     offset-distance: 50%;
   }
   50% {
-    /* Dwell at the Wise node while the currency swaps */
+    /* Dwell at the transfer-service node while the currency swaps */
     offset-distance: 50%;
   }
   82% {

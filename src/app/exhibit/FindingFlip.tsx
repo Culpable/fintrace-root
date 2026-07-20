@@ -51,7 +51,7 @@ export default function FindingFlip() {
               </tr>
               <tr>
                 <td>14 JUN 2019</td>
-                <td>TRANSFER TO A/C ···7791</td>
+                <td>TRANSFER TO A/C ···5886</td>
                 <td>$1,200.00</td>
               </tr>
             </tbody>

@@ -84,7 +84,7 @@ const SPECS = [
   {
     index: '05',
     name: 'Cross-account tracing',
-    copy: 'Money followed between related accounts, including cross-currency matches — rupees to Australian dollars through Wise, reconciled line to line.',
+    copy: 'Money followed between related accounts, including cross-currency matches — rupees to Australian dollars through an international money-transfer service, reconciled line to line.',
     tag: 'Analysis',
   },
   {
@@ -189,7 +189,7 @@ export default function EngineTracePage() {
               </h2>
               <p className="eng-lede">
                 The engine maps every account it reads, then follows the money between them — joint account to cash,
-                cash to a related account, onwards through Wise to an overseas ledger. Each hop is dated, valued, and
+                cash to a related account, onwards through an international money transfer to an overseas ledger. Each hop is dated, valued, and
                 cited to its source page.
               </p>
             </Reveal>

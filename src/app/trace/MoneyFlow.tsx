@@ -1,10 +1,10 @@
 /**
  * Cross-currency match diagram - the secondary set-piece.
  *
- * A rupee amount leaves an overseas HDFC account, passes through Wise and
+ * A rupee amount leaves an overseas HDFC account, passes through an international money transfer and
  * lands in an Australian ANZ account as dollars. The amount chip physically
  * travels the dotted route (CSS motion path in SVG user units, so it scales
- * with the viewBox), swaps currency mid-journey at the Wise node, and a
+ * with the viewBox), swaps currency mid-journey at the transfer-service node, and a
  * MATCHED verdict stamps in at arrival. All animation is pure CSS, armed
  * when a parent <Reveal> adds `.is-in`.
  *
@@ -13,7 +13,7 @@
 export default function MoneyFlow() {
   return (
     <div className="mf-wrap">
-      <svg className="mf" viewBox="0 0 520 168" role="img" aria-label="A rupee transfer matched to an Australian dollar deposit via Wise">
+      <svg className="mf" viewBox="0 0 520 168" role="img" aria-label="A rupee transfer matched to an Australian dollar deposit through an international money transfer">
         {/* Dotted route with marching dashes flowing in the money's direction */}
         <path className="mf-path" d="M 46 96 Q 153 30 260 96 Q 367 30 474 96" fill="none" />
 
@@ -22,7 +22,7 @@ export default function MoneyFlow() {
           <circle className="mf-ring" cx="46" cy="96" r="9" />
           <circle className="mf-dot" cx="46" cy="96" r="4.5" />
           <text className="mf-name" x="46" y="122" textAnchor="middle">
-            HDFC ****3321
+            HDFC ****9878
           </text>
           <text className="mf-sub" x="46" y="140" textAnchor="middle">
             OUT ₹15,40,000 · 04 APR
@@ -34,7 +34,7 @@ export default function MoneyFlow() {
           <circle className="mf-ring" cx="260" cy="96" r="9" />
           <circle className="mf-dot" cx="260" cy="96" r="4.5" />
           <text className="mf-name" x="260" y="122" textAnchor="middle">
-            WISE
+            INTL TRANSFER
           </text>
           <text className="mf-sub" x="260" y="140" textAnchor="middle">
             FX 0.01818
@@ -46,7 +46,7 @@ export default function MoneyFlow() {
           <circle className="mf-ring" cx="474" cy="96" r="9" />
           <circle className="mf-dot" cx="474" cy="96" r="4.5" />
           <text className="mf-name" x="474" y="122" textAnchor="middle">
-            ANZ ****4417
+            ANZ ****7504
           </text>
           <text className="mf-sub" x="474" y="140" textAnchor="middle">
             IN A$28,004 · 04 APR

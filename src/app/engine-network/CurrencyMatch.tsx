@@ -2,11 +2,11 @@
  * Cross-currency match — reconstructed. The investigative set-piece, rendered
  * entirely in the engine's obsidian-and-gold language.
  *
- * The A$28,000 Wise hop from the trace above is expanded here: dollars leave
+ * The A$28,000 international-transfer hop from the trace above is expanded here: dollars leave
  * NAB, convert at an exact 65.00 rate and land at HDFC as ₹18,20,000 two days
  * later. The amount chip physically travels the dotted route (CSS motion path
  * in SVG user units, so it scales with the viewBox), swaps currency
- * mid-journey at the Wise node, and a MATCHED plate stamps in at arrival. The
+ * mid-journey at the transfer-service node, and a MATCHED plate stamps in at arrival. The
  * plate sits a clear band above the chip's landing spot so verdict and amount
  * never overlap, and the viewBox carries enough side padding that no station
  * label clips. All animation is pure CSS, armed when the parent <Reveal>
@@ -22,7 +22,7 @@ export default function CurrencyMatch() {
         className="ecm"
         viewBox="0 0 560 200"
         role="img"
-        aria-label="An Australian dollar transfer matched to a rupee deposit via Wise"
+        aria-label="An Australian dollar transfer matched to a rupee deposit through an international money transfer"
       >
         {/* Dotted route with marching dashes flowing in the money's direction */}
         <path className="ecm-path" d="M 76 118 Q 178 52 280 118 Q 382 52 484 118" fill="none" />
@@ -32,7 +32,7 @@ export default function CurrencyMatch() {
           <circle className="ecm-ring" cx="76" cy="118" r="9" />
           <circle className="ecm-dot" cx="76" cy="118" r="4.5" />
           <text className="ecm-name" x="76" y="144" textAnchor="middle">
-            NAB ****1130
+            NAB ****8324
           </text>
           <text className="ecm-sub" x="76" y="162" textAnchor="middle">
             OUT A$28,000 · 02 APR
@@ -44,7 +44,7 @@ export default function CurrencyMatch() {
           <circle className="ecm-ring" cx="280" cy="118" r="9" />
           <circle className="ecm-dot" cx="280" cy="118" r="4.5" />
           <text className="ecm-name" x="280" y="144" textAnchor="middle">
-            WISE
+            INTL TRANSFER
           </text>
           <text className="ecm-sub" x="280" y="162" textAnchor="middle">
             FX 65.00
@@ -56,7 +56,7 @@ export default function CurrencyMatch() {
           <circle className="ecm-ring" cx="484" cy="118" r="9" />
           <circle className="ecm-dot" cx="484" cy="118" r="4.5" />
           <text className="ecm-name" x="484" y="144" textAnchor="middle">
-            HDFC ****3321
+            HDFC ****9878
           </text>
           <text className="ecm-sub" x="484" y="162" textAnchor="middle">
             IN ₹18,20,000 · 04 APR

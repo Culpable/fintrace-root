@@ -60,7 +60,7 @@ const CAPABILITIES = [
   {
     tag: 'Match',
     title: 'Cross-currency tracing',
-    body: 'Foreign transfers paired with their AUD counterparts — a rupee-to-AUD Wise settlement, found and matched.',
+    body: 'Foreign transfers paired with their AUD counterparts — a rupee-to-AUD settlement through an international money-transfer service, found and matched.',
   },
   {
     tag: 'Structure',

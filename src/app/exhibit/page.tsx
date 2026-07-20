@@ -129,10 +129,10 @@ const ANNEXURES = [
   {
     id: 'A-05',
     title: 'Inter-account tracing',
-    body: 'Money is followed between related accounts — including cross-currency matches, such as rupee-to-AUD transfers routed through Wise.',
+    body: 'Money is followed between related accounts — including cross-currency matches, such as rupee-to-AUD transfers routed through an international money-transfer service.',
     specimen: (
       <>
-        ₹ 12,40,000 (WISE)&nbsp;&nbsp;→&nbsp;&nbsp;<b>$22,614.80 AUD — MATCHED</b>
+        ₹ 12,40,000 (INTL TRANSFER)&nbsp;&nbsp;→&nbsp;&nbsp;<b>$22,614.80 AUD — MATCHED</b>
       </>
     ),
   },
@@ -519,7 +519,7 @@ export default function ExhibitPage() {
                 <li id="ex-src-4">
                   <b>4.</b>
                   <span>
-                    Cross-currency example: rupee transfers routed through Wise, matched to their AUD settlement
+                    Cross-currency example: rupee transfers routed through an international money-transfer service, matched to their AUD settlement
                     lines.
                   </span>
                 </li>
