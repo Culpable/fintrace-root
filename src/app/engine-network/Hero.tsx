@@ -107,14 +107,21 @@ export default function Hero() {
       {/* Headline block, lower left, clear of the gate on desktop */}
       <div className="eng-container eng-hero-inner">
         <p className="eng-kicker eng-load" style={loadDelay(100)}>
-          Forensic infrastructure for legal teams
+          <span className="eng-hero-copy-wide">Forensic infrastructure for legal teams</span>
+          <span className="eng-hero-copy-mobile">Forensic analysis for legal teams</span>
         </p>
         <h1 className="eng-display eng-load" style={loadDelay(220)}>
           The evidence <span className="eng-gold-text">engine</span>.
         </h1>
         <p className="eng-lede eng-load" style={loadDelay(360)}>
-          FinTrace turns thousands of pages of bank statements - any bank, any format, scanned or born-digital - into
-          structured, source-linked evidence that stands up in court.
+          <span className="eng-hero-copy-wide">
+            FinTrace turns thousands of pages of bank statements - any bank, any format, scanned or born-digital - into
+            structured, source-linked evidence that stands up in court.
+          </span>
+          <span className="eng-hero-copy-mobile">
+            FinTrace turns thousands of bank-statement pages into structured, source-linked evidence, ready for legal
+            review.
+          </span>
         </p>
         <div className="eng-hero-ctas eng-load" style={loadDelay(500)}>
           <Link className="eng-btn-gold" href="/contact/">

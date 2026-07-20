@@ -472,6 +472,12 @@
   max-width: 33rem;
 }
 
+/* Keep the compact copy alternatives out of every non-mobile render and out
+   of the accessibility tree until the matching breakpoint displays them. */
+.dsn-engine-network .eng-hero-copy-mobile {
+  display: none;
+}
+
 .dsn-engine-network .eng-hero-ctas {
   display: flex;
   flex-wrap: wrap;
@@ -1126,14 +1132,86 @@
     display: none;
   }
 
+  /* Let the homepage hero own the single mobile conversion action. Sub-page
+     headers retain their assessment button because they have no hero CTA. */
+  .dsn-engine-network .eng-header-hero .eng-header-nav {
+    display: none;
+  }
+
   /* Touch context: the header CTA's own box must reach the 44px minimum
      (its overflow:hidden sheen clips pseudo-element extensions) */
   .dsn-engine-network .eng-btn-sm {
     padding: 0.95rem 1.25rem;
   }
 
+  /* Translate only the phone canvas and its compact fallback. The compact
+     Three.js branch also serves portrait tablets, so keeping this paint-only
+     shift below 768px preserves every non-mobile scene projection. */
+  .dsn-engine-network .eng-hero {
+    --eng-mobile-scene-shift: clamp(3rem, 12vw, 3.5rem);
+  }
+
+  .dsn-engine-network .eng-scene-mount canvas,
+  .dsn-engine-network .eng-fallback-compact {
+    transform: translateX(var(--eng-mobile-scene-shift));
+  }
+
+  /* Move the fallback glow with the gate so the first-paint SVG and WebGL
+     frame cross-fade without a visible horizontal jump. */
+  .dsn-engine-network .eng-hero-fallback {
+    background:
+      radial-gradient(
+        ellipse 55% 45% at calc(50% - 8.2svh + var(--eng-mobile-scene-shift)) 47%,
+        rgba(212, 169, 78, 0.13),
+        transparent 70%
+      ),
+      radial-gradient(ellipse 90% 60% at 50% 110%, rgba(23, 19, 16, 0.9), transparent),
+      var(--obsidian);
+  }
+
+  /* Build a dark reading pocket across the copy band while leaving the
+     translated right-hand network visible as atmosphere rather than noise.
+     Fade the final edge back into obsidian so off-canvas labels disappear
+     deliberately instead of ending on a hard clip. */
+  .dsn-engine-network .eng-hero-scrim {
+    background:
+      linear-gradient(90deg, transparent 82%, rgba(13, 11, 9, 0.88) 100%),
+      radial-gradient(ellipse 32rem 26rem at 16% 48%, rgba(13, 11, 9, 0.82), transparent 76%),
+      linear-gradient(180deg, rgba(13, 11, 9, 0.68) 0%, rgba(13, 11, 9, 0.18) 20%, rgba(13, 11, 9, 0.58) 54%, rgba(13, 11, 9, 0.92) 84%),
+      linear-gradient(90deg, rgba(13, 11, 9, 0.9) 0%, rgba(13, 11, 9, 0.72) 64%, rgba(13, 11, 9, 0.2) 100%);
+  }
+
   .dsn-engine-network .eng-hero-inner {
-    padding-bottom: 11rem;
+    padding-bottom: clamp(7rem, 16svh, 11rem);
+  }
+
+  .dsn-engine-network .eng-hero-copy-wide {
+    display: none;
+  }
+
+  .dsn-engine-network .eng-hero-copy-mobile {
+    display: inline;
+  }
+
+  .dsn-engine-network .eng-hero .eng-kicker {
+    letter-spacing: 0.14em;
+    white-space: nowrap;
+  }
+
+  .dsn-engine-network .eng-hero-inner .eng-lede {
+    color: rgba(243, 236, 221, 0.8);
+  }
+
+  .dsn-engine-network .eng-hero-ctas {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .dsn-engine-network .eng-hero-ctas > a {
+    width: 100%;
+    text-align: center;
   }
 
   .dsn-engine-network .eng-hero-strip {
@@ -1144,6 +1222,30 @@
 
   .dsn-engine-network .eng-scroll-cue {
     display: none;
+  }
+}
+
+@media (max-width: 374px) {
+  /* Preserve the approved one-line mobile kicker at the narrow-phone edge.
+     Compress its engraved lead, tracking and type together so the complete
+     audience statement fits without changing the 375px+ composition. */
+  .dsn-engine-network .eng-hero .eng-kicker {
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+  }
+
+  .dsn-engine-network .eng-hero .eng-kicker::before {
+    width: 1.25rem;
+    margin-right: 0.5rem;
+  }
+
+  /* Keep both conversion labels on one line so their stacked controls and
+     the complete evidence strip remain inside a 690px-tall phone viewport.
+     Retain the 1rem block padding so each control still exceeds 44px. */
+  .dsn-engine-network .eng-hero-ctas > a {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    padding-inline: 0.75rem;
   }
 }
 

@@ -2,12 +2,14 @@ import Link from 'next/link'
 
 type SiteHeaderProps = {
   contactHref?: string
+  /** Mark the homepage overlay so its duplicate CTA can yield to the hero CTA on phones. */
+  hero?: boolean
 }
 
 /** Render the production sub-page header with stable links into the public site. */
-export function SiteHeader({ contactHref = '/contact/' }: SiteHeaderProps) {
+export function SiteHeader({ contactHref = '/contact/', hero = false }: SiteHeaderProps) {
   return (
-    <header className="eng-header">
+    <header className={hero ? 'eng-header eng-header-hero' : 'eng-header'}>
       <Link href="/" className="eng-wordmark" aria-label="FinTrace home">
         <span>Fin</span>
         <span className="eng-wordmark-bar" aria-hidden="true" />

@@ -132,7 +132,7 @@ type EngineNetworkPageProps = {
 export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPageProps) {
   return (
     <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
-      <SiteHeader />
+      <SiteHeader hero />
       <main>
         <Hero />
 

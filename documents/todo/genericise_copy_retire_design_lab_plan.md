@@ -150,7 +150,7 @@ The site reads as tailored to one conversation and one buyer (a government legal
 
 ---
 
-## 5. Implementation Plan
+`## 5. Implementation Plan
 
 ### ~~Step 1: Production prose edits (government/pricing/case-study language)~~ ✅ **COMPLETED**
 
