@@ -36,22 +36,22 @@ const STAGES = [
   {
     numeral: '01',
     name: 'Intake',
-    copy: 'Bulk PDFs in any order, from any bank - scanned paper and born-digital alike. No pre-sorting, no templates: the engine reads bank, account holder and dates itself.',
+    copy: 'You hand over the statements exactly as you hold them — no sorting, no renaming, no templates. The engine works out the bank, the account holder and the dates on its own.',
   },
   {
     numeral: '02',
     name: 'Extraction',
-    copy: 'Thousands of pages become one structured Excel ledger: file name, person, date, financial year, description, debit and credit, amount, category.',
+    copy: 'Thousands of pages collapse into one structured Excel ledger: every transaction from every account, entered, dated and reconciled in a single workbook.',
   },
   {
     numeral: '03',
     name: 'Analysis',
-    copy: 'The engine looks deeper: cash-withdrawal patterns, gambling and crypto activity, transfers between related accounts and cross-currency matches.',
+    copy: 'The engine reads for meaning, not just data — spending patterns, anomalies, and money moving between related accounts and across currencies.',
   },
   {
     numeral: '04',
     name: 'Findings',
-    copy: 'A written findings report in which every finding cites the exact source page. Human-verifiable, court-ready: evidence, not output.',
+    copy: 'A written findings report — every finding cited to the exact source page it came from. Human-verifiable, court-ready: evidence, not output.',
   },
 ]
 
@@ -72,7 +72,7 @@ const SPECS = [
   {
     index: '03',
     name: 'Auto-categorisation',
-    copy: 'Every line classified - Woolworths to groceries - so the ledger is ready to filter, pivot and interrogate the day it arrives.',
+    copy: 'Every line classified — Woolworths to groceries — so the ledger is ready to filter, pivot and interrogate the day it arrives.',
     tag: 'Analysis',
   },
   {
@@ -84,7 +84,7 @@ const SPECS = [
   {
     index: '05',
     name: 'Cross-account tracing',
-    copy: 'Money followed between related accounts, including cross-currency matches: Australian dollars to euros through an international money-transfer service, reconciled line to line.',
+    copy: 'Money followed between related accounts, including cross-currency matches: Australian dollars to euros through an international transfer, reconciled line to line.',
     tag: 'Analysis',
   },
   {
@@ -172,9 +172,9 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 Every line entered. <span className="eng-gold-text">Every line sourced.</span>
               </h2>
               <p className="eng-lede">
-                The story starts with structure: thousands of pages become one ledger. Watch the engine work:
-                statement lines entered, categorised and reconciled - and the one that warrants attention flagged,
-                with its source page attached.
+                Before anything can be proven, it has to be structured. Thousands of pages become one ledger — every
+                line entered, categorised and reconciled, and the one that warrants attention flagged with its source
+                page attached.
               </p>
             </Reveal>
             <Reveal delay={120}>
@@ -191,12 +191,12 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
             <Reveal className="eng-section-head">
               <p className="eng-kicker">The evidence, connected</p>
               <h2 className="eng-h2">
-                Every account. <span className="eng-gold-text">One thread of evidence.</span>
+                Every account. <span className="eng-gold-text">One trail of evidence.</span>
               </h2>
               <p className="eng-lede">
-                From that ledger the engine maps every account it reads, then follows the money between them: joint
-                account to cash, cash to a related account, onwards through an international money transfer to an overseas account. Each hop is
-                dated, valued and cited to its source page.
+                Bank statements show each account in isolation. The engine connects them, following the money from one
+                account to the next — through cash, related accounts and international transfers. Every hop is dated,
+                valued and cited to its source page.
               </p>
             </Reveal>
             <Reveal className="eng-plate eng-tnet-plate" delay={120}>
@@ -209,7 +209,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
         </section>
 
         {/* ----------------------- Cross-currency match ---------------------
-            Act three: the thread holds even where the money changes currency */}
+            Act three: the trail holds even where the money changes currency */}
         <section className="eng-section eng-cv" id="match">
           <div className="eng-container">
             <Reveal className="eng-section-head">
@@ -218,8 +218,9 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 Same funds. <span className="eng-gold-text">Two currencies. One match.</span>
               </h2>
               <p className="eng-lede">
-                And the thread holds even where the trail changes currency: the dollars that left Australia are
-                matched to the euros that landed overseas two days later, down to the exchange rate.
+                A transfer that changes currency is where most trails go cold. This one doesn’t: the dollars leaving
+                Australia are matched to the euros that arrive overseas two days later, with the amount and the exchange
+                rate reconciled on both sides.
               </p>
             </Reveal>
             <Reveal className="eng-plate eng-ecm-plate" delay={120}>
@@ -236,7 +237,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
               <h2 className="eng-h2">Built to withstand scrutiny.</h2>
               <p className="eng-lede">
                 Trust is the entire product. Each capability exists so a finding can be put in front of a senior lawyer,
-                opposing counsel - or a court - and hold.
+                opposing counsel — or a court — and hold.
               </p>
             </Reveal>
             <div className="eng-specs">

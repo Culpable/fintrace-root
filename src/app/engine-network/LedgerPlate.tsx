@@ -84,11 +84,11 @@ export default function LedgerPlate() {
     <figure className="eng-lt" ref={ref}>
       {/* Masthead: exhibit designation + rotating status caption */}
       <div className="eng-lt-mast">
-        <span className="eng-lt-label">Extract - consolidated statement lines</span>
+        <span className="eng-lt-label">Extract — consolidated statement lines</span>
         <span className="eng-lt-status" aria-hidden="true">
           <span className="eng-lt-s1">Entering statement lines</span>
           <span className="eng-lt-s2">Categorising</span>
-          <span className="eng-lt-s3">Reconciled - one line flagged</span>
+          <span className="eng-lt-s3">Reconciled — one line flagged</span>
         </span>
       </div>
 
@@ -122,7 +122,7 @@ export default function LedgerPlate() {
               <svg className="eng-lt-flag" aria-hidden="true">
                 <rect pathLength={1} />
               </svg>
-              <p className="eng-lt-note">flagged - see source, p. 214</p>
+              <p className="eng-lt-note">flagged — see source, p. 214</p>
             </>
           )}
         </div>
@@ -130,7 +130,7 @@ export default function LedgerPlate() {
 
       {/* Double-gold closing rule: the ledger agrees with itself */}
       <div className="eng-lt-total">
-        <span className="eng-lt-total-label">Closing balance - reconciled to source</span>
+        <span className="eng-lt-total-label">Closing balance — reconciled to source</span>
         <span className="eng-lt-total-value">13,098.05</span>
       </div>
 

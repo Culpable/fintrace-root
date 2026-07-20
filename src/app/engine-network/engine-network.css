@@ -162,7 +162,14 @@
   color: var(--grey-warm);
   font-size: clamp(1.02rem, 1.4vw, 1.2rem);
   line-height: 1.65;
-  max-width: 34rem;
+  /* Hold the lede to a controlled reading measure rather than the container
+     width: at the full ~68rem inner width a line runs ~110 characters, well
+     past the point the eye tracks reliably back to the next line. 52rem
+     (~85 characters) is the generous end of the comfortable band — long
+     enough not to read as a pinched column beneath the wider heading, short
+     enough to stay readable when the copy runs to three or four lines. The
+     hero and CTA ledes keep their own tighter overrides below. */
+  max-width: 52rem;
   margin-top: 1.4rem;
 }
 
@@ -569,7 +576,10 @@
 }
 
 .dsn-engine-network .eng-section-head {
-  max-width: 46rem;
+  /* Headings read at a glance, so they are not held to the body measure: let
+     kicker + h2 run to the container edge (bounded by .eng-container at 74rem)
+     rather than a 46rem cap that broke short headings onto a stingy second
+     line. The lede nested here keeps its own tighter reading measure below. */
   margin-bottom: clamp(2.8rem, 6vw, 4.5rem);
 }
 

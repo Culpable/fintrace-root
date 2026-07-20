@@ -108,8 +108,8 @@ export default function EngagementPage() {
                 <article className="eng-card">
                   <h3>The ledger</h3>
                   <p>
-                    One Excel workbook holding every transaction - file name, person, date, financial year, description,
-                    debit and credit, amount, category - with every line categorised and ready to interrogate.
+                    One Excel workbook holding every transaction — file name, person, date, financial year, description,
+                    debit and credit, amount, category — with every line categorised and ready to interrogate.
                   </p>
                 </article>
               </Reveal>
@@ -137,7 +137,7 @@ export default function EngagementPage() {
             </Reveal>
             <Reveal className="eng-eg-prose" delay={90}>
               <p>
-                The engagement is quoted in writing before any work starts, scaled to the size of the matter - so you see
+                The engagement is quoted in writing before any work starts, scaled to the size of the matter — so you see
                 the full shape of the cost before committing.
               </p>
             </Reveal>

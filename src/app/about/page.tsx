@@ -56,8 +56,8 @@ export default function AboutPage() {
             <Reveal className="eng-ab-prose" delay={90}>
               <p>
                 Document-heavy matters arrive as paper: thousands of pages of statements, accounts by the dozen,
-                histories running back a decade or more. In one recent matter - dozens of accounts, more than a decade
-                of statements - the manual review was estimated at fifty hours of lawyer time. The engine delivered the
+                histories running back a decade or more. In one recent matter — dozens of accounts, more than a decade
+                of statements — the manual review was estimated at fifty hours of lawyer time. The engine delivered the
                 ledger and the findings in about ten.
               </p>
               <p>

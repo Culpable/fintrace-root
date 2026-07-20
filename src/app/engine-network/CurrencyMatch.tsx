@@ -17,7 +17,7 @@
 export default function CurrencyMatch() {
   return (
     <div className="ecm-wrap">
-      <p className="ecm-kicker">Cross-currency match - reconstructed</p>
+      <p className="ecm-kicker">Cross-currency match — reconstructed</p>
       <svg
         className="ecm"
         viewBox="0 0 560 200"
