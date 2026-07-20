@@ -25,7 +25,7 @@ const STEPS = [
   {
     numeral: '02',
     name: 'Assessment',
-    copy: 'We confirm the engine fits the matter and quote the engagement in writing: the flat fee and the per-page rate.',
+    copy: 'We confirm the engine fits the matter and quote the engagement in writing.',
   },
   {
     numeral: '03',
@@ -48,11 +48,11 @@ export default function EngagementPage() {
           <div className="eng-container">
             <p className="eng-kicker">Engagement &amp; pricing</p>
             <h1 className="eng-page-h1">
-              A flat fee to engage. <span className="eng-gold-text">Per-page from there.</span>
+              Engaged per matter. <span className="eng-gold-text">Quoted up front.</span>
             </h1>
             <p className="eng-lede">
-              No subscriptions, no licences, no minimum term. FinTrace is engaged per matter: a flat engagement fee plus
-              per-page pricing, quoted in writing once the matter is scoped.
+              No subscriptions, no licences, no minimum term. FinTrace is engaged per matter, quoted in writing once the
+              matter is scoped.
             </p>
           </div>
         </section>
@@ -137,9 +137,8 @@ export default function EngagementPage() {
             </Reveal>
             <Reveal className="eng-eg-prose" delay={90}>
               <p>
-                Two numbers, agreed in writing before any work starts: a flat engagement fee and a per-page rate for the
-                statements processed. Both follow the initial assessment, so procurement sees the full shape of the cost
-                before committing.
+                The engagement is quoted in writing before any work starts, scaled to the size of the matter - so you see
+                the full shape of the cost before committing.
               </p>
             </Reveal>
           </div>
@@ -151,7 +150,7 @@ export default function EngagementPage() {
               <span className="eng-cta-sheen" aria-hidden="true" />
               <p className="eng-kicker">Start a matter</p>
               <h2 className="eng-h2">
-                Two numbers. <span className="eng-gold-text">One enquiry away.</span>
+                One quote. <span className="eng-gold-text">One enquiry away.</span>
               </h2>
               <div className="eng-hero-ctas">
                 <Link className="eng-btn-gold eng-btn-loop" href="/contact/">

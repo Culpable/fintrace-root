@@ -29,7 +29,7 @@ export const pageMetadata = {
   engagement: {
     title: 'Engagement & pricing',
     description:
-      'FinTrace is engaged per matter - AI-assisted analysis at a flat fee plus per-page pricing, quoted after an initial assessment. No licences, no subscriptions.',
+      'FinTrace is engaged per matter - AI-assisted analysis quoted in writing after an initial assessment. No licences, no subscriptions.',
   },
   contact: {
     title: 'Contact',

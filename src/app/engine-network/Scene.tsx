@@ -162,7 +162,7 @@ function makeLabelTexture(label: string): THREE.CanvasTexture {
  * Constellation data — the money network the gate assembles.
  *
  * ANZ is the hub; spokes fan out to the counterparties the engine traces:
- * the transfer service (and through it the overseas HDFC account), a second domestic bank
+ * the transfer service (and through it the overseas Deutsche Bank account), a second domestic bank
  * chain with a crypto off-ramp, a card account — and the flagged CASH ATM
  * hop, which renders in restrained crimson.
  *
@@ -196,9 +196,9 @@ const NODES_DESKTOP: NetNode[] = [
   { label: 'CASH ATM', slot: [2.6, -1.6, 0], labelOffset: [0, -0.38], flag: true }, // thread above → label below
   { label: 'AMEX ··8772', slot: [1.45, -1.3, -0.35], labelOffset: [0, -0.38] }, // thread above → label below
   // The two crown nodes sit well apart (round-four follow-up: NAB moved
-  // right and deeper, HDFC left and higher, so NAB's plate clears HDFC's
+  // right and deeper, Deutsche Bank left and higher, so NAB's plate clears the Deutsche account's
   // ring by a full plate-height even under maximum camera parallax)
-  { label: 'HDFC ··9878', slot: [2.35, 2.55, -0.9], labelOffset: [0, 0.38] }, // thread below → label above
+  { label: 'DEUTSCHE ··9878', slot: [2.35, 2.55, -0.9], labelOffset: [0, 0.38] }, // thread below → label above
   { label: 'NAB ··8324', slot: [3.4, 2, -1.5], labelOffset: [0, 0.38] }, // thread below → label above
   { label: 'BTC WALLET', slot: [3.45, -0.55, -1.1], labelOffset: [0, -0.38] }, // thread above → label below
 ]
@@ -209,7 +209,7 @@ const EDGES_DESKTOP: Array<[number, number]> = [
   [0, 2], // ANZ → CBA
   [0, 3], // ANZ → CASH ATM — the flagged hop, rendered crimson
   [0, 4], // ANZ → AMEX
-  [1, 5], // INTL TRANSFER → HDFC
+  [1, 5], // INTL TRANSFER → Deutsche Bank
   [2, 6], // CBA → NAB
   [2, 7], // CBA → BTC WALLET — routed off the CBA branch so no threads cross
 ]
@@ -224,7 +224,7 @@ const NODES_MOBILE: NetNode[] = [
   { label: 'INTL TRANSFER', slot: [0.5, 1.8, -0.5], labelOffset: [-0.73, 0] }, // threads right → label left
   { label: 'CBA ··5826', slot: [1.95, 1.7, -0.6], labelOffset: [0, 0.38] }, // thread below-left → label above
   { label: 'CASH ATM', slot: [0.65, -0.75, 0.1], labelOffset: [0, -0.38], flag: true }, // thread above → label below
-  { label: 'HDFC ··9878', slot: [1.55, 2.75, -0.9], labelOffset: [0, 0.38] }, // thread below → label above
+  { label: 'DEUTSCHE ··9878', slot: [1.55, 2.75, -0.9], labelOffset: [0, 0.38] }, // thread below → label above
 ]
 
 const EDGES_MOBILE: Array<[number, number]> = [
@@ -385,7 +385,7 @@ export default function EvidenceScene({ onReady }: SceneProps) {
       net.position.y = GATE_Y * (1 - fit)
       // Preserve uniform ring/plate growth while gently compressing only the
       // vertical slot positions on short-wide screens. At the 1.3 cap the
-      // position factor reaches 0.95, keeping HDFC below the fixed navigation
+      // position factor reaches 0.95, keeping Deutsche Bank below the fixed navigation
       // without changing any canonical aspect-1.6 slot.
       const verticalPositionFit = fit > 1 ? Math.max(0.95, 1 - (fit - 1) / 6) : fit
       netVerticalPositionRatio = verticalPositionFit / fit

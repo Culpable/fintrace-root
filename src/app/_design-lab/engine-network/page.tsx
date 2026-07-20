@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import EngineNetworkPage from './EngineNetworkPage'
+import EngineNetworkPage from '../../engine-network/EngineNetworkPage'
 import { internalRobots } from '../internal-design-metadata'
 import './internal-engine-network.css'
 

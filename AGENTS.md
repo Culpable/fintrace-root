@@ -18,14 +18,13 @@
 - Use Server Components by default. Put hooks, browser APIs, and interactivity in separate colocated Client Components with `'use client'`.
 - Preserve `output: 'export'`, `images.unoptimized: true`, and `trailingSlash: true`: no server actions, API routes, dynamic runtime APIs, runtime image optimisation, or network visual assets. Use CSS, inline SVG, canvas, or generated WebGL textures.
 - The contact form's browser-side POST to `https://formspree.io/f/<id>` is the approved runtime network exception. The public form ID is not a secret; keep credentials and private keys out of the repository.
-- Keep site identity, default and per-page titles, descriptions and social metadata in `src/lib/metadata.ts`; production page and layout metadata must consume that single source.
+- Keep site identity, default and route-specific titles, descriptions and social metadata in `src/lib/metadata.ts`; production page and layout metadata must consume that single source.
 - Keep the single social-share image at `public/images/og/fintrace-og.png`. It is a static export artefact fetched by social crawlers, not a runtime page visual or network asset.
 - Keep browser identity assets at `src/app/icon.svg`, `src/app/favicon.ico` and `src/app/apple-icon.png`. They are static-export browser-chrome artefacts, not page-rendered visuals or runtime network assets.
-- Keep lab candidates' visual systems in `src/app/<route>/`: `page.tsx`, `fonts.ts`, `<route>.css`, and colocated components, with CSS scoped beneath `.dsn-<route>`. Production routes (`/`, `/about/`, `/engagement/`, `/contact/` and the root `not-found`) share `.dsn-engine-network`; scope additions with `eng-ab-`, `eng-eg-`, `eng-ct-`, `eng-nf-` or shared `eng-page-` prefixes. Keep `globals.css` and `layout.tsx` minimal and neutral.
-- Keep the production Engine Network homepage at `src/app/page.tsx`. Keep the neutral gallery in `src/app/internal-design/` so it does not bias comparison.
-- Keep `/internal-design/` and every candidate route public but unlinked from production navigation, excluded from the sitemap, and marked `noindex`; this policy is not access control.
+- Keep retired lab candidates and the neutral comparison gallery archived under `src/app/_design-lab/`. This Next.js private folder is unrouted but remains type-checked. Preserve each candidate’s visual system in its own folder with CSS scoped beneath `.dsn-<route>`. To revive a candidate, move its folder back under `src/app/` and review its intentionally preserved seeded copy before serving it. Production routes (`/`, `/about/`, `/engagement/`, `/contact/` and the root `not-found`) share `.dsn-engine-network`; scope additions with `eng-ab-`, `eng-eg-`, `eng-ct-`, `eng-nf-` or shared `eng-page-` prefixes. Keep `globals.css` and `layout.tsx` minimal and neutral.
+- Keep the production Engine Network homepage at `src/app/page.tsx`. Keep its shared production visual system in `src/app/engine-network/`; only the retired comparison wrapper belongs in `src/app/_design-lab/engine-network/`.
 - Load fonts per route with `next/font/google`. Do not introduce Inter, Roboto, Arial, or system-default fonts.
-- Import `three` only from `src/app/engine*/Scene.tsx` through the colocated client hero's dynamic import.
+- Import `three` only from `src/app/engine-network/Scene.tsx` in production and archived `src/app/_design-lab/engine*/Scene.tsx` modules, always through the colocated client hero’s dynamic import.
 - Prefix every `@keyframes` name uniquely per route because keyframe names are document-global during client navigation.
 - Prefer transform/opacity animation, IntersectionObserver reveals, and passive listeners. Pause rAF/WebGL when hidden or offscreen, cap canvas DPR at 2, dispose Three.js resources, and retain a static WebGL fallback.
 - Do not edit generated `.next/` or `out/` files.
@@ -87,7 +86,7 @@ The Engine Network production design is selected. Keep `DESIGN.md` truthful in t
 | --- | --- | --- | --- |
 | Application | Next.js App Router, React, TypeScript | Static routes and interactivity | `package.json`, `next.config.ts` |
 | Styling | Tailwind CSS v4 and route CSS | Isolated systems; no `tailwind.config` | `postcss.config.mjs`, `src/app/` |
-| 3D | Three.js | Evidence Engine scenes | `package.json`, `src/app/engine*/Scene.tsx` |
+| 3D | Three.js | Evidence Engine scenes | `package.json`, `src/app/engine-network/Scene.tsx`, `src/app/_design-lab/engine*/Scene.tsx` |
 
 </technology_stack>
 

@@ -66,7 +66,7 @@ const NODES: GraphNode[] = [
   { id: 1, label: 'CASH', x: 0.28, y: 0.14, onPath: true, flagged: true, labelSide: 'above' },
   { id: 2, label: 'NAB ****8324', x: 0.46, y: 0.34, onPath: true, labelDx: -60, mobileLabelDy: 12 },
   { id: 3, label: 'INTL TRANSFER', x: 0.63, y: 0.62, onPath: true, labelDx: 20, mobileLabelDx: 30 },
-  { id: 4, label: 'HDFC ****9878 · INR', x: 0.87, y: 0.44, onPath: true, labelSide: 'above', mobileLabelDx: -25 },
+  { id: 4, label: 'DEUTSCHE ****9878 · EUR', x: 0.87, y: 0.44, onPath: true, labelSide: 'above', mobileLabelDx: -25 },
   { id: 5, label: 'ANZ ****7504', x: 0.24, y: 0.66, hideOnMobile: true },
   { id: 6, label: 'WBC ****3897', x: 0.48, y: 0.82, hideOnMobile: true },
   { id: 7, label: 'CRYPTO EXCH', x: 0.72, y: 0.16, hideOnMobile: true },
@@ -117,7 +117,7 @@ const ANNOTATIONS: TraceAnnotation[] = [
     hideOnMobile: false,
   },
   {
-    text: '₹18,20,000 · 04 APR 2024 · FX MATCH',
+    text: '€16,800 · 04 APR 2024 · FX MATCH',
     dx: -48,
     dy: 22,
     mobileDx: -140,

@@ -31,7 +31,7 @@ type LedgerLine = {
 }
 
 /** Seven verified statement lines; the running balances reconcile exactly
- *  (23,965.59 → 13,098.05) and demonstrate the real capability set. */
+ *  (23,965.59 → −9,701.95) and demonstrate the real capability set. */
 const LINES: LedgerLine[] = [
   { date: '03 Mar 24', desc: 'WOOLWORTHS 3646 CHATSWOOD', amount: '−214.63', balance: '23,965.59', chip: 'Groceries' },
   { date: '04 Mar 24', desc: 'TRANSFER TO J HARPER - NETBANK', amount: '−3,000.00', balance: '20,965.59', chip: 'Related acct' },
@@ -51,9 +51,9 @@ const LINES: LedgerLine[] = [
     balance: '19,878.49',
     chip: 'Income',
   },
-  { date: '13 Mar 24', desc: 'INTL TRANSFER AUD→INR REF 8991', amount: '−5,200.00', balance: '14,678.49', chip: 'Cross-currency' },
-  { date: '18 Mar 24', desc: 'SPORTSBET DEPOSIT 0645', amount: '−400.00', balance: '14,278.49', chip: 'Gambling' },
-  { date: '21 Mar 24', desc: 'BPAY - STRATA PLAN 38254', amount: '−1,180.44', balance: '13,098.05', chip: 'Property' },
+  { date: '18 Mar 24', desc: 'SPORTSBET DEPOSIT 0645', amount: '−400.00', balance: '19,478.49', chip: 'Gambling' },
+  { date: '21 Mar 24', desc: 'BPAY - STRATA PLAN 38254', amount: '−1,180.44', balance: '18,298.05', chip: 'Property' },
+  { date: '02 Apr 24', desc: 'INTL TRANSFER AUD→EUR REF 8991', amount: '−28,000.00', balance: '−9,701.95', chip: 'Cross-currency' },
 ]
 
 export default function LedgerPlate() {

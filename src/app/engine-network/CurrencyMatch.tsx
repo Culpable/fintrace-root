@@ -3,7 +3,7 @@
  * entirely in the engine's obsidian-and-gold language.
  *
  * The A$28,000 international-transfer hop from the trace above is expanded here: dollars leave
- * NAB, convert at an exact 65.00 rate and land at HDFC as ₹18,20,000 two days
+ * NAB, convert at an exact 0.6000 rate and land at Deutsche Bank as €16,800 two days
  * later. The amount chip physically travels the dotted route (CSS motion path
  * in SVG user units, so it scales with the viewBox), swaps currency
  * mid-journey at the transfer-service node, and a MATCHED plate stamps in at arrival. The
@@ -22,7 +22,7 @@ export default function CurrencyMatch() {
         className="ecm"
         viewBox="0 0 560 200"
         role="img"
-        aria-label="An Australian dollar transfer matched to a rupee deposit through an international money transfer"
+        aria-label="An Australian dollar transfer matched to a euro deposit through an international money transfer"
       >
         {/* Dotted route with marching dashes flowing in the money's direction */}
         <path className="ecm-path" d="M 76 118 Q 178 52 280 118 Q 382 52 484 118" fill="none" />
@@ -47,7 +47,7 @@ export default function CurrencyMatch() {
             INTL TRANSFER
           </text>
           <text className="ecm-sub" x="280" y="162" textAnchor="middle">
-            FX 65.00
+            FX 0.6000
           </text>
         </g>
 
@@ -56,21 +56,21 @@ export default function CurrencyMatch() {
           <circle className="ecm-ring" cx="484" cy="118" r="9" />
           <circle className="ecm-dot" cx="484" cy="118" r="4.5" />
           <text className="ecm-name" x="484" y="144" textAnchor="middle">
-            HDFC ****9878
+            DEUTSCHE ****9878
           </text>
           <text className="ecm-sub" x="484" y="162" textAnchor="middle">
-            IN ₹18,20,000 · 04 APR
+            IN €16,800 · 04 APR
           </text>
         </g>
 
-        {/* The travelling amount chip: dollars out, rupees in */}
+        {/* The travelling amount chip: dollars out, euros in */}
         <g className="ecm-chip">
           <rect x="-48" y="-40" width="96" height="24" rx="3" />
           <text className="ecm-amt ecm-amt-out" x="0" y="-23" textAnchor="middle">
             A$28,000
           </text>
           <text className="ecm-amt ecm-amt-in" x="0" y="-23" textAnchor="middle">
-            ₹18,20,000
+            €16,800
           </text>
         </g>
 

@@ -669,7 +669,7 @@
 
 .dsn-engine-network .eng-spec {
   display: grid;
-  grid-template-columns: 4rem 1fr 1.45fr auto;
+  grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 1.45fr) 5.4rem;
   gap: 1.6rem;
   align-items: baseline;
   padding: 1.6rem 0;
@@ -725,9 +725,12 @@
   text-transform: uppercase;
   color: var(--gold-deep);
   border: 1px solid var(--hairline-dim);
-  padding: 0.35em 0.8em;
+  /* Offset Fragment Mono’s high visual baseline while preserving the badge’s
+     existing total height and its alignment with the other row columns. */
+  padding: 0.45em 0.8em 0.25em;
   border-radius: 2px;
   white-space: nowrap;
+  justify-self: start;
 }
 
 /* ----------------------------- Engraved plate --------------------------- */
@@ -1259,7 +1262,7 @@
 }
 
 /* Armed by the parent Reveal: the journey loops on a 9s cycle —
-   depart NAB, dwell + swap currency at the transfer service, land at HDFC, stamp MATCHED.
+   depart NAB, dwell + swap currency at the transfer service, land at Deutsche Bank, stamp MATCHED.
    Gated on offset-path support: without it the chip would sit at the SVG
    origin, so browsers lacking motion paths keep the static diagram only. */
 @supports (offset-path: path('M 0 0 L 1 1')) {

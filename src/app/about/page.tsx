@@ -50,22 +50,22 @@ export default function AboutPage() {
             <Reveal className="eng-section-head">
               <p className="eng-kicker">In practice</p>
               <h2 className="eng-h2">
-                One live matter. <span className="eng-gold-text">A fifth of the time.</span>
+                One recent matter. <span className="eng-gold-text">A fifth of the time.</span>
               </h2>
             </Reveal>
             <Reveal className="eng-ab-prose" delay={90}>
               <p>
                 Document-heavy matters arrive as paper: thousands of pages of statements, accounts by the dozen,
-                histories running back a decade or more. In one live property matter - about fifty accounts and fifteen
-                years of statements - the manual review was estimated at fifty hours of lawyer time. The engine
-                delivered the ledger and the findings in about ten.
+                histories running back a decade or more. In one recent matter - dozens of accounts, more than a decade
+                of statements - the manual review was estimated at fifty hours of lawyer time. The engine delivered the
+                ledger and the findings in about ten.
               </p>
               <p>
                 Those findings closely matched the analysis the instructing lawyer prepared independently, at a fifth of
                 the time, and every finding cited the source page it came from.
               </p>
               <p className="eng-page-strip eng-ab-strip">
-                ≈50 hrs estimated · ≈10 delivered · ≈50 accounts · 15 yrs of statements
+                ≈50 hrs estimated · ≈10 delivered · every finding cited to source
               </p>
             </Reveal>
           </div>
@@ -82,12 +82,12 @@ export default function AboutPage() {
             <Reveal className="eng-ab-prose" delay={90}>
               <p>
                 FinTrace is engaged the way you’d brief a forensic accountant, not the way you’d buy software. There’s
-                no platform to procure, no seats to license and no training to roll out: you send the statements and
+                no platform to adopt, no seats to license and no training to roll out: you send the statements and
                 the engine does the work.
               </p>
               <p>
-                Per-matter engagement suits government procurement and private practice alike: one flat engagement fee,
-                one per-page rate, scoped in writing before the work begins.
+                Each matter is scoped and quoted in writing before the work begins, so the cost is known before anything
+                is committed.
               </p>
             </Reveal>
           </div>

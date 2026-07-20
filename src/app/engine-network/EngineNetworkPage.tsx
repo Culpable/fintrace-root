@@ -84,7 +84,7 @@ const SPECS = [
   {
     index: '05',
     name: 'Cross-account tracing',
-    copy: 'Money followed between related accounts, including cross-currency matches: Australian dollars to rupees through an international money-transfer service, reconciled line to line.',
+    copy: 'Money followed between related accounts, including cross-currency matches: Australian dollars to euros through an international money-transfer service, reconciled line to line.',
     tag: 'Analysis',
   },
   {
@@ -104,8 +104,8 @@ const AUDIENCES = [
     featured: true,
   },
   {
-    name: 'Public trustees & government legal',
-    copy: 'Engaged per matter as a specialist provider, suited to procurement and to overloaded teams with every reason to save time.',
+    name: 'In-house & institutional legal teams',
+    copy: 'Engaged per matter as a specialist provider: nothing to roll out, suited to overloaded teams with every reason to save time.',
     featured: false,
   },
   {
@@ -219,7 +219,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
               </h2>
               <p className="eng-lede">
                 And the thread holds even where the trail changes currency: the dollars that left Australia are
-                matched to the rupees that landed overseas two days later, down to the exchange rate.
+                matched to the euros that landed overseas two days later, down to the exchange rate.
               </p>
             </Reveal>
             <Reveal className="eng-plate eng-ecm-plate" delay={120}>
@@ -235,8 +235,8 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
               <p className="eng-kicker">Specifications</p>
               <h2 className="eng-h2">Built to withstand scrutiny.</h2>
               <p className="eng-lede">
-                Trust is the entire product. Each capability exists so a finding can be put in front of a Principal
-                Legal Officer - or a court - and hold.
+                Trust is the entire product. Each capability exists so a finding can be put in front of a senior lawyer,
+                opposing counsel - or a court - and hold.
               </p>
             </Reveal>
             <div className="eng-specs">
@@ -322,8 +322,8 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 Put the engine <span className="eng-gold-text">on your matter.</span>
               </h2>
               <p className="eng-lede eng-cta-lede">
-                FinTrace is a specialist forensic service, engaged per matter: a flat engagement fee plus per-page
-                pricing. Send the statements; receive the ledger, the findings and the sources to back them.
+                FinTrace is a specialist forensic service, engaged per matter and quoted in writing before the work
+                begins. Send the statements; receive the ledger, the findings and the sources to back them.
               </p>
               <div className="eng-hero-ctas">
                 <Link className="eng-btn-gold eng-btn-loop" href="/contact/">
