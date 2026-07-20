@@ -32,9 +32,9 @@ export default function NotFound() {
         <div className="eng-container eng-nf-content">
           <p className="eng-kicker">Error 404</p>
           <h1 className="eng-page-h1">
-            No trace <span className="eng-gold-text">of this page.</span>
+            This page isn’t <span className="eng-gold-text">in the record.</span>
           </h1>
-          <p className="eng-lede">The address doesn’t lead anywhere, and unlike the money, it left no trail.</p>
+          <p className="eng-lede">The requested address doesn’t correspond to anything we can verify.</p>
           <Link className="eng-btn-gold" href="/">
             Back to the home page
           </Link>

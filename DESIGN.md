@@ -155,7 +155,7 @@ None shipped and none planned. Record any decision to introduce an overlay layer
 
 - Hero resilience is the model: a designed static SVG fallback paints instantly; the WebGL layer cross-fades in only when its first frame has rendered; renderer construction is wrapped so a missing WebGL context leaves the designed fallback rather than a crash. Wide and compact fallbacks mirror the scene's own aspect contract so the cross-fade never jumps.
 - Empty states: none exist (the site has no user data).
-- Error pages: the branded 404 uses the obsidian shell, “No trace of this page.” copy, a static constellation echo and a gold return button.
+- Error pages: the branded 404 uses the obsidian shell, “This page isn’t in the record.” copy, a static constellation echo and a gold return button.
 - The contact form defines the only alert-style panels (success/error) in the system.
 
 ## Do's and Don'ts
