@@ -153,10 +153,22 @@ export default function EngagementPage() {
                 One quote. <span className="eng-gold-text">One enquiry away.</span>
               </h2>
               <div className="eng-hero-ctas">
-                <Link className="eng-btn-gold eng-btn-loop" href="/contact/">
+                <Link
+                  className="eng-btn-gold eng-btn-loop"
+                  href="/contact/"
+                  data-analytics-cta
+                  data-analytics-placement="section"
+                  data-analytics-destination="contact"
+                >
                   Request a matter assessment
                 </Link>
-                <Link className="eng-btn-ghost" href="/contact/#enquire">
+                <Link
+                  className="eng-btn-ghost"
+                  href="/contact/#enquire"
+                  data-analytics-cta
+                  data-analytics-placement="section"
+                  data-analytics-destination="contact_enquire"
+                >
                   Start an enquiry
                 </Link>
               </div>

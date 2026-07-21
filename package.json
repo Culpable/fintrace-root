@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "next dev -p 3004",
+    "test": "node --test test/*.test.ts",
     "build": "next build",
     "start": "next start -p 3004",
     "lint": "eslint"
@@ -26,6 +27,7 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "mixpanel-browser": "^2.81.0",
     "next": "^16.1.5",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

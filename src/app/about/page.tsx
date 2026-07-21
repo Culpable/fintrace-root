@@ -123,7 +123,13 @@ export default function AboutPage() {
                 The fastest way to judge FinTrace is to put a real matter in front of it.
               </p>
               <div className="eng-hero-ctas">
-                <Link className="eng-btn-gold eng-btn-loop" href="/contact/">
+                <Link
+                  className="eng-btn-gold eng-btn-loop"
+                  href="/contact/"
+                  data-analytics-cta
+                  data-analytics-placement="section"
+                  data-analytics-destination="contact"
+                >
                   Request a matter assessment
                 </Link>
                 <Link className="eng-btn-ghost" href="/engagement/">

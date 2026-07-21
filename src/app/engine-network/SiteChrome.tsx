@@ -23,11 +23,23 @@ export function SiteHeader({ contactHref = '/contact/', hero = false }: SiteHead
             the transition stays client-side; keep hash hrefs as native anchors so
             the contact page's own button still jumps to #enquire on the same page. */}
         {contactHref.startsWith('/') ? (
-          <Link className="eng-btn-gold eng-btn-sm" href={contactHref}>
+          <Link
+            className="eng-btn-gold eng-btn-sm"
+            href={contactHref}
+            data-analytics-cta
+            data-analytics-placement="header"
+            data-analytics-destination={contactHref.includes('#enquire') ? 'contact_enquire' : 'contact'}
+          >
             Request assessment
           </Link>
         ) : (
-          <a className="eng-btn-gold eng-btn-sm" href={contactHref}>
+          <a
+            className="eng-btn-gold eng-btn-sm"
+            href={contactHref}
+            data-analytics-cta
+            data-analytics-placement="header"
+            data-analytics-destination={contactHref.includes('#enquire') ? 'contact_enquire' : 'contact'}
+          >
             Request assessment
           </a>
         )}
@@ -56,7 +68,14 @@ export function SiteFooter() {
           <Link href="/contact/">Contact</Link>
         </nav>
         <div className="eng-footer-meta">
-          <Link href="/contact/">Request a matter assessment</Link>
+          <Link
+            href="/contact/"
+            data-analytics-cta
+            data-analytics-placement="footer"
+            data-analytics-destination="contact"
+          >
+            Request a matter assessment
+          </Link>
           <p>Engaged per matter · Australia-wide</p>
         </div>
       </div>

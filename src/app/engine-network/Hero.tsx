@@ -124,7 +124,13 @@ export default function Hero() {
           </span>
         </p>
         <div className="eng-hero-ctas eng-load" style={loadDelay(500)}>
-          <Link className="eng-btn-gold" href="/contact/">
+          <Link
+            className="eng-btn-gold"
+            href="/contact/"
+            data-analytics-cta
+            data-analytics-placement="hero"
+            data-analytics-destination="contact"
+          >
             Request a matter assessment
           </Link>
           <a className="eng-btn-ghost" href="#process">

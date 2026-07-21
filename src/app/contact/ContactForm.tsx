@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
+import { trackAnalytics } from '@/lib/analytics/client'
 
 // Keep the public form ID isolated here so endpoint changes never touch the submission state machine.
 const FORMSPREE_FORM_ID = 'xwvgoenw'
@@ -10,7 +11,17 @@ type SubmitStatus = 'idle' | 'sending' | 'success' | 'error'
 
 export default function ContactForm() {
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle')
+  const hasTrackedStart = useRef(false)
   const isSubmitting = submitStatus === 'sending'
+
+  function handleFormInteraction() {
+    if (hasTrackedStart.current) {
+      return
+    }
+
+    hasTrackedStart.current = true
+    trackAnalytics({ name: 'Matter Enquiry Started', placement: 'form' })
+  }
 
   function handleFormChange() {
     if (submitStatus === 'success' || submitStatus === 'error') {
@@ -26,6 +37,7 @@ export default function ContactForm() {
     }
 
     const form = event.currentTarget
+    let failureStage: 'response' | 'network' = 'network'
 
     setSubmitStatus('sending')
 
@@ -37,6 +49,7 @@ export default function ContactForm() {
       })
 
       if (!response.ok) {
+        failureStage = 'response'
         let message = 'Form submission failed'
         try {
           const data: { error?: string } = await response.json()
@@ -51,9 +64,15 @@ export default function ContactForm() {
 
       form.reset()
       setSubmitStatus('success')
+      trackAnalytics({ name: 'Matter Enquiry Submitted', placement: 'form' })
     } catch {
       // Keep every typed value in place so a retry never forces the user to reconstruct the enquiry.
       setSubmitStatus('error')
+      trackAnalytics({
+        name: 'Matter Enquiry Submission Failed',
+        placement: 'form',
+        failure_stage: failureStage,
+      })
     }
   }
 
@@ -62,6 +81,8 @@ export default function ContactForm() {
       className="eng-ct-form"
       action={FORMSPREE_ACTION}
       method="POST"
+      onFocusCapture={handleFormInteraction}
+      onInputCapture={handleFormInteraction}
       onChange={handleFormChange}
       onSubmit={handleSubmit}
       aria-busy={isSubmitting}
