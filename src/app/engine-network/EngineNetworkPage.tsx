@@ -215,7 +215,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
             <Reveal className="eng-section-head">
               <p className="eng-kicker">The evidence, matched</p>
               <h2 className="eng-h2">
-                Same funds. <span className="eng-gold-text">Two currencies. One match.</span>
+                Same funds. <span className="eng-gold-text">Two currencies.<br />One match.</span>
               </h2>
               <p className="eng-lede">
                 A transfer that changes currency is where most trails go cold. This one doesn’t: the dollars leaving
