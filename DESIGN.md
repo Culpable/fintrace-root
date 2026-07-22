@@ -122,7 +122,7 @@ Every claim below carries one of three statuses:
 
 ### Actions and buttons
 
-Two-tier hierarchy, both in the mono voice with 2px radius and press `scale: 0.96`:
+Two-tier hierarchy, both in the mono voice with 2px radius, press `scale: 0.96`, and an explicit `cursor: pointer`. Both tiers declare the pointer themselves rather than relying on the base layer, because Tailwind v4's preflight dropped v3's `button { cursor: pointer }` and leaves real buttons on the default arrow: the contact form's `<button>` submit must read as identically clickable to the `<a>` CTAs that share the class. The contact page's own `:disabled` rule still overrides it with `cursor: wait` while a submission is in flight.
 
 - Gold (`.eng-btn-gold`): dark ink on a champagne metal gradient, hover lift with brightened ring shadow and a light sweep; the CTA plate variant (`.eng-btn-loop`) loops its sweep unattended; the header size (`.eng-btn-sm`) carries its 44px target in its real box. One gold action per surface.
 - Ghost (`.eng-btn-ghost`): gold mono text in a hairline border, hover fills faintly and brightens. The secondary path beside every gold action.

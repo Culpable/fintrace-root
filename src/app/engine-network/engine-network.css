@@ -179,6 +179,10 @@
   position: relative;
   display: inline-block;
   overflow: hidden;
+  /* Tailwind v4's preflight dropped v3's `button { cursor: pointer }`, leaving
+     real buttons on the default arrow; both tiers state the pointer themselves
+     so an `<a>` CTA and the form's `<button>` submit feel identical */
+  cursor: pointer;
   /* Own stacking context so the sheen pseudo-element can sit at z -1: it
      paints above this rule's gold face but beneath the inline label, so the
      sweep glints across the metal without ever washing over the glyphs */
@@ -256,6 +260,7 @@
 
 .dsn-engine-network .eng-btn-ghost {
   display: inline-block;
+  cursor: pointer;
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
   font-size: 0.8125rem;
   letter-spacing: 0.1em;
