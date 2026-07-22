@@ -4,9 +4,9 @@ import type { Config, OverridedMixpanel } from 'mixpanel-browser'
 type BrowserAnalyticsEvent =
   | { name: 'Page Viewed'; path: string }
   | Omit<Extract<AnalyticsEventInput, { name: 'Assessment CTA Clicked' }>, 'path'>
-  | Omit<Extract<AnalyticsEventInput, { name: 'Matter Enquiry Started' }>, 'path'>
-  | Omit<Extract<AnalyticsEventInput, { name: 'Matter Enquiry Submitted' }>, 'path'>
-  | Omit<Extract<AnalyticsEventInput, { name: 'Matter Enquiry Submission Failed' }>, 'path'>
+  | Omit<Extract<AnalyticsEventInput, { name: 'Enquiry Started' }>, 'path'>
+  | Omit<Extract<AnalyticsEventInput, { name: 'Enquiry Submitted' }>, 'path'>
+  | Omit<Extract<AnalyticsEventInput, { name: 'Enquiry Submission Failed' }>, 'path'>
 
 const MIXPANEL_PUBLIC_TOKEN = 'eb76617a49248a0cd7e6958ec234d01b'
 const MIXPANEL_US_HOST = 'https://api-js.mixpanel.com'

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 }
 
 const NEXT_STEPS = [
-  { numeral: '01', name: 'Assessment', copy: 'We review the outline and confirm the engine fits the matter.' },
+  { numeral: '01', name: 'Assessment', copy: 'We read your enquiry and confirm whether the engine fits.' },
   { numeral: '02', name: 'Quote', copy: 'You receive the engagement quoted in writing.' },
   { numeral: '03', name: 'Handover', copy: 'Only then do statements change hands, in whatever form you hold them.' },
 ]
@@ -27,14 +27,14 @@ export default function ContactPage() {
       <main>
         <section className="eng-page-hero">
           <div className="eng-container">
-            <p className="eng-kicker">Start a matter</p>
+            <p className="eng-kicker">Get in touch</p>
             <h1 className="eng-page-h1">
-              Tell us about <span className="eng-gold-text">the matter.</span>
+              Tell us what you’re <span className="eng-gold-text">working on.</span>
             </h1>
             <p className="eng-lede">
-              A few lines are enough for an initial assessment: the type of dispute, roughly how many pages and
-              accounts, the timeframe you’re working to. We’ll come back with whether the engine fits and what the
-              engagement would cost.
+              A few lines are enough to start: what you need, and the timeframe you’re working to. Whether it’s a live
+              matter or a general question, we’ll come back with whether the engine fits and what an engagement would
+              cost.
             </p>
           </div>
         </section>
@@ -58,7 +58,7 @@ export default function ContactPage() {
             </aside>
 
             <section className="eng-plate eng-ct-form-plate" id="enquire" aria-labelledby="enquire-heading">
-              <h2 id="enquire-heading">Request a matter assessment</h2>
+              <h2 id="enquire-heading">Send an enquiry</h2>
               <p className="eng-ct-form-intro">
                 No confidential detail is needed at this stage. Please don’t attach or paste statement data.
               </p>

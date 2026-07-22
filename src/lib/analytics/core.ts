@@ -13,10 +13,10 @@ export type AnalyticsEventInput =
       placement: AssessmentPlacement
       destination: AssessmentDestination
     }
-  | { name: 'Matter Enquiry Started'; path: string; placement: 'form' }
-  | { name: 'Matter Enquiry Submitted'; path: string; placement: 'form' }
+  | { name: 'Enquiry Started'; path: string; placement: 'form' }
+  | { name: 'Enquiry Submitted'; path: string; placement: 'form' }
   | {
-      name: 'Matter Enquiry Submission Failed'
+      name: 'Enquiry Submission Failed'
       path: string
       placement: 'form'
       failure_stage: FailureStage
@@ -139,14 +139,14 @@ export function createAnalyticsCore({
           },
         }
 
-      case 'Matter Enquiry Started':
-      case 'Matter Enquiry Submitted':
+      case 'Enquiry Started':
+      case 'Enquiry Submitted':
         if (candidate.placement !== 'form') {
           return null
         }
         return { name: candidate.name, properties: { ...common, placement: 'form' } }
 
-      case 'Matter Enquiry Submission Failed':
+      case 'Enquiry Submission Failed':
         if (candidate.placement !== 'form' || !FAILURE_STAGES.has(candidate.failure_stage as FailureStage)) {
           return null
         }

@@ -126,10 +126,10 @@ test('rebuilds valid events from allowlisted names, keys and enum values', async
       destination: 'contact_enquire',
       organisation: 'Private Firm',
     },
-    { name: 'Matter Enquiry Started', path: '/contact/', placement: 'form', field: 'email' },
-    { name: 'Matter Enquiry Submitted', path: '/contact/', placement: 'form', message: 'private details' },
+    { name: 'Enquiry Started', path: '/contact/', placement: 'form', field: 'email' },
+    { name: 'Enquiry Submitted', path: '/contact/', placement: 'form', message: 'private details' },
     {
-      name: 'Matter Enquiry Submission Failed',
+      name: 'Enquiry Submission Failed',
       path: '/contact/',
       placement: 'form',
       failure_stage: 'response',
@@ -148,9 +148,9 @@ test('rebuilds valid events from allowlisted names, keys and enum values', async
     [
       'Page Viewed',
       'Assessment CTA Clicked',
-      'Matter Enquiry Started',
-      'Matter Enquiry Submitted',
-      'Matter Enquiry Submission Failed',
+      'Enquiry Started',
+      'Enquiry Submitted',
+      'Enquiry Submission Failed',
     ],
   )
 
@@ -178,10 +178,10 @@ test('drops invalid event names and invalid event-specific enum values', async (
     { name: 'User Identified', path: '/' },
     { name: 'Assessment CTA Clicked', path: '/', placement: 'nav', destination: 'contact' },
     { name: 'Assessment CTA Clicked', path: '/', placement: 'hero', destination: 'external' },
-    { name: 'Matter Enquiry Started', path: '/contact/', placement: 'field' },
-    { name: 'Matter Enquiry Submitted', path: '/contact/', placement: 'button' },
+    { name: 'Enquiry Started', path: '/contact/', placement: 'field' },
+    { name: 'Enquiry Submitted', path: '/contact/', placement: 'button' },
     {
-      name: 'Matter Enquiry Submission Failed',
+      name: 'Enquiry Submission Failed',
       path: '/contact/',
       placement: 'form',
       failure_stage: 'server',

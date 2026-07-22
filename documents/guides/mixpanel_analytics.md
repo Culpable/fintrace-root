@@ -24,9 +24,11 @@ Every event contains only `site: fintrace-root`, `environment: production`, `sch
 | --- | --- | --- |
 | `Page Viewed` | None | Initial route and each distinct client route |
 | `Assessment CTA Clicked` | `placement: header \| hero \| section \| footer`; `destination: contact \| contact_enquire` | Explicitly marked assessment link |
-| `Matter Enquiry Started` | `placement: form` | First form interaction per mount |
-| `Matter Enquiry Submitted` | `placement: form` | Formspree returns `response.ok` |
-| `Matter Enquiry Submission Failed` | `placement: form`; `failure_stage: response \| network` | Non-2xx response or thrown network failure |
+| `Enquiry Started` | `placement: form` | First form interaction per mount |
+| `Enquiry Submitted` | `placement: form` | Formspree returns `response.ok` |
+| `Enquiry Submission Failed` | `placement: form`; `failure_stage: response \| network` | Non-2xx response or thrown network failure |
+
+The three enquiry events were renamed from `Matter Enquiry Started`, `Matter Enquiry Submitted` and `Matter Enquiry Submission Failed` when the contact form became a general enquiry form. Mixpanel keeps historical events under the old names, so any saved report or funnel built on them must be repointed.
 
 Unknown paths become `not_found`. Query, hash, and trailing-slash changes do not create a second page view for the same canonical page. CTA capture must run before Next.js navigation so the click precedes the destination page view.
 

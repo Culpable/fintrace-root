@@ -34,6 +34,6 @@ export const pageMetadata = {
   contact: {
     title: 'Contact',
     description:
-      'Start a matter assessment: outline the dispute, page volume and timeframe, and FinTrace will come back with fit and a quote.',
+      'Send FinTrace an enquiry: outline what you need and the timeframe, and we will come back with whether the engine fits and what it would cost.',
   },
 } as const

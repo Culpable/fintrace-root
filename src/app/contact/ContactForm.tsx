@@ -20,7 +20,7 @@ export default function ContactForm() {
     }
 
     hasTrackedStart.current = true
-    trackAnalytics({ name: 'Matter Enquiry Started', placement: 'form' })
+    trackAnalytics({ name: 'Enquiry Started', placement: 'form' })
   }
 
   function handleFormChange() {
@@ -64,12 +64,12 @@ export default function ContactForm() {
 
       form.reset()
       setSubmitStatus('success')
-      trackAnalytics({ name: 'Matter Enquiry Submitted', placement: 'form' })
+      trackAnalytics({ name: 'Enquiry Submitted', placement: 'form' })
     } catch {
       // Keep every typed value in place so a retry never forces the user to reconstruct the enquiry.
       setSubmitStatus('error')
       trackAnalytics({
-        name: 'Matter Enquiry Submission Failed',
+        name: 'Enquiry Submission Failed',
         placement: 'form',
         failure_stage: failureStage,
       })
@@ -87,7 +87,7 @@ export default function ContactForm() {
       onSubmit={handleSubmit}
       aria-busy={isSubmitting}
     >
-      <input type="hidden" name="_subject" value="New matter enquiry - fintrace.com.au" />
+      <input type="hidden" name="_subject" value="New enquiry - fintrace.com.au" />
       <input type="hidden" name="form_source" value="contact_page" />
       <input
         className="eng-ct-honeypot"
@@ -111,39 +111,13 @@ export default function ContactForm() {
         <input id="contact-organisation" name="organisation" type="text" autoComplete="organization" required />
       </div>
       <div className="eng-ct-field">
-        <label htmlFor="contact-matter-type">Matter type</label>
-        <select id="contact-matter-type" name="matter_type" defaultValue="" required>
-          <option value="" disabled>
-            Select the closest fit
-          </option>
-          <option>Family law property matter</option>
-          <option>Estate or financial-abuse matter</option>
-          <option>Insolvency or asset tracing</option>
-          <option>Forensic investigation</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div className="eng-ct-field">
-        <label htmlFor="contact-volume">Approximate volume</label>
-        <select id="contact-volume" name="volume" defaultValue="">
-          <option value="" disabled>
-            Select if known
-          </option>
-          <option>Under 500 pages</option>
-          <option>500–2,000 pages</option>
-          <option>2,000–10,000 pages</option>
-          <option>More than 10,000 pages</option>
-          <option>Not sure yet</option>
-        </select>
-      </div>
-      <div className="eng-ct-field">
-        <label htmlFor="contact-message">The matter</label>
+        <label htmlFor="contact-message">Your enquiry</label>
         <textarea
           id="contact-message"
           name="message"
           rows={5}
           required
-          placeholder="The dispute, the account footprint, the timeframe - a few lines is plenty."
+          placeholder="What you need, and the timeframe you’re working to - a few lines is plenty."
         />
       </div>
 
