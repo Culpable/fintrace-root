@@ -1,0 +1,172 @@
+/* ===========================================================================
+   /testimonial/ — noindexed review surface.
+
+   Ten wordings of the approved "Engraved plate" testimonial (design-lab
+   variant 01) for Nick Brookes to review before anything ships. Every rule is
+   scoped under .dsn-engine-network and prefixed eng-ts- so it never leaks into
+   the production routes. The plate itself reuses the production .eng-plate,
+   .eng-kicker and palette tokens — only the testimonial-specific primitives
+   (crosshair quote mark, centred rule, duotone portrait) live here.
+
+   The colour headshot is a deliberate, user-approved exception to DESIGN.md's
+   no-raster rule for this page only; the duotone treatment maps it onto the
+   obsidian-and-gold ramp so it still reads as part of the system.
+   ======================================================================== */
+
+/* Small review-only reference marker above each plate; muted so it never
+   reads as part of the testimonial it labels */
+.dsn-engine-network .eng-ts-ref {
+  margin-bottom: 1.2rem;
+  text-align: center;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(163, 154, 141, 0.55);
+}
+
+.dsn-engine-network .eng-ts-ref-num {
+  color: var(--gold);
+}
+
+/* ------------------------- Engraved-plate testimonial ------------------- */
+
+/* Centred column inside the plate */
+.dsn-engine-network .eng-ts-wrap {
+  max-width: 46rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.dsn-engine-network .eng-ts-wrap .eng-kicker {
+  display: inline-block;
+  margin-bottom: clamp(2rem, 4vw, 2.6rem);
+}
+
+/* The opening quote mark is a machined registration tick, not a typographic
+   comma — the plate's own corner-tick language brought to the centre */
+.dsn-engine-network .eng-ts-tick {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  margin: 0 auto 2.2rem;
+  opacity: 0.9;
+}
+
+.dsn-engine-network .eng-ts-tick::before,
+.dsn-engine-network .eng-ts-tick::after {
+  content: '';
+  position: absolute;
+  background: var(--gold);
+}
+
+.dsn-engine-network .eng-ts-tick::before {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.dsn-engine-network .eng-ts-tick::after {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.dsn-engine-network .eng-ts-quote {
+  max-width: 44rem;
+  margin-inline: auto;
+  font-size: clamp(1.35rem, 2.5vw, 2.05rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.012em;
+  color: var(--paper);
+  text-wrap: balance;
+}
+
+/* Short centred rule between testimony and attribution */
+.dsn-engine-network .eng-ts-rule {
+  width: 3rem;
+  height: 1px;
+  margin: clamp(2rem, 4vw, 2.6rem) auto clamp(1.8rem, 3.5vw, 2.2rem);
+  background: var(--hairline);
+}
+
+.dsn-engine-network .eng-ts-attrib {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  text-align: left;
+}
+
+.dsn-engine-network .eng-ts-name {
+  display: block;
+  font-weight: 650;
+  font-size: 1.02rem;
+  letter-spacing: -0.005em;
+  color: var(--paper);
+}
+
+.dsn-engine-network .eng-ts-role {
+  display: block;
+  margin-top: 0.42rem;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  color: var(--grey-warm);
+}
+
+/* ------------------------------- Portrait ------------------------------- */
+
+.dsn-engine-network .eng-ts-photo {
+  position: relative;
+  flex: none;
+  width: 58px;
+  height: 58px;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  background: var(--obsidian);
+}
+
+.dsn-engine-network .eng-ts-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Duotone: desaturate the colour headshot, then re-tint it through the gold
+   ramp with mix-blend-mode so navy suit, red tie and teal backdrop resolve
+   into the obsidian-and-gold system rather than fighting it */
+.dsn-engine-network .eng-ts-duo img {
+  filter: grayscale(1) contrast(1.06) brightness(0.94);
+}
+
+.dsn-engine-network .eng-ts-duo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(150deg, #f0d491, #d4a94e 45%, #8a6a2b);
+  mix-blend-mode: color;
+  opacity: 0.68;
+  pointer-events: none;
+}
+
+/* Carry the page's own gold-dust grain across the portrait so it reads as
+   part of the ground, not a pasted-in rectangle */
+.dsn-engine-network .eng-ts-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0.55;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.83 0 0 0 0 0.66 0 0 0 0 0.31 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}

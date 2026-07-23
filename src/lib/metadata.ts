@@ -36,4 +36,10 @@ export const pageMetadata = {
     description:
       'Send FinTrace an enquiry: outline what you need and the timeframe, and we will come back with whether the engine fits and what it would cost.',
   },
+  // Noindexed internal review surface — kept here so every route's metadata
+  // stays in one place, even though this page is never indexed or linked.
+  testimonial: {
+    title: 'Testimonial drafts',
+    description: 'Draft client testimonials under review. Not published.',
+  },
 } as const
