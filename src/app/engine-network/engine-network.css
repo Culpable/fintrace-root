@@ -850,6 +850,337 @@
   grid-column: span 2;
 }
 
+/* Client proof follows the audience grid as a lighter editorial surface.
+   It deliberately avoids a second engraved plate competing with the outcome. */
+.dsn-engine-network .eng-client-voice {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.34fr) minmax(0, 1fr);
+  grid-template-areas:
+    'kicker kicker'
+    'meta quote';
+  gap: 2rem clamp(3rem, 7vw, 6rem);
+  align-items: center;
+  margin-top: clamp(4rem, 8vw, 6.5rem);
+  padding: clamp(2.4rem, 5vw, 4rem) clamp(1rem, 4vw, 3rem);
+  border-block: 1px solid var(--hairline-dim);
+  background: linear-gradient(90deg, rgba(240, 212, 145, 0.045), transparent 58%);
+}
+
+.dsn-engine-network .eng-client-voice-kicker {
+  grid-area: kicker;
+  justify-self: start;
+  white-space: nowrap;
+}
+
+.dsn-engine-network .eng-client-voice-meta {
+  grid-area: meta;
+  text-align: left;
+}
+
+.dsn-engine-network .eng-client-voice-photo {
+  position: relative;
+  display: block;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  background: var(--obsidian);
+}
+
+.dsn-engine-network .eng-client-voice-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Keep the approved portrait subordinate to the evidence copy by mapping it
+   onto the same obsidian-and-gold range as the internal review treatment. */
+.dsn-engine-network .eng-client-voice-duo img {
+  filter: grayscale(1) contrast(1.06) brightness(0.94);
+}
+
+.dsn-engine-network .eng-client-voice-duo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(150deg, #f0d491, #d4a94e 45%, #8a6a2b);
+  mix-blend-mode: color;
+  opacity: 0.68;
+  pointer-events: none;
+}
+
+.dsn-engine-network .eng-client-voice-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0.55;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.83 0 0 0 0 0.66 0 0 0 0 0.31 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.dsn-engine-network .eng-client-voice-attribution {
+  display: block;
+  margin-top: 1.1rem;
+}
+
+.dsn-engine-network .eng-client-voice-name {
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 650;
+  color: var(--paper);
+}
+
+.dsn-engine-network .eng-client-voice-role {
+  display: block;
+  margin-top: 0.42rem;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
+  font-size: 0.64rem;
+  line-height: 1.6;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--grey-warm);
+}
+
+.dsn-engine-network .eng-client-voice-quote {
+  grid-area: quote;
+  max-width: 46rem;
+  padding-left: clamp(2rem, 5vw, 4rem);
+  border-left: 1px solid var(--hairline);
+  font-size: clamp(1.3rem, 2.15vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.48;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+  text-wrap: balance;
+}
+
+.dsn-engine-network .eng-client-voice-quote p + p {
+  margin-top: 1em;
+}
+
+.dsn-engine-network .eng-client-voice-right {
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.34fr);
+  grid-template-areas:
+    'kicker kicker'
+    'quote meta';
+  background: linear-gradient(270deg, rgba(240, 212, 145, 0.045), transparent 58%);
+}
+
+.dsn-engine-network .eng-client-voice-right .eng-client-voice-meta {
+  text-align: right;
+}
+
+.dsn-engine-network .eng-client-voice-right .eng-client-voice-photo {
+  margin-left: auto;
+}
+
+.dsn-engine-network .eng-client-voice-right .eng-client-voice-quote {
+  justify-self: end;
+  padding-right: clamp(2rem, 5vw, 4rem);
+  padding-left: 0;
+  border-right: 1px solid var(--hairline);
+  border-left: 0;
+}
+
+.dsn-engine-network .eng-client-voice-footer {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'kicker'
+    'quote'
+    'meta';
+  row-gap: 2.2rem;
+}
+
+.dsn-engine-network .eng-client-voice-footer .eng-client-voice-quote {
+  max-width: 52rem;
+  padding-left: 0;
+  border-left: 0;
+}
+
+.dsn-engine-network .eng-client-voice-footer .eng-client-voice-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  max-width: 52rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.dsn-engine-network .eng-client-voice-footer .eng-client-voice-attribution {
+  margin-top: 0;
+}
+
+/* ---------------------- Framed client voice ----------------------------- */
+
+.dsn-engine-network .eng-client-frame {
+  padding-block: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+.dsn-engine-network .eng-client-frame-wrap {
+  max-width: 46rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.dsn-engine-network .eng-client-frame-wrap .eng-kicker {
+  display: inline-block;
+  margin-bottom: clamp(2rem, 4vw, 2.6rem);
+}
+
+/* Preserve the registration mark only for the exact archived origin/main
+   reference; the selected production treatment uses quotation marks instead. */
+.dsn-engine-network .eng-client-frame-tick {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  margin: 0 auto 2.2rem;
+  opacity: 0.9;
+}
+
+.dsn-engine-network .eng-client-frame-tick::before,
+.dsn-engine-network .eng-client-frame-tick::after {
+  content: '';
+  position: absolute;
+  background: var(--gold);
+}
+
+.dsn-engine-network .eng-client-frame-tick::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.dsn-engine-network .eng-client-frame-tick::after {
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.dsn-engine-network .eng-client-frame-quote {
+  position: relative;
+  max-width: 44rem;
+  margin-inline: auto;
+  font-size: clamp(1.35rem, 2.5vw, 2.05rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.012em;
+  color: var(--paper);
+  text-wrap: balance;
+}
+
+.dsn-engine-network .eng-client-frame-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.dsn-engine-network .eng-client-frame-quote p + p {
+  margin-top: 1em;
+}
+
+.dsn-engine-network .eng-client-frame-mark {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  font-family: var(--font-eng-display);
+  font-weight: 700;
+  line-height: 0.72;
+  user-select: none;
+  pointer-events: none;
+}
+
+.dsn-engine-network .eng-client-frame-final .eng-client-frame-quote {
+  padding: clamp(3rem, 7vw, 4.2rem) clamp(3.4rem, 8vw, 5.2rem);
+  border-block: 1px solid var(--hairline-dim);
+  background: linear-gradient(90deg, transparent, rgba(212, 169, 78, 0.025) 35%, transparent);
+}
+
+.dsn-engine-network .eng-client-frame-final .eng-client-frame-mark {
+  font-size: clamp(7rem, 15vw, 10rem);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(240, 212, 145, 0.2);
+}
+
+.dsn-engine-network .eng-client-frame-final .eng-client-frame-mark-open {
+  top: clamp(0.65rem, 1.25vw, 0.85rem);
+  left: 0;
+  /* The display font leaves more ink above the opening glyph than below it.
+     Shift the painted mark toward the first line, not just its CSS line box. */
+  transform: translateY(clamp(0.5rem, 1vw, 0.85rem));
+}
+
+.dsn-engine-network .eng-client-frame-final .eng-client-frame-mark-close {
+  right: 0;
+  bottom: clamp(0.65rem, 1.25vw, 0.85rem);
+  /* Curly closing marks carry substantial blank space below their visible ink.
+     This larger optical shift equalises the painted gaps above and below. */
+  transform: translateY(clamp(2.2rem, 4.9vw, 4.4rem));
+}
+
+.dsn-engine-network .eng-client-frame-rule {
+  width: 3rem;
+  height: 1px;
+  margin: clamp(2rem, 4vw, 2.6rem) auto clamp(1.8rem, 3.5vw, 2.2rem);
+  background: var(--hairline);
+}
+
+.dsn-engine-network .eng-client-frame-attribution {
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+
+.dsn-engine-network .eng-client-frame-photo {
+  position: relative;
+  flex: none;
+  width: 58px;
+  height: 58px;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  background: var(--obsidian);
+}
+
+.dsn-engine-network .eng-client-frame-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dsn-engine-network .eng-client-frame-name {
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 650;
+  letter-spacing: -0.005em;
+  color: var(--paper);
+}
+
+.dsn-engine-network .eng-client-frame-role {
+  display: block;
+  margin-top: 0.42rem;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
+  font-size: 0.64rem;
+  line-height: 1.6;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey-warm);
+}
+
+/* The selected framed testimonial follows the audience cards. Keep this
+   contextual separation out of the reusable component itself so the archived
+   comparison page can render the same frame without an extra leading gap. */
+.dsn-engine-network .eng-audience-grid + .eng-client-frame {
+  margin-top: clamp(4rem, 8vw, 6.5rem);
+}
+
 /* The card owns hover only — its Reveal wrapper owns the entrance, so the
    two transform transitions never override each other */
 .dsn-engine-network .eng-card {
@@ -1141,9 +1472,85 @@
   .dsn-engine-network .eng-cell-featured {
     grid-column: auto;
   }
+
+  .dsn-engine-network .eng-client-voice {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'kicker'
+      'meta'
+      'quote';
+    gap: 1.8rem;
+    text-align: left;
+  }
+
+  .dsn-engine-network .eng-client-voice-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    text-align: left;
+  }
+
+  .dsn-engine-network .eng-client-voice-photo {
+    flex: none;
+  }
+
+  .dsn-engine-network .eng-client-voice-attribution {
+    margin-top: 0;
+  }
+
+  .dsn-engine-network .eng-client-voice-quote {
+    max-width: 38rem;
+    padding-top: 2.2rem;
+    padding-left: 0;
+    border-top: 1px solid var(--hairline);
+    border-left: 0;
+  }
+
+  .dsn-engine-network .eng-client-voice-right,
+  .dsn-engine-network .eng-client-voice-footer {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'kicker'
+      'quote'
+      'meta';
+  }
+
+  .dsn-engine-network .eng-client-voice-right .eng-client-voice-meta {
+    text-align: left;
+  }
+
+  .dsn-engine-network .eng-client-voice-right .eng-client-voice-photo {
+    margin-left: 0;
+  }
+
+  .dsn-engine-network .eng-client-voice-right .eng-client-voice-quote {
+    justify-self: stretch;
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .dsn-engine-network .eng-client-voice-right .eng-client-voice-meta,
+  .dsn-engine-network .eng-client-voice-footer .eng-client-voice-meta {
+    max-width: 38rem;
+    padding-top: 1.8rem;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .dsn-engine-network .eng-client-voice-footer .eng-client-voice-quote {
+    padding-top: 0;
+    border-top: 0;
+  }
 }
 
 @media (max-width: 767px) {
+  .dsn-engine-network .eng-client-frame-final .eng-client-frame-quote {
+    padding: 3rem 2.5rem;
+  }
+
+  .dsn-engine-network .eng-client-frame-final .eng-client-frame-mark {
+    font-size: 5rem;
+  }
+
   /* Header: keep wordmark + CTA, drop the section links */
   .dsn-engine-network .eng-header-nav > a:not(.eng-btn-gold) {
     display: none;
@@ -1272,14 +1679,16 @@
   padding: clamp(1.4rem, 3.5vw, 2.6rem);
 }
 
+/* Wider than the 40rem it once used: the station labels carry the diagram's
+   detail and were rendering below 13px, so the measure grew with the type. */
 .dsn-engine-network .ecm-wrap {
-  max-width: 40rem;
+  max-width: 46rem;
   margin-inline: auto;
 }
 
 .dsn-engine-network .ecm-kicker {
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 0.62rem;
+  font-size: 0.74rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--gold);
@@ -1294,12 +1703,24 @@
   overflow: visible;
 }
 
-/* Dotted route: dashes march in the direction the money travelled */
+/* Dotted route: dashes march in the direction the money travelled. The route
+   is two legs in two tones, so the trail itself records the currency change —
+   recessed champagne before the FX node, bright gold after it. */
 .dsn-engine-network .ecm-path {
-  stroke: rgba(212, 169, 78, 0.45);
   stroke-width: 1.2;
   stroke-dasharray: 3 5;
   animation: ecmnet-march 1.1s linear infinite;
+}
+
+.dsn-engine-network .ecm-path-aud {
+  stroke: rgba(212, 169, 78, 0.3);
+}
+
+/* Brighter and a hair heavier than the dollar leg: at this scale opacity alone
+   did not separate the two legs, and the split is the point of the picture. */
+.dsn-engine-network .ecm-path-eur {
+  stroke: rgba(240, 212, 145, 0.82);
+  stroke-width: 1.4;
 }
 
 @keyframes ecmnet-march {
@@ -1318,45 +1739,87 @@
   fill: var(--gold);
 }
 
+/* Ping rings: one expands at the FX node as the currency converts, one at the
+   destination as the funds land. fill-box origin so each scales about its own
+   centre rather than the viewBox origin. */
+.dsn-engine-network .ecm-ping {
+  fill: none;
+  stroke-width: 1.2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.dsn-engine-network .ecm-ping-fx {
+  stroke: var(--gold);
+}
+
+.dsn-engine-network .ecm-ping-dest {
+  stroke: var(--gold-bright);
+}
+
 .dsn-engine-network .ecm-name {
   fill: var(--paper);
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.08em;
 }
 
 .dsn-engine-network .ecm-sub {
   fill: var(--grey-warm);
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 9px;
+  font-size: 11.5px;
   letter-spacing: 0.05em;
 }
 
-/* Travelling amount chip: hidden until the parent Reveal arms the loop */
+/* Travelling amount chip: hidden until the parent Reveal arms the loop.
+   --ecm-roll is the odometer travel for the two amounts and --ecm-beam-travel
+   the sweep distance; both are variables because the chip's geometry widens at
+   the mobile breakpoint and the motion has to clear the larger window. */
 .dsn-engine-network .ecm-chip {
   opacity: 0;
   offset-path: path('M 76 118 Q 178 52 280 118 Q 382 52 484 118');
   offset-rotate: 0deg;
+  --ecm-roll: 22px;
+  --ecm-beam-travel: 132px;
 }
 
-.dsn-engine-network .ecm-chip rect {
-  fill: #171310;
+/* Two stacked plates rather than one recoloured plate, so the unmatched →
+   matched change is an opacity cross-fade instead of animated paint. */
+.dsn-engine-network .ecm-box-aud {
+  fill: var(--obsidian-2);
   stroke: var(--gold);
   stroke-width: 1;
 }
 
+.dsn-engine-network .ecm-box-eur {
+  fill: rgba(212, 169, 78, 0.16);
+  stroke: var(--gold-bright);
+  stroke-width: 1.2;
+  opacity: 0;
+  /* One small rect, one tight radius: the matched plate reads as lit metal
+     without a filter region large enough to cost a frame. */
+  filter: drop-shadow(0 0 4px rgba(240, 212, 145, 0.32));
+}
+
 .dsn-engine-network .ecm-amt {
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 11.5px;
+  font-size: 14px;
   letter-spacing: 0.04em;
 }
 
-.dsn-engine-network .ecm-amt-out {
-  fill: var(--gold-bright);
+.dsn-engine-network .ecm-amt-aud {
+  fill: var(--gold);
 }
 
-.dsn-engine-network .ecm-amt-in {
+.dsn-engine-network .ecm-amt-eur {
   fill: var(--gold-bright);
+  opacity: 0;
+  transform: translateY(var(--ecm-roll));
+}
+
+/* Gold beam that sweeps the chip window while the amounts roll over */
+.dsn-engine-network .ecm-beam {
   opacity: 0;
 }
 
@@ -1376,29 +1839,57 @@
 .dsn-engine-network .ecm-match text {
   fill: var(--gold-bright);
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.22em;
 }
 
-/* Armed by the parent Reveal: the journey loops on a 9s cycle —
-   depart NAB, dwell + swap currency at the transfer service, land at Deutsche Bank, stamp MATCHED.
+/* Armed by the parent Reveal: the journey loops on a 7.6s cycle — depart NAB,
+   convert at the transfer service, land at Deutsche Bank, stamp MATCHED. The
+   conversion beat is deliberately short (33% → 41%, ~0.6s, down from ~1.1s):
+   it is a machine resolving a figure, so it should snap rather than dwell.
+   Every sub-animation shares the cycle and delay so the beam, the odometer
+   roll, the plate cross-fade and the ping stay locked to the chip's position.
    Gated on offset-path support: without it the chip would sit at the SVG
    origin, so browsers lacking motion paths keep the static diagram only. */
 @supports (offset-path: path('M 0 0 L 1 1')) {
   .dsn-engine-network .eng-reveal.is-visible .ecm-chip {
-    animation: ecmnet-travel 9s cubic-bezier(0.45, 0, 0.3, 1) 0.4s infinite;
+    animation: ecmnet-travel 7.6s cubic-bezier(0.45, 0, 0.3, 1) 0.4s infinite;
   }
 
-  .dsn-engine-network .eng-reveal.is-visible .ecm-amt-out {
-    animation: ecmnet-out 9s linear 0.4s infinite;
+  .dsn-engine-network .eng-reveal.is-visible .ecm-amt-aud {
+    animation: ecmnet-roll-out 7.6s cubic-bezier(0.55, 0, 0.85, 0.2) 0.4s infinite;
   }
 
-  .dsn-engine-network .eng-reveal.is-visible .ecm-amt-in {
-    animation: ecmnet-in 9s linear 0.4s infinite;
+  .dsn-engine-network .eng-reveal.is-visible .ecm-amt-eur {
+    animation: ecmnet-roll-in 7.6s cubic-bezier(0.16, 0.9, 0.3, 1) 0.4s infinite;
+  }
+
+  .dsn-engine-network .eng-reveal.is-visible .ecm-beam {
+    animation: ecmnet-sweep 7.6s cubic-bezier(0.35, 0, 0.2, 1) 0.4s infinite;
+  }
+
+  .dsn-engine-network .eng-reveal.is-visible .ecm-box-aud {
+    animation: ecmnet-plate-out 7.6s linear 0.4s infinite;
+  }
+
+  .dsn-engine-network .eng-reveal.is-visible .ecm-box-eur {
+    animation: ecmnet-plate-in 7.6s linear 0.4s infinite;
+  }
+
+  .dsn-engine-network .eng-reveal.is-visible .ecm-ping-fx {
+    animation: ecmnet-ping-fx 7.6s cubic-bezier(0.2, 0.7, 0.3, 1) 0.4s infinite;
+  }
+
+  .dsn-engine-network .eng-reveal.is-visible .ecm-ping-dest {
+    animation: ecmnet-ping-dest 7.6s cubic-bezier(0.2, 0.7, 0.3, 1) 0.4s infinite;
+  }
+
+  .dsn-engine-network .eng-reveal.is-visible .ecm-sub-eur {
+    animation: ecmnet-arrive 7.6s linear 0.4s infinite;
   }
 
   .dsn-engine-network .eng-reveal.is-visible .ecm-match {
-    animation: ecmnet-stamp 9s cubic-bezier(0.22, 0.61, 0.2, 1) 0.4s infinite;
+    animation: ecmnet-stamp 7.6s cubic-bezier(0.22, 0.61, 0.2, 1) 0.4s infinite;
   }
 }
 
@@ -1407,17 +1898,17 @@
     offset-distance: 0%;
     opacity: 0;
   }
-  6% {
+  5% {
     opacity: 1;
   }
-  38% {
+  33% {
     offset-distance: 50%;
   }
-  50% {
-    /* Dwell at the transfer-service node while the currency swaps */
+  41% {
+    /* Short dwell at the transfer-service node while the currency swaps */
     offset-distance: 50%;
   }
-  82% {
+  72% {
     offset-distance: 100%;
   }
   95% {
@@ -1430,36 +1921,137 @@
   }
 }
 
-@keyframes ecmnet-out {
+/* Odometer: dollars roll up and out of the window... */
+@keyframes ecmnet-roll-out {
   0%,
-  43.5% {
+  33% {
+    transform: translateY(0);
     opacity: 1;
   }
-  45%,
+  36.2%,
+  100% {
+    transform: translateY(calc(var(--ecm-roll) * -1));
+    opacity: 0;
+  }
+}
+
+/* ...and euros roll up into it from below, overlapping by a frame or two so
+   the window is never empty */
+@keyframes ecmnet-roll-in {
+  0%,
+  35.6% {
+    transform: translateY(var(--ecm-roll));
+    opacity: 0;
+  }
+  38.8%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* The beam crosses the window over the roll, so the figure changes behind light */
+@keyframes ecmnet-sweep {
+  0%,
+  31% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  32.5% {
+    transform: translateX(6px);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(var(--ecm-beam-travel));
+    opacity: 1;
+  }
+  41.5%,
+  100% {
+    transform: translateX(var(--ecm-beam-travel));
+    opacity: 0;
+  }
+}
+
+@keyframes ecmnet-plate-out {
+  0%,
+  34% {
+    opacity: 1;
+  }
+  38.5%,
   100% {
     opacity: 0;
   }
 }
 
-@keyframes ecmnet-in {
+@keyframes ecmnet-plate-in {
   0%,
-  45.5% {
+  34% {
     opacity: 0;
   }
-  47%,
+  38.5%,
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes ecmnet-ping-fx {
+  0%,
+  32% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  34% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  45%,
+  100% {
+    transform: scale(2.7);
+    opacity: 0;
+  }
+}
+
+@keyframes ecmnet-ping-dest {
+  0%,
+  70.5% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  72.5% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  84%,
+  100% {
+    transform: scale(2.7);
+    opacity: 0;
+  }
+}
+
+/* The destination's euro line lifts out of supporting grey as the funds land,
+   then settles back for the next cycle */
+@keyframes ecmnet-arrive {
+  0%,
+  71% {
+    fill: var(--grey-warm);
+  }
+  76%,
+  95% {
+    fill: var(--gold-bright);
+  }
+  100% {
+    fill: var(--grey-warm);
   }
 }
 
 @keyframes ecmnet-stamp {
   0%,
-  78% {
+  74% {
     opacity: 0;
     transform: scale(1.35);
   }
-  84%,
-  96% {
+  80%,
+  95% {
     opacity: 1;
     transform: scale(1);
   }
@@ -1473,7 +2065,7 @@
 .dsn-engine-network .ecm-caption {
   margin-top: 1.1rem;
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 0.66rem;
+  font-size: 0.78rem;
   letter-spacing: 0.12em;
   color: var(--grey-warm);
   text-align: center;
@@ -2030,29 +2622,68 @@
     height: 340px;
   }
 
+  /* The diagram's viewBox is fixed, so a narrow viewport scales every user
+     unit down; the set-piece answers with larger type in SVG units rather than
+     smaller rendered labels. */
+  /* Station names cap at 17px in SVG units: above that the INTL TRANSFER and
+     DEUTSCHE labels close to within a few user units of each other and read as
+     one run. The three-station row is width-bound at this viewport — a taller
+     stacked mobile layout is the only way past it. */
   .dsn-engine-network .ecm-name {
-    font-size: 16px;
+    font-size: 17px;
   }
 
   .dsn-engine-network .ecm-sub {
-    font-size: 12px;
+    font-size: 13.5px;
   }
 
+  /* The amount sits inside its own plate, so it has no neighbour to collide
+     with and takes the larger size */
   .dsn-engine-network .ecm-amt {
-    font-size: 16px;
+    font-size: 19px;
   }
 
   .dsn-engine-network .ecm-match text {
-    font-size: 13px;
+    font-size: 15px;
   }
 
-  .dsn-engine-network .ecm-chip rect {
-    x: -54px;
+  .dsn-engine-network .ecm-match rect {
+    x: 430px;
     width: 108px;
+  }
+
+  /* Chip plates, the clip window and the beam all widen together: the window
+     is what makes the odometer roll read, so it must track the plates exactly.
+     The roll and sweep distances grow with them so both still clear the box. */
+  .dsn-engine-network .ecm-box,
+  .dsn-engine-network .ecm-window {
+    x: -58px;
+    y: -46px;
+    width: 116px;
+    height: 30px;
+  }
+
+  .dsn-engine-network .ecm-beam {
+    x: -72px;
+    y: -46px;
+    height: 30px;
+  }
+
+  .dsn-engine-network .ecm-chip {
+    --ecm-roll: 26px;
+    --ecm-beam-travel: 158px;
   }
 }
 
 @media (max-width: 480px) {
+  /* Phone widths scale every SVG user unit down hard, so the diagram claims
+     8px of the plate's own padding on each side. The plate keeps 22.4px of
+     padding here and its engraved inner frame sits 10px in, so the widest
+     label still clears the frame by roughly 2px. */
+  .dsn-engine-network .ecm-wrap {
+    margin-inline: -0.5rem;
+  }
+
   .dsn-engine-network .eng-stat-value {
     font-size: 1.9rem;
     line-height: 1.4;

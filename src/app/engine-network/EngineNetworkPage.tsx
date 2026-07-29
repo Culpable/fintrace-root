@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import './engine-network.css'
 import { bricolage, fragmentMono, fragmentMonoApprox } from './fonts'
 import CurrencyMatch from './CurrencyMatch'
+import FramedClientVoice from './FramedClientVoice'
 import Hero from './Hero'
 import LedgerPlate from './LedgerPlate'
 import Reveal from './Reveal'
@@ -310,6 +311,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 </Reveal>
               ))}
             </div>
+            <FramedClientVoice />
           </div>
         </section>
 
