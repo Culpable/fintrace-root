@@ -50,6 +50,8 @@ type TraceAnnotation = {
   mobileDy?: number
   flagged: boolean
   hideOnMobile: boolean
+  /** Closes the trace: resolves brighter than the hops before it. */
+  matched?: boolean
 }
 
 type TracePositionStyle = CSSProperties & {
@@ -124,6 +126,7 @@ const ANNOTATIONS: TraceAnnotation[] = [
     mobileDy: 62,
     flagged: false,
     hideOnMobile: false,
+    matched: true,
   },
 ]
 
@@ -485,6 +488,7 @@ export default function TraceDiagram() {
                 'tnet-note',
                 hops >= i + 1 && 'is-on',
                 a.flagged && 'is-flagged',
+                a.matched && 'is-matched',
                 a.hideOnMobile && 'tnet-md-only',
               )}
               style={

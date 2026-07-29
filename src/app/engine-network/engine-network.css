@@ -18,6 +18,13 @@
   --gold-bright: #f0d491; /* highlights, light on metal                    */
   --gold-deep: #8a6a2b; /* engraved/recessed gold                        */
   --grey-warm: #a39a8d; /* supporting copy                               */
+  /* Verdict green — the one hue outside the gold family, reserved for a
+     confirmed finding exactly as crimson is reserved for a flagged one.
+     Cool jade rather than a signal green, so it reads as a verified result on
+     a warm obsidian ground instead of a dashboard success state. Currently
+     used only by the cross-currency match verdict and its arrival ping. */
+  --verified: #40a377;
+  --verified-bright: #8ce0b4;
   --hairline: rgba(212, 169, 78, 0.22);
   --hairline-dim: rgba(212, 169, 78, 0.12);
 
@@ -1686,9 +1693,23 @@
   margin-inline: auto;
 }
 
+/* Larger than the page's section kickers, and deliberately so. Those label a
+   section from the container measure; this one titles the diagram from inside
+   the plate, where the neighbouring type is SVG text scaled by the viewBox —
+   once the wrap reaches its 46rem cap the station names render near 17px and
+   their sub-labels near 14px. Held flat at 0.74rem the title rendered at
+   11.8px, smaller than everything it introduced.
+
+   The size has to ramp rather than sit flat because the SVG type does not hold
+   still: the compact layout stretches to the wrap, so its labels run from about
+   9px on a 360px phone up to the high twenties just under the 768px swap. Flat
+   type that reads correctly beside the wide layout therefore out-shouts the
+   diagram at the narrow end. The floor keeps the original phone size, and the
+   ramp reaches the full size by roughly 500px, where the compact labels have
+   already outgrown it. Viewport-based like the plate's own padding above. */
 .dsn-engine-network .ecm-kicker {
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 0.74rem;
+  font-size: clamp(0.74rem, 0.33rem + 1.69vw, 0.86rem);
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--gold);
@@ -1701,6 +1722,35 @@
   width: 100%;
   height: auto;
   overflow: visible;
+}
+
+/* Layout selection mirrors the hero's wide/compact fallback contract: one SVG
+   is displayed, the other is removed from layout and the accessibility tree, so
+   the duplicated labelled image is never announced twice. Every geometric
+   difference between the two lives in the `.ecm-wide` / `.ecm-compact` scope
+   below rather than in a media query — only the swap itself is a breakpoint. */
+/* Capped at essentially 1:1 with the 380-unit viewBox. SVG font sizes are user
+   units, so they are multiplied by the viewBox scale: left to fill the wrap,
+   this phone layout reached 1.67x just under the swap and rendered its station
+   names near 28px, then handed over to the wide layout at under 15px. Holding
+   the cap here converges both layouts on the same station-name size at their
+   respective ceilings, so the swap is a change of arrangement rather than a
+   change of scale. The compact layout is a phone drawing; it should stop
+   growing once it has reached the size it was drawn at. */
+.dsn-engine-network .ecm-compact {
+  display: none;
+  max-width: 24rem;
+  margin-inline: auto;
+}
+
+@media (max-width: 767px) {
+  .dsn-engine-network .ecm-wide {
+    display: none;
+  }
+
+  .dsn-engine-network .ecm-compact {
+    display: block;
+  }
 }
 
 /* Dotted route: dashes march in the direction the money travelled. The route
@@ -1754,34 +1804,61 @@
   stroke: var(--gold);
 }
 
+/* Green, matching the verdict plate it fires with — the sync is the point */
 .dsn-engine-network .ecm-ping-dest {
-  stroke: var(--gold-bright);
+  stroke: var(--verified-bright);
+  stroke-width: 1.4;
 }
 
 .dsn-engine-network .ecm-name {
   fill: var(--paper);
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 14px;
   letter-spacing: 0.08em;
 }
 
 .dsn-engine-network .ecm-sub {
   fill: var(--grey-warm);
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 11.5px;
   letter-spacing: 0.05em;
+}
+
+.dsn-engine-network .ecm-wide .ecm-name {
+  font-size: 14px;
+}
+
+.dsn-engine-network .ecm-wide .ecm-sub {
+  font-size: 11.5px;
+}
+
+/* The compact layout's two-line labels are roughly half the width of the wide
+   layout's single lines, which is what pays for the larger type here. */
+.dsn-engine-network .ecm-compact .ecm-name {
+  font-size: 17px;
+}
+
+.dsn-engine-network .ecm-compact .ecm-sub {
+  font-size: 13px;
 }
 
 /* Travelling amount chip: hidden until the parent Reveal arms the loop.
    --ecm-roll is the odometer travel for the two amounts and --ecm-beam-travel
-   the sweep distance; both are variables because the chip's geometry widens at
-   the mobile breakpoint and the motion has to clear the larger window. */
+   the sweep distance; both are variables because the compact chip is wider and
+   taller, and the motion has to clear the larger window. */
 .dsn-engine-network .ecm-chip {
   opacity: 0;
-  offset-path: path('M 76 118 Q 178 52 280 118 Q 382 52 484 118');
   offset-rotate: 0deg;
+}
+
+.dsn-engine-network .ecm-wide .ecm-chip {
+  offset-path: path('M 76 118 Q 178 52 280 118 Q 382 52 484 118');
   --ecm-roll: 22px;
   --ecm-beam-travel: 132px;
+}
+
+.dsn-engine-network .ecm-compact .ecm-chip {
+  offset-path: path('M 54 96 Q 122 46 190 96 Q 258 46 326 96');
+  --ecm-roll: 26px;
+  --ecm-beam-travel: 158px;
 }
 
 /* Two stacked plates rather than one recoloured plate, so the unmatched →
@@ -1804,8 +1881,17 @@
 
 .dsn-engine-network .ecm-amt {
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 14px;
   letter-spacing: 0.04em;
+}
+
+.dsn-engine-network .ecm-wide .ecm-amt {
+  font-size: 14px;
+}
+
+/* The amount sits inside its own plate, so it has no neighbour to collide with
+   and takes the larger size even on a phone */
+.dsn-engine-network .ecm-compact .ecm-amt {
+  font-size: 19px;
 }
 
 .dsn-engine-network .ecm-amt-aud {
@@ -1823,24 +1909,57 @@
   opacity: 0;
 }
 
-/* MATCHED verdict plate, stamped in a clear band above the landed chip */
-.dsn-engine-network .ecm-match {
+/* MATCHED verdict plate, in a clear band above the landed chip. This is the
+   one green in the system: the finding is confirmed, and the destination ping
+   fires green on the same frame so arrival and verdict read as one event. */
+.dsn-engine-network .ecm-match-fill {
+  fill: rgba(64, 163, 119, 0.16);
+  opacity: 0;
+  /* One small rect, one tight radius: the verdict reads as lit without a
+     filter region large enough to cost a frame */
+  filter: drop-shadow(0 0 5px rgba(64, 163, 119, 0.4));
+}
+
+/* The rule draws itself closed rather than fading in. pathLength normalises the
+   perimeter to 100 in the markup, so a single dash keyframe works at either
+   plate width, and a non-scaling stroke keeps it a true hairline. */
+.dsn-engine-network .ecm-match-rule {
+  fill: none;
+  stroke: var(--verified-bright);
+  stroke-width: 1.2;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  opacity: 0;
+}
+
+.dsn-engine-network .ecm-match-text {
+  fill: var(--verified-bright);
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
+  letter-spacing: 0.22em;
   opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
 }
 
-.dsn-engine-network .ecm-match rect {
-  fill: rgba(212, 169, 78, 0.14);
-  stroke: var(--gold);
-  stroke-width: 1;
+.dsn-engine-network .ecm-wide .ecm-match-text {
+  font-size: 12px;
 }
 
-.dsn-engine-network .ecm-match text {
-  fill: var(--gold-bright);
-  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 12px;
-  letter-spacing: 0.22em;
+.dsn-engine-network .ecm-compact .ecm-match-text {
+  font-size: 13px;
+}
+
+/* Hairline joining verdict to amount, so MATCHED annotates the chip instead of
+   floating above it as a second label. It draws downward on the same dash
+   technique as the rule rather than a transform, because a vertical line's
+   fill-box is zero-width and makes transform-origin unreliable. The dash is
+   longer than either variant's line, so one keyframe covers both. */
+.dsn-engine-network .ecm-link {
+  stroke: var(--verified);
+  stroke-width: 1;
+  stroke-dasharray: 14;
+  stroke-dashoffset: 14;
+  opacity: 0;
 }
 
 /* Armed by the parent Reveal: the journey loops on a 7.6s cycle — depart NAB,
@@ -1888,8 +2007,27 @@
     animation: ecmnet-arrive 7.6s linear 0.4s infinite;
   }
 
-  .dsn-engine-network .eng-reveal.is-visible .ecm-match {
-    animation: ecmnet-stamp 7.6s cubic-bezier(0.22, 0.61, 0.2, 1) 0.4s infinite;
+  .dsn-engine-network .eng-reveal.is-visible .ecm-sub-fx {
+    animation: ecmnet-fx-lift 7.6s linear 0.4s infinite;
+  }
+
+  /* The verdict group: rule, fill, connector and text all open at 72.5%, the
+     same frame the destination ping fires, so arrival reads as one event
+     rather than a ping followed by a label. */
+  .dsn-engine-network .eng-reveal.is-visible .ecm-match-rule {
+    animation: ecmnet-verdict-rule 7.6s cubic-bezier(0.3, 0.8, 0.3, 1) 0.4s infinite;
+  }
+
+  .dsn-engine-network .eng-reveal.is-visible .ecm-match-fill {
+    animation: ecmnet-verdict-fill 7.6s linear 0.4s infinite;
+  }
+
+  .dsn-engine-network .eng-reveal.is-visible .ecm-link {
+    animation: ecmnet-verdict-link 7.6s cubic-bezier(0.3, 0.8, 0.3, 1) 0.4s infinite;
+  }
+
+  .dsn-engine-network .eng-reveal.is-visible .ecm-match-text {
+    animation: ecmnet-verdict-text 7.6s cubic-bezier(0.16, 0.9, 0.3, 1) 0.4s infinite;
   }
 }
 
@@ -2011,19 +2149,21 @@
   }
 }
 
+/* Green, and deliberately the same 72.5% start as every verdict keyframe below:
+   the ping and the plate are one synchronised event, not a sequence. */
 @keyframes ecmnet-ping-dest {
   0%,
-  70.5% {
+  72.5% {
     transform: scale(1);
     opacity: 0;
   }
-  72.5% {
+  74% {
     transform: scale(1);
-    opacity: 0.85;
+    opacity: 0.9;
   }
-  84%,
+  85%,
   100% {
-    transform: scale(2.7);
+    transform: scale(2.9);
     opacity: 0;
   }
 }
@@ -2044,13 +2184,87 @@
   }
 }
 
-@keyframes ecmnet-stamp {
+/* The FX rate is the evidence that justifies the match, so it lifts for exactly
+   the conversion beat and settles again */
+@keyframes ecmnet-fx-lift {
   0%,
-  74% {
-    opacity: 0;
-    transform: scale(1.35);
+  31% {
+    fill: var(--grey-warm);
   }
-  80%,
+  35%,
+  44% {
+    fill: var(--gold-bright);
+  }
+  52%,
+  100% {
+    fill: var(--grey-warm);
+  }
+}
+
+/* Verdict, in four locked keyframes. The rule draws itself closed, the wash and
+   its glow come up behind it, the connector drops to the chip and the word
+   settles last — all opening on the ping's frame. */
+@keyframes ecmnet-verdict-rule {
+  0%,
+  72.5% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  73.5% {
+    opacity: 1;
+  }
+  78.5%,
+  95% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes ecmnet-verdict-fill {
+  0%,
+  72.5% {
+    opacity: 0;
+  }
+  79%,
+  95% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ecmnet-verdict-link {
+  0%,
+  72.5% {
+    stroke-dashoffset: 14;
+    opacity: 0;
+  }
+  73.5% {
+    opacity: 1;
+  }
+  77.5%,
+  95% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes ecmnet-verdict-text {
+  0%,
+  74.5% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+  79.5%,
   95% {
     opacity: 1;
     transform: scale(1);
@@ -2061,11 +2275,17 @@
   }
 }
 
-/* Caption beneath the cross-currency diagram */
+/* Caption beneath the cross-currency diagram. The only running sentence inside
+   the plate, set in tracked mono on a near-black ground in recessed grey, so it
+   is the least legible text here per pixel and the one that most needs the
+   size. Matched to the station sub-labels beside it rather than left below
+   them: at a flat 0.78rem it rendered at 12.5px against their 14px. Ramped on
+   the same reasoning as the kicker above — the floor holds the original phone
+   size so a four-line sentence never out-sizes the compact station names. */
 .dsn-engine-network .ecm-caption {
   margin-top: 1.1rem;
   font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
-  font-size: 0.78rem;
+  font-size: clamp(0.78rem, 0.43rem + 1.44vw, 0.88rem);
   letter-spacing: 0.12em;
   color: var(--grey-warm);
   text-align: center;
@@ -2402,14 +2622,46 @@
   color: var(--gold);
 }
 
+/* The reconciled balance resolves rather than arriving finished: it lands in
+   recessed gold and a light band travels across it once as the rule closes,
+   the same dim-to-bright reading the match set-piece gives its amount chip.
+   The gradient is oversized and slid by background-position, so the settled
+   state at 0% is the original bright-to-champagne face. */
 .dsn-engine-network .eng-lt-total-value {
   font-size: 1.05rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  background: linear-gradient(105deg, #f0d491 0%, #d4a94e 60%);
+  background: linear-gradient(
+    105deg,
+    #f0d491 0%,
+    #d4a94e 30%,
+    #d4a94e 44%,
+    #fff6e0 52%,
+    #8a6a2b 62%,
+    #8a6a2b 100%
+  );
+  /* 220% wide, so position 0% shows the settled bright-to-champagne face, 100%
+     shows the recessed face, and the light band at 52% crosses the numerals in
+     between. Symmetric easing keeps that crossing readable — a front-loaded
+     curve flicked the band past in under a fifth of a second. */
+  background-size: 220% 100%;
+  background-position: 100% 0;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.dsn-engine-network .eng-lt.is-run .eng-lt-total-value {
+  animation: engnet-lt-settle 1.3s cubic-bezier(0.42, 0, 0.58, 1) 6.1s forwards;
+}
+
+@keyframes engnet-lt-settle {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
 }
 
 .dsn-engine-network .eng-lt-caption {
@@ -2579,6 +2831,16 @@
   border-color: rgba(179, 35, 31, 0.45);
 }
 
+/* The FX-match note closes the trace, so it resolves brighter than the hops
+   before it — the same dim-to-bright reading the ledger's closing balance and
+   the match set-piece's amount chip use. Deliberately gold, not the verdict
+   green: this diagram shows the route, not the finding. */
+.dsn-engine-network .tnet-note.is-on.is-matched {
+  color: var(--gold-bright);
+  border-color: var(--hairline);
+  box-shadow: 0 0 12px rgba(240, 212, 145, 0.14);
+}
+
 /* Caption beneath the diagram, engraved-footnote style */
 .dsn-engine-network .eng-diagram-caption {
   margin-top: 1.1rem;
@@ -2622,57 +2884,9 @@
     height: 340px;
   }
 
-  /* The diagram's viewBox is fixed, so a narrow viewport scales every user
-     unit down; the set-piece answers with larger type in SVG units rather than
-     smaller rendered labels. */
-  /* Station names cap at 17px in SVG units: above that the INTL TRANSFER and
-     DEUTSCHE labels close to within a few user units of each other and read as
-     one run. The three-station row is width-bound at this viewport — a taller
-     stacked mobile layout is the only way past it. */
-  .dsn-engine-network .ecm-name {
-    font-size: 17px;
-  }
-
-  .dsn-engine-network .ecm-sub {
-    font-size: 13.5px;
-  }
-
-  /* The amount sits inside its own plate, so it has no neighbour to collide
-     with and takes the larger size */
-  .dsn-engine-network .ecm-amt {
-    font-size: 19px;
-  }
-
-  .dsn-engine-network .ecm-match text {
-    font-size: 15px;
-  }
-
-  .dsn-engine-network .ecm-match rect {
-    x: 430px;
-    width: 108px;
-  }
-
-  /* Chip plates, the clip window and the beam all widen together: the window
-     is what makes the odometer roll read, so it must track the plates exactly.
-     The roll and sweep distances grow with them so both still clear the box. */
-  .dsn-engine-network .ecm-box,
-  .dsn-engine-network .ecm-window {
-    x: -58px;
-    y: -46px;
-    width: 116px;
-    height: 30px;
-  }
-
-  .dsn-engine-network .ecm-beam {
-    x: -72px;
-    y: -46px;
-    height: 30px;
-  }
-
-  .dsn-engine-network .ecm-chip {
-    --ecm-roll: 26px;
-    --ecm-beam-travel: 158px;
-  }
+  /* The match set-piece has no overrides here: below 768px it swaps to the
+     compact SVG, which carries its own geometry and type in the
+     `.ecm-compact` scope beside the wide layout's. */
 }
 
 @media (max-width: 480px) {
