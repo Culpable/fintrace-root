@@ -54,7 +54,7 @@ Update stale guides with their systems. Update `DESIGN.md` with every production
 
 <environments>
 
-- Development: Node.js `>=22.23.1 <23`; `npm run dev` serves `http://localhost:3004`.
+- Development: Node.js `22.23.1`; `npm run dev` serves `http://localhost:3004`.
 - Validation: analytics tests, lint, static build, and browser checks; no general integration or Playwright suite exists.
 - Production: `.github/workflows/deploy.yml` deploys `main` to `https://fintrace.com.au/` on GitHub Pages; there is no database or server backend.
 

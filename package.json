@@ -4,11 +4,15 @@
   "private": true,
   "description": "FinTrace brand design lab - six candidate homepage designs for the forensic bank-statement analysis service",
   "engines": {
-    "node": ">=22.23.1 <23"
+    "node": "22.23.1"
   },
   "scripts": {
+    "check:node": "node scripts/check-node-version.mjs",
+    "predev": "npm run check:node",
     "dev": "next dev -p 3004",
-    "test": "node --test test/*.test.ts",
+    "pretest": "npm run check:node",
+    "test": "node --test test/*.test.*",
+    "prebuild": "npm run check:node",
     "build": "next build",
     "start": "next start -p 3004",
     "lint": "eslint"
