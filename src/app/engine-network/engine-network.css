@@ -1022,8 +1022,12 @@
 
 /* ---------------------- Framed client voice ----------------------------- */
 
+/* The testimonial owns a section of its own and carries no plate, so its
+   rhythm comes from .eng-section's block padding rather than plate padding.
+   Dropping the plate also returns its former inline padding to the measure,
+   which is why the quote and kicker breathe wider here than they used to. */
 .dsn-engine-network .eng-client-frame {
-  padding-block: clamp(3.5rem, 7vw, 5.5rem);
+  padding-block: 0;
 }
 
 .dsn-engine-network .eng-client-frame-wrap {
@@ -1179,13 +1183,6 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--grey-warm);
-}
-
-/* The selected framed testimonial follows the audience cards. Keep this
-   contextual separation out of the reusable component itself so the archived
-   comparison page can render the same frame without an extra leading gap. */
-.dsn-engine-network .eng-audience-grid + .eng-client-frame {
-  margin-top: clamp(4rem, 8vw, 6.5rem);
 }
 
 /* The card owns hover only — its Reveal wrapper owns the entrance, so the

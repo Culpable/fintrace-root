@@ -6,9 +6,13 @@ type FramedClientVoiceProps = {
 }
 
 /**
- * Renders the selected engraved-plate testimonial treatment in production.
+ * Renders the selected testimonial treatment in production.
  * The exact origin/main state keeps its historical label and single paragraph;
  * the default state applies the approved wording and optically balanced marks.
+ *
+ * It carries no `.eng-plate`: the quote's own ruled aperture is its frame, and
+ * the page's one human voice should not arrive in the same engraved case as
+ * the outcome and engagement plates it now sits between.
  */
 export default function FramedClientVoice({ exactOriginMain = false }: FramedClientVoiceProps) {
   const eyebrow = exactOriginMain ? 'The time saved' : NICK_TESTIMONIAL.eyebrow
@@ -16,7 +20,7 @@ export default function FramedClientVoice({ exactOriginMain = false }: FramedCli
   const showQuotationMarks = !exactOriginMain
 
   return (
-    <Reveal className="eng-plate eng-client-frame" delay={0}>
+    <Reveal className="eng-client-frame" delay={0}>
       <div className={showQuotationMarks ? 'eng-client-frame-wrap eng-client-frame-final' : 'eng-client-frame-wrap'}>
         <p className="eng-kicker">{eyebrow}</p>
         {showQuotationMarks ? null : <div className="eng-client-frame-tick" aria-hidden="true" />}

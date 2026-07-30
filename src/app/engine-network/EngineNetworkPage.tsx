@@ -291,6 +291,19 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
           </div>
         </section>
 
+        {/* -------------------------- Client voice -------------------------
+            The page's one human voice, placed where it corroborates rather
+            than decorates: both of Nick Brookes's paragraphs answer the
+            outcome plate directly above — the weeks saved answer its volume
+            stats, the source-page check answers its "a human can verify"
+            note. It carries no plate, so the single human moment is not
+            presented in the same engraved case as the engine's own output. */}
+        <section className="eng-section eng-cv" id="testimony">
+          <div className="eng-container">
+            <FramedClientVoice />
+          </div>
+        </section>
+
         {/* --------------------------- Audiences --------------------------- */}
         <section className="eng-section eng-cv" id="for">
           <div className="eng-container">
@@ -311,7 +324,6 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 </Reveal>
               ))}
             </div>
-            <FramedClientVoice />
           </div>
         </section>
 
