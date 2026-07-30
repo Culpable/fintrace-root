@@ -9,7 +9,7 @@ import ClientVoice from '../engine-network/ClientVoice'
 import { bricolage, fragmentMono, fragmentMonoApprox } from '../engine-network/fonts'
 import Reveal from '../engine-network/Reveal'
 import { SiteFooter, SiteHeader } from '../engine-network/SiteChrome'
-import { TESTIMONIAL_TIME_SAVED } from '../engine-network/testimonial'
+import { TESTIMONIAL_SOURCE_CHECK } from '../engine-network/testimonial'
 
 export const metadata: Metadata = {
   title: pageMetadata.about.title,
@@ -73,21 +73,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* -------------------------- Client voice -------------------------
-            Nick Brookes's weeks-saved paragraph, the half of the approved
-            testimony this page carries; the homepage keeps the source-page
-            half, so no sentence appears in two visible copy blocks. It sits
-            in a section of its own rather than inside the recent-matter
-            section above, because the instructing lawyer in that matter is
-            not identified and shared framing would imply he is that lawyer.
-            The lighter ruled treatment keeps the flagship's centred aperture
-            as the homepage's own set-piece. */}
-        <section className="eng-page-section">
-          <div className="eng-container">
-            <ClientVoice paragraphs={TESTIMONIAL_TIME_SAVED} solo />
-          </div>
-        </section>
-
         <section className="eng-page-section">
           <div className="eng-container">
             <Reveal className="eng-section-head">
@@ -125,6 +110,23 @@ export default function AboutPage() {
                 human-verifiable and court-ready.
               </p>
             </Reveal>
+          </div>
+        </section>
+
+        {/* -------------------------- Client voice -------------------------
+            Nick Brookes's source-page paragraph, the half of the approved
+            testimony this page carries; the homepage keeps the weeks-saved
+            half, so no sentence appears in two visible copy blocks. It follows
+            the standard-of-proof section deliberately: the quote opens on
+            "It", and the prose above supplies the engine as its subject while
+            the quote answers the standard in a client's own words. Placing it
+            here also keeps it two sections clear of the recent matter, whose
+            instructing lawyer is not identified, so nothing implies he is that
+            lawyer. The lighter ruled treatment keeps the flagship's centred
+            aperture as the homepage's own set-piece. */}
+        <section className="eng-page-section">
+          <div className="eng-container">
+            <ClientVoice paragraphs={TESTIMONIAL_SOURCE_CHECK} solo />
           </div>
         </section>
 

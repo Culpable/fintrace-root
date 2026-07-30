@@ -10,7 +10,7 @@ import LedgerPlate from './LedgerPlate'
 import Reveal from './Reveal'
 import Stat from './Stat'
 import { SiteFooter, SiteHeader } from './SiteChrome'
-import { TESTIMONIAL_SOURCE_CHECK } from './testimonial'
+import { TESTIMONIAL_TIME_SAVED } from './testimonial'
 import TraceDiagram from './TraceDiagram'
 
 /**
@@ -294,15 +294,18 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
 
         {/* -------------------------- Client voice -------------------------
             The page's one human voice, placed where it corroborates rather
-            than decorates: Nick Brookes's source-page paragraph answers the
-            outcome plate's "a human can verify" note directly above. His
-            weeks-saved paragraph now carries About's recent-matter hours
-            instead, so neither sentence appears in two visible copy blocks.
-            This section carries no plate, so the single human moment is not
-            presented in the same engraved case as the engine's own output. */}
+            than decorates: Nick Brookes's weeks-saved paragraph answers the
+            volume stats in the outcome plate directly above. It also names
+            FinTrace itself, so it opens as a complete remark under a centred
+            aperture, where his source-page paragraph would have opened on a
+            bare "It". That paragraph carries About's standard-of-proof
+            section instead, so neither sentence appears in two visible copy
+            blocks. This section carries no plate, so the single human moment
+            is not presented in the same engraved case as the engine's own
+            output. */}
         <section className="eng-section eng-cv" id="testimony">
           <div className="eng-container">
-            <FramedClientVoice paragraphs={TESTIMONIAL_SOURCE_CHECK} />
+            <FramedClientVoice paragraphs={TESTIMONIAL_TIME_SAVED} />
           </div>
         </section>
 
