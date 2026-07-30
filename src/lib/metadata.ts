@@ -4,9 +4,9 @@
  */
 export const siteMetadata = {
   name: 'FinTrace',
-  title: 'FinTrace: AI forensic financial analysis for legal matters',
+  title: 'FinTrace: forensic bank-statement analysis for legal teams',
   description:
-    'FinTrace uses AI to turn bulk bank statements into a structured transaction ledger and source-linked findings - every line verifiable against its source page.',
+    'FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.',
   siteUrl: 'https://fintrace.com.au',
   ogImage: '/images/og/fintrace-og.png',
   locale: 'en-AU',

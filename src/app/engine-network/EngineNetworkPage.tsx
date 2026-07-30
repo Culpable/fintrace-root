@@ -133,8 +133,8 @@ type EngineNetworkPageProps = {
 export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPageProps) {
   return (
     <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
-      <SiteHeader hero />
-      <main>
+      <SiteHeader currentPage="home" hero />
+      <main id="main-content" tabIndex={-1}>
         <Hero />
 
         {/* ---------------------------- Process ---------------------------- */}
@@ -216,7 +216,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
             <Reveal className="eng-section-head">
               <p className="eng-kicker">The evidence, matched</p>
               <h2 className="eng-h2">
-                Same funds. <span className="eng-gold-text">Two currencies.<br />One match.</span>
+                Same funds. <span className="eng-gold-text">Two currencies.<br /> One match.</span>
               </h2>
               <p className="eng-lede">
                 A transfer that changes currency is where most trails go cold. This one doesn’t: the dollars leaving
@@ -237,7 +237,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
               <p className="eng-kicker">Specifications</p>
               <h2 className="eng-h2">Built to withstand scrutiny.</h2>
               <p className="eng-lede">
-                Trust is the entire product. Each capability exists so a finding can be put in front of a senior lawyer,
+                Trust is the standard. Each capability exists so a finding can be put in front of a senior lawyer,
                 opposing counsel — or a court — and hold.
               </p>
             </Reveal>
@@ -352,12 +352,9 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
                 </Link>
                 <Link
                   className="eng-btn-ghost"
-                  href="/contact/#enquire"
-                  data-analytics-cta
-                  data-analytics-placement="section"
-                  data-analytics-destination="contact_enquire"
+                  href="/engagement/"
                 >
-                  Start an enquiry
+                  Engagement &amp; pricing
                 </Link>
               </div>
             </Reveal>
@@ -365,7 +362,7 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
         </section>
       </main>
 
-      <SiteFooter />
+      <SiteFooter currentPage="home" />
       {showDesignLabLink ? (
         <Link href="/internal-design/" className="eng-lab-chip">
           <span aria-hidden="true">←</span>

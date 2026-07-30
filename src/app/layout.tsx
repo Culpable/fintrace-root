@@ -28,7 +28,7 @@ export const metadata: Metadata = {
         url: siteMetadata.ogImage,
         width: 1200,
         height: 630,
-        alt: 'FinTrace: AI forensic financial analysis for legal matters',
+        alt: 'FinTrace forensic bank-statement analysis for legal teams',
       },
     ],
   },

@@ -62,8 +62,62 @@
   outline-offset: 3px;
 }
 
+/* Keep the bypass link first in the keyboard order but outside the visual
+   composition until it receives focus. It uses the existing instrument
+   palette instead of introducing a second header action. */
+.dsn-engine-network .eng-skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--gold-bright);
+  border-radius: 2px;
+  background: var(--obsidian-2);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  color: var(--gold-bright);
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translate(-50%, calc(-100% - 1rem));
+  transition:
+    transform 0.35s cubic-bezier(0.32, 0.72, 0, 1),
+    box-shadow 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.dsn-engine-network .eng-skip-link:focus-visible {
+  transform: translate(-50%, 0);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.6);
+}
+
 .dsn-engine-network section[id] {
   scroll-margin-top: 4rem;
+}
+
+.dsn-engine-network h1,
+.dsn-engine-network h2,
+.dsn-engine-network h3 {
+  text-wrap: balance;
+}
+
+.dsn-engine-network .eng-lede,
+.dsn-engine-network .eng-stage-copy,
+.dsn-engine-network .eng-spec-copy,
+.dsn-engine-network .eng-card > p,
+.dsn-engine-network .eng-proof-note,
+.dsn-engine-network .eng-client-frame-copy p,
+.dsn-engine-network .eng-footer-line,
+.dsn-engine-network .eng-ab-prose p,
+.dsn-engine-network .eng-eg-step p,
+.dsn-engine-network .eng-eg-prose p,
+.dsn-engine-network .eng-ct-next-row p,
+.dsn-engine-network .eng-ct-form-intro {
+  text-wrap: pretty;
 }
 
 /* Shared page gutter/measure */
@@ -381,6 +435,13 @@
   color: var(--gold-bright);
 }
 
+.dsn-engine-network .eng-header-nav > a[aria-current='page']:not(.eng-btn-gold) {
+  color: var(--gold-bright);
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 0.45rem;
+}
+
 /* --------------------------------- Hero -------------------------------- */
 
 .dsn-engine-network .eng-hero {
@@ -462,9 +523,15 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 46rem 20rem at 24% 66%, rgba(13, 11, 9, 0.55), transparent 68%),
+    radial-gradient(ellipse 46rem 20rem at 24% 66%, rgba(13, 11, 9, 0.78), transparent 68%),
     linear-gradient(180deg, rgba(13, 11, 9, 0.55) 0%, rgba(13, 11, 9, 0) 26%, rgba(13, 11, 9, 0) 55%, rgba(13, 11, 9, 0.85) 92%),
-    linear-gradient(90deg, rgba(13, 11, 9, 0.72) 0%, rgba(13, 11, 9, 0.28) 38%, rgba(13, 11, 9, 0) 62%);
+    linear-gradient(
+      90deg,
+      rgba(13, 11, 9, 0.9) 0%,
+      rgba(13, 11, 9, 0.78) 50%,
+      rgba(13, 11, 9, 0.2) 68%,
+      rgba(13, 11, 9, 0) 78%
+    );
 }
 
 .dsn-engine-network .eng-hero-inner {
@@ -1355,6 +1422,13 @@
   color: var(--gold-bright);
 }
 
+.dsn-engine-network .eng-footer-nav a[aria-current='page'] {
+  color: var(--gold-bright);
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 0.35rem;
+}
+
 .dsn-engine-network .eng-footer-meta a {
   position: relative;
   display: inline-block;
@@ -1384,7 +1458,7 @@
   font-size: 0.62rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(163, 154, 141, 0.55);
+  color: rgba(163, 154, 141, 0.8);
 }
 
 @media (max-width: 1000px) {

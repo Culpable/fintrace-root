@@ -42,8 +42,8 @@ const STEPS = [
 export default function EngagementPage() {
   return (
     <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
-      <SiteHeader />
-      <main>
+      <SiteHeader currentPage="engagement" />
+      <main id="main-content" tabIndex={-1}>
         <section className="eng-page-hero">
           <div className="eng-container">
             <p className="eng-kicker">Engagement &amp; pricing</p>
@@ -176,7 +176,7 @@ export default function EngagementPage() {
           </div>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter currentPage="engagement" />
     </div>
   )
 }

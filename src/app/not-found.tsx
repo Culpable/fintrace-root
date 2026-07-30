@@ -17,7 +17,7 @@ export default function NotFound() {
   return (
     <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
       <SiteHeader />
-      <main className="eng-nf-band">
+      <main className="eng-nf-band" id="main-content" tabIndex={-1}>
         <svg className="eng-nf-constellation" viewBox="0 0 560 420" aria-hidden="true">
           <line x1="280" y1="210" x2="150" y2="112" />
           <line x1="280" y1="210" x2="420" y2="126" />

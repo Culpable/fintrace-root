@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
-      <SiteHeader />
-      <main>
+      <SiteHeader currentPage="about" />
+      <main id="main-content" tabIndex={-1}>
         <section className="eng-page-hero">
           <div className="eng-container">
             <p className="eng-kicker">About FinTrace</p>
@@ -45,7 +45,7 @@ export default function AboutPage() {
           </span>
         </div>
 
-        <section className="eng-page-section">
+        <section className="eng-page-section" id="recent-matter">
           <div className="eng-container">
             <Reveal className="eng-section-head">
               <p className="eng-kicker">In practice</p>
@@ -140,7 +140,7 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter currentPage="about" />
     </div>
   )
 }

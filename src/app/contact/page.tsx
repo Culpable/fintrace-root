@@ -23,8 +23,8 @@ const NEXT_STEPS = [
 export default function ContactPage() {
   return (
     <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
-      <SiteHeader contactHref="#enquire" />
-      <main>
+      <SiteHeader contactHref="#enquire" currentPage="contact" />
+      <main id="main-content" tabIndex={-1}>
         <section className="eng-page-hero">
           <div className="eng-container">
             <p className="eng-kicker">Get in touch</p>
@@ -67,7 +67,7 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter currentPage="contact" />
     </div>
   )
 }

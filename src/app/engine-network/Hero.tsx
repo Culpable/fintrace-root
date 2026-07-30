@@ -133,9 +133,9 @@ export default function Hero() {
           >
             Request a matter assessment
           </Link>
-          <a className="eng-btn-ghost" href="#process">
-            See how the engine works
-          </a>
+          <Link className="eng-btn-ghost" href="/about/#recent-matter">
+            See a recent matter
+          </Link>
         </div>
       </div>
 
