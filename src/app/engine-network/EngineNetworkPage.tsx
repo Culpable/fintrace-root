@@ -10,6 +10,7 @@ import LedgerPlate from './LedgerPlate'
 import Reveal from './Reveal'
 import Stat from './Stat'
 import { SiteFooter, SiteHeader } from './SiteChrome'
+import { TESTIMONIAL_SOURCE_CHECK } from './testimonial'
 import TraceDiagram from './TraceDiagram'
 
 /**
@@ -293,14 +294,15 @@ export default function EngineNetworkPage({ showDesignLabLink }: EngineNetworkPa
 
         {/* -------------------------- Client voice -------------------------
             The page's one human voice, placed where it corroborates rather
-            than decorates: both of Nick Brookes's paragraphs answer the
-            outcome plate directly above — the weeks saved answer its volume
-            stats, the source-page check answers its "a human can verify"
-            note. It carries no plate, so the single human moment is not
+            than decorates: Nick Brookes's source-page paragraph answers the
+            outcome plate's "a human can verify" note directly above. His
+            weeks-saved paragraph now carries About's recent-matter hours
+            instead, so neither sentence appears in two visible copy blocks.
+            This section carries no plate, so the single human moment is not
             presented in the same engraved case as the engine's own output. */}
         <section className="eng-section eng-cv" id="testimony">
           <div className="eng-container">
-            <FramedClientVoice />
+            <FramedClientVoice paragraphs={TESTIMONIAL_SOURCE_CHECK} />
           </div>
         </section>
 

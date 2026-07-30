@@ -5,9 +5,11 @@ import { pageMetadata } from '@/lib/metadata'
 import '../engine-network/engine-network.css'
 import '../engine-network/site-pages.css'
 import './about.css'
+import ClientVoice from '../engine-network/ClientVoice'
 import { bricolage, fragmentMono, fragmentMonoApprox } from '../engine-network/fonts'
 import Reveal from '../engine-network/Reveal'
 import { SiteFooter, SiteHeader } from '../engine-network/SiteChrome'
+import { TESTIMONIAL_TIME_SAVED } from '../engine-network/testimonial'
 
 export const metadata: Metadata = {
   title: pageMetadata.about.title,
@@ -68,6 +70,21 @@ export default function AboutPage() {
                 ≈50 hrs estimated · ≈10 delivered · every finding cited to source
               </p>
             </Reveal>
+          </div>
+        </section>
+
+        {/* -------------------------- Client voice -------------------------
+            Nick Brookes's weeks-saved paragraph, the half of the approved
+            testimony this page carries; the homepage keeps the source-page
+            half, so no sentence appears in two visible copy blocks. It sits
+            in a section of its own rather than inside the recent-matter
+            section above, because the instructing lawyer in that matter is
+            not identified and shared framing would imply he is that lawyer.
+            The lighter ruled treatment keeps the flagship's centred aperture
+            as the homepage's own set-piece. */}
+        <section className="eng-page-section">
+          <div className="eng-container">
+            <ClientVoice paragraphs={TESTIMONIAL_TIME_SAVED} solo />
           </div>
         </section>
 

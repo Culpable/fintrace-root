@@ -7,11 +7,28 @@ export type ClientVoicePosition = 'left' | 'right' | 'footer'
 type ClientVoiceProps = {
   delay?: number
   position?: ClientVoicePosition
+  /** Slice of the approved testimony to render; defaults to the full wording. */
+  paragraphs?: readonly string[]
+  /**
+   * Set when the voice owns its own page section. The section's own rule and
+   * block padding then carry the separation, so the surface drops its stacked
+   * top margin and hairlines instead of stacking three rules within a few rems.
+   */
+  solo?: boolean
 }
 
-export default function ClientVoice({ delay = 120, position = 'left' }: ClientVoiceProps) {
+export default function ClientVoice({
+  delay = 120,
+  position = 'left',
+  paragraphs = NICK_TESTIMONIAL.paragraphs,
+  solo = false,
+}: ClientVoiceProps) {
   return (
-    <Reveal as="figure" className={clsx('eng-client-voice', `eng-client-voice-${position}`)} delay={delay}>
+    <Reveal
+      as="figure"
+      className={clsx('eng-client-voice', `eng-client-voice-${position}`, solo && 'eng-client-voice-solo')}
+      delay={delay}
+    >
       <p className="eng-kicker eng-client-voice-kicker">{NICK_TESTIMONIAL.eyebrow}</p>
       <div className="eng-client-voice-meta">
         <span className="eng-client-voice-photo eng-client-voice-duo eng-client-voice-grain">
@@ -29,7 +46,7 @@ export default function ClientVoice({ delay = 120, position = 'left' }: ClientVo
         </figcaption>
       </div>
       <blockquote className="eng-client-voice-quote">
-        {NICK_TESTIMONIAL.paragraphs.map((paragraph) => (
+        {paragraphs.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
       </blockquote>
