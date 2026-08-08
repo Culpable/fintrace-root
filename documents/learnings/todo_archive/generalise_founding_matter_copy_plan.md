@@ -1,5 +1,7 @@
 # ~~Generalise Founding-Matter Copy Plan~~ ✅ **COMPLETED**
 
+> **Implemented status (verified 2026-08-08):** Implemented and ready to archive from documents/todo. Evidence: `src/app/engine-network/Hero.tsx`, `src/app/engine-network/EngineNetworkPage.tsx`, `src/app/about/page.tsx`, `DESIGN.md`, and implementation commit `b6cbb4b`.
+
 <critical_warning>
 > **CRITICAL WARNING:** `DESIGN.md:179` declares the current proof numbers a fixed, closed claim set. This plan is the recorded decision that changes that set. DESIGN.md MUST be updated in the same task as the copy edits (per the `<documentation_synchronisation>` rule in `AGENTS.md`), or the design contract and the shipped site will contradict each other.
 </critical_warning>

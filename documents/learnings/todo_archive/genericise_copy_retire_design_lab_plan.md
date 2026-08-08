@@ -1,5 +1,7 @@
 # ~~Genericise Site Copy and Retire Design-Lab Routes Plan~~ ✅ **COMPLETED**
 
+> **Implemented status (verified 2026-08-08):** Implemented and ready to archive from documents/todo. Evidence: `src/app/_design-lab/`, `src/app/engine-network/CurrencyMatch.tsx`, `src/app/engine-network/TraceDiagram.tsx`, `public/images/og/fintrace-og.png`, `DESIGN.md`, and implementation commit `9dc3c48`.
+
 <critical_warning>
 > **CRITICAL WARNING:** `src/app/engine-network/` is BOTH a design-lab route AND the production visual system. The production homepage (`src/app/page.tsx`), `/about/`, `/engagement/`, `/contact/` and the root 404 all import its components, CSS and fonts. When retiring the lab routes, move ONLY `src/app/engine-network/page.tsx` and `src/app/engine-network/internal-engine-network.css` into the archive folder. Deleting or moving anything else in `src/app/engine-network/` breaks every production page.
 </critical_warning>

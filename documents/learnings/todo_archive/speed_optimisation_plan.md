@@ -1,5 +1,7 @@
 # ~~Production Site Speed Optimisation Plan~~ ✅ **COMPLETED**
 
+> **Implemented status (verified 2026-08-08):** Implemented and ready to archive from documents/todo. Evidence: `src/app/engine-network/SiteChrome.tsx`, `src/app/engine-network/Hero.tsx`, `src/app/engine-network/EngineNetworkPage.tsx`, `public/images/og/fintrace-og.png`, `DESIGN.md`, and implementation commit `9eb6c9d`.
+
 <critical_warning>
 > **CRITICAL WARNING:** This plan must produce ZERO visual, copy, layout, or interaction-feel change on any route. Every change is a mechanical substitution (anchor implementation, lossless image bytes). `DESIGN.md:127` states: “Any hero CTA change, even attribute-only, triggers the full seven-viewport hero matrix” — Step 2 changes the hero CTA’s element implementation, so the full seven-viewport hero matrix in `DESIGN.md:197` is mandatory before this work is complete.
 </critical_warning>
