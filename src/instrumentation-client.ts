@@ -1,6 +1,9 @@
 import { initialiseAnalytics, trackAnalytics } from '@/lib/analytics/client'
 
 let ctaListenerInstalled = false
+let analyticsInitialisationScheduled = false
+
+const ANALYTICS_ACTIVATION_DELAY_MS = 3_000
 
 function handleAssessmentClick(event: MouseEvent) {
   if (!(event.target instanceof Element)) {
@@ -23,17 +26,57 @@ function handleAssessmentClick(event: MouseEvent) {
 }
 
 function scheduleInitialisation() {
-  const browserWindow = window as unknown as {
-    requestIdleCallback?: Window['requestIdleCallback']
-    setTimeout: Window['setTimeout']
-  }
-
-  if (browserWindow.requestIdleCallback) {
-    browserWindow.requestIdleCallback(() => initialiseAnalytics(), { timeout: 2_000 })
+  if (analyticsInitialisationScheduled) {
     return
   }
 
-  browserWindow.setTimeout(() => initialiseAnalytics(), 0)
+  analyticsInitialisationScheduled = true
+
+  let activationTimer: number | undefined
+  let initialised = false
+
+  const removeIntentListeners = () => {
+    window.removeEventListener('pointerdown', initialise)
+    window.removeEventListener('touchstart', initialise)
+    window.removeEventListener('keydown', initialise)
+  }
+
+  const initialise = () => {
+    if (initialised) {
+      return
+    }
+
+    initialised = true
+
+    if (activationTimer !== undefined) {
+      window.clearTimeout(activationTimer)
+    }
+
+    window.removeEventListener('load', scheduleAfterLoad)
+    removeIntentListeners()
+    initialiseAnalytics()
+  }
+
+  const scheduleAfterLoad = () => {
+    if (initialised || activationTimer !== undefined) {
+      return
+    }
+
+    activationTimer = window.setTimeout(initialise, ANALYTICS_ACTIVATION_DELAY_MS)
+  }
+
+  // Preserve queued page and CTA events while keeping the analytics vendor
+  // outside the critical visual window. User intent can initialise it sooner;
+  // otherwise a bounded post-load delay guarantees eventual delivery.
+  window.addEventListener('pointerdown', initialise, { passive: true })
+  window.addEventListener('touchstart', initialise, { passive: true })
+  window.addEventListener('keydown', initialise)
+
+  if (document.readyState === 'complete') {
+    scheduleAfterLoad()
+  } else {
+    window.addEventListener('load', scheduleAfterLoad, { once: true })
+  }
 }
 
 trackAnalytics({ name: 'Page Viewed', path: window.location.pathname })

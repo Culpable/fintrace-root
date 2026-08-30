@@ -2,12 +2,14 @@
 
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { useState, type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import clsx from 'clsx'
 
-// Load the three.js scene on the client only, after first paint. The library
-// stays inside this route's async chunk, so no other design pays for WebGL.
+// Keep three.js in a client-only async chunk. Hero intent or a bounded
+// post-load delay activates it without making the critical render download it.
 const EvidenceScene = dynamic(() => import('./Scene'), { ssr: false })
+
+const SCENE_ACTIVATION_DELAY_MS = 3_000
 
 /** Inline delay helper for the hero's staggered load choreography. */
 const loadDelay = (ms: number) => ({ '--load-delay': `${ms}ms` }) as CSSProperties
@@ -20,7 +22,69 @@ const loadDelay = (ms: number) => ({ '--load-delay': `${ms}ms` }) as CSSProperti
  * scrim, then the DOM headline block and the mono stat strip.
  */
 export default function Hero() {
+  const [sceneActivated, setSceneActivated] = useState(false)
   const [sceneReady, setSceneReady] = useState(false)
+
+  useEffect(() => {
+    let activationTimer: number | undefined
+    let activated = false
+
+    const removeIntentListeners = () => {
+      window.removeEventListener('pointermove', activateScene)
+      window.removeEventListener('pointerdown', activateScene)
+      window.removeEventListener('touchstart', activateScene)
+      window.removeEventListener('keydown', activateScene)
+    }
+
+    const activateScene = () => {
+      if (activated) {
+        return
+      }
+
+      activated = true
+
+      if (activationTimer !== undefined) {
+        window.clearTimeout(activationTimer)
+      }
+
+      window.removeEventListener('load', scheduleSceneActivation)
+      removeIntentListeners()
+      setSceneActivated(true)
+    }
+
+    const scheduleSceneActivation = () => {
+      if (activated || activationTimer !== undefined) {
+        return
+      }
+
+      activationTimer = window.setTimeout(activateScene, SCENE_ACTIVATION_DELAY_MS)
+    }
+
+    // Pointer, touch, and keyboard intent can reveal the live scene sooner.
+    // Otherwise the static fallback protects first paint for three seconds
+    // after load, then the complete WebGL experience starts automatically.
+    window.addEventListener('pointermove', activateScene, { passive: true })
+    window.addEventListener('pointerdown', activateScene, { passive: true })
+    window.addEventListener('touchstart', activateScene, { passive: true })
+    window.addEventListener('keydown', activateScene)
+
+    if (document.readyState === 'complete') {
+      scheduleSceneActivation()
+    } else {
+      window.addEventListener('load', scheduleSceneActivation, { once: true })
+    }
+
+    return () => {
+      activated = true
+
+      if (activationTimer !== undefined) {
+        window.clearTimeout(activationTimer)
+      }
+
+      window.removeEventListener('load', scheduleSceneActivation)
+      removeIntentListeners()
+    }
+  }, [])
 
   return (
     <section className="eng-hero" id="top">
@@ -98,7 +162,7 @@ export default function Hero() {
 
       {/* Live WebGL layer — opacity transition handled in engine.css */}
       <div className={clsx('eng-scene-layer', sceneReady && 'is-ready')}>
-        <EvidenceScene onReady={() => setSceneReady(true)} />
+        {sceneActivated && <EvidenceScene onReady={() => setSceneReady(true)} />}
       </div>
 
       {/* Scrim guarantees headline contrast over the brightest scene moments */}
@@ -106,14 +170,14 @@ export default function Hero() {
 
       {/* Headline block, lower left, clear of the gate on desktop */}
       <div className="eng-container eng-hero-inner">
-        <p className="eng-kicker eng-load" style={loadDelay(100)}>
+        <p className="eng-kicker eng-load" style={loadDelay(0)}>
           <span className="eng-hero-copy-wide">Forensic financial analysis for legal teams</span>
           <span className="eng-hero-copy-mobile">Forensic analysis for legal teams</span>
         </p>
-        <h1 className="eng-display eng-load" style={loadDelay(220)}>
+        <h1 className="eng-display eng-load" style={loadDelay(80)}>
           The evidence <span className="eng-gold-text">engine</span>.
         </h1>
-        <p className="eng-lede eng-load" style={loadDelay(360)}>
+        <p className="eng-lede eng-load" style={loadDelay(180)}>
           <span className="eng-hero-copy-wide">
             FinTrace turns thousands of pages of bank statements — any bank, any format, scanned or born-digital — into
             structured, source-linked evidence that stands up in court.
@@ -123,7 +187,7 @@ export default function Hero() {
             review.
           </span>
         </p>
-        <div className="eng-hero-ctas eng-load" style={loadDelay(500)}>
+        <div className="eng-hero-ctas eng-load" style={loadDelay(320)}>
           <Link
             className="eng-btn-gold"
             href="/contact/"
@@ -143,7 +207,7 @@ export default function Hero() {
       <div className="eng-scroll-cue" aria-hidden="true" />
 
       {/* Mono stat strip anchoring the hero's bottom edge */}
-      <div className="eng-hero-strip eng-load" style={loadDelay(680)}>
+      <div className="eng-hero-strip eng-load" style={loadDelay(500)}>
         <span>Thousands of pages</span>
         <span className="eng-strip-div" aria-hidden="true" />
         <span>Decades of statements</span>

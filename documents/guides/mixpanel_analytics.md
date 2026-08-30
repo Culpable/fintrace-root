@@ -8,13 +8,13 @@ FinTrace Root uses Mixpanel only for an anonymous five-event assessment funnel. 
 | --- | --- |
 | Event types, route normalisation, allowlists, queueing, deduplication and failure isolation | `src/lib/analytics/core.ts` |
 | Production gating, public token, US host, SDK configuration and delivery adapter | `src/lib/analytics/client.ts` |
-| Initial page view, App Router transitions, idle initialisation and marked CTA clicks | `src/instrumentation-client.ts` |
+| Initial page view, App Router transitions, intent-or-post-load initialisation and marked CTA clicks | `src/instrumentation-client.ts` |
 | Enquiry lifecycle calls | `src/app/contact/ContactForm.tsx` |
 | Interface regression tests | `test/analytics.test.ts` |
 
 Callers import only `initialiseAnalytics` or `trackAnalytics` from the project facade. They never import Mixpanel, receive its SDK object, or await analytics before navigation or form state changes.
 
-The core rebuilds each accepted input from closed allowlists, normalises its page, adds common properties, and queues it until the production adapter is ready. Development calls are no-ops. Import, initialisation, and delivery failures remain inside the analytics boundary.
+The core rebuilds each accepted input from closed allowlists, normalises its page, adds common properties, and queues it until the production adapter is ready. `src/instrumentation-client.ts::scheduleInitialisation` keeps the vendor outside the critical render: pointer, touch or keyboard intent can initialise it early, while a three-second timer starts after `window.load` and guarantees eventual delivery. Development calls are no-ops. Import, initialisation, and delivery failures remain inside the analytics boundary.
 
 ## Event contract
 
@@ -65,4 +65,4 @@ npm run test:agent
 rg -n "mixpanel-recorder|@mixpanel/rrweb|rrweb-record" out/_next/static .next/static
 ```
 
-The first four commands must pass. The recorder search must return no shipped recorder implementation. For analytics interaction changes, use the project browser matrix in `AGENTS.md`, stub Formspree, confirm development sends no Mixpanel request, and verify blocked analytics does not affect links, animation, or form state. The agent suite fulfils only `https://api-js.mixpanel.com/track/` inside Chromium and aborts every other non-loopback request, so it exercises production analytics without live delivery or a synthetic browser error. Never send a real enquiry during validation.
+The first four commands must pass. The recorder search must return no shipped recorder implementation. For analytics interaction changes, use the project browser matrix in `AGENTS.md`, stub Formspree, confirm development sends no Mixpanel request, and verify blocked analytics does not affect links, animation, or form state. In the production export, confirm the vendor chunk is absent for the first two seconds after load, then loads once after intent or the bounded post-load delay. The agent suite fulfils only `https://api-js.mixpanel.com/track/` inside Chromium and aborts every other non-loopback request, so it exercises production analytics without live delivery or a synthetic browser error. Never send a real enquiry during validation.
