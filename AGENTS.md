@@ -28,7 +28,7 @@
 <container_information>
 
 <description>
-FinTrace Root is the static public site for FinTrace’s forensic bank-statement analysis service. Routes are `/`, `/about/`, `/engagement/`, `/contact/`, and root not-found.
+FinTrace Root is the static public site for FinTrace’s forensic bank-statement analysis service. Routes are `/`, `/about/`, `/engagement/`, `/contact/`, `/privacy/`, and root not-found.
 </description>
 
 <system_architecture_documentation>
@@ -37,6 +37,7 @@ FinTrace Root is the static public site for FinTrace’s forensic bank-statement
 | --- | --- | --- |
 | Product claims | [`brand_naming_background.md`](/Users/sacino/fintrace/documents/reference/brand_naming_background.md) | Changing copy, capabilities, proof, audiences, or positioning. |
 | Mixpanel analytics | [`mixpanel_analytics.md`](/Users/sacino/fintrace-root/documents/guides/mixpanel_analytics.md) | Changing events, callers, CTA markers, route tracking, vendor configuration, privacy, or validation. |
+| Agent readiness | [`agent_readiness.md`](/Users/sacino/fintrace-root/documents/guides/agent_readiness.md) | Changing public routes, metadata, structured data, llms.txt, robots, sitemap, forms, trust pages, agent accessibility, or static performance budgets. |
 
 <documentation_synchronisation>
 Update stale guides with their systems. Update `DESIGN.md` with every production design or interaction change.
@@ -55,7 +56,7 @@ Update stale guides with their systems. Update `DESIGN.md` with every production
 <environments>
 
 - Development: Node.js `22.23.1`; `npm run dev` serves `http://localhost:3004`.
-- Validation: analytics tests, lint, static build, and browser checks; no general integration or Playwright suite exists.
+- Validation: analytics Interface tests, lint, static build, the desktop/mobile Playwright agent suite, and headed browser checks.
 - Production: `.github/workflows/deploy.yml` deploys `main` to `https://fintrace.com.au/` on GitHub Pages; there is no database or server backend.
 
 </environments>
@@ -76,6 +77,7 @@ Update stale guides with their systems. Update `DESIGN.md` with every production
 - `npm test` - analytics Interface tests must finish with zero failures.
 - `npm run lint` - ESLint must finish with zero errors.
 - `npm run build` - Next.js must export successfully to `out/`.
+- `npm run test:agent` - the build plus desktop/mobile readiness, accessibility, WebMCP, trust, 404, metadata, CLS, overflow and performance checks must pass.
 </validation_commands>
 
 <dev_server_policy>

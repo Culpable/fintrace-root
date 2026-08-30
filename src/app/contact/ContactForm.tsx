@@ -6,6 +6,14 @@ import { trackAnalytics } from '@/lib/analytics/client'
 // Keep the public form ID isolated here so endpoint changes never touch the submission state machine.
 const FORMSPREE_FORM_ID = 'xwvgoenw'
 const FORMSPREE_ACTION = `https://formspree.io/f/${FORMSPREE_FORM_ID}`
+const WEBMCP_FORM_ATTRIBUTES = {
+  toolname: 'sendFinTraceEnquiry',
+  tooldescription:
+    'Start a FinTrace enquiry about service fit, timeframe or pricing. The user reviews and submits the visible form.',
+} as const
+const WEBMCP_HONEYPOT_ATTRIBUTES = {
+  toolparamdescription: 'Anti-spam field. Leave blank.',
+} as const
 
 type SubmitStatus = 'idle' | 'sending' | 'success' | 'error'
 
@@ -86,6 +94,8 @@ export default function ContactForm() {
       onChange={handleFormChange}
       onSubmit={handleSubmit}
       aria-busy={isSubmitting}
+      aria-describedby="enquire-intro"
+      {...WEBMCP_FORM_ATTRIBUTES}
     >
       <input type="hidden" name="_subject" value="New enquiry - fintrace.com.au" />
       <input type="hidden" name="form_source" value="contact_page" />
@@ -96,6 +106,7 @@ export default function ContactForm() {
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"
+        {...WEBMCP_HONEYPOT_ATTRIBUTES}
       />
 
       <div className="eng-ct-field">

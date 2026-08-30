@@ -1,14 +1,14 @@
-import type { Metadata } from 'next'
-import { pageMetadata } from '@/lib/metadata'
+import { createPageMetadata } from '@/lib/metadata'
+import StructuredData from './StructuredData'
 import EngineNetworkPage from './engine-network/EngineNetworkPage'
 
-export const metadata: Metadata = {
-  title: { absolute: pageMetadata.home.title },
-  description: pageMetadata.home.description,
-  alternates: { canonical: '/' },
-  robots: { index: true, follow: true },
-}
+export const metadata = createPageMetadata('home')
 
 export default function HomePage() {
-  return <EngineNetworkPage showDesignLabLink={false} />
+  return (
+    <>
+      <StructuredData page="home" />
+      <EngineNetworkPage showDesignLabLink={false} />
+    </>
+  )
 }

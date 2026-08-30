@@ -38,6 +38,8 @@ export default function ClientVoice({
             alt={NICK_TESTIMONIAL.name}
             width={84}
             height={84}
+            loading="lazy"
+            decoding="async"
           />
         </span>
         <figcaption className="eng-client-voice-attribution">

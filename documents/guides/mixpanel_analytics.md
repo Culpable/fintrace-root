@@ -18,7 +18,7 @@ The core rebuilds each accepted input from closed allowlists, normalises its pag
 
 ## Event contract
 
-Every event contains only `site: fintrace-root`, `environment: production`, `schema_version: 1`, and a `page` value of `home`, `about`, `engagement`, `contact`, or `not_found`, plus the listed properties.
+Every event contains only `site: fintrace-root`, `environment: production`, `schema_version: 1`, and a `page` value of `home`, `about`, `engagement`, `contact`, `privacy`, or `not_found`, plus the listed properties.
 
 | Event | Additional properties | Trigger |
 | --- | --- | --- |
@@ -41,7 +41,8 @@ Unknown paths become `not_found`. Query, hash, and trailing-slash changes do not
 - Keep the complete URL, referrer, UTM, and advertising-click property blacklist as defence in depth.
 - Never call `identify`, `alias`, People, profile, or group methods.
 - Never pass raw URLs, queries, hashes, referrers, click IDs, field names, form values, matter classifications, request or response bodies, status text, or error text.
-- Do not add analytics consent, opt-out, preference, debug, or privacy-notice UI without an explicit product decision.
+- Keep `/privacy/` aligned with the actual analytics settings and service providers. The notice is informational and does not change delivery.
+- Do not add analytics consent, opt-out, preference or debug UI without an explicit product decision.
 
 ## Safe change procedure
 
@@ -60,7 +61,8 @@ Run:
 npm test
 npm run lint
 npm run build
+npm run test:agent
 rg -n "mixpanel-recorder|@mixpanel/rrweb|rrweb-record" out/_next/static .next/static
 ```
 
-The first three commands must pass. The recorder search must return no shipped recorder implementation. For analytics interaction changes, use the project browser matrix in `AGENTS.md`, stub Formspree, confirm development sends no Mixpanel request, and verify blocked analytics does not affect links, animation, or form state. Never send a real enquiry during validation.
+The first four commands must pass. The recorder search must return no shipped recorder implementation. For analytics interaction changes, use the project browser matrix in `AGENTS.md`, stub Formspree, confirm development sends no Mixpanel request, and verify blocked analytics does not affect links, animation, or form state. The agent suite fulfils only `https://api-js.mixpanel.com/track/` inside Chromium and aborts every other non-loopback request, so it exercises production analytics without live delivery or a synthetic browser error. Never send a real enquiry during validation.

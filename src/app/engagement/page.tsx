@@ -1,8 +1,8 @@
 import type { CSSProperties } from 'react'
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import clsx from 'clsx'
-import { pageMetadata } from '@/lib/metadata'
+import { createPageMetadata } from '@/lib/metadata'
+import StructuredData from '../StructuredData'
 import '../engine-network/engine-network.css'
 import '../engine-network/site-pages.css'
 import './engagement.css'
@@ -10,11 +10,7 @@ import { bricolage, fragmentMono, fragmentMonoApprox } from '../engine-network/f
 import Reveal from '../engine-network/Reveal'
 import { SiteFooter, SiteHeader } from '../engine-network/SiteChrome'
 
-export const metadata: Metadata = {
-  title: pageMetadata.engagement.title,
-  description: pageMetadata.engagement.description,
-  alternates: { canonical: '/engagement/' },
-}
+export const metadata = createPageMetadata('engagement')
 
 const STEPS = [
   {
@@ -42,6 +38,7 @@ const STEPS = [
 export default function EngagementPage() {
   return (
     <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
+      <StructuredData page="engagement" />
       <SiteHeader currentPage="engagement" />
       <main id="main-content" tabIndex={-1}>
         <section className="eng-page-hero">

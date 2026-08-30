@@ -1,7 +1,7 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import clsx from 'clsx'
-import { pageMetadata } from '@/lib/metadata'
+import { createPageMetadata } from '@/lib/metadata'
+import StructuredData from '../StructuredData'
 import '../engine-network/engine-network.css'
 import '../engine-network/site-pages.css'
 import './about.css'
@@ -11,15 +11,12 @@ import Reveal from '../engine-network/Reveal'
 import { SiteFooter, SiteHeader } from '../engine-network/SiteChrome'
 import { TESTIMONIAL_SOURCE_CHECK } from '../engine-network/testimonial'
 
-export const metadata: Metadata = {
-  title: pageMetadata.about.title,
-  description: pageMetadata.about.description,
-  alternates: { canonical: '/about/' },
-}
+export const metadata = createPageMetadata('about')
 
 export default function AboutPage() {
   return (
     <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
+      <StructuredData page="about" />
       <SiteHeader currentPage="about" />
       <main id="main-content" tabIndex={-1}>
         <section className="eng-page-hero">

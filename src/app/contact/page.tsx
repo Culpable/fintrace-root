@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import clsx from 'clsx'
-import { pageMetadata } from '@/lib/metadata'
+import { createPageMetadata } from '@/lib/metadata'
+import StructuredData from '../StructuredData'
 import '../engine-network/engine-network.css'
 import '../engine-network/site-pages.css'
 import './contact.css'
@@ -8,11 +8,7 @@ import { bricolage, fragmentMono, fragmentMonoApprox } from '../engine-network/f
 import { SiteFooter, SiteHeader } from '../engine-network/SiteChrome'
 import ContactForm from './ContactForm'
 
-export const metadata: Metadata = {
-  title: pageMetadata.contact.title,
-  description: pageMetadata.contact.description,
-  alternates: { canonical: '/contact/' },
-}
+export const metadata = createPageMetadata('contact')
 
 const NEXT_STEPS = [
   { numeral: '01', name: 'Assessment', copy: 'We read your enquiry and confirm whether the engine fits.' },
@@ -23,6 +19,7 @@ const NEXT_STEPS = [
 export default function ContactPage() {
   return (
     <div className={clsx('dsn-engine-network', bricolage.variable, fragmentMono.variable, fragmentMonoApprox.variable)}>
+      <StructuredData page="contact" />
       <SiteHeader contactHref="#enquire" currentPage="contact" />
       <main id="main-content" tabIndex={-1}>
         <section className="eng-page-hero">
@@ -59,7 +56,7 @@ export default function ContactPage() {
 
             <section className="eng-plate eng-ct-form-plate" id="enquire" aria-labelledby="enquire-heading">
               <h2 id="enquire-heading">Send an enquiry</h2>
-              <p className="eng-ct-form-intro">
+              <p className="eng-ct-form-intro" id="enquire-intro">
                 No confidential detail is needed at this stage. Please don’t attach or paste statement data.
               </p>
               <ContactForm />

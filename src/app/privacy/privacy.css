@@ -1,0 +1,53 @@
+/* Keep the legal notice in one calm reading surface inside the existing
+   production system, without introducing a second utility-page design. */
+.dsn-engine-network .eng-pr-card {
+  max-width: 56rem;
+  margin-inline: auto;
+  border: 1px solid var(--hairline-dim);
+  background: rgba(243, 236, 221, 0.025);
+  padding: clamp(2rem, 5vw, 4rem);
+}
+
+.dsn-engine-network .eng-pr-card h2 {
+  margin-top: 2.6rem;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 700;
+}
+
+.dsn-engine-network .eng-pr-card p {
+  margin-top: 1rem;
+  color: var(--grey-warm);
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+.dsn-engine-network .eng-pr-card a {
+  color: var(--gold-bright);
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 0.25rem;
+}
+
+.dsn-engine-network .eng-pr-card a:hover {
+  color: var(--paper);
+}
+
+.dsn-engine-network .eng-pr-card a:focus-visible {
+  border-radius: 1px;
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 4px;
+}
+
+.dsn-engine-network .eng-pr-updated {
+  margin-top: 0;
+  font-family: var(--font-eng-mono-approx), var(--font-eng-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 480px) {
+  .dsn-engine-network .eng-pr-card {
+    padding: 1.75rem 1.4rem;
+  }
+}

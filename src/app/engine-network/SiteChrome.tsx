@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-type SitePage = 'home' | 'about' | 'engagement' | 'contact'
+type SitePage = 'home' | 'about' | 'engagement' | 'contact' | 'privacy'
 
 type SiteHeaderProps = {
   contactHref?: string
@@ -96,6 +96,9 @@ export function SiteFooter({ currentPage }: SiteFooterProps) {
           </Link>
           <Link href="/contact/" aria-current={currentPage === 'contact' ? 'page' : undefined}>
             Contact
+          </Link>
+          <Link href="/privacy/" aria-current={currentPage === 'privacy' ? 'page' : undefined}>
+            Privacy
           </Link>
         </nav>
         <div className="eng-footer-meta">

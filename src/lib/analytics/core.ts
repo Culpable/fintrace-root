@@ -1,4 +1,4 @@
-export type AnalyticsPage = 'home' | 'about' | 'engagement' | 'contact' | 'not_found'
+export type AnalyticsPage = 'home' | 'about' | 'engagement' | 'contact' | 'privacy' | 'not_found'
 
 type AnalyticsEnvironment = 'production' | 'development' | 'test'
 type AssessmentPlacement = 'header' | 'hero' | 'section' | 'footer'
@@ -66,6 +66,8 @@ export function normaliseAnalyticsPage(rawLocation: unknown): AnalyticsPage {
       return 'engagement'
     case '/contact':
       return 'contact'
+    case '/privacy':
+      return 'privacy'
     default:
       return 'not_found'
   }

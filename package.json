@@ -12,6 +12,10 @@
     "dev": "next dev -p 3004",
     "pretest": "npm run check:node",
     "test": "node --test test/*.test.*",
+    "pretest:agent": "npm run build",
+    "test:agent": "playwright test",
+    "pretest:agent:headed": "npm run build",
+    "test:agent:headed": "playwright test --headed",
     "prebuild": "npm run check:node",
     "build": "next build",
     "start": "next start -p 3004",
@@ -38,6 +42,8 @@
     "three": "^0.182.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^22",
     "@types/react": "^19",

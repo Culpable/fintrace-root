@@ -29,6 +29,7 @@ test('normalises known routes and hides every unknown raw location', () => {
   assert.equal(normaliseAnalyticsPage('/about/'), 'about')
   assert.equal(normaliseAnalyticsPage('https://fintrace.com.au/engagement/?utm_source=secret#pricing'), 'engagement')
   assert.equal(normaliseAnalyticsPage('/contact?gclid=secret'), 'contact')
+  assert.equal(normaliseAnalyticsPage('/privacy/'), 'privacy')
   assert.equal(normaliseAnalyticsPage('/private/matter-123?email=person@example.com'), 'not_found')
   assert.equal(normaliseAnalyticsPage({ path: '/about/' }), 'not_found')
 })

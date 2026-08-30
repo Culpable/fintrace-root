@@ -52,7 +52,14 @@ export default function FramedClientVoice({
         <div className="eng-client-frame-attribution">
           <span className="eng-client-frame-photo eng-client-voice-duo eng-client-voice-grain">
             {/* eslint-disable-next-line @next/next/no-img-element -- exact testimonial-only origin/main treatment */}
-            <img src="/images/testimonial/nick-brookes.png" alt={NICK_TESTIMONIAL.name} width={58} height={58} />
+            <img
+              src="/images/testimonial/nick-brookes.png"
+              alt={NICK_TESTIMONIAL.name}
+              width={58}
+              height={58}
+              loading="lazy"
+              decoding="async"
+            />
           </span>
           <span>
             <span className="eng-client-frame-name">{NICK_TESTIMONIAL.name}</span>

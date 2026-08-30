@@ -28,7 +28,7 @@ export const metadata: Metadata = {
         url: siteMetadata.ogImage,
         width: 1200,
         height: 630,
-        alt: 'FinTrace forensic bank-statement analysis for legal teams',
+        alt: siteMetadata.ogImageAlt,
       },
     ],
   },
@@ -43,6 +43,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-AU">
+      <head>
+        <link rel="describedby" href="/llms.txt" type="text/plain" />
+      </head>
       <body>{children}</body>
     </html>
   )

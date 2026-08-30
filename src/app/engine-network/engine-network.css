@@ -133,6 +133,16 @@
   contain-intrinsic-size: auto 760px;
 }
 
+/* A cold fragment load must render the target and every deferred sibling above
+   it before the browser calculates the landing position. Normal scrolling
+   keeps content-visibility deferral and its below-the-fold speed benefit. */
+@supports selector(.eng-cv:has(~ .eng-cv:target)) {
+  .dsn-engine-network main:has(.eng-cv:target) .eng-cv:has(~ .eng-cv:target),
+  .dsn-engine-network .eng-cv:target {
+    content-visibility: visible;
+  }
+}
+
 /* ------------------------------ Typography ----------------------------- */
 
 .dsn-engine-network .eng-kicker {
