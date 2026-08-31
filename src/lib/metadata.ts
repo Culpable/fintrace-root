@@ -17,37 +17,44 @@ export const pageMetadata = {
     route: '/',
     title: siteMetadata.title,
     description: siteMetadata.description,
+    llmsLabel: 'FinTrace overview',
     llmsDescription:
-      'Service overview, evidence-engine process, supported analysis, verifiability and matter-assessment path.',
+      'The four stages from intake to findings, what the ledger and the findings report contain, and how every line is tied back to its source page.',
   },
   about: {
     route: '/about/',
     title: 'About',
     description:
       'FinTrace is a specialist AI-assisted forensic bank-statement analysis service for legal teams - engaged per matter, Australia-wide, verifiable to source pages.',
+    llmsLabel: 'About FinTrace',
     llmsDescription:
-      'Service model, recent-matter evidence, source-verification standard and approved client testimony.',
+      'The service-not-software model, the verification standard, and a recent matter delivered in about ten hours against a fifty-hour manual estimate.',
   },
   engagement: {
     route: '/engagement/',
     title: 'Engagement & pricing',
     description:
       'FinTrace is engaged per matter - AI-assisted analysis quoted in writing after an initial assessment. No licences, no subscriptions.',
-    llmsDescription: 'Engagement steps, deliverables, pricing approach and the route for starting an enquiry.',
+    llmsLabel: 'Engagement and pricing',
+    llmsDescription:
+      'The four engagement stages, the Excel ledger and findings-report deliverables, and how each matter is scoped and quoted in writing before work starts.',
   },
   contact: {
     route: '/contact/',
     title: 'Contact',
     description:
       'Send FinTrace an enquiry: outline what you need and the timeframe, and we will come back with whether the engine fits and what it would cost.',
+    llmsLabel: 'Request a matter assessment',
     llmsDescription:
-      'Human-reviewed enquiry form for service fit, timeframe and pricing; confidential statement data is not needed.',
+      'Outline the dispute, the rough page and account counts, and the timeframe. No statements or confidential detail at this stage.',
   },
   privacy: {
     route: '/privacy/',
     title: 'Privacy',
     description: 'How the FinTrace public website, anonymous analytics and enquiry form handle information.',
-    llmsDescription: 'Website, analytics, enquiry, service-provider, retention and privacy-choice information.',
+    llmsLabel: 'Privacy',
+    llmsDescription:
+      'What the website, its anonymous analytics, and the enquiry form collect, how long it is kept, and the choices available.',
   },
   // Noindexed internal review surface — kept here so every route's metadata
   // stays in one place, even though this page is never indexed or linked.

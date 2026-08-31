@@ -55,8 +55,28 @@ test('llms.txt is a concise v2 canonical-page index', async ({ request }) => {
 
   expect(lines.filter((line) => /^# /.test(line))).toEqual(['# FinTrace'])
   expect(lines.some((line) => /^> \S/.test(line))).toBe(true)
-  expect(lines.filter((line) => /^## /.test(line))).toEqual(['## Public pages'])
+  expect(lines.filter((line) => /^## /.test(line))).toEqual([
+    '## Service and capabilities',
+    '## Actions',
+    '## Policies',
+  ])
   expect(source).toContain('The user must review and submit the visible form themselves.')
+
+  // The operating block must describe FinTrace, not index this website.
+  const operatingLine = (label: string) =>
+    lines.find((line) => line.startsWith(`**${label}:**`)) ?? ''
+  for (const label of ['When to use', 'When not to use', 'How to get started']) {
+    const value = operatingLine(label)
+    expect(value, `${label} must be rendered`).not.toEqual('')
+    expect(value).not.toMatch(/\b(?:these|this|the)\s+(?:pages?|site|website|resources?|links?)\b/i)
+    expect(value).toMatch(/FinTrace/)
+  }
+  // `When to use` carries the capability inventory, not a summary of the navigation.
+  expect(operatingLine('When to use').split(';').length).toBeGreaterThanOrEqual(4)
+  // Canonical action URLs belong inside the instruction, never in a trailing list.
+  expect(operatingLine('How to get started')).toContain(`${origin}/contact/`)
+  expect(operatingLine('How to get started')).toContain(`${origin}/engagement/`)
+  expect(source).not.toMatch(/Actions: https/)
   expect(source).not.toMatch(/\.md(?:\b|\))/i)
   expect(source).not.toContain('/llms-full.txt')
   expect(source).not.toMatch(/TODO|TBD|placeholder/i)

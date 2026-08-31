@@ -7,7 +7,7 @@ FinTrace Root exposes a static, human-first site that browsers and user-triggere
 GitHub Pages receives only the Next.js static export in `out/`. The supported agent surfaces are:
 
 - substantive canonical HTML for every public route;
-- `/llms.txt` as a concise index of canonical pages;
+- `/llms.txt` as an agent-operating brief for the service, followed by a curated index of canonical pages;
 - `/robots.txt` with wildcard access and a sitemap pointer;
 - `/sitemap.xml` with every indexable HTML route;
 - declarative WebMCP annotations on the visible enquiry form.
@@ -22,7 +22,8 @@ The test-only static host mirrors GitHub Pages browser-facing semantics. A slash
 | --- | --- |
 | Site identity, canonical route registry, titles, descriptions and share metadata | `src/lib/metadata.ts::createPageMetadata` and `metadata.ts::indexablePageKeys` |
 | Per-page WebSite, Organization, WebPage and Service JSON-LD | `src/app/StructuredData.tsx::StructuredData` |
-| llms.txt wording and canonical links | `src/lib/llms.ts::renderLlmsTxt` and `src/app/llms.txt/route.ts::GET` |
+| llms.txt operating block, section curation and canonical links | `src/lib/llms.ts::renderLlmsTxt` and `src/app/llms.txt/route.ts::GET` |
+| Per-route llms.txt label and description | `src/lib/metadata.ts::pageMetadata` (`llmsLabel`, `llmsDescription`) |
 | Robots and sitemap output | `src/app/robots.ts` and `src/app/sitemap.ts` |
 | Generic public privacy notice | `src/app/privacy/page.tsx::PrivacyPage` |
 | WebMCP form name, description and manual-submit boundary | `src/app/contact/ContactForm.tsx::ContactForm` |
@@ -30,7 +31,7 @@ The test-only static host mirrors GitHub Pages browser-facing semantics. A slash
 | Desktop and mobile agent checks | `test/agent/` and `playwright.config.ts` |
 | Deployment gate | `.github/workflows/deploy.yml` |
 
-`metadata.ts::indexablePageKeys` is the source of truth for sitemap and llms.txt order. A new public route must add its reviewed metadata there, render one visible H1 inside one `main`, appear in shared discovery navigation and add a content marker to `test/agent/agent.routes.ts`.
+`metadata.ts::indexablePageKeys` is the source of truth for sitemap order and for llms.txt membership; `llms.ts::sections` curates the llms.txt order by user task and `renderLlmsTxt` fails the build when an indexable route is missing or listed twice. A new public route must add its reviewed metadata there, including `llmsLabel` and `llmsDescription`, be placed in an llms.txt section, render one visible H1 inside one `main`, appear in shared discovery navigation and add a content marker to `test/agent/agent.routes.ts`.
 
 ## Permanent structure
 
