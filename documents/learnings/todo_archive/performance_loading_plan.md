@@ -1,5 +1,7 @@
 # FinTrace Critical-Load Performance Plan
 
+> **Implemented status (verified 2026-08-31):** Implemented and ready to archive from documents/todo. Evidence: `src/app/globals.css`, `src/app/engine-network/Hero.tsx`, `src/instrumentation-client.ts`, `test/analytics.test.ts`, `test/agent/`, `DESIGN.md`, and the accepted after-state Lighthouse evidence at `/Users/sacino/Documents/codex/web-performance/fintrace-root/after-final.UuEW0r/`.
+
 **Status:** Complete on 31 August 2026. The accepted after-state evidence is `/Users/sacino/Documents/codex/web-performance/fintrace-root/after-final.UuEW0r/`.
 
 <critical_warning>

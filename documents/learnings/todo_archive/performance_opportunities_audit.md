@@ -1,5 +1,7 @@
 # FinTrace User-Facing Performance Audit
 
+> **Implemented status (verified 2026-08-31):** Implemented and ready to archive from documents/todo. Evidence: `src/app/globals.css`, `src/app/engine-network/Hero.tsx`, `src/instrumentation-client.ts`, `test/agent/`, `DESIGN.md`, and the accepted before/after Lighthouse evidence at `/Users/sacino/Documents/codex/web-performance/fintrace-root/baseline-final.p7HAK9/` and `/Users/sacino/Documents/codex/web-performance/fintrace-root/after-final.UuEW0r/`.
+
 **Status:** Complete on 31 August 2026. The accepted before-state is `baseline-final.p7HAK9`; the accepted after-state is `after-final.UuEW0r`.
 
 ## Scope and action-to-usable-result definitions
