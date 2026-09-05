@@ -171,6 +171,10 @@ Resolution was confirmed against the authoritative nameserver `vita.ns.cloudflar
 
 **Known local-machine artefact:** the execution machine's resolver cached a negative answer for `staging.fintrace.com.au` from a poll issued while Cloudflare was still creating the record. The zone's SOA minimum is `1800`, so that negative entry persists for up to 30 minutes on this machine only; public resolvers answer correctly throughout. It has no bearing on the hosted behaviour.
 
+## Zone Browser Cache TTL (plan D-23)
+
+`browser_cache_ttl` stays at `14400`. The decision rule was to change it only if HTML on staging returned a `max-age` above `0`; `https://staging.fintrace.com.au/` returns `cache-control: public, max-age=0, must-revalidate`, so the setting is left untouched.
+
 ## Cloudflare edge injections found on staging
 
 Proxying the site through Cloudflare exposed two edge features that rewrite responses after the Worker returns them. Neither is visible while the apex is unproxied on GitHub Pages, and neither exists on `bulma.com.au` or `taxgenie.com.au`. Both were resolved with the user's explicit approval, because plan REQ-25 forbids zone changes other than `always_use_https`.
