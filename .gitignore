@@ -19,5 +19,14 @@ npm-debug.log*
 # Local Codex investigation output
 /documents/todo/bugs/codex/
 
+# Astro site build and tooling output
+/site/node_modules/
+/site/dist/
+/site/.astro/
+/site/.wrangler/
+/site/test-results/
+/site/playwright-report/
+/site/worker-configuration.d.ts
+
 # Local env files
 .env*.local

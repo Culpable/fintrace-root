@@ -1,0 +1,13 @@
+---
+import { buildStructuredData, serialiseStructuredData } from '@/lib/structured-data.ts'
+import type { PublicPageKey } from '@/lib/metadata.ts'
+
+interface Props {
+  page: PublicPageKey
+}
+
+const { page } = Astro.props
+const json = serialiseStructuredData(buildStructuredData(page))
+---
+
+<script id={`structured-data-${page}`} type="application/ld+json" set:html={json} />

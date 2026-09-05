@@ -1,0 +1,1300 @@
+{
+  "capturedAt": "2026-09-05T09:09:57.547Z",
+  "origin": "https://fintrace.com.au",
+  "routes": {
+    "/": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "max-age=600",
+      "bytes": 81121,
+      "sha256": "7cace1f2b070005f06baf775947d885432320160e77bf339c1fc65f40ec1503e",
+      "title": "FinTrace: forensic bank-statement analysis for legal teams",
+      "lang": "en-AU",
+      "meta": {
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+        "robots": "index, follow",
+        "og:title": "FinTrace: forensic bank-statement analysis for legal teams",
+        "og:description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+        "og:url": "https://fintrace.com.au/",
+        "og:site_name": "FinTrace",
+        "og:locale": "en-AU",
+        "og:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "FinTrace forensic bank-statement analysis for legal teams",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "FinTrace: forensic bank-statement analysis for legal teams",
+        "twitter:description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+        "twitter:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+        "twitter:image:alt": "FinTrace forensic bank-statement analysis for legal teams"
+      },
+      "linkElements": [
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/017d9bea37084d9b-s.p.41rroleoq1br7.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/a9a434ecf764164f-s.p.09kihw1cxxru6.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/fragment_mono_approx.p.1a438_ogq2zms.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ybo6x3_6_ec8.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ju459fwmgi3d.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/00uxks2l9cvoi.js",
+          "type": null,
+          "sizes": null,
+          "as": "script"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/0yp420bcar-vg.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1jk_nceoo4ko2.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "describedby",
+          "href": "/llms.txt",
+          "type": "text/plain",
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "canonical",
+          "href": "https://fintrace.com.au/",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "icon",
+          "href": "/favicon.ico?favicon.0g4nys243p0df.ico",
+          "type": "image/x-icon",
+          "sizes": "48x48",
+          "as": null
+        },
+        {
+          "rel": "icon",
+          "href": "/icon.svg?icon.0n5pkrzj-lngp.svg",
+          "type": "image/svg+xml",
+          "sizes": "any",
+          "as": null
+        },
+        {
+          "rel": "apple-touch-icon",
+          "href": "/apple-icon.png?apple-icon.0_p9leiererd7.png",
+          "type": "image/png",
+          "sizes": "180x180",
+          "as": null
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1piaha1aog5r6.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1t5hju237_07d.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1_nrjwuqf217b.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/testimonial/nick-brookes.png",
+          "width": "58",
+          "height": "58",
+          "alt": "Nick Brookes",
+          "loading": "lazy",
+          "decoding": "async"
+        }
+      ],
+      "text": "SKIP TO MAIN CONTENT FIN TRACE ABOUT ENGAGEMENT CONTACT REQUEST ASSESSMENT FORENSIC FINANCIAL ANALYSIS FOR LEGAL TEAMS The evidence engine. FinTrace turns thousands of pages of bank statements — any bank, any format, scanned or born-digital — into structured, source-linked evidence that stands up in court. REQUEST A MATTER ASSESSMENT SEE A RECENT MATTER THOUSANDS OF PAGES DECADES OF STATEMENTS ANY BANK, ANY CURRENCY ONE LEDGER THE PROCESS Four stages. One chain of evidence. 01 Intake You hand over the statements exactly as you hold them — no sorting, no renaming, no templates. The engine works out the bank, the account holder and the dates on its own. 02 Extraction Thousands of pages collapse into one structured Excel ledger: every transaction from every account, entered, dated and reconciled in a single workbook. 03 Analysis The engine reads for meaning, not just data — spending patterns, anomalies, and money moving between related accounts and across currencies. 04 Findings A written findings report — every finding cited to the exact source page it came from. Human-verifiable, court-ready: evidence, not output. THE EVIDENCE, STRUCTURED Every line entered. Every line sourced. Before anything can be proven, it has to be structured. Thousands of pages become one ledger — every line entered, categorised and reconciled, and the one that warrants attention flagged with its source page attached. EXTRACT — CONSOLIDATED STATEMENT LINES ENTERING STATEMENT LINES CATEGORISING RECONCILED — ONE LINE FLAGGED DATE DESCRIPTION AMOUNT BALANCE CATEGORY 03 Mar 24 WOOLWORTHS 3646 CHATSWOOD −214.63 23,965.59 GROCERIES 04 Mar 24 TRANSFER TO J HARPER - NETBANK −3,000.00 20,965.59 RELATED ACCT 07 Mar 24 ATM WITHDRAWAL - CROWS NEST −9,500.00 11,465.59 CASH FLAGGED — SEE SOURCE, P. 214 11 Mar 24 SALARY - MERIDIAN CONSULTING +8,412.90 19,878.49 INCOME 18 Mar 24 SPORTSBET DEPOSIT 0645 −400.00 19,478.49 GAMBLING 21 Mar 24 BPAY - STRATA PLAN 38254 −1,180.44 18,298.05 PROPERTY 02 Apr 24 INTL TRANSFER AUD→EUR REF 8991 −28,000.00 −9,701.95 CROSS-CURRENCY CLOSING BALANCE — RECONCILED TO SOURCE 13,098.05 EXTRACT 04 · RENDERED FROM CBA_JOINT_5826_MAR24.PDF AND 41 COMPANION STATEMENTS FIN TRACE Forensic financial analysis for the legal profession. HOME ABOUT ENGAGEMENT & PRICING CONTACT PRIVACY REQUEST A MATTER ASSESSMENT ENGAGED PER MATTER · AUSTRALIA-WIDE © 2026 FINTRACE. EVERY FINDING TRACEABLE TO ITS SOURCE.",
+      "textSha256": "7a0eb25abd8143c527b7be560c32a03601b263d86fd2b494f26788f5ff8fd8a6",
+      "links": [
+        "#main-content",
+        "/",
+        "/",
+        "/about/",
+        "/about/",
+        "/about/#recent-matter",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/engagement/",
+        "/engagement/",
+        "/engagement/",
+        "/privacy/"
+      ],
+      "jsonLd": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@id": "https://fintrace.com.au/#organisation",
+              "@type": "Organization",
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "name": "FinTrace",
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/#website",
+              "@type": "WebSite",
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "inLanguage": "en-AU",
+              "name": "FinTrace",
+              "publisher": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/#webpage",
+              "@type": "WebPage",
+              "about": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "inLanguage": "en-AU",
+              "isPartOf": {
+                "@id": "https://fintrace.com.au/#website"
+              },
+              "name": "FinTrace: forensic bank-statement analysis for legal teams",
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/#service",
+              "@type": "Service",
+              "areaServed": {
+                "@type": "Country",
+                "name": "Australia"
+              },
+              "audience": {
+                "@type": "Audience",
+                "audienceType": "Legal teams"
+              },
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "name": "Forensic bank-statement analysis",
+              "provider": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "serviceType": "Forensic bank-statement analysis"
+            }
+          ]
+        }
+      ]
+    },
+    "/about/": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "max-age=600",
+      "bytes": 36929,
+      "sha256": "3d012d7f84f032ab3cc06dfb8c9a151caba6bf0b6e5251696176f8ad77ce09ea",
+      "title": "About | FinTrace",
+      "lang": "en-AU",
+      "meta": {
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "description": "FinTrace is a specialist AI-assisted forensic bank-statement analysis service for legal teams - engaged per matter, Australia-wide, verifiable to source pages.",
+        "robots": "index, follow",
+        "og:title": "About | FinTrace",
+        "og:description": "FinTrace is a specialist AI-assisted forensic bank-statement analysis service for legal teams - engaged per matter, Australia-wide, verifiable to source pages.",
+        "og:url": "https://fintrace.com.au/about/",
+        "og:site_name": "FinTrace",
+        "og:locale": "en-AU",
+        "og:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "FinTrace forensic bank-statement analysis for legal teams",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "About | FinTrace",
+        "twitter:description": "FinTrace is a specialist AI-assisted forensic bank-statement analysis service for legal teams - engaged per matter, Australia-wide, verifiable to source pages.",
+        "twitter:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+        "twitter:image:alt": "FinTrace forensic bank-statement analysis for legal teams"
+      },
+      "linkElements": [
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/017d9bea37084d9b-s.p.41rroleoq1br7.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/a9a434ecf764164f-s.p.09kihw1cxxru6.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/fragment_mono_approx.p.1a438_ogq2zms.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ybo6x3_6_ec8.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ju459fwmgi3d.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0yp420bcar-vg.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/1_nrjwuqf217b.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/00uxks2l9cvoi.js",
+          "type": null,
+          "sizes": null,
+          "as": "script"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1jk_nceoo4ko2.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "describedby",
+          "href": "/llms.txt",
+          "type": "text/plain",
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "canonical",
+          "href": "https://fintrace.com.au/about/",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "icon",
+          "href": "/favicon.ico?favicon.0g4nys243p0df.ico",
+          "type": "image/x-icon",
+          "sizes": "48x48",
+          "as": null
+        },
+        {
+          "rel": "icon",
+          "href": "/icon.svg?icon.0n5pkrzj-lngp.svg",
+          "type": "image/svg+xml",
+          "sizes": "any",
+          "as": null
+        },
+        {
+          "rel": "apple-touch-icon",
+          "href": "/apple-icon.png?apple-icon.0_p9leiererd7.png",
+          "type": "image/png",
+          "sizes": "180x180",
+          "as": null
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1piaha1aog5r6.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1t5hju237_07d.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        }
+      ],
+      "images": [
+        {
+          "src": "/images/testimonial/nick-brookes.png",
+          "width": "84",
+          "height": "84",
+          "alt": "Nick Brookes",
+          "loading": "lazy",
+          "decoding": "async"
+        }
+      ],
+      "text": "SKIP TO MAIN CONTENT FIN TRACE ABOUT ENGAGEMENT CONTACT REQUEST ASSESSMENT ABOUT FINTRACE Forensic rigour, run as a service. FinTrace exists to do one job at a forensic standard: turn thousands of pages of bank statements into evidence a legal team can rely on, and hand back the hours that work used to take. SPECIALIST FORENSIC SERVICE · ENGAGED PER MATTER · AUSTRALIA-WIDE IN PRACTICE One recent matter. A fifth of the time. Document-heavy matters arrive as paper: thousands of pages of statements, accounts by the dozen, histories running back a decade or more. In one recent matter — dozens of accounts, more than a decade of statements — the manual review was estimated at fifty hours of lawyer time. The engine delivered the ledger and the findings in about ten. Those findings closely matched the analysis the instructing lawyer prepared independently, at a fifth of the time, and every finding cited the source page it came from. ≈50 HRS ESTIMATED · ≈10 DELIVERED · EVERY FINDING CITED TO SOURCE SERVICE, NOT SOFTWARE Nothing to license. Nothing to learn. FinTrace is engaged the way you’d brief a forensic accountant, not the way you’d buy software. There’s no platform to adopt, no seats to license and no training to roll out: you send the statements and the engine does the work. Each matter is scoped and quoted in writing before the work begins, so the cost is known before anything is committed. THE STANDARD If it can’t be checked, it isn’t a finding. Every line in the ledger and every finding in the report cites the exact page of the source PDF it came from. Anything the engine asserts, a human can verify in seconds, which makes the output human-verifiable and court-ready. IN THE CLIENT’S WORDS Nick Brookes LAWYER · HFM LEGAL It linked every finding to the exact source page, allowing me to verify the analysis without having to repeat the work myself. ENGAGE THE SERVICE See it against your matter. The fastest way to judge FinTrace is to put a real matter in front of it. REQUEST A MATTER ASSESSMENT ENGAGEMENT & PRICING FIN TRACE Forensic financial analysis for the legal profession. HOME ABOUT ENGAGEMENT & PRICING CONTACT PRIVACY REQUEST A MATTER ASSESSMENT ENGAGED PER MATTER · AUSTRALIA-WIDE © 2026 FINTRACE. EVERY FINDING TRACEABLE TO ITS SOURCE.",
+      "textSha256": "debc9bc0690593ce7fa88ccac9a997396a38dd307236e8d25789badba8bff7b8",
+      "links": [
+        "#main-content",
+        "/",
+        "/",
+        "/about/",
+        "/about/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/engagement/",
+        "/engagement/",
+        "/engagement/",
+        "/privacy/"
+      ],
+      "jsonLd": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@id": "https://fintrace.com.au/#organisation",
+              "@type": "Organization",
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "name": "FinTrace",
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/#website",
+              "@type": "WebSite",
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "inLanguage": "en-AU",
+              "name": "FinTrace",
+              "publisher": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/about/#webpage",
+              "@type": "WebPage",
+              "about": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "description": "FinTrace is a specialist AI-assisted forensic bank-statement analysis service for legal teams - engaged per matter, Australia-wide, verifiable to source pages.",
+              "inLanguage": "en-AU",
+              "isPartOf": {
+                "@id": "https://fintrace.com.au/#website"
+              },
+              "name": "About | FinTrace",
+              "url": "https://fintrace.com.au/about/"
+            }
+          ]
+        }
+      ]
+    },
+    "/engagement/": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "max-age=600",
+      "bytes": 36177,
+      "sha256": "fdbc8a3af23d4c3678b160a21bc5d321ec95edc18839b69a88581aeef75db10e",
+      "title": "Engagement & pricing | FinTrace",
+      "lang": "en-AU",
+      "meta": {
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "description": "FinTrace is engaged per matter - AI-assisted analysis quoted in writing after an initial assessment. No licences, no subscriptions.",
+        "robots": "index, follow",
+        "og:title": "Engagement & pricing | FinTrace",
+        "og:description": "FinTrace is engaged per matter - AI-assisted analysis quoted in writing after an initial assessment. No licences, no subscriptions.",
+        "og:url": "https://fintrace.com.au/engagement/",
+        "og:site_name": "FinTrace",
+        "og:locale": "en-AU",
+        "og:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "FinTrace forensic bank-statement analysis for legal teams",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Engagement & pricing | FinTrace",
+        "twitter:description": "FinTrace is engaged per matter - AI-assisted analysis quoted in writing after an initial assessment. No licences, no subscriptions.",
+        "twitter:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+        "twitter:image:alt": "FinTrace forensic bank-statement analysis for legal teams"
+      },
+      "linkElements": [
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/017d9bea37084d9b-s.p.41rroleoq1br7.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/a9a434ecf764164f-s.p.09kihw1cxxru6.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/fragment_mono_approx.p.1a438_ogq2zms.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ybo6x3_6_ec8.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ju459fwmgi3d.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0yp420bcar-vg.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/1t5hju237_07d.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/00uxks2l9cvoi.js",
+          "type": null,
+          "sizes": null,
+          "as": "script"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1jk_nceoo4ko2.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "describedby",
+          "href": "/llms.txt",
+          "type": "text/plain",
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "canonical",
+          "href": "https://fintrace.com.au/engagement/",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "icon",
+          "href": "/favicon.ico?favicon.0g4nys243p0df.ico",
+          "type": "image/x-icon",
+          "sizes": "48x48",
+          "as": null
+        },
+        {
+          "rel": "icon",
+          "href": "/icon.svg?icon.0n5pkrzj-lngp.svg",
+          "type": "image/svg+xml",
+          "sizes": "any",
+          "as": null
+        },
+        {
+          "rel": "apple-touch-icon",
+          "href": "/apple-icon.png?apple-icon.0_p9leiererd7.png",
+          "type": "image/png",
+          "sizes": "180x180",
+          "as": null
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1_nrjwuqf217b.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1piaha1aog5r6.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        }
+      ],
+      "images": [],
+      "text": "SKIP TO MAIN CONTENT FIN TRACE ABOUT ENGAGEMENT CONTACT REQUEST ASSESSMENT ENGAGEMENT & PRICING Engaged per matter. Quoted up front. No subscriptions, no licences, no minimum term. FinTrace is engaged per matter, quoted in writing once the matter is scoped. NO SOFTWARE LICENCE · NO SUBSCRIPTION · ENGAGED PER MATTER · AUSTRALIA-WIDE THE ENGAGEMENT From enquiry to evidence. 01 Enquiry Outline the matter: the dispute, roughly how many pages and accounts, the timeframe you’re working to. No statements yet. 02 Assessment We confirm the engine fits the matter and quote the engagement in writing. 03 Handover You send the statements as they are: no sorting, no renaming, no cover sheet. Scanned paper is fine. 04 Delivery You receive the Excel ledger and the written findings report, every finding cited to its source page. THE DELIVERABLES A ledger you can filter. Findings you can file. The ledger One Excel workbook holding every transaction — file name, person, date, financial year, description, debit and credit, amount, category — with every line categorised and ready to interrogate. The findings report A written account of what the analysis surfaced: cash-withdrawal patterns, gambling and crypto activity, transfers between related accounts, cross-currency matches. Each finding cites the exact source page. PRICING Quoted before the work begins. The engagement is quoted in writing before any work starts, scaled to the size of the matter — so you see the full shape of the cost before committing. START A MATTER One quote. One enquiry away. REQUEST A MATTER ASSESSMENT START AN ENQUIRY FIN TRACE Forensic financial analysis for the legal profession. HOME ABOUT ENGAGEMENT & PRICING CONTACT PRIVACY REQUEST A MATTER ASSESSMENT ENGAGED PER MATTER · AUSTRALIA-WIDE © 2026 FINTRACE. EVERY FINDING TRACEABLE TO ITS SOURCE.",
+      "textSha256": "d186fdea7650c236061f16ce7ec1678a6735844fb49a5949729d13596ea9c79d",
+      "links": [
+        "#main-content",
+        "/",
+        "/",
+        "/about/",
+        "/about/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/contact/#enquire",
+        "/engagement/",
+        "/engagement/",
+        "/privacy/"
+      ],
+      "jsonLd": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@id": "https://fintrace.com.au/#organisation",
+              "@type": "Organization",
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "name": "FinTrace",
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/#website",
+              "@type": "WebSite",
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "inLanguage": "en-AU",
+              "name": "FinTrace",
+              "publisher": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/engagement/#webpage",
+              "@type": "WebPage",
+              "about": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "description": "FinTrace is engaged per matter - AI-assisted analysis quoted in writing after an initial assessment. No licences, no subscriptions.",
+              "inLanguage": "en-AU",
+              "isPartOf": {
+                "@id": "https://fintrace.com.au/#website"
+              },
+              "name": "Engagement & pricing | FinTrace",
+              "url": "https://fintrace.com.au/engagement/"
+            }
+          ]
+        }
+      ]
+    },
+    "/contact/": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "max-age=600",
+      "bytes": 30861,
+      "sha256": "e1ea92fec64c825d85fdeac02589c6b8337d2bddeb2a4bebd70f5113850593cb",
+      "title": "Contact | FinTrace",
+      "lang": "en-AU",
+      "meta": {
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "description": "Send FinTrace an enquiry: outline what you need and the timeframe, and we will come back with whether the engine fits and what it would cost.",
+        "robots": "index, follow",
+        "og:title": "Contact | FinTrace",
+        "og:description": "Send FinTrace an enquiry: outline what you need and the timeframe, and we will come back with whether the engine fits and what it would cost.",
+        "og:url": "https://fintrace.com.au/contact/",
+        "og:site_name": "FinTrace",
+        "og:locale": "en-AU",
+        "og:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "FinTrace forensic bank-statement analysis for legal teams",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Contact | FinTrace",
+        "twitter:description": "Send FinTrace an enquiry: outline what you need and the timeframe, and we will come back with whether the engine fits and what it would cost.",
+        "twitter:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+        "twitter:image:alt": "FinTrace forensic bank-statement analysis for legal teams"
+      },
+      "linkElements": [
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/017d9bea37084d9b-s.p.41rroleoq1br7.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/a9a434ecf764164f-s.p.09kihw1cxxru6.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/fragment_mono_approx.p.1a438_ogq2zms.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ybo6x3_6_ec8.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ju459fwmgi3d.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0yp420bcar-vg.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/1piaha1aog5r6.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/00uxks2l9cvoi.js",
+          "type": null,
+          "sizes": null,
+          "as": "script"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1jk_nceoo4ko2.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "describedby",
+          "href": "/llms.txt",
+          "type": "text/plain",
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "canonical",
+          "href": "https://fintrace.com.au/contact/",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "icon",
+          "href": "/favicon.ico?favicon.0g4nys243p0df.ico",
+          "type": "image/x-icon",
+          "sizes": "48x48",
+          "as": null
+        },
+        {
+          "rel": "icon",
+          "href": "/icon.svg?icon.0n5pkrzj-lngp.svg",
+          "type": "image/svg+xml",
+          "sizes": "any",
+          "as": null
+        },
+        {
+          "rel": "apple-touch-icon",
+          "href": "/apple-icon.png?apple-icon.0_p9leiererd7.png",
+          "type": "image/png",
+          "sizes": "180x180",
+          "as": null
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1t5hju237_07d.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1_nrjwuqf217b.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        }
+      ],
+      "images": [],
+      "text": "SKIP TO MAIN CONTENT FIN TRACE ABOUT ENGAGEMENT CONTACT REQUEST ASSESSMENT GET IN TOUCH Tell us what you’re working on. A few lines are enough to start: what you need, and the timeframe you’re working to. Whether it’s a live matter or a general question, we’ll come back with whether the engine fits and what an engagement would cost. WHAT HAPPENS NEXT 01 Assessment We read your enquiry and confirm whether the engine fits. 02 Quote You receive the engagement quoted in writing. 03 Handover Only then do statements change hands, in whatever form you hold them. ENGAGED PER MATTER · AUSTRALIA-WIDE Send an enquiry No confidential detail is needed at this stage. Please don’t attach or paste statement data. NAME WORK EMAIL FIRM OR ORGANISATION YOUR ENQUIRY SEND ENQUIRY FIN TRACE Forensic financial analysis for the legal profession. HOME ABOUT ENGAGEMENT & PRICING CONTACT PRIVACY REQUEST A MATTER ASSESSMENT ENGAGED PER MATTER · AUSTRALIA-WIDE © 2026 FINTRACE. EVERY FINDING TRACEABLE TO ITS SOURCE.",
+      "textSha256": "748149592d9aa0eb8e58946d335e819d0a79072c08925606102555a21f9ccc49",
+      "links": [
+        "#enquire",
+        "#main-content",
+        "/",
+        "/",
+        "/about/",
+        "/about/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/engagement/",
+        "/engagement/",
+        "/privacy/"
+      ],
+      "jsonLd": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@id": "https://fintrace.com.au/#organisation",
+              "@type": "Organization",
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "name": "FinTrace",
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/#website",
+              "@type": "WebSite",
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "inLanguage": "en-AU",
+              "name": "FinTrace",
+              "publisher": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/contact/#webpage",
+              "@type": "WebPage",
+              "about": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "description": "Send FinTrace an enquiry: outline what you need and the timeframe, and we will come back with whether the engine fits and what it would cost.",
+              "inLanguage": "en-AU",
+              "isPartOf": {
+                "@id": "https://fintrace.com.au/#website"
+              },
+              "name": "Contact | FinTrace",
+              "url": "https://fintrace.com.au/contact/"
+            }
+          ]
+        }
+      ]
+    },
+    "/privacy/": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "max-age=600",
+      "bytes": 32550,
+      "sha256": "c1ae867885c13c6d1828e375a87cf9bd01a9888f7e9605407b553254e334c741",
+      "title": "Privacy | FinTrace",
+      "lang": "en-AU",
+      "meta": {
+        "viewport": "width=device-width, initial-scale=1",
+        "next-size-adjust": "",
+        "description": "How the FinTrace public website, anonymous analytics and enquiry form handle information.",
+        "robots": "index, follow",
+        "og:title": "Privacy | FinTrace",
+        "og:description": "How the FinTrace public website, anonymous analytics and enquiry form handle information.",
+        "og:url": "https://fintrace.com.au/privacy/",
+        "og:site_name": "FinTrace",
+        "og:locale": "en-AU",
+        "og:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+        "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "FinTrace forensic bank-statement analysis for legal teams",
+        "og:type": "website",
+        "twitter:card": "summary_large_image",
+        "twitter:title": "Privacy | FinTrace",
+        "twitter:description": "How the FinTrace public website, anonymous analytics and enquiry form handle information.",
+        "twitter:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+        "twitter:image:alt": "FinTrace forensic bank-statement analysis for legal teams"
+      },
+      "linkElements": [
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/017d9bea37084d9b-s.p.41rroleoq1br7.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/a9a434ecf764164f-s.p.09kihw1cxxru6.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/media/fragment_mono_approx.p.1a438_ogq2zms.woff2",
+          "type": "font/woff2",
+          "sizes": null,
+          "as": "font"
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ybo6x3_6_ec8.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ju459fwmgi3d.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0yp420bcar-vg.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "stylesheet",
+          "href": "/_next/static/chunks/0ailiay5yry1z.css",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/00uxks2l9cvoi.js",
+          "type": null,
+          "sizes": null,
+          "as": "script"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1jk_nceoo4ko2.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "describedby",
+          "href": "/llms.txt",
+          "type": "text/plain",
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "canonical",
+          "href": "https://fintrace.com.au/privacy/",
+          "type": null,
+          "sizes": null,
+          "as": null
+        },
+        {
+          "rel": "icon",
+          "href": "/favicon.ico?favicon.0g4nys243p0df.ico",
+          "type": "image/x-icon",
+          "sizes": "48x48",
+          "as": null
+        },
+        {
+          "rel": "icon",
+          "href": "/icon.svg?icon.0n5pkrzj-lngp.svg",
+          "type": "image/svg+xml",
+          "sizes": "any",
+          "as": null
+        },
+        {
+          "rel": "apple-touch-icon",
+          "href": "/apple-icon.png?apple-icon.0_p9leiererd7.png",
+          "type": "image/png",
+          "sizes": "180x180",
+          "as": null
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1piaha1aog5r6.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1t5hju237_07d.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        },
+        {
+          "rel": "preload",
+          "href": "/_next/static/chunks/1_nrjwuqf217b.css",
+          "type": null,
+          "sizes": null,
+          "as": "style"
+        }
+      ],
+      "images": [],
+      "text": "SKIP TO MAIN CONTENT FIN TRACE ABOUT ENGAGEMENT CONTACT REQUEST ASSESSMENT PRIVACY Privacy at FinTrace. This notice covers the FinTrace public website and enquiries sent through its contact form. LAST UPDATED: 31 AUGUST 2026 What this notice covers fintrace.com.au is FinTrace’s public website for its forensic bank-statement analysis service. This notice explains the information handled when you visit the site or send an enquiry. It does not cover information handled during a separately agreed client engagement. Information handled by this site The site is statically hosted by GitHub Pages. GitHub may handle standard request, device and security information when it serves the site under its privacy statement. The site has no user accounts, payment form, advertising tracker, session recording or automatic form capture. Limited website analytics In production, FinTrace uses Mixpanel to measure a small set of site events: page views, assessment-link clicks and enquiry-form stages. The analytics setup uses a browser identifier stored in local storage. It does not send form values, matter details, raw page addresses, referrers, advertising identifiers or recorded sessions. Mixpanel handles analytics information under its privacy policy. Enquiries If you use the contact form, FinTrace receives the name, work email, firm or organisation and message you choose to send. Formspree processes the submission so FinTrace can receive it under its privacy policy. FinTrace uses that information to answer your enquiry, assess whether the service fits, prepare a quote, maintain business records, meet legal duties and resolve disputes. Do not include confidential statement data in the initial enquiry. Sharing and retention FinTrace does not sell personal information provided through this site. Information may be handled by providers that support website hosting, analytics, form delivery, security or professional advice. It may also be disclosed when law requires it. Providers can process information outside Australia under their own terms and safeguards. FinTrace keeps enquiry information only for as long as it is reasonably needed for the purposes above and any applicable record-keeping requirements. Your choices and contact You can block Mixpanel or clear this site’s local storage through your browser. The site and enquiry form still work when analytics is blocked. To ask about, correct or request deletion of personal information you sent to FinTrace, use the contact form. FinTrace will respond subject to applicable legal obligations. Changes to this notice FinTrace may update this notice when the site, service providers or legal obligations change. The date at the top shows the latest published version. FIN TRACE Forensic financial analysis for the legal profession. HOME ABOUT ENGAGEMENT & PRICING CONTACT PRIVACY REQUEST A MATTER ASSESSMENT ENGAGED PER MATTER · AUSTRALIA-WIDE © 2026 FINTRACE. EVERY FINDING TRACEABLE TO ITS SOURCE.",
+      "textSha256": "d3117a5dfd0945bd398e7928b5003d4fca7d0f503f264673ec1a1b905d8b6a37",
+      "links": [
+        "#main-content",
+        "/",
+        "/",
+        "/about/",
+        "/about/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/contact/",
+        "/engagement/",
+        "/engagement/",
+        "/privacy/",
+        "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+        "https://formspree.io/legal/privacy-policy/",
+        "https://mixpanel.com/legal/privacy-policy/"
+      ],
+      "jsonLd": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@id": "https://fintrace.com.au/#organisation",
+              "@type": "Organization",
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "name": "FinTrace",
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/#website",
+              "@type": "WebSite",
+              "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+              "inLanguage": "en-AU",
+              "name": "FinTrace",
+              "publisher": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "url": "https://fintrace.com.au/"
+            },
+            {
+              "@id": "https://fintrace.com.au/privacy/#webpage",
+              "@type": "WebPage",
+              "about": {
+                "@id": "https://fintrace.com.au/#organisation"
+              },
+              "description": "How the FinTrace public website, anonymous analytics and enquiry form handle information.",
+              "inLanguage": "en-AU",
+              "isPartOf": {
+                "@id": "https://fintrace.com.au/#website"
+              },
+              "name": "Privacy | FinTrace",
+              "url": "https://fintrace.com.au/privacy/"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "discovery": {
+    "/robots.txt": {
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 69,
+      "sha256": "4cdfe01304c8b74678e19fd2ed7b115ab9849692523e90a3d111564e72ea1ed6",
+      "text": "User-Agent: *\nAllow: /\n\nSitemap: https://fintrace.com.au/sitemap.xml\n"
+    },
+    "/sitemap.xml": {
+      "status": 200,
+      "contentType": "application/xml",
+      "bytes": 388,
+      "sha256": "2efa946e9e26dc21389160f442a7609dacef710b31fad351df864d91de80ecd5",
+      "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n<url>\n<loc>https://fintrace.com.au/</loc>\n</url>\n<url>\n<loc>https://fintrace.com.au/about/</loc>\n</url>\n<url>\n<loc>https://fintrace.com.au/engagement/</loc>\n</url>\n<url>\n<loc>https://fintrace.com.au/contact/</loc>\n</url>\n<url>\n<loc>https://fintrace.com.au/privacy/</loc>\n</url>\n</urlset>\n"
+    },
+    "/llms.txt": {
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 3315,
+      "sha256": "215fe0df7e69e03b8761a12cc814818de98563130638870bf0a6b6b9d36cd4e7",
+      "text": "# FinTrace\n\n> FinTrace is a forensic bank-statement analysis service for Australian legal teams. It turns thousands of pages of statements, any bank, any format, scanned or born-digital, into one structured Excel ledger and a written findings report, with every line cited to its source page.\n\nFinTrace is engaged per matter and quoted in writing before any work begins. There is no licence, subscription, seat, minimum term, or platform to adopt, and the service operates Australia-wide.\n\n**When to use:** Use FinTrace when an Australian legal team needs to turn thousands of pages of bank statements into one structured Excel ledger; hand over statements exactly as they are held, in any bank format, scanned or born-digital, with no sorting, renaming, or templates; have the bank, the account holder, and the dates worked out from the statements themselves; categorise and reconcile every transaction across dozens of accounts and more than a decade of history; surface cash-withdrawal patterns, gambling and crypto activity, transfers between related accounts, and cross-currency matches; follow money from one account to the next with every hop dated, valued, and cited; or produce a written findings report in which every finding cites the exact source page a reviewer can check.\n\n**When not to use:** FinTrace is not software to licence, a subscription, a self-serve statement converter, or a legal, accounting, or financial advice service, and it does not guarantee an outcome in a matter. It is a specialist forensic analysis service engaged per matter by Australian legal teams, who keep carriage of the matter and can verify every finding against its cited source page.\n\n**How to get started:** Read https://fintrace.com.au/engagement/ for the four engagement stages and how a matter is scoped and quoted, then start an enquiry at https://fintrace.com.au/contact/ outlining the dispute, roughly how many pages and accounts are involved, and the timeframe. No statements are sent at this stage: confidential detail is not needed, and statement data must not be attached or pasted into an enquiry. The user must review and submit the visible form themselves. FinTrace replies with whether the engine fits the matter and a written quote, and statements change hands only after that.\n\n## Service and capabilities\n\n- [FinTrace overview](https://fintrace.com.au/): The four stages from intake to findings, what the ledger and the findings report contain, and how every line is tied back to its source page.\n- [About FinTrace](https://fintrace.com.au/about/): The service-not-software model, the verification standard, and a recent matter delivered in about ten hours against a fifty-hour manual estimate.\n- [Engagement and pricing](https://fintrace.com.au/engagement/): The four engagement stages, the Excel ledger and findings-report deliverables, and how each matter is scoped and quoted in writing before work starts.\n\n## Actions\n\n- [Request a matter assessment](https://fintrace.com.au/contact/): Outline the dispute, the rough page and account counts, and the timeframe. No statements or confidential detail at this stage.\n\n## Policies\n\n- [Privacy](https://fintrace.com.au/privacy/): What the website, its anonymous analytics, and the enquiry form collect, how long it is kept, and the choices available.\n"
+    }
+  },
+  "images": {
+    "/images/og/fintrace-og.png": {
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 238433,
+      "sha256": "076e35b940504f115d11706a96f25589021d82e182f3621ee66bbb6dd3e53ea7"
+    },
+    "/images/testimonial/nick-brookes.png": {
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 28959,
+      "sha256": "515c00a2a353a0023a7be2b1116a8a29123e3a9062705b4bea2005b04c5dccc6"
+    }
+  },
+  "icons": {
+    "/favicon.ico": {
+      "status": 200,
+      "contentType": "image/vnd.microsoft.icon",
+      "bytes": 2043,
+      "sha256": "6aae756e3b41aadc4ccecf74f529d29904ee5bef1c2157e8c5ea58d631790a82"
+    },
+    "/icon.svg": {
+      "status": 200,
+      "contentType": "image/svg+xml",
+      "bytes": 1932,
+      "sha256": "684eb19ba1fbb04daf505361f9daa0a4cbfb93d64d274974f65324d514aae791"
+    },
+    "/apple-icon.png": {
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 4940,
+      "sha256": "a13b9e12fb72d1e9affafeeeb007bb8259158f097f9e296089149971f4cab20e"
+    }
+  },
+  "fonts": {
+    "/_next/static/media/017d9bea37084d9b-s.p.41rroleoq1br7.woff2": {
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 41236,
+      "sha256": "4fd48b2c1ab27220e71f15f990550261b35245c3bdfd8d8025b4bdac0459ee2d"
+    },
+    "/_next/static/media/a9a434ecf764164f-s.p.09kihw1cxxru6.woff2": {
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 15176,
+      "sha256": "4f4dc27f4a770c0d02fde800daa836c8adc0d1e423b28da74baaf0d1cc3ab96c"
+    },
+    "/_next/static/media/fragment_mono_approx.p.1a438_ogq2zms.woff2": {
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 716,
+      "sha256": "b2fedfe65bb527a46ced06f613d0b560de7078eb8f6c6ad57fa917f3aadecf5e"
+    }
+  },
+  "notFound": {
+    "status": 404,
+    "contentType": "text/html; charset=utf-8",
+    "cacheControl": null,
+    "bytes": 23586,
+    "sha256": "72baa2f8d45d867efec385839464032b5f134b0050bdf337d943903374cd611b",
+    "title": "Page not found | FinTrace",
+    "lang": "en-AU",
+    "meta": {
+      "viewport": "width=device-width, initial-scale=1",
+      "robots": "noindex",
+      "next-size-adjust": "",
+      "description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+      "og:title": "FinTrace: forensic bank-statement analysis for legal teams",
+      "og:description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+      "og:url": "https://fintrace.com.au/",
+      "og:site_name": "FinTrace",
+      "og:locale": "en-AU",
+      "og:image": "https://fintrace.com.au/images/og/fintrace-og.png",
+      "og:image:width": "1200",
+      "og:image:height": "630",
+      "og:image:alt": "FinTrace forensic bank-statement analysis for legal teams",
+      "og:type": "website",
+      "twitter:card": "summary_large_image",
+      "twitter:title": "FinTrace: forensic bank-statement analysis for legal teams",
+      "twitter:description": "FinTrace is an AI-assisted forensic bank-statement analysis service for legal teams, delivering a structured ledger and source-linked findings.",
+      "twitter:image": "https://fintrace.com.au/images/og/fintrace-og.png"
+    },
+    "linkElements": [
+      {
+        "rel": "stylesheet",
+        "href": "/_next/static/chunks/0ybo6x3_6_ec8.css",
+        "type": null,
+        "sizes": null,
+        "as": null
+      },
+      {
+        "rel": "stylesheet",
+        "href": "/_next/static/chunks/0ju459fwmgi3d.css",
+        "type": null,
+        "sizes": null,
+        "as": null
+      },
+      {
+        "rel": "stylesheet",
+        "href": "/_next/static/chunks/0yp420bcar-vg.css",
+        "type": null,
+        "sizes": null,
+        "as": null
+      },
+      {
+        "rel": "stylesheet",
+        "href": "/_next/static/chunks/1jk_nceoo4ko2.css",
+        "type": null,
+        "sizes": null,
+        "as": null
+      },
+      {
+        "rel": "preload",
+        "href": "/_next/static/chunks/00uxks2l9cvoi.js",
+        "type": null,
+        "sizes": null,
+        "as": "script"
+      },
+      {
+        "rel": "describedby",
+        "href": "/llms.txt",
+        "type": "text/plain",
+        "sizes": null,
+        "as": null
+      },
+      {
+        "rel": "icon",
+        "href": "/favicon.ico?favicon.0g4nys243p0df.ico",
+        "type": "image/x-icon",
+        "sizes": "48x48",
+        "as": null
+      },
+      {
+        "rel": "icon",
+        "href": "/icon.svg?icon.0n5pkrzj-lngp.svg",
+        "type": "image/svg+xml",
+        "sizes": "any",
+        "as": null
+      },
+      {
+        "rel": "apple-touch-icon",
+        "href": "/apple-icon.png?apple-icon.0_p9leiererd7.png",
+        "type": "image/png",
+        "sizes": "180x180",
+        "as": null
+      },
+      {
+        "rel": "preload",
+        "href": "/_next/static/media/017d9bea37084d9b-s.p.41rroleoq1br7.woff2",
+        "type": "font/woff2",
+        "sizes": null,
+        "as": "font"
+      },
+      {
+        "rel": "preload",
+        "href": "/_next/static/media/a9a434ecf764164f-s.p.09kihw1cxxru6.woff2",
+        "type": "font/woff2",
+        "sizes": null,
+        "as": "font"
+      },
+      {
+        "rel": "preload",
+        "href": "/_next/static/media/fragment_mono_approx.p.1a438_ogq2zms.woff2",
+        "type": "font/woff2",
+        "sizes": null,
+        "as": "font"
+      },
+      {
+        "rel": "preload",
+        "href": "/_next/static/chunks/1piaha1aog5r6.css",
+        "type": null,
+        "sizes": null,
+        "as": "style"
+      },
+      {
+        "rel": "preload",
+        "href": "/_next/static/chunks/1_nrjwuqf217b.css",
+        "type": null,
+        "sizes": null,
+        "as": "style"
+      },
+      {
+        "rel": "preload",
+        "href": "/_next/static/chunks/1t5hju237_07d.css",
+        "type": null,
+        "sizes": null,
+        "as": "style"
+      },
+      {
+        "rel": "preload",
+        "href": "/_next/static/chunks/0ailiay5yry1z.css",
+        "type": null,
+        "sizes": null,
+        "as": "style"
+      }
+    ],
+    "images": [],
+    "text": "SKIP TO MAIN CONTENT FIN TRACE ABOUT ENGAGEMENT CONTACT REQUEST ASSESSMENT ERROR 404 This page isn’t in the record. The requested address doesn’t correspond to anything we can verify. BACK TO THE HOME PAGE 404 · ROUTE NOT FOUND FIN TRACE Forensic financial analysis for the legal profession. HOME ABOUT ENGAGEMENT & PRICING CONTACT PRIVACY REQUEST A MATTER ASSESSMENT ENGAGED PER MATTER · AUSTRALIA-WIDE © 2026 FINTRACE. EVERY FINDING TRACEABLE TO ITS SOURCE.",
+    "textSha256": "1c7684d34c18d31eb226afe9ac6f1d2959b675bff2780b22e7e8cfbeb60c5162",
+    "links": [
+      "#main-content",
+      "/",
+      "/",
+      "/",
+      "/about/",
+      "/about/",
+      "/contact/",
+      "/contact/",
+      "/contact/",
+      "/contact/",
+      "/engagement/",
+      "/engagement/",
+      "/privacy/"
+    ],
+    "jsonLd": []
+  }
+}

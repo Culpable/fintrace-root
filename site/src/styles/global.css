@@ -1,0 +1,25 @@
+@import './preflight.css';
+
+/*
+ * FinTrace - neutral global layer.
+ *
+ * Deliberately minimal: the production visual system lives in
+ * `engine-network.css`, scoped under `.dsn-engine-network`. Only true
+ * globals belong here.
+ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Prevent accidental horizontal scroll from decorative offscreen elements */
+html,
+body {
+  overflow-x: clip;
+}

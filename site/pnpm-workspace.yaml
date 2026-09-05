@@ -1,0 +1,4 @@
+allowBuilds:
+  # Allow only the native build tools Astro and Wrangler require.
+  esbuild: true
+  workerd: true

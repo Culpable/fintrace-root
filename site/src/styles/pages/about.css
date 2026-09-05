@@ -1,0 +1,16 @@
+.dsn-engine-network .eng-ab-prose {
+  max-width: 42rem;
+  color: var(--grey-warm);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.dsn-engine-network .eng-ab-prose > p + p {
+  margin-top: 1.1rem;
+}
+
+.dsn-engine-network .eng-ab-strip {
+  justify-content: flex-start;
+  margin-top: 2rem;
+  text-align: left;
+}

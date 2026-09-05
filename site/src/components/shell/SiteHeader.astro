@@ -1,0 +1,40 @@
+---
+export type SitePage = 'home' | 'about' | 'engagement' | 'contact' | 'privacy'
+
+interface Props {
+  contactHref?: string
+  currentPage?: SitePage
+  /** Mark the homepage overlay so its duplicate CTA can yield to the hero CTA on phones. */
+  hero?: boolean
+}
+
+const { contactHref = '/contact/', currentPage, hero = false } = Astro.props
+
+// Every internal href is written with its trailing slash. Next rewrote these
+// at build time; Astro emits them verbatim, so a missing slash would cost a
+// redirect hop on every navigation.
+const ctaDestination = contactHref.includes('#enquire') ? 'contact_enquire' : 'contact'
+---
+
+<a class="eng-skip-link" href="#main-content">Skip to main content</a>
+<header class={hero ? 'eng-header eng-header-hero' : 'eng-header'}>
+  <a href="/" class="eng-wordmark" aria-label="FinTrace home" aria-current={currentPage === 'home' ? 'page' : undefined}>
+    <span>Fin</span>
+    <span class="eng-wordmark-bar" aria-hidden="true"></span>
+    <span class="eng-gold-text">Trace</span>
+  </a>
+  <nav class="eng-header-nav" aria-label="Site pages">
+    <a href="/about/" aria-current={currentPage === 'about' ? 'page' : undefined}>About</a>
+    <a href="/engagement/" aria-current={currentPage === 'engagement' ? 'page' : undefined}>Engagement</a>
+    <a href="/contact/" aria-current={currentPage === 'contact' ? 'page' : undefined}>Contact</a>
+    <a
+      class="eng-btn-gold eng-btn-sm"
+      href={contactHref}
+      data-analytics-cta
+      data-analytics-placement="header"
+      data-analytics-destination={ctaDestination}
+    >
+      Request assessment
+    </a>
+  </nav>
+</header>

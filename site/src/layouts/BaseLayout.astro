@@ -1,0 +1,59 @@
+---
+import { Font } from 'astro:assets'
+import PageMetadata from '@/components/head/PageMetadata.astro'
+import StructuredData from '@/components/head/StructuredData.astro'
+import SitewideHead from '@/components/head/SitewideHead.astro'
+import SitewideBodyEnd from '@/components/head/SitewideBodyEnd.astro'
+import SiteHeader, { type SitePage } from '@/components/shell/SiteHeader.astro'
+import SiteFooter from '@/components/shell/SiteFooter.astro'
+import { site } from '@/config/site.ts'
+import type { PublicPageKey } from '@/lib/metadata.ts'
+import '@/styles/global.css'
+import '@/styles/engine-network.css'
+import '@/styles/site-pages.css'
+
+interface Props {
+  /** Indexable route key, or `null` for the 404 document. */
+  page: PublicPageKey | null
+  /** Header and footer active-link state. Omitted on the 404. */
+  currentPage?: SitePage
+  /** Header CTA target. The contact page uses its in-page `#enquire` anchor. */
+  contactHref?: string
+  /** Mark the homepage overlay header so its duplicate CTA yields on phones. */
+  hero?: boolean
+  /** Title for the 404 document, which has no page key. */
+  title?: string
+  /** Class list for the `<main>` element. */
+  mainClass?: string
+}
+
+const { page, currentPage, contactHref, hero = false, title, mainClass } = Astro.props
+---
+
+<!doctype html>
+<html lang={site.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Preload the two faces that carry above-the-fold text on every route. The
+        716-byte approx subset is deliberately not preloaded: it is listed first
+        in every mono stack, so it is discovered at CSS parse time (plan D-22). */}
+    <Font cssVariable="--font-eng-display" preload />
+    <Font cssVariable="--font-eng-mono" preload />
+    <Font cssVariable="--font-eng-mono-approx" />
+    <link rel="describedby" href="/llms.txt" type="text/plain" />
+    <PageMetadata page={page} title={title} />
+    {page && <StructuredData page={page} />}
+    <SitewideHead />
+  </head>
+  <body>
+    <div class="dsn-engine-network">
+      <SiteHeader currentPage={currentPage} contactHref={contactHref} hero={hero} />
+      <main id="main-content" tabindex="-1" class={mainClass}>
+        <slot />
+      </main>
+      <SiteFooter currentPage={currentPage} />
+    </div>
+    <SitewideBodyEnd />
+  </body>
+</html>

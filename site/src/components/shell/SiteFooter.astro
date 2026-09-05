@@ -1,0 +1,38 @@
+---
+import type { SitePage } from './SiteHeader.astro'
+
+interface Props {
+  currentPage?: SitePage
+}
+
+const { currentPage } = Astro.props
+---
+
+<footer class="eng-footer">
+  <div class="eng-container eng-footer-inner">
+    <div>
+      <p class="eng-wordmark eng-footer-mark">
+        <span>Fin</span>
+        <span class="eng-wordmark-bar" aria-hidden="true"></span>
+        <span class="eng-gold-text">Trace</span>
+      </p>
+      <p class="eng-footer-line">Forensic financial analysis for the legal profession.</p>
+    </div>
+    <nav class="eng-footer-nav" aria-label="Site pages">
+      <a href="/" aria-current={currentPage === 'home' ? 'page' : undefined}>Home</a>
+      <a href="/about/" aria-current={currentPage === 'about' ? 'page' : undefined}>About</a>
+      <a href="/engagement/" aria-current={currentPage === 'engagement' ? 'page' : undefined}>Engagement &amp; pricing</a>
+      <a href="/contact/" aria-current={currentPage === 'contact' ? 'page' : undefined}>Contact</a>
+      <a href="/privacy/" aria-current={currentPage === 'privacy' ? 'page' : undefined}>Privacy</a>
+    </nav>
+    <div class="eng-footer-meta">
+      <a href="/contact/" data-analytics-cta data-analytics-placement="footer" data-analytics-destination="contact">
+        Request a matter assessment
+      </a>
+      <p>Engaged per matter · Australia-wide</p>
+    </div>
+  </div>
+  <div class="eng-container eng-footer-small">
+    <p>© 2026 FinTrace. Every finding traceable to its source.</p>
+  </div>
+</footer>

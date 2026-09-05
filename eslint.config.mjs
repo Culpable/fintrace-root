@@ -9,7 +9,7 @@ import nextTs from 'eslint-config-next/typescript'
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores(['node_modules/**', '.next/**', 'out/**', 'next-env.d.ts']),
+  globalIgnores(['node_modules/**', '.next/**', 'out/**', 'next-env.d.ts', 'site/**']),
 ])
 
 export default eslintConfig
