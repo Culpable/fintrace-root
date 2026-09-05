@@ -1,0 +1,86 @@
+---
+/**
+ * The production enquiry form.
+ *
+ * Native `<form>` posting to the public Formspree form; the submission state
+ * machine lives in `src/scripts/contact-form.ts`. All three state panels are
+ * prerendered and toggled with `hidden`, so the markup is real content with
+ * JavaScript off and the script never builds DOM.
+ *
+ * The WebMCP annotations publish the form to user-triggered agents. There is
+ * deliberately no `toolautosubmit`: an agent can prepare the visible form, but
+ * the user reviews and submits it.
+ */
+const FORMSPREE_FORM_ID = 'xwvgoenw'
+const FORMSPREE_ACTION = `https://formspree.io/f/${FORMSPREE_FORM_ID}`
+
+// WebMCP annotations are not in the HTML specification, so they are spread as
+// plain attribute records rather than typed element attributes.
+const WEBMCP_FORM_ATTRIBUTES = {
+  toolname: 'sendFinTraceEnquiry',
+  tooldescription:
+    'Start a FinTrace enquiry about service fit, timeframe or pricing. The user reviews and submits the visible form.',
+}
+const WEBMCP_HONEYPOT_ATTRIBUTES = {
+  toolparamdescription: 'Anti-spam field. Leave blank.',
+}
+---
+
+<form
+  class="eng-ct-form"
+  action={FORMSPREE_ACTION}
+  method="POST"
+  aria-describedby="enquire-intro"
+  {...WEBMCP_FORM_ATTRIBUTES}
+>
+  <input type="hidden" name="_subject" value="New enquiry - fintrace.com.au" />
+  <input type="hidden" name="form_source" value="contact_page" />
+  <input
+    class="eng-ct-honeypot"
+    type="text"
+    name="_gotcha"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+    {...WEBMCP_HONEYPOT_ATTRIBUTES}
+  />
+
+  <div class="eng-ct-field">
+    <label for="contact-name">Name</label>
+    <input id="contact-name" name="name" type="text" autocomplete="name" required />
+  </div>
+  <div class="eng-ct-field">
+    <label for="contact-email">Work email</label>
+    <input id="contact-email" name="email" type="email" autocomplete="email" required />
+  </div>
+  <div class="eng-ct-field">
+    <label for="contact-organisation">Firm or organisation</label>
+    <input id="contact-organisation" name="organisation" type="text" autocomplete="organization" required />
+  </div>
+  <div class="eng-ct-field">
+    <label for="contact-message">Your enquiry</label>
+    <textarea
+      id="contact-message"
+      name="message"
+      rows="5"
+      required
+      placeholder="What you need, and the timeframe you’re working to - a few lines is plenty."></textarea>
+  </div>
+
+  <div class="eng-ct-status eng-ct-error" role="alert" data-form-panel="error" hidden>
+    <h3>Enquiry not sent</h3>
+    <p>Your details are still filled in above. Please check your connection and retry.</p>
+  </div>
+
+  <div class="eng-ct-submit-region">
+    <p class="eng-ct-status eng-ct-success" role="status" data-form-panel="success" hidden>
+      Enquiry received. We’ll respond using the work email you provided.
+    </p>
+    <button class="eng-btn-gold" type="submit" data-form-submit>Send enquiry</button>
+    <p class="eng-ct-loading" role="status" data-form-panel="sending" hidden>Sending your enquiry…</p>
+  </div>
+</form>
+
+<script>
+  import '@/scripts/contact-form.ts'
+</script>

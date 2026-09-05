@@ -1,0 +1,146 @@
+---
+/**
+ * Hero for The Evidence Engine.
+ *
+ * Layers, bottom to top: a designed static fallback (instant first paint), the
+ * WebGL scene layer (cross-fades in when its first frame renders), a contrast
+ * scrim, then the DOM headline block and the mono stat strip.
+ *
+ * The scene itself is activated by `src/scripts/hero-scene.ts`, which imports
+ * the Three.js chunk only after pointer, touch or keyboard intent, or three
+ * seconds after `load` - so the critical render never downloads it.
+ */
+---
+
+<section class="eng-hero" id="top">
+  {/* Static fallback: obsidian vignette + a faint SVG echo of the gate
+      and the account constellation it assembles. Visible for the first
+      few hundred milliseconds, then the live scene fades in over it —
+      first paint never waits on WebGL. */}
+  <div class="eng-hero-fallback" aria-hidden="true">
+    <svg class="eng-fallback-wide" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <circle cx="905" cy="395" r="138" fill="none" stroke="#d4a94e" stroke-opacity="0.28" stroke-width="1" />
+      <circle cx="905" cy="395" r="121" fill="none" stroke="#d4a94e" stroke-opacity="0.12" stroke-width="1" />
+      <line x1="0" y1="395" x2="1440" y2="395" stroke="url(#eng-fallback-line)" stroke-width="1" />
+      {/* Constellation echo: hub ring, three spokes, one crimson hop */}
+      <line x1="1112" y1="422" x2="1188" y2="365" stroke="#d4a94e" stroke-opacity="0.22" stroke-width="1" />
+      <line x1="1114" y1="436" x2="1216" y2="474" stroke="#d4a94e" stroke-opacity="0.22" stroke-width="1" />
+      <line x1="1104" y1="443" x2="1146" y2="530" stroke="#b3231f" stroke-opacity="0.3" stroke-width="1" />
+      <circle cx="1100" cy="430" r="14" fill="none" stroke="#f0d491" stroke-opacity="0.4" stroke-width="1" />
+      <circle cx="1198" cy="357" r="10" fill="none" stroke="#d4a94e" stroke-opacity="0.32" stroke-width="1" />
+      <circle cx="1227" cy="478" r="10" fill="none" stroke="#d4a94e" stroke-opacity="0.32" stroke-width="1" />
+      <circle cx="1151" cy="540" r="9" fill="none" stroke="#b3231f" stroke-opacity="0.38" stroke-width="1" />
+      <defs>
+        <linearGradient id="eng-fallback-line" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#d4a94e" stop-opacity="0" />
+          <stop offset="0.63" stop-color="#d4a94e" stop-opacity="0.35" />
+          <stop offset="1" stop-color="#d4a94e" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
+    {/* Match the compact scene's aspect-aware projection. A 900 × 1080
+        coordinate system, slice-cropped by the browser, places the gate at
+        40% on a tall tablet and 31% on a 390 × 900 phone, exactly like the
+        compact camera rather than leaving the fallback clipped at the far
+        right during the WebGL cross-fade. */}
+    <svg class="eng-fallback-compact" viewBox="0 0 900 1080" preserveAspectRatio="xMidYMid slice">
+      <ellipse
+        cx="362"
+        cy="503"
+        rx="17"
+        ry="187"
+        fill="none"
+        stroke="#d4a94e"
+        stroke-opacity="0.28"
+        stroke-width="1"
+      />
+      <ellipse
+        cx="362"
+        cy="503"
+        rx="14"
+        ry="169"
+        fill="none"
+        stroke="#d4a94e"
+        stroke-opacity="0.12"
+        stroke-width="1"
+      />
+      <line x1="0" y1="503" x2="900" y2="503" stroke="url(#eng-fallback-line-compact)" stroke-width="1" />
+      {/* Five-node compact constellation echo, including the crimson hop. */}
+      <line x1="499" y1="478" x2="420" y2="329" stroke="#d4a94e" stroke-opacity="0.22" stroke-width="1" />
+      <line x1="499" y1="478" x2="596" y2="346" stroke="#d4a94e" stroke-opacity="0.22" stroke-width="1" />
+      <line x1="499" y1="478" x2="454" y2="583" stroke="#b3231f" stroke-opacity="0.3" stroke-width="1" />
+      <line x1="420" y1="329" x2="547" y2="211" stroke="#d4a94e" stroke-opacity="0.22" stroke-width="1" />
+      <circle cx="499" cy="478" r="14" fill="none" stroke="#f0d491" stroke-opacity="0.4" stroke-width="1" />
+      <circle cx="420" cy="329" r="10" fill="none" stroke="#d4a94e" stroke-opacity="0.32" stroke-width="1" />
+      <circle cx="596" cy="346" r="10" fill="none" stroke="#d4a94e" stroke-opacity="0.32" stroke-width="1" />
+      <circle cx="547" cy="211" r="9" fill="none" stroke="#d4a94e" stroke-opacity="0.32" stroke-width="1" />
+      <circle cx="454" cy="583" r="9" fill="none" stroke="#b3231f" stroke-opacity="0.38" stroke-width="1" />
+      <defs>
+        <linearGradient id="eng-fallback-line-compact" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#d4a94e" stop-opacity="0" />
+          <stop offset="0.4" stop-color="#d4a94e" stop-opacity="0.35" />
+          <stop offset="1" stop-color="#d4a94e" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  {/* Live WebGL layer — opacity transition handled in engine.css */}
+  <div class="eng-scene-layer"></div>
+
+  {/* Scrim guarantees headline contrast over the brightest scene moments */}
+  <div class="eng-hero-scrim" aria-hidden="true"></div>
+
+  {/* Headline block, lower left, clear of the gate on desktop */}
+  <div class="eng-container eng-hero-inner">
+    <p class="eng-kicker eng-load" style="--load-delay: 0ms">
+      <span class="eng-hero-copy-wide">Forensic financial analysis for legal teams</span>
+      <span class="eng-hero-copy-mobile">Forensic analysis for legal teams</span>
+    </p>
+    <h1 class="eng-display eng-load" style="--load-delay: 80ms">
+      The evidence <span class="eng-gold-text">engine</span>.
+    </h1>
+    <p class="eng-lede eng-load" style="--load-delay: 180ms">
+      <span class="eng-hero-copy-wide">
+        FinTrace turns thousands of pages of bank statements — any bank, any format, scanned or born-digital — into
+        structured, source-linked evidence that stands up in court.
+      </span>
+      <span class="eng-hero-copy-mobile">
+        FinTrace turns thousands of bank-statement pages into structured, source-linked evidence, ready for legal
+        review.
+      </span>
+    </p>
+    <div class="eng-hero-ctas eng-load" style="--load-delay: 320ms">
+      <a
+        class="eng-btn-gold"
+        href="/contact/"
+        data-analytics-cta
+        data-analytics-placement="hero"
+        data-analytics-destination="contact"
+      >
+        Request a matter assessment
+      </a>
+      <a class="eng-btn-ghost" href="/about/#recent-matter">
+        See a recent matter
+      </a>
+    </div>
+  </div>
+
+  {/* Scroll cue: a golden filament that draws and releases */}
+  <div class="eng-scroll-cue" aria-hidden="true"></div>
+
+  {/* Mono stat strip anchoring the hero's bottom edge */}
+  <div class="eng-hero-strip eng-load" style="--load-delay: 500ms">
+    <span>Thousands of pages</span>
+    <span class="eng-strip-div" aria-hidden="true"></span>
+    <span>Decades of statements</span>
+    <span class="eng-strip-div" aria-hidden="true"></span>
+    <span>Any bank, any currency</span>
+    <span class="eng-strip-div" aria-hidden="true"></span>
+    <span>One ledger</span>
+  </div>
+</section>
+
+<script>
+  import '@/scripts/hero-scene.ts'
+</script>

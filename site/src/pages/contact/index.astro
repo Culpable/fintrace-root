@@ -1,0 +1,49 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import ContactForm from '@/components/sections/ContactForm.astro'
+import '@/styles/pages/contact.css'
+import { NEXT_STEPS } from '@/data/contact.ts'
+---
+<BaseLayout page="contact" currentPage="contact" contactHref="#enquire">
+    <section class="eng-page-hero">
+      <div class="eng-container">
+        <p class="eng-kicker">Get in touch</p>
+        <h1 class="eng-page-h1">
+          Tell us what you’re <span class="eng-gold-text">working on.</span>
+        </h1>
+        <p class="eng-lede">
+          A few lines are enough to start: what you need, and the timeframe you’re working to. Whether it’s a live
+          matter or a general question, we’ll come back with whether the engine fits and what an engagement would
+          cost.
+        </p>
+      </div>
+    </section>
+
+    <section class="eng-page-section">
+      <div class="eng-container eng-ct-container eng-ct-grid">
+        <aside class="eng-ct-aside">
+          <p class="eng-kicker">What happens next</p>
+          <div class="eng-ct-next">
+            {NEXT_STEPS.map((step) => (
+              <div class="eng-ct-next-row">
+                <p class="eng-ct-numeral">{step.numeral}</p>
+                <div>
+                  <h2>{step.name}</h2>
+                  <p>{step.copy}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p class="eng-ct-availability">Engaged per matter · Australia-wide</p>
+        </aside>
+
+        <section class="eng-plate eng-ct-form-plate" id="enquire" aria-labelledby="enquire-heading">
+          <h2 id="enquire-heading">Send an enquiry</h2>
+          <p class="eng-ct-form-intro" id="enquire-intro">
+            No confidential detail is needed at this stage. Please don’t attach or paste statement data.
+          </p>
+          <ContactForm />
+        </section>
+      </div>
+    </section>
+</BaseLayout>

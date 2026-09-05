@@ -1,0 +1,48 @@
+---
+import Reveal from '@/components/elements/Reveal.astro'
+import { NICK_TESTIMONIAL } from '@/data/testimonial.ts'
+
+export type ClientVoicePosition = 'left' | 'right' | 'footer'
+
+interface Props {
+  delay?: number
+  position?: ClientVoicePosition
+  /** Slice of the approved testimony to render; defaults to the full wording. */
+  paragraphs?: readonly string[]
+  /**
+   * Set when the voice owns its own page section. The section's own rule and
+   * block padding then carry the separation, so the surface drops its stacked
+   * top margin and hairlines instead of stacking three rules within a few rems.
+   */
+  solo?: boolean
+}
+
+const { delay = 120, position = 'left', paragraphs = NICK_TESTIMONIAL.paragraphs, solo = false } = Astro.props
+---
+
+<Reveal
+  as="figure"
+  class:list={['eng-client-voice', `eng-client-voice-${position}`, solo && 'eng-client-voice-solo']}
+  delay={delay}
+>
+  <p class="eng-kicker eng-client-voice-kicker">{NICK_TESTIMONIAL.eyebrow}</p>
+  <div class="eng-client-voice-meta">
+    <span class="eng-client-voice-photo eng-client-voice-duo eng-client-voice-grain">
+      <img
+        src="/images/testimonial/nick-brookes.png"
+        alt={NICK_TESTIMONIAL.name}
+        width="84"
+        height="84"
+        loading="lazy"
+        decoding="async"
+      />
+    </span>
+    <figcaption class="eng-client-voice-attribution">
+      <span class="eng-client-voice-name">{NICK_TESTIMONIAL.name}</span>
+      <span class="eng-client-voice-role">{NICK_TESTIMONIAL.role}</span>
+    </figcaption>
+  </div>
+  <blockquote class="eng-client-voice-quote">
+    {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+  </blockquote>
+</Reveal>

@@ -1,0 +1,74 @@
+---
+import { LEDGER_LINES } from '@/data/ledger.ts'
+
+/**
+ * The reconciling statement table - engine edition.
+ *
+ * Statement lines are entered row by row, category chips stamp on, the A$9,500
+ * cash withdrawal is flagged by a continuous crimson rule drawing itself around
+ * the row, and a double-gold rule closes the reconciled balance. One
+ * IntersectionObserver in `src/scripts/ledger-plate.ts` adds `.is-run`; every
+ * subsequent frame is CSS keyframes on transform and opacity only.
+ *
+ * The flag rule is an SVG rect WITHOUT a viewBox, sized by CSS, drawn via
+ * pathLength plus dash-offset with `vector-effect: non-scaling-stroke` - so the
+ * stroke stays continuous and undistorted at any row width.
+ */
+---
+
+<figure class="eng-lt">
+  {/* Masthead: exhibit designation and rotating status caption */}
+  <div class="eng-lt-mast">
+    <span class="eng-lt-label">Extract — consolidated statement lines</span>
+    <span class="eng-lt-status" aria-hidden="true">
+      <span class="eng-lt-s1">Entering statement lines</span>
+      <span class="eng-lt-s2">Categorising</span>
+      <span class="eng-lt-s3">Reconciled — one line flagged</span>
+    </span>
+  </div>
+
+  {/* Column headers echo the delivered Excel schema */}
+  <div class="eng-lt-row eng-lt-head" role="presentation">
+    <div>Date</div>
+    <div>Description</div>
+    <div class="eng-lt-amount">Amount</div>
+    <div class="eng-lt-balance">Balance</div>
+    <div class="eng-lt-cathead">Category</div>
+  </div>
+
+  {
+    LEDGER_LINES.map((line, index) => (
+      <div class:list={['eng-lt-wrap', line.flagged && 'is-flagged']}>
+        <div class="eng-lt-row eng-lt-data" style={`--i: ${index}`}>
+          <div class="eng-lt-date">{line.date}</div>
+          <div class="eng-lt-desc">{line.desc}</div>
+          <div class:list={['eng-lt-amount', line.credit && 'is-credit']}>{line.amount}</div>
+          <div class="eng-lt-balance">{line.balance}</div>
+          <span class:list={['eng-lt-chip', line.flagged && 'is-flag-chip']} style={`--i: ${index}`}>{line.chip}</span>
+        </div>
+
+        {/* Continuous crimson rule drawing itself around the flagged row */}
+        {line.flagged && (
+          <Fragment>
+            <svg class="eng-lt-flag" aria-hidden="true"><rect pathLength="1" /></svg>
+            <p class="eng-lt-note">flagged — see source, p. 214</p>
+          </Fragment>
+        )}
+      </div>
+    ))
+  }
+
+  {/* Double-gold closing rule: the ledger agrees with itself */}
+  <div class="eng-lt-total">
+    <span class="eng-lt-total-label">Closing balance — reconciled to source</span>
+    <span class="eng-lt-total-value">13,098.05</span>
+  </div>
+
+  <figcaption class="eng-lt-caption">
+    Extract 04 · rendered from cba_joint_5826_mar24.pdf and 41 companion statements
+  </figcaption>
+</figure>
+
+<script>
+  import '@/scripts/ledger-plate.ts'
+</script>

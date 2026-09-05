@@ -1,7 +1,252 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import Reveal from '@/components/elements/Reveal.astro'
+import Stat from '@/components/elements/Stat.astro'
+import Hero from '@/components/sections/Hero.astro'
+import LedgerPlate from '@/components/sections/LedgerPlate.astro'
+import TraceDiagram from '@/components/sections/TraceDiagram.astro'
+import CurrencyMatch from '@/components/sections/CurrencyMatch.astro'
+import FramedClientVoice from '@/components/sections/FramedClientVoice.astro'
+import { AUDIENCES, SPECS, STAGES } from '@/data/home.ts'
+import { TESTIMONIAL_TIME_SAVED } from '@/data/testimonial.ts'
+
+/**
+ * The Evidence Engine flagship.
+ *
+ * Below the fold the page consolidates every selected set-piece into one story
+ * - the evidence, structured (the reconciling ledger table), connected (the
+ * account-network trace diagram), and matched (the cross-currency
+ * reconstruction) - so the flagship demonstrates the full arc: pages, ledger,
+ * network, finding.
+ */
 ---
 
 <BaseLayout page="home" currentPage="home" hero>
-  <h1>FinTrace</h1>
+  <Hero />
+
+  {/* ---------------------------- Process ---------------------------- */}
+  <section class="eng-section" id="process">
+    <div class="eng-container">
+      <Reveal class="eng-section-head">
+        <p class="eng-kicker">The process</p>
+        <h2 class="eng-h2">
+          Four stages. <span class="eng-gold-text">One chain of evidence.</span>
+        </h2>
+      </Reveal>
+      <Reveal class="eng-stages-wrap">
+        {/* Progress line draws across (or down, on mobile) once visible */}
+        <span class="eng-stage-line" aria-hidden="true"></span>
+        <div class="eng-stages">
+          {
+            STAGES.map((stage, index) => (
+              <article class="eng-stage" style={`--i: ${index}`}>
+                <p class="eng-stage-numeral">{stage.numeral}</p>
+                <h3>{stage.name}</h3>
+                <p class="eng-stage-copy">{stage.copy}</p>
+              </article>
+            ))
+          }
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  {/* ------------------------ Reconciled ledger -----------------------
+      Act one of the evidence story: thousands of pages become one
+      structured, source-linked ledger */}
+  <section class="eng-section eng-cv" id="ledger">
+    <div class="eng-container">
+      <Reveal class="eng-section-head">
+        <p class="eng-kicker">The evidence, structured</p>
+        <h2 class="eng-h2">
+          Every line entered. <span class="eng-gold-text">Every line sourced.</span>
+        </h2>
+        <p class="eng-lede">
+          Before anything can be proven, it has to be structured. Thousands of pages become one ledger — every
+          line entered, categorised and reconciled, and the one that warrants attention flagged with its source
+          page attached.
+        </p>
+      </Reveal>
+      <Reveal delay={120}>
+        <LedgerPlate />
+      </Reveal>
+    </div>
+  </section>
+
+  {/* ------------------------- Trace analysis -------------------------
+      Act two: the ledger's accounts are mapped and the money is
+      followed between them */}
+  <section class="eng-section eng-cv" id="tracing">
+    <div class="eng-container">
+      <Reveal class="eng-section-head">
+        <p class="eng-kicker">The evidence, connected</p>
+        <h2 class="eng-h2">
+          Every account. <span class="eng-gold-text">One trail of evidence.</span>
+        </h2>
+        <p class="eng-lede">
+          Bank statements show each account in isolation. The engine connects them, following the money from one
+          account to the next — through cash, related accounts and international transfers. Every hop is dated,
+          valued and cited to its source page.
+        </p>
+      </Reveal>
+      <Reveal class="eng-plate eng-tnet-plate" delay={120}>
+        <TraceDiagram />
+        <p class="eng-diagram-caption">
+          The route, reconstructed from the extract above. The flagged withdrawal is the single crimson hop.
+        </p>
+      </Reveal>
+    </div>
+  </section>
+
+  {/* ----------------------- Cross-currency match ---------------------
+      Act three: the trail holds even where the money changes currency */}
+  <section class="eng-section eng-cv" id="match">
+    <div class="eng-container">
+      <Reveal class="eng-section-head">
+        <p class="eng-kicker">The evidence, matched</p>
+        <h2 class="eng-h2">
+          Same funds. <span class="eng-gold-text">Two currencies.<br /> One match.</span>
+        </h2>
+        <p class="eng-lede">
+          A transfer that changes currency is where most trails go cold. This one doesn’t: the dollars leaving
+          Australia are matched to the euros that arrive overseas two days later, with the amount and the exchange
+          rate reconciled on both sides.
+        </p>
+      </Reveal>
+      <Reveal class="eng-plate eng-ecm-plate" delay={120}>
+        <CurrencyMatch />
+      </Reveal>
+    </div>
+  </section>
+
+  {/* -------------------------- Capabilities ------------------------- */}
+  <section class="eng-section eng-cv" id="capabilities">
+    <div class="eng-container">
+      <Reveal class="eng-section-head">
+        <p class="eng-kicker">Specifications</p>
+        <h2 class="eng-h2">Built to withstand scrutiny.</h2>
+        <p class="eng-lede">
+          Trust is the standard. Each capability exists so a finding can be put in front of a senior lawyer,
+          opposing counsel — or a court — and hold.
+        </p>
+      </Reveal>
+      <div class="eng-specs">
+        {
+          SPECS.map((spec, index) => (
+            <Reveal as="article" class="eng-spec" delay={index * 70}>
+              <p class="eng-spec-index">{spec.index}</p>
+              <h3 class="eng-spec-name">{spec.name}</h3>
+              <p class="eng-spec-copy">{spec.copy}</p>
+              <p class="eng-spec-tag">{spec.tag}</p>
+            </Reveal>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* ---------------------------- Outcome ---------------------------- */}
+  <section class="eng-section eng-cv" id="proof">
+    <div class="eng-container">
+      <Reveal class="eng-plate eng-proof">
+        <p class="eng-kicker">The outcome</p>
+        <h2 class="eng-h2">
+          Statements in. <span class="eng-gold-text">Evidence out.</span>
+        </h2>
+        <div class="eng-proof-stats">
+          <div class="eng-proof-stat">
+            <p class="eng-stat-value">1,000s</p>
+            <p class="eng-stat-label">Of pages consolidated into a single ledger</p>
+          </div>
+          <div class="eng-proof-stat">
+            {/* Keep the plate's single animated numeral: a count-up to full coverage */}
+            <p class="eng-stat-value">
+              <Stat to={100} suffix="%" duration={2200} />
+            </p>
+            <p class="eng-stat-label">Of findings cited to the exact source page</p>
+          </div>
+          <div class="eng-proof-stat">
+            <p class="eng-stat-value">Decades</p>
+            <p class="eng-stat-label">Of statements reconciled end to end</p>
+          </div>
+          <div class="eng-proof-stat">
+            <p class="eng-stat-value">0</p>
+            <p class="eng-stat-label">Software to license, install or learn</p>
+          </div>
+        </div>
+        <p class="eng-proof-note">
+          If it can’t be checked, it isn’t a finding: anything the engine asserts, a human can verify against
+          its source page in seconds.
+        </p>
+      </Reveal>
+    </div>
+  </section>
+
+  {/* -------------------------- Client voice -------------------------
+      The page's one human voice, placed where it corroborates rather
+      than decorates: the weeks-saved paragraph answers the volume stats
+      in the outcome plate directly above. The source-page paragraph
+      carries About's standard-of-proof section instead, so neither
+      sentence appears in two visible copy blocks. This section carries
+      no plate, so the single human moment is not presented in the same
+      engraved case as the engine's own output. */}
+  <section class="eng-section eng-cv" id="testimony">
+    <div class="eng-container">
+      <FramedClientVoice paragraphs={TESTIMONIAL_TIME_SAVED} />
+    </div>
+  </section>
+
+  {/* --------------------------- Audiences --------------------------- */}
+  <section class="eng-section eng-cv" id="for">
+    <div class="eng-container">
+      <Reveal class="eng-section-head">
+        <p class="eng-kicker">Commissioned for</p>
+        <h2 class="eng-h2">For matters that hinge on the money.</h2>
+      </Reveal>
+      <div class="eng-audience-grid">
+        {/* Reveal handles the entrance on the grid cell; the inner article
+            owns the hover lift so the two transforms never fight */}
+        {
+          AUDIENCES.map((audience, index) => (
+            <Reveal class={audience.featured ? 'eng-cell-featured' : undefined} delay={index * 80}>
+              <article class:list={['eng-card', audience.featured && 'eng-card-featured']}>
+                {audience.note && <p class="eng-card-note">{audience.note}</p>}
+                <h3>{audience.name}</h3>
+                <p>{audience.copy}</p>
+              </article>
+            </Reveal>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* ------------------------------ CTA ------------------------------ */}
+  <section class="eng-section eng-cv" id="engage">
+    <div class="eng-container">
+      <Reveal class="eng-plate eng-cta">
+        <span class="eng-cta-sheen" aria-hidden="true"></span>
+        <p class="eng-kicker">Engage the service</p>
+        <h2 class="eng-h2">
+          Put the engine <span class="eng-gold-text">on your matter.</span>
+        </h2>
+        <p class="eng-lede eng-cta-lede">
+          FinTrace is a specialist forensic service, engaged per matter and quoted in writing before the work
+          begins. Send the statements; receive the ledger, the findings and the sources to back them.
+        </p>
+        <div class="eng-hero-ctas">
+          <a
+            class="eng-btn-gold eng-btn-loop"
+            href="/contact/"
+            data-analytics-cta
+            data-analytics-placement="section"
+            data-analytics-destination="contact"
+          >
+            Request a matter assessment
+          </a>
+          <a class="eng-btn-ghost" href="/engagement/">Engagement &amp; pricing</a>
+        </div>
+      </Reveal>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,0 +1,79 @@
+---
+import { ANNOTATIONS, NODES, PATH_IDS } from '@/data/trace.ts'
+
+/**
+ * Account-network trace set-piece - the investigative diagram in the engine's
+ * obsidian-and-gold system.
+ *
+ * A 2D-canvas evidence graph: account nodes joined by faintly pulsing gold
+ * edges (ordinary transaction traffic), over which a bright golden thread
+ * progressively draws itself along one suspicious 2024 route - joint account
+ * to cash to related account to international transfer to overseas. The single
+ * flagged hop is the same 07 March cash withdrawal shown in the ledger above
+ * and renders in restrained crimson: the only red on the page. Node labels and
+ * per-hop annotations are HTML positioned on the same normalised grid the
+ * canvas uses, so text stays crisp at any DPR.
+ *
+ * The diagram is `aria-hidden` with a visible text caption alongside, so
+ * `data-agent-include` opts its labels and evidence notes back into the
+ * build-time Markdown representation without announcing them twice to
+ * assistive technology.
+ */
+---
+
+<div class="tnet-root" aria-hidden="true" data-agent-include>
+  <canvas class="tnet-canvas"></canvas>
+  <div class="tnet-layer">
+    {/* Account labels ride the same normalised grid as the canvas dots. */}
+    {
+      NODES.map((node) => {
+        const pathIndex = PATH_IDS.indexOf(node.id)
+        const desktopDx = node.labelDx ?? 0
+        const desktopDy = node.labelDy ?? 0
+        const mobileDx = node.mobileLabelDx ?? desktopDx
+        const mobileDy = node.mobileLabelDy ?? desktopDy
+        return (
+          <span
+            class:list={[
+              'tnet-label',
+              node.labelSide === 'above' && 'tnet-label-above',
+              node.hideOnMobile && 'tnet-md-only',
+            ]}
+            data-path-index={pathIndex === -1 ? undefined : String(pathIndex)}
+            data-flagged={node.flagged ? '' : undefined}
+            style={`--tnx-d: ${desktopDx}px; --tny-d: ${desktopDy}px; --tnx-m: ${mobileDx}px; --tny-m: ${mobileDy}px; left: calc(${node.x * 100}% + var(--tnx)); top: calc(${node.y * 100}% + var(--tny))`}
+          >
+            {node.label}
+          </span>
+        )
+      })
+    }
+    {/* Amount and date evidence notes appear as each hop completes. */}
+    {
+      ANNOTATIONS.map((annotation, index) => {
+        const from = NODES[PATH_IDS[index]]
+        const to = NODES[PATH_IDS[index + 1]]
+        const mobileDx = annotation.mobileDx ?? annotation.dx
+        const mobileDy = annotation.mobileDy ?? annotation.dy
+        return (
+          <span
+            class:list={[
+              'tnet-note',
+              annotation.flagged && 'is-flagged',
+              annotation.matched && 'is-matched',
+              annotation.hideOnMobile && 'tnet-md-only',
+            ]}
+            data-hop-index={String(index + 1)}
+            style={`--tnx-d: ${annotation.dx}px; --tny-d: ${annotation.dy}px; --tnx-m: ${mobileDx}px; --tny-m: ${mobileDy}px; left: calc(${((from.x + to.x) / 2) * 100}% + var(--tnx)); top: calc(${((from.y + to.y) / 2) * 100}% + var(--tny))`}
+          >
+            {annotation.text}
+          </span>
+        )
+      })
+    }
+  </div>
+</div>
+
+<script>
+  import '@/scripts/trace-diagram.ts'
+</script>

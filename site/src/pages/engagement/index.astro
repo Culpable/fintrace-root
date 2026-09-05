@@ -1,0 +1,139 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Reveal from '@/components/elements/Reveal.astro'
+import '@/styles/pages/engagement.css'
+import { STEPS } from '@/data/engagement.ts'
+---
+<BaseLayout page="engagement" currentPage="engagement">
+    <section class="eng-page-hero">
+      <div class="eng-container">
+        <p class="eng-kicker">Engagement &amp; pricing</p>
+        <h1 class="eng-page-h1">
+          Engaged per matter. <span class="eng-gold-text">Quoted up front.</span>
+        </h1>
+        <p class="eng-lede">
+          No subscriptions, no licences, no minimum term. FinTrace is engaged per matter, quoted in writing once the
+          matter is scoped.
+        </p>
+      </div>
+    </section>
+
+    <div class="eng-page-strip">
+      <span>No software licence</span>
+      <span class="eng-page-strip-item">
+        <span aria-hidden="true">·</span>
+        No subscription
+      </span>
+      <span class="eng-page-strip-item">
+        <span aria-hidden="true">·</span>
+        Engaged per matter
+      </span>
+      <span class="eng-page-strip-item">
+        <span aria-hidden="true">·</span>
+        Australia-wide
+      </span>
+    </div>
+
+    <section class="eng-page-section">
+      <div class="eng-container">
+        <Reveal class="eng-section-head">
+          <p class="eng-kicker">The engagement</p>
+          <h2 class="eng-h2">
+            From enquiry <span class="eng-gold-text">to evidence.</span>
+          </h2>
+        </Reveal>
+        <div class="eng-eg-steps">
+          {STEPS.map((step, index) => (
+            <Reveal as="article" class="eng-eg-step" delay={index * 70}>
+              <p class="eng-eg-numeral" style={`--i: ${index}`}>
+                {step.numeral}
+              </p>
+              <h3>{step.name}</h3>
+              <p>{step.copy}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="eng-page-section">
+      <div class="eng-container">
+        <Reveal class="eng-section-head">
+          <p class="eng-kicker">The deliverables</p>
+          <h2 class="eng-h2">
+            A ledger you can filter. <span class="eng-gold-text">Findings you can file.</span>
+          </h2>
+        </Reveal>
+        <div class="eng-eg-cards">
+          <Reveal>
+            <article class="eng-card">
+              <h3>The ledger</h3>
+              <p>
+                One Excel workbook holding every transaction — file name, person, date, financial year, description,
+                debit and credit, amount, category — with every line categorised and ready to interrogate.
+              </p>
+            </article>
+          </Reveal>
+          <Reveal delay={90}>
+            <article class="eng-card">
+              <h3>The findings report</h3>
+              <p>
+                A written account of what the analysis surfaced: cash-withdrawal patterns, gambling and crypto
+                activity, transfers between related accounts, cross-currency matches. Each finding cites the exact
+                source page.
+              </p>
+            </article>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+
+    <section class="eng-page-section">
+      <div class="eng-container">
+        <Reveal class="eng-section-head">
+          <p class="eng-kicker">Pricing</p>
+          <h2 class="eng-h2">
+            Quoted before <span class="eng-gold-text">the work begins.</span>
+          </h2>
+        </Reveal>
+        <Reveal class="eng-eg-prose" delay={90}>
+          <p>
+            The engagement is quoted in writing before any work starts, scaled to the size of the matter — so you see
+            the full shape of the cost before committing.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+
+    <section class="eng-page-section">
+      <div class="eng-container">
+        <Reveal class="eng-plate eng-cta">
+          <span class="eng-cta-sheen" aria-hidden="true" ></span>
+          <p class="eng-kicker">Start a matter</p>
+          <h2 class="eng-h2">
+            One quote. <span class="eng-gold-text">One enquiry away.</span>
+          </h2>
+          <div class="eng-hero-ctas">
+            <a
+              class="eng-btn-gold eng-btn-loop"
+              href="/contact/"
+              data-analytics-cta
+              data-analytics-placement="section"
+              data-analytics-destination="contact"
+            >
+              Request a matter assessment
+            </a>
+            <a
+              class="eng-btn-ghost"
+              href="/contact/#enquire"
+              data-analytics-cta
+              data-analytics-placement="section"
+              data-analytics-destination="contact_enquire"
+            >
+              Start an enquiry
+            </a>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+</BaseLayout>

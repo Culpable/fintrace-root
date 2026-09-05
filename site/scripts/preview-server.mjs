@@ -4,12 +4,12 @@ import { extname, resolve, sep } from 'node:path'
 
 const siteDirectory = resolve(import.meta.dirname, '..')
 const outputDirectory = resolve(siteDirectory, 'dist')
-const port = Number.parseInt(process.env.PORT ?? '4331', 10)
+const port = Number.parseInt(process.env.PORT ?? '4332', 10)
 
 const contentTypes = {
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
-  '.ico': 'image/x-icon',
+  '.ico': 'image/vnd.microsoft.icon',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
   '.md': 'text/markdown; charset=utf-8',
@@ -37,8 +37,28 @@ function resolveRequestPath(pathname) {
   return null
 }
 
+/**
+ * Canonicalise a slashless document request. The Worker answers these with a
+ * `307`, but the Playwright suite runs against this static server, so it keeps
+ * the browser-facing contract: one redirect to the trailing-slash URL.
+ */
+function directoryRedirectForPathname(pathname) {
+  if (pathname.endsWith('/') || extname(pathname)) return null
+  const candidate = resolve(outputDirectory, `${pathname.replace(/^\/+/, '')}/index.html`)
+  if (!candidate.startsWith(`${outputDirectory}${sep}`)) return null
+  return existsSync(candidate) ? `${pathname}/` : null
+}
+
 const server = createServer((request, response) => {
   const url = new URL(request.url ?? '/', `http://${request.headers.host ?? `127.0.0.1:${port}`}`)
+
+  const redirectPath = directoryRedirectForPathname(url.pathname)
+  if (redirectPath) {
+    response.writeHead(301, { 'Cache-Control': 'no-store', Location: `${redirectPath}${url.search}` })
+    response.end()
+    return
+  }
+
   const filePath = resolveRequestPath(url.pathname)
 
   if (filePath) {

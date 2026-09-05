@@ -1,0 +1,28 @@
+---
+/**
+ * Scroll-triggered reveal wrapper.
+ *
+ * Renders the polymorphic element the production React wrapper rendered, with
+ * the same class and the stagger delay exposed to CSS as `--reveal-delay`.
+ * The trigger itself lives in `src/scripts/reveal.ts`, which observes every
+ * `.eng-reveal` on the page with one observer.
+ */
+interface Props {
+  /** Element type to render so lists and sections keep semantic markup. */
+  as?: keyof astroHTML.JSX.IntrinsicElements
+  class?: string
+  /** Stagger delay in milliseconds, exposed to CSS as `--reveal-delay`. */
+  delay?: number
+  id?: string
+  [key: string]: unknown
+}
+
+const { as = 'div', class: className, delay = 0, id, ...rest }: Props = Astro.props
+// Astro renders a string tag name at runtime, but its checker needs one
+// concrete intrinsic element to resolve the attribute set against.
+const Tag = as as 'div'
+---
+
+<Tag id={id} class:list={['eng-reveal', className]} style={`--reveal-delay: ${delay}ms`} {...rest}>
+  <slot />
+</Tag>

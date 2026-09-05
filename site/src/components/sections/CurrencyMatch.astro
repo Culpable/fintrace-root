@@ -1,0 +1,27 @@
+---
+import MatchDiagram from '@/components/sections/MatchDiagram.astro'
+import { COMPACT, WIDE } from '@/data/currency-match.ts'
+
+/**
+ * Cross-currency match - reconstructed.
+ *
+ * The A$28,000 international-transfer hop from the trace above is expanded
+ * here: dollars leave NAB, convert at an exact 0.6000 rate and land at
+ * Deutsche Bank as €16,800 two days later. The amount chip travels the dotted
+ * route (a CSS motion path in SVG user units, so it scales with the viewBox),
+ * swaps currency mid-journey at the transfer-service node, and a MATCHED plate
+ * stamps in at arrival. All animation is pure CSS, armed when the parent
+ * `Reveal` gains `.is-visible`, then looping on a long cycle. Exactly one of
+ * the two SVGs is ever displayed, so the labelled image is never announced
+ * twice.
+ */
+---
+
+<div class="ecm-wrap">
+  <p class="ecm-kicker">Cross-currency match — reconstructed</p>
+  <MatchDiagram layout={WIDE} />
+  <MatchDiagram layout={COMPACT} />
+  <p class="ecm-caption">
+    Same funds, two currencies: matched automatically, with source pages cited for both sides.
+  </p>
+</div>

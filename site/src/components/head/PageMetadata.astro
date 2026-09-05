@@ -5,31 +5,35 @@ import { absoluteUrl, documentTitle, pageMetadata, type PublicPageKey } from '@/
 interface Props {
   /** Indexable route key, or `null` for the unindexed 404 document. */
   page: PublicPageKey | null
-  /** Title used when there is no page key (the 404 document). */
+  /** Page title used when there is no page key (the 404 document). */
   title?: string
-  /** Description used when there is no page key. */
-  description?: string
 }
 
-const { page, title, description } = Astro.props
+const { page, title }: Props = Astro.props
 
 // Tag order, values and attribute sets mirror the production Next head
 // exactly, so the parity manifest compares byte for byte. The only recorded
 // departures are `og:locale` (`en_AU`, plan D-12) and Next's dropped
-// `next-size-adjust` meta.
-const resolvedTitle = page ? documentTitle(page) : (title ?? site.title)
-const resolvedDescription = page ? pageMetadata[page].description : (description ?? site.description)
+// `next-size-adjust` marker.
+//
+// The 404 document takes the root layout's shape: its own composed title and a
+// `noindex` marker, but no canonical, and the site-level social values that the
+// Next root layout published for any route without its own metadata.
+const documentName = page ? documentTitle(page) : `${title}${site.titleSeparator}${site.name}`
+const socialTitle = page ? documentName : site.title
+const description = page ? pageMetadata[page].description : site.description
 const canonical = page ? absoluteUrl(pageMetadata[page].route) : undefined
+const socialUrl = page ? canonical : `${site.siteUrl}/`
 const ogImage = absoluteUrl(site.ogImage)
 ---
 
-<title>{resolvedTitle}</title>
-<meta name="description" content={resolvedDescription} />
-{page && <meta name="robots" content="index, follow" />}
+<title>{documentName}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={page ? 'index, follow' : 'noindex'} />
 {canonical && <link rel="canonical" href={canonical} />}
-<meta property="og:title" content={resolvedTitle} />
-<meta property="og:description" content={resolvedDescription} />
-{canonical && <meta property="og:url" content={canonical} />}
+<meta property="og:title" content={socialTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={socialUrl} />
 <meta property="og:site_name" content={site.name} />
 <meta property="og:locale" content={site.openGraphLocale} />
 <meta property="og:image" content={ogImage} />
@@ -38,10 +42,10 @@ const ogImage = absoluteUrl(site.ogImage)
 <meta property="og:image:alt" content={site.ogImageAlt} />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={resolvedTitle} />
-<meta name="twitter:description" content={resolvedDescription} />
+<meta name="twitter:title" content={socialTitle} />
+<meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />
-<meta name="twitter:image:alt" content={site.ogImageAlt} />
+{page && <meta name="twitter:image:alt" content={site.ogImageAlt} />}
 <link rel="icon" href="/favicon.ico" sizes="48x48" type="image/x-icon" />
 <link rel="icon" href="/icon.svg" sizes="any" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="/apple-icon.png" sizes="180x180" type="image/png" />

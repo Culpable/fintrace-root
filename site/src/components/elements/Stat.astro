@@ -1,0 +1,41 @@
+---
+/**
+ * Animated numeral. The starting value is prerendered so the static document
+ * carries real content; `src/scripts/stat.ts` counts it up on first view.
+ *
+ * The final value is exposed on the wrapper as an accessible label, separate
+ * from the changing visual text, so assistive technology and the build-time
+ * Markdown generator never publish the animation's starting value.
+ */
+interface Props {
+  /** Starting value shown before and during the count animation. */
+  from?: number
+  /** Final value the counter settles on. */
+  to: number
+  /** Animation length in milliseconds. */
+  duration?: number
+  prefix?: string
+  suffix?: string
+  class?: string
+}
+
+const { from = 0, to, duration = 1800, prefix = '', suffix = '', class: className } = Astro.props
+const accessibleValue = `${prefix}${to}${suffix}`
+// `role={textRole}` is the WebKit role that collapses a composite label into one
+// node. Astro's `AriaRole` union omits it because it is not in the ARIA
+// specification, so the value is widened deliberately rather than dropped.
+const textRole = 'text' as never
+---
+
+<span class={className} role={textRole} aria-label={accessibleValue}><span
+    aria-hidden="true"
+    data-stat-from={String(from)}
+    data-stat-to={String(to)}
+    data-stat-duration={String(duration)}
+    data-stat-prefix={prefix}
+    data-stat-suffix={suffix}
+  >{prefix}{from}{suffix}</span></span>
+
+<script>
+  import '@/scripts/stat.ts'
+</script>

@@ -55,5 +55,9 @@ const { page, currentPage, contactHref, hero = false, title, mainClass } = Astro
       <SiteFooter currentPage={currentPage} />
     </div>
     <SitewideBodyEnd />
+    <script>
+      import '@/scripts/reveal.ts'
+      import '@/scripts/analytics-boot.ts'
+    </script>
   </body>
 </html>

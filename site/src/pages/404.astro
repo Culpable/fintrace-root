@@ -1,7 +1,34 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import '@/styles/pages/not-found.css'
+
+/**
+ * Branded 404. The Worker serves this document with a real 404 status, so
+ * the page needs no `noindex` marker and carries no structured data.
+ */
 ---
 
 <BaseLayout page={null} title="Page not found" mainClass="eng-nf-band">
-  <h1>Page not found</h1>
+    <svg class="eng-nf-constellation" viewBox="0 0 560 420" aria-hidden="true">
+      <line x1="280" y1="210" x2="150" y2="112" />
+      <line x1="280" y1="210" x2="420" y2="126" />
+      <line class="eng-nf-flag" x1="280" y1="210" x2="190" y2="326" />
+      <line x1="280" y1="210" x2="430" y2="310" />
+      <circle cx="280" cy="210" r="25" />
+      <circle cx="150" cy="112" r="17" />
+      <circle cx="420" cy="126" r="20" />
+      <circle class="eng-nf-flag" cx="190" cy="326" r="15" />
+      <circle cx="430" cy="310" r="16" />
+    </svg>
+    <div class="eng-container eng-nf-content">
+      <p class="eng-kicker">Error 404</p>
+      <h1 class="eng-page-h1">
+        This page isn’t <span class="eng-gold-text">in the record.</span>
+      </h1>
+      <p class="eng-lede">The requested address doesn’t correspond to anything we can verify.</p>
+      <a class="eng-btn-gold" href="/">
+        Back to the home page
+      </a>
+      <p class="eng-nf-meta">404 · Route not found</p>
+    </div>
 </BaseLayout>

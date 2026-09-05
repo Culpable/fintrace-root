@@ -1,0 +1,145 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Reveal from '@/components/elements/Reveal.astro'
+import ClientVoice from '@/components/sections/ClientVoice.astro'
+import { TESTIMONIAL_SOURCE_CHECK } from '@/data/testimonial.ts'
+import '@/styles/pages/about.css'
+---
+<BaseLayout page="about" currentPage="about">
+    <section class="eng-page-hero">
+      <div class="eng-container">
+        <p class="eng-kicker">About FinTrace</p>
+        <h1 class="eng-page-h1">
+          Forensic rigour, <span class="eng-gold-text">run as a service.</span>
+        </h1>
+        <p class="eng-lede">
+          FinTrace exists to do one job at a forensic standard: turn thousands of pages of bank statements into
+          evidence a legal team can rely on, and hand back the hours that work used to take.
+        </p>
+      </div>
+    </section>
+
+    <div class="eng-page-strip">
+      <span>Specialist forensic service</span>
+      <span class="eng-page-strip-item">
+        <span aria-hidden="true">·</span>
+        Engaged per matter
+      </span>
+      <span class="eng-page-strip-item">
+        <span aria-hidden="true">·</span>
+        Australia-wide
+      </span>
+    </div>
+
+    <section class="eng-page-section" id="recent-matter">
+      <div class="eng-container">
+        <Reveal class="eng-section-head">
+          <p class="eng-kicker">In practice</p>
+          <h2 class="eng-h2">
+            One recent matter. <span class="eng-gold-text">A fifth of the time.</span>
+          </h2>
+        </Reveal>
+        <Reveal class="eng-ab-prose" delay={90}>
+          <p>
+            Document-heavy matters arrive as paper: thousands of pages of statements, accounts by the dozen,
+            histories running back a decade or more. In one recent matter — dozens of accounts, more than a decade
+            of statements — the manual review was estimated at fifty hours of lawyer time. The engine delivered the
+            ledger and the findings in about ten.
+          </p>
+          <p>
+            Those findings closely matched the analysis the instructing lawyer prepared independently, at a fifth of
+            the time, and every finding cited the source page it came from.
+          </p>
+          <p class="eng-page-strip eng-ab-strip">
+            ≈50 hrs estimated · ≈10 delivered · every finding cited to source
+          </p>
+        </Reveal>
+      </div>
+    </section>
+
+    <section class="eng-page-section">
+      <div class="eng-container">
+        <Reveal class="eng-section-head">
+          <p class="eng-kicker">Service, not software</p>
+          <h2 class="eng-h2">
+            Nothing to license. <span class="eng-gold-text">Nothing to learn.</span>
+          </h2>
+        </Reveal>
+        <Reveal class="eng-ab-prose" delay={90}>
+          <p>
+            FinTrace is engaged the way you’d brief a forensic accountant, not the way you’d buy software. There’s
+            no platform to adopt, no seats to license and no training to roll out: you send the statements and
+            the engine does the work.
+          </p>
+          <p>
+            Each matter is scoped and quoted in writing before the work begins, so the cost is known before anything
+            is committed.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+
+    <section class="eng-page-section">
+      <div class="eng-container">
+        <Reveal class="eng-section-head">
+          <p class="eng-kicker">The standard</p>
+          <h2 class="eng-h2">
+            If it can’t be checked, <span class="eng-gold-text">it isn’t a finding.</span>
+          </h2>
+        </Reveal>
+        <Reveal class="eng-ab-prose" delay={90}>
+          <p>
+            Every line in the ledger and every finding in the report cites the exact page of the source PDF it came
+            from. Anything the engine asserts, a human can verify in seconds, which makes the output
+            human-verifiable and court-ready.
+          </p>
+        </Reveal>
+      </div>
+    </section>
+
+    {/* -------------------------- Client voice -------------------------
+        Nick Brookes's source-page paragraph, the half of the approved
+        testimony this page carries; the homepage keeps the weeks-saved
+        half, so no sentence appears in two visible copy blocks. It follows
+        the standard-of-proof section deliberately: the quote opens on
+        "It", and the prose above supplies the engine as its subject while
+        the quote answers the standard in a client's own words. Placing it
+        here also keeps it two sections clear of the recent matter, whose
+        instructing lawyer is not identified, so nothing implies he is that
+        lawyer. The lighter ruled treatment keeps the flagship's centred
+        aperture as the homepage's own set-piece. */}
+    <section class="eng-page-section">
+      <div class="eng-container">
+        <ClientVoice paragraphs={TESTIMONIAL_SOURCE_CHECK} solo />
+      </div>
+    </section>
+
+    <section class="eng-page-section">
+      <div class="eng-container">
+        <Reveal class="eng-plate eng-cta">
+          <span class="eng-cta-sheen" aria-hidden="true"></span>
+          <p class="eng-kicker">Engage the service</p>
+          <h2 class="eng-h2">
+            See it against <span class="eng-gold-text">your matter.</span>
+          </h2>
+          <p class="eng-lede eng-cta-lede">
+            The fastest way to judge FinTrace is to put a real matter in front of it.
+          </p>
+          <div class="eng-hero-ctas">
+            <a
+              class="eng-btn-gold eng-btn-loop"
+              href="/contact/"
+              data-analytics-cta
+              data-analytics-placement="section"
+              data-analytics-destination="contact"
+            >
+              Request a matter assessment
+            </a>
+            <a class="eng-btn-ghost" href="/engagement/">
+              Engagement &amp; pricing
+            </a>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+</BaseLayout>
