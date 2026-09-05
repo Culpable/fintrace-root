@@ -6,7 +6,14 @@
   "main": "src/worker.ts",
   "workers_dev": false,
   "preview_urls": false,
-  "routes": [],
+  "routes": [
+    {
+      // Staging only until the approved cutover adds the apex. Removed again
+      // once production checks pass (plan Step 9).
+      "pattern": "staging.fintrace.com.au",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist",
