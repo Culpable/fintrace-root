@@ -44,11 +44,11 @@ function metaFrom(html: string) {
 }
 
 test('every image and browser identity asset is byte-identical to production', () => {
-  const assets: Record<string, string> = {
+  const assets: Record<string, { sha256: string }> = {
     ...baseline.images,
     ...baseline.icons,
   }
-  for (const [path, expected] of Object.entries(assets) as Array<[string, { sha256: string }]>) {
+  for (const [path, expected] of Object.entries(assets)) {
     const file = resolve(publicDirectory, path.slice(1))
     assert.equal(sha256(readFileSync(file)), expected.sha256, `${path} differs from production`)
   }

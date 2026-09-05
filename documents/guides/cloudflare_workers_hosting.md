@@ -8,7 +8,7 @@ FinTrace Root is migrating its public site from GitHub Pages to Cloudflare Worke
 | --- | --- |
 | Baseline snapshot (plan Step 1) | Complete - 5 September 2026 |
 | Astro site in `site/` | Complete - parity proven locally |
-| Workers provisioning | Not started |
+| Workers provisioning | Complete |
 | Staging proof | Not started |
 | Production cutover | Not started |
 | Decommission | Not started |
@@ -104,6 +104,8 @@ Secrets live only in the macOS Keychain under account `jake.sacino@gmail.com`. V
 | Workers Builds deploy token ID | `fintrace-root-cloudflare-build-api-token-id` | plan Step 7 |
 | Workers Builds token registry UUID | `fintrace-root-cloudflare-build-api-token-uuid` | plan Step 7 |
 
+The build token was created, stored in Keychain and registered with the Workers Builds token endpoint in one process. Its value was never printed, logged, committed or written to a file that outlived the command.
+
 ## Parity baseline
 
 The production parity manifest is `documents/guides/parity/production-baseline.json`, captured from `https://fintrace.com.au/` on 5 September 2026 at repository commit `cc22a724676ee5ee91080cb96f2874cb14735b41`. It records, per route, the response status, content type, cache control, body SHA-256, document title, `lang`, every `meta` and `link` element, every `img` attribute set, whitespace-normalised visible text with its SHA-256, the sorted `href` list and the key-sorted JSON-LD graph. It also records the three discovery files with their full text and SHA-256, the two images, the three browser identity icons, the three production font files and the real 404 document.
@@ -186,4 +188,38 @@ Every route is inside the `agent_readiness.md` budgets and below its Next.js sam
 
 ## Release path
 
-Not yet provisioned. Plan Steps 7 to 10 record the Worker IDs, script tags, repository connection UUID, trigger UUIDs, build IDs, version IDs, custom domains, certificate IDs, the cutover packet and the rollback calls here as they are created.
+Workers Builds is the sole release controller for the Astro site. Created on 5 September 2026.
+
+| Field | Value |
+| --- | --- |
+| API token name | `fintrace-root-cloudflare-build-api-token` |
+| API token ID | `5158a593211adca29f492bd057dd23f9` |
+| API token status | Active; verified through `/user/tokens/verify` |
+| Account permissions | `Workers CI Write` (`2e095cf436e2455fa62c9a9c2e18c478`), `Workers Scripts Write` (`e086da7e2179491d91ee5f35b3ca210a`), `Account Settings Read` (`c1fde68c7bcc44588cbb6ddbc16d6480`) |
+| Zone permission | `Workers Routes Write` (`28f4b596e7d643029c524985477ae49a`), scoped only to `fintrace.com.au` |
+| Builds token registry UUID | `00ff6d21-dcbc-46e9-b42e-8dab5a5ede42` |
+| Repository connection | `Culpable/fintrace-root`, GitHub account ID `31677655`, repository ID `1302542539` |
+| Repository connection UUID | `d0616b81-f432-40c8-9660-b70950fd8038`, created `2026-09-05T10:16:33.135Z` |
+| Production Worker | `fintrace-root`, script tag `18913e2b08f04965b97711b82a446cab`, bootstrap version `07ff7884-351f-47a2-b026-06afc6243a3a` |
+| Preview Worker | `fintrace-root-preview`, bootstrap version `820e9a73-d3a8-44fc-afcf-3be0689f6033` |
+| Preview migration version | `5f1debe5-5467-4a50-aef6-eecc290282c2` |
+| Version preview URL | `https://migration-fintrace-root-preview.webpop.workers.dev/` |
+| Production trigger | `16726427-a055-4f48-a84e-479b6c4dcfc8`; script tag `18913e2b08f04965b97711b82a446cab`; `main`; `pnpm build`; `pnpm deploy` |
+| Preview trigger | `815d30bf-6458-48e1-b36e-2da0ae573077`; script tag `ec3f9e437d5348e9b2db2b2686548ec7`; every branch except `main`; `pnpm build`; `pnpm deploy:preview` |
+| Trigger root and paths | Root `site`; include `site/*`; no excludes |
+| Build variables | `NODE_VERSION=22.23.1`; `PNPM_VERSION=11.24.0` |
+
+Each trigger is attached to its own script tag, so a preview build can never upload a version to the production Worker. The Bulma migration hit exactly that defect by attaching the preview trigger to the production script tag; the shapes above avoid it.
+
+`Workers CI Write` and the other permission groups were revalidated by name against `GET /accounts/{account_id}/tokens/permission_groups` immediately before the token write. The Workers Builds request bodies were taken from Cloudflare's published OpenAPI schema, which requires `build_token_secret` (not `token`) on `POST /accounts/{account_id}/builds/tokens`.
+
+### Preview Worker verification
+
+Against `https://migration-fintrace-root-preview.webpop.workers.dev/` on 5 September 2026:
+
+- All 19 HTTP contract cases pass.
+- `X-Robots-Tag: noindex` is present alongside the CSP, `Permissions-Policy`, `Referrer-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, `Vary: Accept` and `cache-control: public, max-age=0, must-revalidate`.
+- The browser matrix passes on all six documents at `1440x900` and `390x900`.
+- No response body, discovery file or metadata value names `workers.dev`.
+- `GET /accounts/{account_id}/workers/scripts/fintrace-root/subdomain` returns `enabled: false, previews_enabled: false`; the preview Worker returns `enabled: true, previews_enabled: true`.
+- `GET /accounts/{account_id}/workers/domains` still lists only `taxgenie.com.au` and `bulma.com.au`. No DNS record, GitHub Pages setting or custom domain changed.
