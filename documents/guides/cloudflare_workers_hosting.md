@@ -9,7 +9,7 @@ FinTrace Root is migrating its public site from GitHub Pages to Cloudflare Worke
 | Baseline snapshot (plan Step 1) | Complete - 5 September 2026 |
 | Astro site in `site/` | Complete - parity proven locally |
 | Workers provisioning | Complete |
-| Staging proof | Not started |
+| Staging proof | In progress |
 | Production cutover | Not started |
 | Decommission | Not started |
 
@@ -151,6 +151,25 @@ Run against `wrangler dev` (`http://127.0.0.1:8787`) on 5 September 2026 with `s
 ### Prefetch reuse measurement (plan D-17)
 
 Measured against `wrangler dev` on 5 September 2026 with `site/scripts/measure-prefetch-reuse.mjs`: hovering the header `About` link issued exactly one document prefetch, and the following navigation reported `PerformanceNavigationTiming.deliveryType: "cache"` with `transferSize: 300` against `decodedBodySize: 11,823`. The prefetched document is reused despite `Vary: Accept`, so `prefetch` stays enabled in `astro.config.mjs`. The measurement is repeated on staging in plan Step 8.
+
+## Staging attach
+
+`staging.fintrace.com.au` was attached by adding it to `routes` in `site/wrangler.jsonc` and letting the Workers Builds production trigger deploy it (build from commit `d19cdaa`, 5 September 2026).
+
+| Field | Value |
+| --- | --- |
+| Workers domain ID | `22d2489dd6d89a52a1bafe0d79e7d03ea8d31fc9` |
+| Hostname | `staging.fintrace.com.au` |
+| Service and environment | `fintrace-root`, `production` |
+| Zone | `9f79f842598f32ede2fb86d93325260c` |
+| Certificate ID | `9cbc0fb0-5419-4702-a229-0393a28e031c` |
+| DNS record Cloudflare created | `AAAA staging.fintrace.com.au 100::`, proxied, TTL auto, ID `9b867180ab91482f0839bacf041ca87e` |
+
+The zone now holds fourteen records. The thirteen pre-existing records were re-read immediately before the write and compared field by field afterwards: **all thirteen are byte-identical**. The zone's universal certificate pack `0a093449-f0ea-453a-b7da-477b9efdc6d9` already covers `fintrace.com.au` and `*.fintrace.com.au` and is active.
+
+Resolution was confirmed against the authoritative nameserver `vita.ns.cloudflare.com` and both `1.1.1.1` and `8.8.8.8`, all returning the proxied Cloudflare addresses.
+
+**Known local-machine artefact:** the execution machine's resolver cached a negative answer for `staging.fintrace.com.au` from a poll issued while Cloudflare was still creating the record. The zone's SOA minimum is `1800`, so that negative entry persists for up to 30 minutes on this machine only; public resolvers answer correctly throughout. It has no bearing on the hosted behaviour.
 
 ## Local gate
 
