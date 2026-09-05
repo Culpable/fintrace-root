@@ -22,7 +22,7 @@
     "test:agent-a11y": "playwright test test/agent-accessibility.spec.ts",
     "test:http": "node scripts/run-http-contract.mjs",
     "test:hosted-analytics": "node scripts/verify-hosted-analytics.mjs",
-    "test:hosted-browser": "node scripts/verify-hosted-browser.mjs",
+    "test:hosted-browser": "node scripts/verify-browser-runtime.mjs",
     "report:lighthouse:matrix": "node scripts/run-lighthouse-matrix.mjs",
     "capture:production": "node scripts/capture-production-baseline.mjs && node scripts/capture-production-screenshots.mjs",
     "test:parity": "node scripts/capture-production-screenshots.mjs --base=http://127.0.0.1:4332 --out=../documents/guides/parity/screenshots/candidate && node scripts/compare-screenshots.mjs && node scripts/compare-text.mjs",
