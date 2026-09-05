@@ -171,6 +171,33 @@ Resolution was confirmed against the authoritative nameserver `vita.ns.cloudflar
 
 **Known local-machine artefact:** the execution machine's resolver cached a negative answer for `staging.fintrace.com.au` from a poll issued while Cloudflare was still creating the record. The zone's SOA minimum is `1800`, so that negative entry persists for up to 30 minutes on this machine only; public resolvers answer correctly throughout. It has no bearing on the hosted behaviour.
 
+## Cutover packet and rollback
+
+Validated on 5 September 2026 against the live zone, before any apex change. Every payload below was generated from the live record rather than typed by hand, and every rollback call resolves to a concrete target.
+
+### Restore GitHub Pages (recreate the records the apex attach replaces)
+
+| Call | Body |
+| --- | --- |
+| `POST /zones/9f79f842598f32ede2fb86d93325260c/dns_records` | `{"type": "A", "name": "fintrace.com.au", "content": "185.199.111.153", "ttl": 1, "proxied": false, "comment": null, "tags": []}` |
+| `POST /zones/9f79f842598f32ede2fb86d93325260c/dns_records` | `{"type": "A", "name": "fintrace.com.au", "content": "185.199.110.153", "ttl": 1, "proxied": false, "comment": null, "tags": []}` |
+| `POST /zones/9f79f842598f32ede2fb86d93325260c/dns_records` | `{"type": "A", "name": "fintrace.com.au", "content": "185.199.109.153", "ttl": 1, "proxied": false, "comment": null, "tags": []}` |
+| `POST /zones/9f79f842598f32ede2fb86d93325260c/dns_records` | `{"type": "A", "name": "fintrace.com.au", "content": "185.199.108.153", "ttl": 1, "proxied": false, "comment": null, "tags": []}` |
+| `POST /zones/9f79f842598f32ede2fb86d93325260c/dns_records` | `{"type": "CNAME", "name": "www.fintrace.com.au", "content": "culpable.github.io", "ttl": 1, "proxied": false, "comment": null, "tags": []}` |
+
+Cloudflare represents automatic TTL as `1`. The `www` restore is applied as a `PATCH` to record `cad18186776390d58893578cd8679ab1` when that record still exists, or as a `POST` if it was replaced.
+
+### Other rollback calls
+
+| Purpose | Call |
+| --- | --- |
+| Remove the apex custom domain | `DELETE /accounts/213ab3604485056376263d22fa242742/workers/domains/{apex_domain_id}` (ID recorded at attach time) |
+| Remove the staging custom domain | `DELETE /accounts/213ab3604485056376263d22fa242742/workers/domains/22d2489dd6d89a52a1bafe0d79e7d03ea8d31fc9` |
+| Turn the HTTPS redirect back off | `PATCH /zones/9f79f842598f32ede2fb86d93325260c/settings/always_use_https` with `{"value":"off"}` - the recorded previous value is `off` |
+| Disable the `www` redirect rule | `PUT /zones/9f79f842598f32ede2fb86d93325260c/rulesets/{ruleset_id}` with the rule's `enabled` set to `false` (ruleset created at cutover) |
+
+`GET /zones/9f79f842598f32ede2fb86d93325260c/rulesets/phases/http_request_dynamic_redirect/entrypoint` currently returns error `10003`: no custom redirect ruleset exists yet, which is the expected pre-cutover state.
+
 ## Local gate
 
 Run on 5 September 2026 from `site/`:
