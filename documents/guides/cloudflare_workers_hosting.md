@@ -9,7 +9,7 @@ FinTrace Root is migrating its public site from GitHub Pages to Cloudflare Worke
 | Baseline snapshot (plan Step 1) | Complete - 5 September 2026 |
 | Astro site in `site/` | Complete - parity proven locally |
 | Workers provisioning | Complete |
-| Staging proof | In progress |
+| Staging proof | Complete - awaiting cutover approval |
 | Production cutover | Not started |
 | Decommission | Not started |
 
@@ -210,6 +210,60 @@ Read-only, nothing changed:
 - **Cloudflare-managed `robots.txt` is on** for `clinicmaintenance.com.au`, `flsd.com.au`, `bulma.au`, `fintrace.au`, `sacino.au` and `shoppa.au`. Of these, only sites actually served through Cloudflare publish the managed document.
 - **Web Analytics auto-injection is live** (`auto_install: true` with `ruleset.enabled: true`) for `cash4cheque.com.au`, `funeralsmelbourne.net.au`, `vbmel.com.au`, `fintrace.au`, `legalgenie.com.au`, `sacino.au`, `slevia.com` and `trackmytrail.com.au`. Confirmed live on `trackmytrail.com.au` and `sacino.au`, which both serve the beacon today.
 - `bulma.com.au` and `taxgenie.com.au` are clean on both counts.
+
+## Staging proof
+
+Every check below ran against `https://staging.fintrace.com.au/` on 5-6 September 2026, serving the Workers Builds deployment of commit `4367445`.
+
+| Check | Result |
+| --- | --- |
+| `verify-hosted-parity.mjs --noindex` | Pass. All five documents and the three discovery files are byte-identical to `dist`, both with a plain request and with a browser `Accept` header. Full header policy present, `X-Robots-Tag: noindex` on every response, no body names `staging.fintrace.com.au` or `workers.dev` |
+| `run-http-contract.mjs` | 19 of 19 cases |
+| `verify-hosted-transport.mjs` | IPv4 and IPv6 return identical 36,390-byte bodies; Brotli on HTML, CSS and JavaScript; HTTP/2 with `h3` advertised; the fingerprinted asset is edge-cached and warm on repeat |
+| `verify-negotiated-content.mjs` | Deployed Markdown equals the built documents on all five routes; cross-representation conditional requests return `200` Markdown and `304` HTML; slashless `307`; `HEAD` empty; the evidence story and the Cloudflare hosting sentence are present |
+| `verify-browser-runtime.mjs` | Six documents at `1440x900` and `390x900`: zero console errors, zero page errors, zero CSP violations, zero failed first-party requests, zero horizontal overflow |
+| `verify-hosted-analytics.mjs` | One `Page Viewed` per route; a CTA click on `/about/` before initialisation was queued, restored on the next document and delivered with `page: about`, then the key was cleared; the Mixpanel chunk loaded zero times in the first two seconds and exactly once after intent |
+| `verify-contact-contract.mjs` | POST to `https://formspree.io/f/xwvgoenw` with exactly `_subject`, `form_source`, `_gotcha`, `name`, `email`, `organisation`, `message` and `Accept: application/json`; sending, error and success states correct; typed values preserved on failure; form reset on success; no `toolautosubmit`; no enquiry sent |
+| `verify-hero-matrix.mjs` (headed, real GPU) | Seven DESIGN.md viewports, live `3425 -> 2560 -> 1440` resize retaining the same canvas, and forced WebGL failure leaving the designed fallback |
+| `compare-screenshots.mjs` | 18 of 18 captures pass; maximum 0.361% differing pixels against a 1.0% gate |
+| `PLAYWRIGHT_BASE_URL=https://staging.fintrace.com.au playwright test` | 124 passed |
+| `measure-prefetch-reuse.mjs` | `deliveryType: "cache"`, `transferSize: 300` against `decodedBodySize: 11,823`; prefetch stays enabled |
+
+### Lighthouse matrix
+
+150 performance reports with Lighthouse `13.4.1`: 10 mobile and 5 desktop runs per route per host, alternating host order on every pair. Production release `cc22a72`, staging release `4367445`.
+
+**Mobile medians**
+
+| Route | Prod score | Staging score | Δ | Δ% | Prod LCP | Staging LCP | Δ | Δ% | Prod TBT | Staging TBT | Δ | Δ% | Prod SI | Staging SI | Δ | Δ% |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `/` | 98 | 100 | +2 | +2% | 2,401 | 1,297 | -1,104 | -46% | 31 | 0 | -31 | -100% | 1,092 | 996 | -96 | -9% |
+| `/about/` | 99 | 100 | +1 | +1% | 2,115 | 1,293 | -823 | -39% | 22 | 0 | -22 | -100% | 901 | 993 | 92 | +10% |
+| `/engagement/` | 99 | 100 | +1 | +1% | 2,084 | 1,293 | -791 | -38% | 28 | 0 | -28 | -100% | 901 | 993 | 93 | +10% |
+| `/contact/` | 99 | 100 | +1 | +1% | 2,138 | 1,370 | -768 | -36% | 29 | 0 | -29 | -100% | 901 | 998 | 97 | +11% |
+| `/privacy/` | 99 | 100 | +1 | +1% | 2,066 | 1,291 | -775 | -38% | 27 | 0 | -27 | -100% | 901 | 991 | 90 | +10% |
+
+**Desktop medians**
+
+| Route | Prod score | Staging score | Δ | Δ% | Prod LCP | Staging LCP | Δ | Δ% | Prod TBT | Staging TBT | Δ | Δ% | Prod SI | Staging SI | Δ | Δ% |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `/` | 100 | 100 | +0 | +0% | 481 | 341 | -139 | -29% | 0 | 0 | 0 | - | 310 | 281 | -29 | -9% |
+| `/about/` | 100 | 100 | +0 | +0% | 468 | 336 | -132 | -28% | 0 | 0 | 0 | - | 241 | 276 | 36 | +15% |
+| `/engagement/` | 100 | 100 | +0 | +0% | 441 | 336 | -105 | -24% | 0 | 0 | 0 | - | 240 | 276 | 36 | +15% |
+| `/contact/` | 100 | 100 | +0 | +0% | 460 | 339 | -121 | -26% | 0 | 0 | 0 | - | 300 | 279 | -21 | -7% |
+| `/privacy/` | 100 | 100 | +0 | +0% | 451 | 337 | -114 | -25% | 0 | 0 | 0 | - | 241 | 277 | 36 | +15% |
+
+**Staging category scores** (one run per route). Cumulative layout shift is `0` on every route and both hosts.
+
+| Route | Accessibility | Best practices | SEO | Agentic browsing |
+| --- | ---: | ---: | ---: | ---: |
+| `/` | 100 | 100 | 69 | 100 |
+| `/about/` | 100 | 100 | 69 | 100 |
+| `/engagement/` | 100 | 100 | 66 | 100 |
+| `/contact/` | 100 | 100 | 66 | 100 |
+| `/privacy/` | 100 | 100 | 66 | 100 |
+
+SEO is excluded from the comparison: the only failing audit is `is-crawlable`, caused by the deliberate `X-Robots-Tag: noindex` that the staging hostname carries and the apex will not.
 
 ## Cutover packet and rollback
 

@@ -537,7 +537,9 @@ flowchart LR
 - The first production build reports `success` and its deployment version equals the version served by `fintrace-root`; the throwaway-branch build uploads a version to `fintrace-root-preview` and promotes nothing.
 - No DNS record, GitHub Pages setting, or custom domain changed.
 
-### Step 8: Attach `staging.fintrace.com.au`, run the hosted proof, and request approval 🔄 **IN PROGRESS**
+### Step 8: Attach `staging.fintrace.com.au`, run the hosted proof, and request approval 🧪 **PENDING TESTING**
+
+> Staging is live and every hosted gate passes. The step stays pending until the user records the explicit cutover approval this plan requires; Steps 9 to 11 must not start before that.
 **Objective:** Put the production Worker on a real zone hostname and give the user everything needed to decide.
 
 #### 8.1 High-Level Approach
