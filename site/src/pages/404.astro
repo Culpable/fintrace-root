@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import '@/styles/pages/not-found.css'
 
 /**
  * Branded 404. The Worker serves this document with a real 404 status, so
  * the page needs no `noindex` marker and carries no structured data.
  */
+import '@/styles/site.css'
+import '@/styles/pages/not-found.css'
 ---
 
 <BaseLayout page={null} title="Page not found" mainClass="eng-nf-band">

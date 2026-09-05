@@ -1,0 +1,13 @@
+/*
+ * Shared stylesheet entry.
+ *
+ * Every page imports this file first and its own route stylesheet second, so
+ * the cascade order matches the production Next build exactly: the neutral
+ * global layer, then the route design system, then the sub-page primitives,
+ * then the page's own overrides. Importing the shared sheets from the layout
+ * instead would emit them after the page sheet and let equal-specificity rules
+ * such as `.eng-container` beat `.eng-ct-container`.
+ */
+@import './global.css';
+@import './engine-network.css';
+@import './site-pages.css';

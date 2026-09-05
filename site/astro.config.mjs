@@ -48,6 +48,10 @@ export default defineConfig({
       styles: ['normal'],
       subsets: ['latin'],
       display: 'swap',
+      // End the stack in `monospace`, as the production stylesheet does.
+      // Astro's default `sans-serif` would otherwise sit ahead of the
+      // stylesheet's own generic and send mono text to a proportional face.
+      fallbacks: ['monospace'],
     },
     {
       // Single-glyph companion face for U+2248. Fragment Mono's latin subset

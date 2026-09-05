@@ -439,7 +439,7 @@ flowchart LR
 - Root `npm test`, `npm run lint`, and `npm run build` still exit 0 with `site/` present.
 - `git -C /Users/sacino/fintrace-root status --short` shows only `site/`, `documents/`, `.gitignore`, `tsconfig.json`, `eslint.config.mjs`, and files this plan owns.
 
-### Step 3: Port the design system, shell, fonts, metadata, structured data, analytics, and discovery files 🔄 **IN PROGRESS**
+### ~~Step 3: Port the design system, shell, fonts, metadata, structured data, analytics, and discovery files~~ ✅ **COMPLETED**
 **Objective:** Make every page share one head, one layout, one stylesheet set, and one analytics boot with production-identical output.
 
 #### 3.1 High-Level Approach
@@ -460,7 +460,7 @@ flowchart LR
 - With Mixpanel and Formspree hosts intercepted, one page load produces exactly one `Page Viewed` with `page` equal to the route key; a CTA click before initialisation writes one entry to `sessionStorage['fintrace-analytics-queue']`, the next page load delivers it with the originating `page` and clears the key; a CTA click after initialisation is sent with `sendBeacon` (request type `ping` or `fetch` with `keepalive`); development mode produces no request and writes nothing.
 - The `connect-src` origins in `_headers` equal the set of intercepted third-party hosts (`api-js.mixpanel.com`, `formspree.io`, plus any loader host observed).
 
-### Step 4: Port the pages and the interactive scripts
+### ~~Step 4: Port the pages and the interactive scripts~~ ✅ **COMPLETED**
 **Objective:** Reproduce every route and interaction without a client framework (D-2).
 
 #### 4.1 High-Level Approach
@@ -480,7 +480,7 @@ flowchart LR
 - Every scenario in Section 6.3 passes locally at `1440x900` and `390x900`: zero console errors, zero page errors, `document.documentElement.scrollWidth <= clientWidth`.
 - Full-page screenshots of every route at both viewports differ from the production references by at most 1.0% of pixels with the hero and trace canvases masked; the diff images are stored under `documents/guides/parity/screenshots/diff/`.
 
-### Step 5: Add the Worker, negotiated Markdown, headers, and Wrangler configuration
+### Step 5: Add the Worker, negotiated Markdown, headers, and Wrangler configuration 🔄 **IN PROGRESS**
 **Objective:** Deliver the Workers runtime contract locally before any hosted resource exists.
 
 #### 5.1 High-Level Approach
