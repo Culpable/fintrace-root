@@ -1,5 +1,5 @@
-import { site } from '@/config/site.ts'
-import { absoluteUrl, documentTitle, pageMetadata, type PublicPageKey } from '@/lib/metadata.ts'
+import { site } from '../config/site.ts'
+import { absoluteUrl, documentTitle, pageMetadata, type PublicPageKey } from './metadata.ts'
 
 /** Serialise reviewed public facts without allowing HTML-closing text into the script element. */
 export function serialiseStructuredData(value: object) {

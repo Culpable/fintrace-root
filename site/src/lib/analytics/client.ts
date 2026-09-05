@@ -3,7 +3,7 @@ import {
   type AnalyticsEventInput,
   type AnalyticsQueuePersistence,
   type ValidatedAnalyticsEvent,
-} from '@/lib/analytics/core.ts'
+} from './core.ts'
 import type { Config, OverridedMixpanel } from 'mixpanel-browser'
 
 type BrowserAnalyticsEvent =

@@ -1,4 +1,4 @@
-import { site } from '@/config/site.ts'
+import { site } from '../config/site.ts'
 
 /** Keep crawler-facing identity and route facts in one reviewed source. */
 export const siteMetadata = site

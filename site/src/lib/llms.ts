@@ -1,5 +1,5 @@
-import { absoluteUrl, indexablePageKeys, pageMetadata, siteMetadata } from '@/lib/metadata.ts'
-import type { PublicPageKey } from '@/lib/metadata.ts'
+import { absoluteUrl, indexablePageKeys, pageMetadata, siteMetadata } from './metadata.ts'
+import type { PublicPageKey } from './metadata.ts'
 
 /**
  * The agent-operating block describes FinTrace itself, not this website.

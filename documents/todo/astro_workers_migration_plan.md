@@ -499,7 +499,7 @@ flowchart LR
 - The prefetch reuse measurement is recorded in `cloudflare_workers_hosting.md` and `astro.config.mjs` reflects the D-17 outcome.
 - No production credential is used; `.dev.vars` is absent because the Worker needs no secret.
 
-### Step 6: Port the tests, add parity and contract coverage, and pass the local gate 🔄 **IN PROGRESS**
+### ~~Step 6: Port the tests, add parity and contract coverage, and pass the local gate~~ ✅ **COMPLETED**
 **Objective:** Make the parity, readiness, accessibility, and runtime contracts repeatable before anything is hosted.
 
 #### 6.1 High-Level Approach
@@ -517,7 +517,7 @@ flowchart LR
 - The per-route gzip report shows HTML at most 30,000 bytes, CSS at most 30,000 bytes, and initial JavaScript at most 250,000 bytes, with each JavaScript value below the Next sample recorded in Step 1.
 - Root `npm test`, `npm run lint`, and `npm run test:agent` still pass.
 
-### Step 7: Provision the Workers, the build token, and Workers Builds
+### Step 7: Provision the Workers, the build token, and Workers Builds 🔄 **IN PROGRESS**
 **Objective:** Create the minimum Cloudflare resources and the Git-connected release path without any custom domain.
 
 #### 7.1 High-Level Approach

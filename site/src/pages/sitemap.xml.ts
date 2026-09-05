@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro'
-import { absoluteUrl, indexablePageKeys, pageMetadata } from '@/lib/metadata.ts'
+import { absoluteUrl, indexablePageKeys, pageMetadata } from '../lib/metadata.ts'
 
 export const prerender = true
 

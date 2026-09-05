@@ -1,4 +1,4 @@
-import { NODES, PATH_IDS, AMBIENT_EDGES } from '@/data/trace.ts'
+import { NODES, PATH_IDS, AMBIENT_EDGES } from '../data/trace.ts'
 
 /* Thread timeline (seconds): wait, draw, hold with pins lit, fade, repeat. */
 const DELAY = 1.0

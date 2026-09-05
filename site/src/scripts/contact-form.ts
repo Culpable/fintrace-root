@@ -1,4 +1,4 @@
-import { trackAnalytics } from '@/lib/analytics/client.ts'
+import { trackAnalytics } from '../lib/analytics/client.ts'
 
 /**
  * Enquiry submission state machine.

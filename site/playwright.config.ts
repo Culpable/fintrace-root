@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const hostedBaseUrl = process.env.PLAYWRIGHT_BASE_URL
-const baseUrl = hostedBaseUrl ?? 'http://127.0.0.1:4331'
+const baseUrl = hostedBaseUrl ?? 'http://127.0.0.1:4332'
 
 const baseUse = {
   baseURL: baseUrl,
@@ -36,13 +36,19 @@ export default defineConfig({
     },
     {
       name: 'mobile',
-      use: { ...devices['Desktop Chrome'], ...baseUse, viewport: { width: 390, height: 900 } },
+      use: {
+        ...devices['Desktop Chrome'],
+        ...baseUse,
+        viewport: { width: 390, height: 900 },
+        isMobile: true,
+        hasTouch: true,
+      },
     },
   ],
   webServer: hostedBaseUrl ? undefined : {
     command: 'node scripts/preview-server.mjs',
     cwd: import.meta.dirname,
-    url: 'http://127.0.0.1:4331/',
+    url: 'http://127.0.0.1:4332/',
     reuseExistingServer: false,
     timeout: 30_000,
   },

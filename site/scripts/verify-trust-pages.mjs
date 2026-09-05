@@ -5,7 +5,7 @@ const outputDirectory = resolve(import.meta.dirname, '../dist')
 const routes = {
   About: 'about/index.html',
   Contact: 'contact/index.html',
-  Privacy: 'privacy-policy/index.html',
+  Privacy: 'privacy/index.html',
 }
 
 /** Return visible, page-specific text from the single main landmark. */

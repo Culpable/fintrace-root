@@ -32,7 +32,7 @@ if (layer) {
 
     void (async () => {
       try {
-        const { mountEvidenceScene } = await import('@/scripts/evidence-scene.ts')
+        const { mountEvidenceScene } = await import('./evidence-scene.ts')
         // The scene owns the canvas but not the mount, so the mount is created
         // here and removed with the scene, exactly as the React version did.
         const mount = document.createElement('div')

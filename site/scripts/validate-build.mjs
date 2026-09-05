@@ -6,9 +6,9 @@ const outputDirectory = resolve(siteDirectory, 'dist')
 const requiredOutputs = [
   'index.html',
   'about/index.html',
-  'pricing/index.html',
+  'engagement/index.html',
   'contact/index.html',
-  'privacy-policy/index.html',
+  'privacy/index.html',
   '404.html',
   'llms.txt',
   'robots.txt',
@@ -33,13 +33,19 @@ if (failures.length === 0) {
   }
 
   const headers = readFileSync(resolve(outputDirectory, '_headers'), 'utf8')
-  if (headers.includes('{{SCRIPT_HASHES}}')) failures.push('dist/_headers contains an unresolved script hash token')
+  if (/sha256-/.test(headers)) failures.push('dist/_headers carries a script hash; the CSP must stay hash-free')
   if (!/^\/_astro\/\*$/m.test(headers)) failures.push('dist/_headers lacks the immutable /_astro/* rule')
   if ((headers.match(/Cache-Control:/g) ?? []).length !== 1) failures.push('dist/_headers must set Cache-Control exactly once')
 
   const indexHtml = readFileSync(resolve(outputDirectory, 'index.html'), 'utf8')
-  if (/rel=["']preload["'][^>]+as=["']font["']/.test(indexHtml)) failures.push('Homepage must not preload fonts')
-  if (/<script[^>]+src=["'][^"']*three/i.test(indexHtml)) failures.push('Homepage initial HTML directly references a Three.js-named chunk')
+  // Exactly two preloaded faces: the display and mono faces that carry
+  // above-the-fold text. The 716-byte approx subset is deliberately not
+  // preloaded (plan D-22).
+  const fontPreloads = (indexHtml.match(/rel=["']preload["'][^>]+as=["']font["']/g) ?? []).length
+  if (fontPreloads !== 2) failures.push(`Homepage must preload exactly two fonts; found ${fontPreloads}`)
+  if (/<script[^>]+src=["'][^"']*(?:three|evidence-scene)/i.test(indexHtml)) {
+    failures.push('Homepage initial HTML directly references the Three.js scene chunk')
+  }
 }
 
 if (failures.length > 0) {

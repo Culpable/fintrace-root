@@ -1,4 +1,4 @@
-import { initialiseAnalytics, trackAnalytics } from '@/lib/analytics/client.ts'
+import { initialiseAnalytics, trackAnalytics } from '../lib/analytics/client.ts'
 
 let ctaListenerInstalled = false
 let analyticsInitialisationScheduled = false

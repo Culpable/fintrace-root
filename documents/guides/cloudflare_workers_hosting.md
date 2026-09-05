@@ -150,6 +150,40 @@ Run against `wrangler dev` (`http://127.0.0.1:8787`) on 5 September 2026 with `s
 
 Measured against `wrangler dev` on 5 September 2026 with `site/scripts/measure-prefetch-reuse.mjs`: hovering the header `About` link issued exactly one document prefetch, and the following navigation reported `PerformanceNavigationTiming.deliveryType: "cache"` with `transferSize: 300` against `decodedBodySize: 11,823`. The prefetched document is reused despite `Vary: Accept`, so `prefetch` stays enabled in `astro.config.mjs`. The measurement is repeated on staging in plan Step 8.
 
+## Local gate
+
+Run on 5 September 2026 from `site/`:
+
+| Command | Result |
+| --- | --- |
+| `pnpm check` | 0 errors, 0 warnings, 0 hints across 86 files |
+| `pnpm build` | 6 pages built, Markdown generated for all five indexable routes plus the recovery document |
+| `pnpm test:unit` | 48 passed (analytics including the six D-8 persistence cases, discovery, metadata, structured data, build output, production parity, runtime contract, negotiated document, Markdown generation) |
+| `pnpm test:build-output` | 10 required outputs validated; About 1,969, Contact 880 and Privacy 2,713 page-specific characters |
+| `playwright test` | 124 passed across the desktop and mobile projects |
+| `pnpm test:http` (under `wrangler dev`) | 19 of 19 cases passed |
+| `scripts/compare-text.mjs` | all five routes match the production manifest |
+| `scripts/compare-screenshots.mjs` | all 18 captures pass |
+| `scripts/verify-hero-matrix.mjs` (headed, real GPU) | 7 viewports plus live resize and forced WebGL failure passed |
+| Root `npm test`, `npm run lint`, `npm run build`, `npm run test:agent` | still pass with `site/` present (11, 0 errors, export succeeded, 124) |
+
+### Parity result
+
+Maximum recorded pixel difference across the 18 captures is **0.361%** (contact error state at `390x900`), against a `1.0%` gate; twelve captures are byte-identical. `/privacy/` is compared above the approved D-13 copy change, where it differs by 0.034% desktop and 0.117% mobile.
+
+### Per-route gzip against the Next.js baseline
+
+| Route | HTML | CSS | Initial JS | JS change |
+| --- | ---: | ---: | ---: | ---: |
+| `/` | 8,395 | 10,039 | 5,224 | −191,863 |
+| `/about/` | 3,409 | 10,216 | 1,774 | −189,195 |
+| `/engagement/` | 3,100 | 10,393 | 1,774 | −189,195 |
+| `/contact/` | 3,226 | 11,007 | 2,420 | −189,344 |
+| `/privacy/` | 3,355 | 10,483 | 1,774 | −188,781 |
+| `404.html` | 2,113 | 10,478 | 1,774 | −188,781 |
+
+Every route is inside the `agent_readiness.md` budgets and below its Next.js sample on all three axes. The Three.js chunk and the Mixpanel loader chunk are separate files that no initial document references.
+
 ## Release path
 
 Not yet provisioned. Plan Steps 7 to 10 record the Worker IDs, script tags, repository connection UUID, trigger UUIDs, build IDs, version IDs, custom domains, certificate IDs, the cutover packet and the rollback calls here as they are created.

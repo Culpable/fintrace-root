@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro'
-import { renderLlmsTxt } from '@/lib/llms.ts'
+import { renderLlmsTxt } from '../lib/llms.ts'
 
 export const prerender = true
 
