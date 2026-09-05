@@ -480,7 +480,7 @@ flowchart LR
 - Every scenario in Section 6.3 passes locally at `1440x900` and `390x900`: zero console errors, zero page errors, `document.documentElement.scrollWidth <= clientWidth`.
 - Full-page screenshots of every route at both viewports differ from the production references by at most 1.0% of pixels with the hero and trace canvases masked; the diff images are stored under `documents/guides/parity/screenshots/diff/`.
 
-### Step 5: Add the Worker, negotiated Markdown, headers, and Wrangler configuration 🔄 **IN PROGRESS**
+### ~~Step 5: Add the Worker, negotiated Markdown, headers, and Wrangler configuration~~ ✅ **COMPLETED**
 **Objective:** Deliver the Workers runtime contract locally before any hosted resource exists.
 
 #### 5.1 High-Level Approach
@@ -499,7 +499,7 @@ flowchart LR
 - The prefetch reuse measurement is recorded in `cloudflare_workers_hosting.md` and `astro.config.mjs` reflects the D-17 outcome.
 - No production credential is used; `.dev.vars` is absent because the Worker needs no secret.
 
-### Step 6: Port the tests, add parity and contract coverage, and pass the local gate
+### Step 6: Port the tests, add parity and contract coverage, and pass the local gate 🔄 **IN PROGRESS**
 **Objective:** Make the parity, readiness, accessibility, and runtime contracts repeatable before anything is hosted.
 
 #### 6.1 High-Level Approach

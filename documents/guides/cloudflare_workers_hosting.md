@@ -7,7 +7,7 @@ FinTrace Root is migrating its public site from GitHub Pages to Cloudflare Worke
 | Stage | State |
 | --- | --- |
 | Baseline snapshot (plan Step 1) | Complete - 5 September 2026 |
-| Astro site in `site/` | Not started |
+| Astro site in `site/` | Complete - parity proven locally |
 | Workers provisioning | Not started |
 | Staging proof | Not started |
 | Production cutover | Not started |
@@ -135,6 +135,20 @@ Run at commit `cc22a724676ee5ee91080cb96f2874cb14735b41` on 5 September 2026:
 - `npm run lint` - zero errors.
 - `npm run build` - static export succeeded, 13 routes generated.
 - `npm run test:agent` - 124 passed.
+
+## Local Worker contract
+
+Run against `wrangler dev` (`http://127.0.0.1:8787`) on 5 September 2026 with `site/test/http-contract.json`:
+
+- 19 of 19 cases pass, covering the five canonical documents as HTML and as negotiated Markdown, both cache orders, the slashless `307`, the unknown-path `404` in both representations, `406` for an unacceptable media type, a Markdown `HEAD`, the blocked `/_agent-markdown/` prefix, `robots.txt`, `sitemap.xml`, `llms.txt` with its charset and curly apostrophe intact, a fingerprinted `/_astro/*` asset with the immutable policy, and the declared favicon media type.
+- Every document response carries the `_headers` policy: the hash-free CSP, `Permissions-Policy`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and `Vary: Accept`. HTML bodies are byte-identical to `dist`.
+- Generated Markdown carries the authored content: the seven ledger rows and the reconciled closing balance `−9,701.95`, the four trace annotations including `A$9,500 · 07 MAR 2024 · SEE P. 214` and `€16,800 · 04 APR 2024 · FX MATCH`, the `100%` stat final value, the `≈50 hrs` About strip with its glyph intact, and the testimonial.
+- `site/scripts/verify-browser-runtime.mjs` passes on all six documents at `1440x900` and `390x900`: zero console errors, zero page errors, zero CSP violations, zero failed first-party requests, zero horizontal overflow.
+- `wrangler deploy --dry-run` succeeds for both environments with `main: src/worker.ts`, one `ASSETS` binding and no other binding.
+
+### Prefetch reuse measurement (plan D-17)
+
+Measured against `wrangler dev` on 5 September 2026 with `site/scripts/measure-prefetch-reuse.mjs`: hovering the header `About` link issued exactly one document prefetch, and the following navigation reported `PerformanceNavigationTiming.deliveryType: "cache"` with `transferSize: 300` against `decodedBodySize: 11,823`. The prefetched document is reused despite `Vary: Accept`, so `prefetch` stays enabled in `astro.config.mjs`. The measurement is repeated on staging in plan Step 8.
 
 ## Release path
 
