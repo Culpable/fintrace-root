@@ -4,6 +4,7 @@
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import './host-override.mjs'
 
 const origin = (process.argv[2] ?? '').replace(/\/$/, '')
 if (!origin) throw new Error('Usage: node scripts/verify-hosted-parity.mjs <origin> [--noindex]')
@@ -44,6 +45,16 @@ for (const [route, file] of [...DOCUMENTS, ...DISCOVERY]) {
   const expected = readFileSync(resolve(distDirectory, file))
   if (response.status !== 200) failures.push(`${route}: status ${response.status}`)
   if (sha256(body) !== sha256(expected)) failures.push(`${route}: body differs from dist/${file}`)
+
+  // Request the way a browser does. Cloudflare's edge injects the Web
+  // Analytics beacon only into responses that carry a browser Accept header,
+  // so a check that omits it cannot see the injection real visitors receive.
+  const browserLike = await get(route, {
+    accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+  })
+  if (sha256(browserLike.body) !== sha256(expected)) {
+    failures.push(`${route}: body differs from dist/${file} when requested with a browser Accept header`)
+  }
   if (response.headers.get('vary')?.includes('Accept') !== true && DOCUMENTS.some(([r]) => r === route)) {
     failures.push(`${route}: missing Vary: Accept`)
   }

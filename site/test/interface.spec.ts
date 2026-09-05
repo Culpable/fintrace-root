@@ -33,7 +33,10 @@ for (const route of ACCESSIBILITY_ROUTES) {
     )
     expect(overflow).toBeLessThanOrEqual(1)
     if (route === UNKNOWN_ROUTE) {
-      expect(errors).toEqual(['Failed to load resource: the server responded with a status of 404 (Not Found)'])
+      // HTTP/2 carries no reason phrase, so the hosted run logs "404 ()" where
+      // the HTTP/1.1 preview server logs "404 (Not Found)".
+      expect(errors).toHaveLength(1)
+      expect(errors[0]).toMatch(/Failed to load resource: the server responded with a status of 404/)
     } else {
       expect(errors).toEqual([])
     }

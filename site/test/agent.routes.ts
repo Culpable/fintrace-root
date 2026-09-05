@@ -98,9 +98,19 @@ export function materialStatesForRoute(route: string) {
   return AGENT_INTERACTION_STATES[route] ?? []
 }
 
-function isLoopbackUrl(rawUrl: string) {
+/**
+ * The site under test. Defaults to the local preview server; a hosted run
+ * points it at the deployed origin, which must then count as first-party or
+ * the request blocker below would refuse the navigation itself.
+ */
+const firstPartyOrigin = process.env.PLAYWRIGHT_BASE_URL
+  ? new URL(process.env.PLAYWRIGHT_BASE_URL).origin
+  : null
+
+function isFirstPartyUrl(rawUrl: string) {
   const url = new URL(rawUrl)
   if (['about:', 'blob:', 'data:'].includes(url.protocol)) return true
+  if (firstPartyOrigin && url.origin === firstPartyOrigin) return true
   return ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname)
 }
 
@@ -112,7 +122,7 @@ function isMixpanelTrackUrl(rawUrl: string) {
 export async function blockExternalRequests(page: Page) {
   await page.route('**/*', async (route) => {
     const requestUrl = route.request().url()
-    if (isLoopbackUrl(requestUrl)) {
+    if (isFirstPartyUrl(requestUrl)) {
       await route.continue()
       return
     }

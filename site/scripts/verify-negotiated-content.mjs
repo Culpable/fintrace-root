@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import './host-override.mjs'
 
 const origin = new URL(process.argv[2] ?? 'https://fintrace.com.au').origin;
 const outputPath = process.argv[3];

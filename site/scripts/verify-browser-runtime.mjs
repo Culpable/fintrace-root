@@ -2,13 +2,19 @@
 // CSP violations, failed first-party requests and horizontal overflow.
 // Usage: node scripts/verify-browser-runtime.mjs [baseUrl]
 import { chromium } from '@playwright/test'
+import { browserResolverArguments } from './host-override.mjs'
 
 const base = process.argv[2] ?? 'http://127.0.0.1:8787'
 const ROUTES = ['/', '/about/', '/engagement/', '/contact/', '/privacy/', '/__missing/']
 const VIEWPORTS = { desktop: { width: 1440, height: 900 }, mobile: { width: 390, height: 900 } }
 
 const browser = await chromium.launch({
-  args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
+  args: [
+    ...browserResolverArguments(),
+    '--use-gl=angle',
+    '--use-angle=swiftshader',
+    '--enable-unsafe-swiftshader',
+  ],
 })
 
 let failures = 0

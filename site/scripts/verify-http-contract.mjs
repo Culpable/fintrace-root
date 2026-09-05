@@ -3,6 +3,7 @@
 import { readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import process from "node:process";
+import './host-override.mjs'
 
 const HELP = `Usage:
   node verify-http-contract.mjs --manifest <contract.json> [--base-url <url>]

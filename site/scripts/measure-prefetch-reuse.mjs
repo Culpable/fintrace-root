@@ -2,9 +2,10 @@
 // navigation once the Worker sends `Vary: Accept` (plan D-17).
 // Usage: node scripts/measure-prefetch-reuse.mjs [baseUrl]
 import { chromium } from '@playwright/test'
+import { browserResolverArguments } from './host-override.mjs'
 
 const base = process.argv[2] ?? 'http://127.0.0.1:8787'
-const browser = await chromium.launch()
+const browser = await chromium.launch({ args: browserResolverArguments() })
 const context = await browser.newContext({ viewport: { width: 1440, height: 900 } })
 const page = await context.newPage()
 

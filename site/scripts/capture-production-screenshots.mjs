@@ -4,6 +4,7 @@ import { mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { chromium } from '@playwright/test'
 import sharp from 'sharp'
+import { browserResolverArguments } from './host-override.mjs'
 
 const argument = (name, fallback) =>
   process.argv.find((a) => a.startsWith(`--${name}=`))?.split('=', 2)[1] ?? fallback
@@ -69,7 +70,7 @@ async function writeCapture(page, name) {
   process.stderr.write(`captured ${name}\n`)
 }
 
-const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] })
+const browser = await chromium.launch({ args: [...browserResolverArguments(), '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] })
 
 for (const [viewportName, viewport] of Object.entries(VIEWPORTS)) {
   const context = await browser.newContext({ viewport, deviceScaleFactor: 1 })

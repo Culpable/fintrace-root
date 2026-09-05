@@ -3,6 +3,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { chromium } from '@playwright/test'
+import { browserResolverArguments } from './host-override.mjs'
 
 const origin = (process.argv[2] ?? 'https://fintrace.com.au').replace(/\/$/, '')
 const outputPath = process.argv[3] ?? 'test-results/hosted-analytics.json'
@@ -11,7 +12,7 @@ const QUEUE_KEY = 'fintrace-analytics-queue'
 /** Mixpanel batches ingestion; this clears its flush interval with margin. */
 const FLUSH_WAIT_MS = 12_000
 
-const browser = await chromium.launch()
+const browser = await chromium.launch({ args: browserResolverArguments() })
 const failures = []
 const evidence = { origin, checkedAt: new Date().toISOString(), routes: [], crossNavigation: null, laziness: null }
 
