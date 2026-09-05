@@ -12,15 +12,15 @@ import {
 } from './lighthouse-report-cache.mjs';
 
 const hosts = [
-  { id: 'production', origin: 'https://bulma.com.au' },
-  { id: 'staging', origin: 'https://staging.bulma.com.au' },
+  { id: 'production', origin: 'https://fintrace.com.au' },
+  { id: 'staging', origin: 'https://staging.fintrace.com.au' },
 ];
 const routes = [
   { id: 'home', path: '/' },
   { id: 'about', path: '/about/' },
-  { id: 'pricing', path: '/pricing/' },
+  { id: 'engagement', path: '/engagement/' },
   { id: 'contact', path: '/contact/' },
-  { id: 'privacy-policy', path: '/privacy-policy/' },
+  { id: 'privacy', path: '/privacy/' },
 ];
 const modes = [
   { id: 'mobile', runs: 10, arguments: [] },
@@ -67,7 +67,7 @@ function runLighthouse({ url, reportPath, extraArguments, categories, releaseId 
   if (existingReport) return existingReport;
 
   for (let attempt = 1; attempt <= 3; attempt += 1) {
-    const profileDirectory = mkdtempSync(join(tmpdir(), 'bulma-lighthouse-profile-'));
+    const profileDirectory = mkdtempSync(join(tmpdir(), 'fintrace-lighthouse-profile-'));
     const result = spawnSync(
       'npx',
       [

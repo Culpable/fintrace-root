@@ -223,3 +223,24 @@ Against `https://migration-fintrace-root-preview.webpop.workers.dev/` on 5 Septe
 - No response body, discovery file or metadata value names `workers.dev`.
 - `GET /accounts/{account_id}/workers/scripts/fintrace-root/subdomain` returns `enabled: false, previews_enabled: false`; the preview Worker returns `enabled: true, previews_enabled: true`.
 - `GET /accounts/{account_id}/workers/domains` still lists only `taxgenie.com.au` and `bulma.com.au`. No DNS record, GitHub Pages setting or custom domain changed.
+
+### First Git-connected builds
+
+| Build | Trigger | Commit | Outcome |
+| --- | --- | --- | --- |
+| `b57a67b3-91c4-4691-b5f4-aee38aa2db10` | production | `4edcace` | fail - `astro check` rejected a mis-typed cast in `test/production-parity.test.ts` |
+| `04a03c83` | preview | throwaway branch | fail - same type error |
+| `3122a95e-e90a-495e-bf76-d060c77e2e63` | production | `1a87a5c` | success; deployed production version `df3c0112-27bc-4a9d-8eda-17418fd7c0c7` at 100% |
+| `34a7781c` | preview | throwaway branch | success; uploaded version `9ed5a051-96e5-4ed9-82fe-1ef20fd7d426` |
+
+The preview build uploaded a version and promoted nothing: `fintrace-root-preview` stayed on its bootstrap deployment `f4b390a4-29d9-4156-9cbd-4fcefd0dc844` serving version `820e9a73-d3a8-44fc-afcf-3be0689f6033`. The throwaway branch `claude/astro-workers-preview-check` was deleted locally and remotely.
+
+The first failure is recorded because it changes the local gate: `pnpm test` does not run `astro check`, so the release gate is `pnpm check && pnpm build && pnpm test`, not `pnpm test` alone.
+
+### Hosted analytics proof
+
+`site/scripts/verify-hosted-analytics.mjs` against the preview URL, with every Mixpanel and Formspree request intercepted so nothing is delivered:
+
+- Exactly one `Page Viewed` per route load, each carrying its own page key.
+- A CTA click on `/about/` before the vendor initialised was written to `sessionStorage['fintrace-analytics-queue']`, restored on the destination document, delivered with `page: about`, and the key was cleared.
+- The Mixpanel loader chunk was requested zero times in the first two seconds after `load` and exactly once after intent.

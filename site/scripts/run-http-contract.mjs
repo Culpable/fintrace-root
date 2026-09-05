@@ -52,7 +52,7 @@ for (const testCase of manifest.cases) {
   }
 }
 
-const temporaryDirectory = await mkdtemp(resolve(tmpdir(), 'bulma-http-contract-'));
+const temporaryDirectory = await mkdtemp(resolve(tmpdir(), 'fintrace-http-contract-'));
 const runtimeManifestPath = resolve(temporaryDirectory, 'http-contract.json');
 
 try {

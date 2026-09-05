@@ -517,7 +517,7 @@ flowchart LR
 - The per-route gzip report shows HTML at most 30,000 bytes, CSS at most 30,000 bytes, and initial JavaScript at most 250,000 bytes, with each JavaScript value below the Next sample recorded in Step 1.
 - Root `npm test`, `npm run lint`, and `npm run test:agent` still pass.
 
-### Step 7: Provision the Workers, the build token, and Workers Builds 🔄 **IN PROGRESS**
+### ~~Step 7: Provision the Workers, the build token, and Workers Builds~~ ✅ **COMPLETED**
 **Objective:** Create the minimum Cloudflare resources and the Git-connected release path without any custom domain.
 
 #### 7.1 High-Level Approach
@@ -537,7 +537,7 @@ flowchart LR
 - The first production build reports `success` and its deployment version equals the version served by `fintrace-root`; the throwaway-branch build uploads a version to `fintrace-root-preview` and promotes nothing.
 - No DNS record, GitHub Pages setting, or custom domain changed.
 
-### Step 8: Attach `staging.fintrace.com.au`, run the hosted proof, and request approval
+### Step 8: Attach `staging.fintrace.com.au`, run the hosted proof, and request approval 🔄 **IN PROGRESS**
 **Objective:** Put the production Worker on a real zone hostname and give the user everything needed to decide.
 
 #### 8.1 High-Level Approach
