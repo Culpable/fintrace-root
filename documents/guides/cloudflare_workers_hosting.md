@@ -171,6 +171,42 @@ Resolution was confirmed against the authoritative nameserver `vita.ns.cloudflar
 
 **Known local-machine artefact:** the execution machine's resolver cached a negative answer for `staging.fintrace.com.au` from a poll issued while Cloudflare was still creating the record. The zone's SOA minimum is `1800`, so that negative entry persists for up to 30 minutes on this machine only; public resolvers answer correctly throughout. It has no bearing on the hosted behaviour.
 
+## Cloudflare edge injections found on staging
+
+Proxying the site through Cloudflare exposed two edge features that rewrite responses after the Worker returns them. Neither is visible while the apex is unproxied on GitHub Pages, and neither exists on `bulma.com.au` or `taxgenie.com.au`. Both were resolved with the user's explicit approval, because plan REQ-25 forbids zone changes other than `always_use_https`.
+
+### 1. Cloudflare-managed `robots.txt`
+
+The zone had `is_robots_txt_managed: true`. Cloudflare replaced `/robots.txt` with a 1,905-byte managed document that prepends `Content-Signal: search=yes,ai-train=no,use=reference` and `Disallow: /` for `Amazonbot`, `Applebot-Extended`, `Bytespider`, `CCBot`, `ClaudeBot`, `CloudflareBrowserRenderingCrawler`, `Google-Extended`, `GPTBot` and `meta-externalagent`. That contradicts the site's agent-readiness contract and REQ-8's byte identity.
+
+| Field | Before | After |
+| --- | --- | --- |
+| `PUT /zones/9f79f842598f32ede2fb86d93325260c/bot_management` `is_robots_txt_managed` | `true` | `false` |
+
+Every other field in that object is unchanged; `ai_bots_protection` was restored to `only_on_ad_pages` after the first `PUT` reset omitted fields to their defaults, and a field-by-field diff confirms `is_robots_txt_managed` is the only difference. Rollback is the same call with `true`.
+
+### 2. Auto-injected Cloudflare Web Analytics beacon
+
+Cloudflare appended `<script src="https://static.cloudflareinsights.com/beacon.min.js/...">` to every response carrying a browser `Accept` header. Cloudflare enabled this by default for free-plan proxied zones in September 2025. As shipped it would have been blocked by `script-src 'self'` on every page view, added a runtime request class `AGENTS.md` and `DESIGN.md` forbid, broken the byte-identical HTML contract, and sent visitor data to a provider the privacy notice does not name.
+
+The zone had a hidden RUM site (`site_tag 87430588375b43bb945335eaad3a54dd`, token `18b935300680491e86825c66edecd887`, rule created `2026-07-17`) that `rum/site_info/list` did not return. Setting `auto_install: false` and pausing its rule did not stop the injection; `ruleset.enabled` is the effective switch, and Cloudflare only accepts `enabled` alongside `auto_install: true`.
+
+| Call | Body |
+| --- | --- |
+| `PUT /accounts/213ab3604485056376263d22fa242742/rum/site_info/87430588375b43bb945335eaad3a54dd` | `{"zone_tag": "9f79f842598f32ede2fb86d93325260c", "auto_install": true, "enabled": false}` |
+
+The beacon stopped within about a minute. Rollback is the same call with `"enabled": true`.
+
+`site/scripts/verify-hosted-parity.mjs` now requests every document a second time with a browser `Accept` header, so this class of edge injection cannot pass unseen again.
+
+### Audit of the other zones (requested)
+
+Read-only, nothing changed:
+
+- **Cloudflare-managed `robots.txt` is on** for `clinicmaintenance.com.au`, `flsd.com.au`, `bulma.au`, `fintrace.au`, `sacino.au` and `shoppa.au`. Of these, only sites actually served through Cloudflare publish the managed document.
+- **Web Analytics auto-injection is live** (`auto_install: true` with `ruleset.enabled: true`) for `cash4cheque.com.au`, `funeralsmelbourne.net.au`, `vbmel.com.au`, `fintrace.au`, `legalgenie.com.au`, `sacino.au`, `slevia.com` and `trackmytrail.com.au`. Confirmed live on `trackmytrail.com.au` and `sacino.au`, which both serve the beacon today.
+- `bulma.com.au` and `taxgenie.com.au` are clean on both counts.
+
 ## Cutover packet and rollback
 
 Validated on 5 September 2026 against the live zone, before any apex change. Every payload below was generated from the live record rather than typed by hand, and every rollback call resolves to a concrete target.
