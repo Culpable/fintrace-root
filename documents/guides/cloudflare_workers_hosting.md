@@ -10,7 +10,7 @@ FinTrace Root is migrating its public site from GitHub Pages to Cloudflare Worke
 | Astro site in `site/` | Complete - parity proven locally |
 | Workers provisioning | Complete |
 | Staging proof | Complete - awaiting cutover approval |
-| Production cutover | Not started |
+| Production cutover | Complete - 6 September 2026 |
 | Decommission | Not started |
 
 `https://fintrace.com.au/` is served by GitHub Pages until the recorded cutover approval.
@@ -264,6 +264,56 @@ Every check below ran against `https://staging.fintrace.com.au/` on 5-6 Septembe
 | `/privacy/` | 100 | 100 | 66 | 100 |
 
 SEO is excluded from the comparison: the only failing audit is `is-crawlable`, caused by the deliberate `X-Robots-Tag: noindex` that the staging hostname carries and the apex will not.
+
+## Cutover, applied
+
+Approved by the user on 6 September 2026 after reviewing `https://staging.fintrace.com.au/` and the evidence above. Applied by `site/scripts/cutover.mjs cutover` against the committed snapshot in `documents/guides/parity/cutover-snapshot.json`.
+
+| Change | Result |
+| --- | --- |
+| Apex custom domain | `4a23302ca1e6aa3dde9ebadd9eefcf5c4541a4d1`, certificate `f85ab010-d2d3-4511-a358-6c9e3288bf9c`, `fintrace.com.au` to `fintrace-root` |
+| Four GitHub apex `A` records | Deleted by ID |
+| Apex record now | One Cloudflare-created proxied `AAAA 100::` |
+| `www` record `cad18186776390d58893578cd8679ab1` | `CNAME culpable.github.io` to `A 192.0.2.0`, proxied, comment `Proxied placeholder for canonical www redirect` |
+| Redirect ruleset | `34a6363922994c5c9fcfb95622929d66`, `http_request_dynamic_redirect`, `308` to `concat("https://fintrace.com.au", http.request.uri.path)`, query string preserved |
+| `always_use_https` | `off` to `on` |
+
+**Conflict fallback used.** `PUT /accounts/{account_id}/workers/domains` has no `override_existing_dns_record` parameter and rejected the hostname with error `100117` while the GitHub records existed. The plan's Section 3.2 fallback applied: the four apex `A` records are deleted by ID first, and the script recreates them from the snapshot if the attach then fails.
+
+### Production verification
+
+| Check | Result |
+| --- | --- |
+| `cutover.mjs verify` | 11 of 11: apex `200` from `cloudflare` with the CSP, `Vary: Accept` and no `X-Robots-Tag`; `http://fintrace.com.au/about/` `301` to HTTPS; `https://www.fintrace.com.au/engagement/?source=host-check` one `308` to the matching apex URL; unknown path `404`; Markdown negotiation; `llms.txt` charset; **all eight unrelated DNS records byte-identical to the snapshot**; no `185.199.*` apex record remains |
+| `verify-hosted-parity.mjs` | All documents and discovery files byte-identical to `dist`, plain and with a browser `Accept` header |
+| `run-http-contract.mjs` | 19 of 19 |
+| `verify-negotiated-content.mjs` | Pass |
+| `verify-hosted-transport.mjs` | IPv4 and IPv6 return identical 36,390-byte bodies; Brotli on HTML, CSS and JavaScript; HTTP/2 with `h3` advertised; edge cache warm on repeat |
+| `verify-browser-runtime.mjs` | Six documents at both viewports, zero errors and zero CSP violations |
+| `verify-hosted-analytics.mjs` | Pass, including the cross-navigation queued CTA click |
+| `verify-hero-matrix.mjs` (headed, real GPU) | Seven viewports, live resize, forced WebGL failure |
+| `compare-screenshots.mjs` | 18 of 18 against the production references captured before the migration |
+| `PLAYWRIGHT_BASE_URL=https://fintrace.com.au playwright test` | 124 passed |
+
+`www.fintrace.com.au` was additionally checked over IPv4, IPv6 and plain HTTP, and at the site root and a deep path with a query string: one `308` in every case.
+
+### Production Lighthouse sanity pass
+
+Three mobile runs per route with Lighthouse `13.4.1`, medians. Raw reports are kept in `documents/guides/parity/lighthouse-production/`.
+
+| Route | Score | LCP | TBT | CLS |
+| --- | ---: | ---: | ---: | ---: |
+| `/` | 100 | 1,299 | 0 | 0 |
+| `/about/` | 100 | 1,296 | 0 | 0 |
+| `/engagement/` | 100 | 1,296 | 0 | 0 |
+| `/contact/` | 100 | 1,302 | 0 | 0 |
+| `/privacy/` | 100 | 1,297 | 0 | 0 |
+
+### Staging retired
+
+The Workers custom domain `22d2489dd6d89a52a1bafe0d79e7d03ea8d31fc9` and the `AAAA staging.fintrace.com.au` record were deleted, the staging rule was removed from `_headers`, and `wrangler.jsonc` now routes only the apex. Build `dadb946d` from commit `680130b` deployed that change, and the apex re-verified 11 of 11 afterwards. `staging.fintrace.com.au` no longer resolves. The zone holds ten records: the apex, `www`, and the eight untouched Microsoft 365, Google and GitHub records. The zone's universal certificate pack still covers `fintrace.com.au` and `*.fintrace.com.au`, so no certificate pack needed removal.
+
+GitHub Pages remains enabled at the end of this step, and every rollback payload in the section below remains valid.
 
 ## Cutover packet and rollback
 

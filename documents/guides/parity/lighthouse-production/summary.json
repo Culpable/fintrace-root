@@ -1,0 +1,42 @@
+{
+  "origin": "https://fintrace.com.au",
+  "runs": 3,
+  "lighthouseVersion": "13.4.1",
+  "summary": [
+    {
+      "route": "/",
+      "score": 100,
+      "lcpMs": 1299,
+      "tbtMs": 0,
+      "cls": 0
+    },
+    {
+      "route": "/about/",
+      "score": 100,
+      "lcpMs": 1296,
+      "tbtMs": 0,
+      "cls": 0
+    },
+    {
+      "route": "/engagement/",
+      "score": 100,
+      "lcpMs": 1296,
+      "tbtMs": 0,
+      "cls": 0
+    },
+    {
+      "route": "/contact/",
+      "score": 100,
+      "lcpMs": 1302,
+      "tbtMs": 0,
+      "cls": 0
+    },
+    {
+      "route": "/privacy/",
+      "score": 100,
+      "lcpMs": 1297,
+      "tbtMs": 0,
+      "cls": 0
+    }
+  ]
+}

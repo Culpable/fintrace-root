@@ -537,9 +537,7 @@ flowchart LR
 - The first production build reports `success` and its deployment version equals the version served by `fintrace-root`; the throwaway-branch build uploads a version to `fintrace-root-preview` and promotes nothing.
 - No DNS record, GitHub Pages setting, or custom domain changed.
 
-### Step 8: Attach `staging.fintrace.com.au`, run the hosted proof, and request approval 🧪 **PENDING TESTING**
-
-> Staging is live and every hosted gate passes. The step stays pending until the user records the explicit cutover approval this plan requires; Steps 9 to 11 must not start before that.
+### ~~Step 8: Attach `staging.fintrace.com.au`, run the hosted proof, and request approval~~ ✅ **COMPLETED**
 **Objective:** Put the production Worker on a real zone hostname and give the user everything needed to decide.
 
 #### 8.1 High-Level Approach
@@ -559,7 +557,7 @@ flowchart LR
 - Analytics interception on staging: one `Page Viewed` per route load, a pre-initialisation CTA click delivered on the next page, a post-initialisation CTA click sent with `sendBeacon`, no request completes to Mixpanel or Formspree.
 - The approval request names both URLs, the parity numbers, the Lighthouse medians, and the rollback packet; the recorded answer is explicit before Step 9 starts.
 
-### Step 9: Cut over `fintrace.com.au` and `www.fintrace.com.au`
+### ~~Step 9: Cut over `fintrace.com.au` and `www.fintrace.com.au`~~ ✅ **COMPLETED**
 **Objective:** Move production to the verified Worker version with an exact, tested rollback.
 
 #### 9.1 High-Level Approach
@@ -581,7 +579,7 @@ flowchart LR
 - After staging removal, `GET .../workers/domains` no longer lists `staging.fintrace.com.au`, `https://staging.fintrace.com.au/` no longer resolves to the Worker, and `dist/_headers` on the deployed version has no staging rule.
 - GitHub Pages is still enabled at the end of this step and the rollback payloads remain valid.
 
-### Step 10: Decommission GitHub Pages and the root Next.js app
+### Step 10: Decommission GitHub Pages and the root Next.js app 🔄 **IN PROGRESS**
 **Objective:** Leave one runnable app, one host, and one release path.
 
 #### 10.1 High-Level Approach
