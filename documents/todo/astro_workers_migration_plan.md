@@ -579,7 +579,7 @@ flowchart LR
 - After staging removal, `GET .../workers/domains` no longer lists `staging.fintrace.com.au`, `https://staging.fintrace.com.au/` no longer resolves to the Worker, and `dist/_headers` on the deployed version has no staging rule.
 - GitHub Pages is still enabled at the end of this step and the rollback payloads remain valid.
 
-### Step 10: Decommission GitHub Pages and the root Next.js app 🔄 **IN PROGRESS**
+### ~~Step 10: Decommission GitHub Pages and the root Next.js app~~ ✅ **COMPLETED**
 **Objective:** Leave one runnable app, one host, and one release path.
 
 #### 10.1 High-Level Approach
@@ -595,7 +595,7 @@ flowchart LR
 - `rg -n "GitHub Pages|github-pages|next build|npm run|3004|3011|_next" --glob '!documents/learnings/**' --glob '!documents/guides/cloudflare_workers_hosting.md' --glob '!documents/todo/**'` returns nothing.
 - The final Builds deployment SHA equals `git -C /Users/sacino/fintrace-root rev-parse origin/main`.
 
-### Step 11: Synchronise project documentation and rules
+### Step 11: Synchronise project documentation and rules 🔄 **IN PROGRESS**
 **Objective:** Make every binding document describe the Astro site, the Workers host, and the new commands.
 
 #### 11.1 High-Level Approach

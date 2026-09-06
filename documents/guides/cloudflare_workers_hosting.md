@@ -11,9 +11,30 @@ FinTrace Root is migrating its public site from GitHub Pages to Cloudflare Worke
 | Workers provisioning | Complete |
 | Staging proof | Complete - awaiting cutover approval |
 | Production cutover | Complete - 6 September 2026 |
-| Decommission | Not started |
+| Decommission | Complete - 6 September 2026 |
 
-`https://fintrace.com.au/` is served by GitHub Pages until the recorded cutover approval.
+`https://fintrace.com.au/` is served by Cloudflare Workers. GitHub Pages is disabled and the Next.js app is removed.
+
+## Final topology
+
+| Concern | Owner |
+| --- | --- |
+| Public site | Worker `fintrace-root` on `fintrace.com.au`, Cloudflare Workers Static Assets serving `site/dist` |
+| Canonical origin | `https://fintrace.com.au` |
+| `www` | Proxied placeholder `A 192.0.2.0` plus zone redirect rule `34a6363922994c5c9fcfb95622929d66`, one `308` to the matching apex URL |
+| Plain HTTP | Zone setting `always_use_https: on`, applied at the edge before the Worker |
+| Response headers | `site/public/_headers`, copied onto document responses by `site/src/worker.ts` |
+| Branch previews | Worker `fintrace-root-preview` on `webpop.workers.dev`, noindexed, never promoted |
+| Release path | Cloudflare Workers Builds from `main`; no GitHub Actions deployment |
+| Rollback | `site/scripts/cutover.mjs rollback` against `documents/guides/parity/cutover-snapshot.json` |
+
+### Accepted deferrals
+
+- **HSTS is not enabled.** The header policy deliberately omits `Strict-Transport-Security`; enabling it is a separate, explicit decision because it is hard to reverse in browsers that have already cached the directive.
+- **`browser_cache_ttl` stays at `14400`.** HTML returns `max-age=0, must-revalidate`, so the zone default never applies to a document.
+- **The `_github-pages-challenge-culpable` TXT record is left in place.** Removing it would surrender the verified-domain claim for no benefit.
+- **The Bulma and TaxGenie plain-HTTP regression is out of scope.** Both serve `200` over plain HTTP because `always_use_https` is off on their zones. FinTrace no longer shares that behaviour; the sibling sites are reported, not changed.
+- **Cloudflare Web Analytics is disabled for this zone**, so the site has no Cloudflare RUM data. Mixpanel remains the only analytics.
 
 ## Account and zone inventory
 
