@@ -111,12 +111,14 @@ test('_headers carries the complete delivery policy', () => {
     'X-Frame-Options: DENY',
     'Content-Type: text/plain; charset=utf-8',
     'Cache-Control: public, max-age=31536000, immutable',
-    'https://staging.fintrace.com.au/*',
     'https://:version.:subdomain.workers.dev/*',
     'X-Robots-Tag: noindex',
   ]) {
     assert.equal(headers.includes(rule), true, `_headers is missing: ${rule}`)
   }
+  // The staging hostname was removed after the cutover, so the apex can never
+  // inherit a noindex rule; only preview URLs may carry one.
+  assert.equal(headers.includes('staging.fintrace.com.au'), false)
   // HSTS stays out until it is approved separately.
   assert.equal(headers.includes('Strict-Transport-Security'), false)
   // The CSP must never need a hash: no inline executable script is emitted.

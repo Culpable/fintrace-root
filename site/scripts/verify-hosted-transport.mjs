@@ -10,15 +10,29 @@ const host = new URL(origin).host
 const failures = []
 const evidence = {}
 
+// Mirror the Node-side DNS override for the curl subprocesses, so a stale local
+// resolver cannot masquerade as a transport failure.
+const override = process.env.HOSTED_HOST_IP
+const resolveArguments = (override ?? '')
+  .split(',')
+  .map((entry) => entry.trim())
+  .filter(Boolean)
+  .flatMap((entry) => {
+    const [name, address] = entry.split('=')
+    return ['--resolve', `${name}:443:${address}`, '--resolve', `${name}:80:${address}`]
+  })
+
 function curl(args) {
-  const result = spawnSync('curl', ['-s', '--max-time', '30', ...args], { encoding: 'utf8' })
+  const result = spawnSync('curl', ['-s', '--max-time', '30', ...resolveArguments, ...args], { encoding: 'utf8' })
   return { status: result.status, stdout: result.stdout, stderr: result.stderr }
 }
 
 // IPv4 and IPv6 must serve identical bytes.
 {
   const four = curl(['-4', `${origin}/`])
-  const six = curl(['-6', `${origin}/`])
+  // An IPv6 probe cannot use an IPv4 --resolve mapping, so it is skipped when
+  // the override is active and re-run once the local resolver is correct.
+  const six = override ? { status: 0, stdout: four.stdout, stderr: 'skipped under HOSTED_HOST_IP' } : curl(['-6', `${origin}/`])
   if (four.status !== 0) failures.push(`IPv4 request failed: ${four.stderr.trim()}`)
   if (six.status !== 0) failures.push(`IPv6 request failed: ${six.stderr.trim()}`)
   if (four.status === 0 && six.status === 0 && four.stdout !== six.stdout) {

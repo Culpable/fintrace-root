@@ -13,6 +13,7 @@
  * Credentials are read from the macOS Keychain per invocation and never printed.
  */
 import { execFileSync } from 'node:child_process'
+import './host-override.mjs'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 
@@ -21,13 +22,14 @@ const ZONE_ID = '9f79f842598f32ede2fb86d93325260c'
 const APEX = 'fintrace.com.au'
 const WWW = `www.${APEX}`
 const WWW_RECORD_ID = 'cad18186776390d58893578cd8679ab1'
-const STAGING_DOMAIN_ID = '22d2489dd6d89a52a1bafe0d79e7d03ea8d31fc9'
 const REDIRECT_RULE_NAME = 'Redirect www to the FinTrace apex'
 const SNAPSHOT_PATH = resolve(import.meta.dirname, '../../documents/guides/parity/cutover-snapshot.json')
 
+const STAGING_HOSTNAME = 'staging.fintrace.com.au'
+
 const mode = process.argv[2]
-if (!['snapshot', 'cutover', 'verify', 'rollback'].includes(mode)) {
-  throw new Error('Usage: node scripts/cutover.mjs <snapshot|cutover|verify|rollback>')
+if (!['snapshot', 'cutover', 'verify', 'rollback', 'remove-staging'].includes(mode)) {
+  throw new Error('Usage: node scripts/cutover.mjs <snapshot|cutover|verify|rollback|remove-staging>')
 }
 
 const email = 'jake.sacino@gmail.com'
@@ -40,7 +42,13 @@ async function api(path, init = {}) {
     ...init,
     headers: { 'X-Auth-Email': email, 'X-Auth-Key': key, 'Content-Type': 'application/json', ...init.headers },
   })
-  const body = await response.json()
+  // A successful DELETE can return an empty body, which is not JSON.
+  const text = await response.text()
+  if (text.trim() === '') {
+    if (!response.ok) throw new Error(`${init.method ?? 'GET'} ${path} failed with status ${response.status}`)
+    return null
+  }
+  const body = JSON.parse(text)
   if (!body.success) throw new Error(`${init.method ?? 'GET'} ${path} failed: ${JSON.stringify(body.errors)}`)
   return body.result
 }
@@ -99,17 +107,31 @@ function readSnapshot() {
 async function cutover() {
   const state = readSnapshot()
 
-  // 1. Attach the apex, overriding the four GitHub A records in one operation.
-  const attached = await api(`/accounts/${ACCOUNT_ID}/workers/domains`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      environment: 'production',
-      hostname: APEX,
-      service: 'fintrace-root',
-      zone_id: ZONE_ID,
-      override_existing_dns_record: true,
-    }),
-  })
+  // 1. Attach the apex. The domains endpoint has no override parameter and
+  //    refuses a hostname that already has externally managed records, so the
+  //    four GitHub A records are deleted by ID first. If the attach then
+  //    fails, they are recreated immediately from the snapshot and nothing is
+  //    left half-applied.
+  const apexRecordIds = state.dnsRecords
+    .filter((record) => record.type === 'A' && record.name === APEX)
+    .map((record) => record.id)
+  if (apexRecordIds.length !== 4) throw new Error(`Expected four apex A records, found ${apexRecordIds.length}.`)
+
+  for (const id of apexRecordIds) await api(`/zones/${ZONE_ID}/dns_records/${id}`, { method: 'DELETE' })
+  process.stdout.write(`deleted ${apexRecordIds.length} GitHub apex A records\n`)
+
+  let attached
+  try {
+    attached = await api(`/accounts/${ACCOUNT_ID}/workers/domains`, {
+      method: 'PUT',
+      body: JSON.stringify({ hostname: APEX, service: 'fintrace-root', zone_id: ZONE_ID }),
+    })
+  } catch (error) {
+    for (const record of state.apexARecords) {
+      await api(`/zones/${ZONE_ID}/dns_records`, { method: 'POST', body: JSON.stringify(record) })
+    }
+    throw new Error(`Apex attach failed; the four A records were restored. Cause: ${error.message}`)
+  }
   process.stdout.write(`apex custom domain: ${attached.id} cert ${attached.cert_id}\n`)
 
   // 2. Turn `www` into a proxied placeholder so a redirect rule can own it.
@@ -219,7 +241,17 @@ async function verify() {
 
   const state = readSnapshot()
   const now = await api(`/zones/${ZONE_ID}/dns_records?per_page=100`)
-  const untouched = state.dnsRecords.filter((entry) => entry.name !== APEX && entry.name !== WWW && !entry.name.startsWith('staging'))
+  // Only the four apex A records and the www record may change. The apex MX
+  // and TXT records share that name, so they must be compared by ID rather
+  // than excluded by hostname.
+  const changedIds = new Set(
+    state.dnsRecords
+      .filter((entry) => (entry.type === 'A' && entry.name === APEX) || entry.name === WWW)
+      .map((entry) => entry.id),
+  )
+  const untouched = state.dnsRecords.filter(
+    (entry) => !changedIds.has(entry.id) && !entry.name.startsWith('staging'),
+  )
   const stillPresent = untouched.every((entry) =>
     now.some((current) => current.id === entry.id && current.content === entry.content && current.type === entry.type),
   )
@@ -230,7 +262,29 @@ async function verify() {
   if (checks.some((check) => !check.ok)) process.exit(1)
 }
 
+/** Retire the staging hostname once production has been verified. */
+async function removeStaging() {
+  const domains = await api(`/accounts/${ACCOUNT_ID}/workers/domains`)
+  const staging = domains.find((entry) => entry.hostname === STAGING_HOSTNAME)
+  if (staging) {
+    await api(`/accounts/${ACCOUNT_ID}/workers/domains/${staging.id}`, { method: 'DELETE' })
+    process.stdout.write(`deleted Workers custom domain ${staging.id}\n`)
+  } else {
+    process.stdout.write('no staging custom domain to delete\n')
+  }
+
+  const records = await api(`/zones/${ZONE_ID}/dns_records?per_page=100`)
+  for (const record of records.filter((entry) => entry.name === STAGING_HOSTNAME)) {
+    await api(`/zones/${ZONE_ID}/dns_records/${record.id}`, { method: 'DELETE' })
+    process.stdout.write(`deleted DNS record ${record.type} ${record.name} (${record.id})\n`)
+  }
+
+  const remaining = await api(`/zones/${ZONE_ID}/dns_records?per_page=100`)
+  process.stdout.write(`zone now holds ${remaining.length} records\n`)
+}
+
 if (mode === 'snapshot') await snapshot()
+if (mode === 'remove-staging') await removeStaging()
 if (mode === 'cutover') await cutover()
 if (mode === 'rollback') await rollback()
 if (mode === 'verify') await verify()

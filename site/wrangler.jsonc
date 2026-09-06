@@ -8,9 +8,7 @@
   "preview_urls": false,
   "routes": [
     {
-      // Staging only until the approved cutover adds the apex. Removed again
-      // once production checks pass (plan Step 9).
-      "pattern": "staging.fintrace.com.au",
+      "pattern": "fintrace.com.au",
       "custom_domain": true
     }
   ],
