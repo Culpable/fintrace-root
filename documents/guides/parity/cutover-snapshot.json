@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-09-05T15:54:08.998Z",
+  "capturedAt": "2026-09-06T02:01:28.008Z",
   "zoneId": "9f79f842598f32ede2fb86d93325260c",
   "accountId": "213ab3604485056376263d22fa242742",
   "dnsRecords": [
@@ -288,7 +288,7 @@
     }
   ],
   "workerDeployment": {
-    "id": "2b2962d8-35f5-460e-bba7-7010d35ee2d4",
+    "id": "9caa5083-5912-4427-913e-1570f0e256bd",
     "source": "wrangler",
     "strategy": "percentage",
     "author_email": "jake.sacino@gmail.com",
@@ -297,11 +297,11 @@
     },
     "versions": [
       {
-        "version_id": "6896c7c0-6bfd-47d8-b085-39b85c776bc4",
+        "version_id": "76087fea-ac6a-4950-bee5-2910dcfecf6f",
         "percentage": 100
       }
     ],
-    "created_on": "2026-09-05T15:49:54.760105Z"
+    "created_on": "2026-09-05T16:21:51.509419Z"
   },
   "githubPages": {
     "url": "https://api.github.com/repos/Culpable/fintrace-root/pages",
