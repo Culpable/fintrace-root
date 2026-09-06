@@ -1,24 +1,3 @@
-# Dependencies
-/node_modules
-
-# Next.js build output
-/.next/
-/out/
-
-# Misc
-.DS_Store
-*.pem
-*.tsbuildinfo
-next-env.d.ts
-/playwright-report/
-/test-results/
-
-# Debug logs
-npm-debug.log*
-
-# Local Codex investigation output
-/documents/todo/bugs/codex/
-
 # Astro site build and tooling output
 /site/node_modules/
 /site/dist/
@@ -27,6 +6,14 @@ npm-debug.log*
 /site/test-results/
 /site/playwright-report/
 /site/worker-configuration.d.ts
+
+# Misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+
+# Local Codex investigation output
+/documents/todo/bugs/codex/
 
 # Local env files
 .env*.local

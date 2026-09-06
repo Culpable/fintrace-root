@@ -2,14 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Next.js: npm dev (3004 development)",
+      "name": "Astro: pnpm dev (4332 development)",
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm run dev",
+      "command": "corepack pnpm --dir site dev",
       "cwd": "${workspaceFolder}",
       "env": {
         "NODE_ENV": "development",
-        "PORT": "3004"
+        "PORT": "4332"
       }
     }
   ]
