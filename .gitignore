@@ -12,6 +12,12 @@
 *.pem
 *.tsbuildinfo
 
+# Regenerable parity output. The production reference screenshots and the
+# baseline manifest are deliberately tracked: they are the pre-migration source
+# of truth and must never be regenerated from the current site.
+/documents/guides/parity/screenshots/candidate/
+/documents/guides/parity/screenshots/diff/
+
 # Local Codex investigation output
 /documents/todo/bugs/codex/
 

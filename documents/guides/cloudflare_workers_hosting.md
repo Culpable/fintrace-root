@@ -320,7 +320,7 @@ Approved by the user on 6 September 2026 after reviewing `https://staging.fintra
 
 ### Production Lighthouse sanity pass
 
-Three mobile runs per route with Lighthouse `13.4.1`, medians. Raw reports are kept in `documents/guides/parity/lighthouse-production/`.
+Three mobile runs per route with Lighthouse `13.4.1`, medians. `documents/guides/parity/lighthouse-production/summary.json` holds the recorded result; the raw per-run reports are regenerable with `node scripts/run-lighthouse-sanity.mjs <origin>` and are not tracked.
 
 | Route | Score | LCP | TBT | CLS |
 | --- | ---: | ---: | ---: | ---: |
