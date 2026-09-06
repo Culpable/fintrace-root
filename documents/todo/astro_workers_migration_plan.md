@@ -1,4 +1,4 @@
-# Astro on Cloudflare Workers Migration Plan 🔄 **IN PROGRESS**
+# ~~Astro on Cloudflare Workers Migration Plan~~ ✅ **COMPLETED**
 
 <critical_warning>
 > **CRITICAL WARNING:** Production cutover changes DNS and one zone setting for `fintrace.com.au` only. Immediately before that write, record the complete live state of every record in zone `9f79f842598f32ede2fb86d93325260c`, every Workers custom domain, every zone ruleset, the `always_use_https` setting, and the GitHub Pages site state in `documents/guides/cloudflare_workers_hosting.md`, then commit it. Only the four apex `A` records, the one `www` `CNAME` record, and the `always_use_https` setting may change. The Microsoft 365 `MX`, `SPF`, `MS=`, `autodiscover`, `enterpriseenrollment`, and `enterpriseregistration` records, the Google Search Console `TXT`, and the `_github-pages-challenge-culpable` `TXT` must remain byte-identical. GitHub Pages stays live and undisabled until the Worker passes every production check so the recorded records can restore the previous host within minutes.
@@ -595,7 +595,7 @@ flowchart LR
 - `rg -n "GitHub Pages|github-pages|next build|npm run|3004|3011|_next" --glob '!documents/learnings/**' --glob '!documents/guides/cloudflare_workers_hosting.md' --glob '!documents/todo/**'` returns nothing.
 - The final Builds deployment SHA equals `git -C /Users/sacino/fintrace-root rev-parse origin/main`.
 
-### Step 11: Synchronise project documentation and rules 🔄 **IN PROGRESS**
+### ~~Step 11: Synchronise project documentation and rules~~ ✅ **COMPLETED**
 **Objective:** Make every binding document describe the Astro site, the Workers host, and the new commands.
 
 #### 11.1 High-Level Approach
@@ -706,3 +706,71 @@ flowchart LR
     - Action: After Step 10, query GitHub Pages and the repository tree; run the full `site/` gate.
     - Expected: All removals confirmed; apex unaffected; final Builds deployment equals `origin/main`.
     - Verify: `gh api`, `ls`, `rg`, and the Builds API.
+
+---
+
+## Implemented Solution
+
+`https://fintrace.com.au/` is served by Cloudflare Workers from an Astro static build with no client framework. GitHub Pages is disabled and the Next.js app is removed. The repository root now holds only `AGENTS.md`, `DESIGN.md`, `documents/`, `site/` and the dotfiles.
+
+### Files added
+
+- `site/` - the whole application. `astro.config.mjs` (static output, `trailingSlash: 'always'`, coupled `assetsInlineLimit: 0` and `inlineStylesheets: 'never'`, hover prefetch, three Fonts API entries), `wrangler.jsonc`, `package.json` on pnpm `11.24.0`, `tsconfig.json`, `pnpm-workspace.yaml`.
+- `site/src/pages/` - `index.astro`, `about/`, `engagement/`, `contact/`, `privacy/`, `404.astro`, plus `robots.txt.ts`, `sitemap.xml.ts` and `llms.txt.ts`.
+- `site/src/components/` - `head/PageMetadata.astro`, `head/StructuredData.astro`, `head/SitewideHead.astro`, `head/SitewideBodyEnd.astro`, `shell/SiteHeader.astro`, `shell/SiteFooter.astro`, `elements/Reveal.astro`, `elements/Stat.astro`, `sections/Hero.astro`, `LedgerPlate.astro`, `TraceDiagram.astro`, `CurrencyMatch.astro`, `MatchDiagram.astro`, `ClientVoice.astro`, `FramedClientVoice.astro`, `ContactForm.astro`.
+- `site/src/scripts/` - `reveal.ts`, `stat.ts`, `ledger-plate.ts`, `trace-diagram.ts`, `hero-scene.ts`, `evidence-scene.ts`, `contact-form.ts`, `analytics-boot.ts`.
+- `site/src/lib/` - `metadata.ts`, `structured-data.ts`, `llms.ts`, `analytics/core.ts`, `analytics/client.ts`, `agent-readable-http/`; `site/src/config/site.ts`; `site/src/data/` (`home.ts`, `engagement.ts`, `contact.ts`, `testimonial.ts`, `ledger.ts`, `trace.ts`, `currency-match.ts`); `site/src/worker.ts`.
+- `site/src/styles/` - vendored `preflight.css`, `global.css`, `site.css`, `engine-network.css`, `site-pages.css` and the five route sheets.
+- `site/public/` - `_headers` and byte-identical copies of the images and browser identity assets.
+- `site/test/` - 48 Node tests (`analytics`, `discovery`, `metadata`, `build-output`, `production-parity`, `runtime-contract`, `negotiated-document`, `agent-markdown-generation`) and the 124-test Playwright suite, plus `http-contract.json`.
+- `site/scripts/` - build, capture, comparison and verification tooling, including `cutover.mjs` (snapshot, cutover, verify, rollback, remove-staging), `verify-hosted-parity.mjs`, `verify-hosted-transport.mjs`, `verify-hosted-analytics.mjs`, `verify-contact-contract.mjs`, `verify-browser-runtime.mjs`, `verify-hero-matrix.mjs`, `compare-text.mjs`, `compare-screenshots.mjs`, `measure-prefetch-reuse.mjs`, `host-override.mjs`.
+- `documents/guides/cloudflare_workers_hosting.md`, `documents/guides/parity/` (baseline manifest, 18 production reference screenshots, cutover snapshot, Lighthouse summary, README), `documents/AGENTS/`.
+
+### Files removed
+
+The Next.js app in its entirety: `src/` (including the 77-file `_design-lab`), `public/`, `scripts/`, `test/`, `package.json`, `package-lock.json`, `next.config.ts`, `next-env.d.ts`, `tsconfig.json`, `tsconfig.tsbuildinfo`, `eslint.config.mjs`, `postcss.config.mjs`, `playwright.config.ts`, `node_modules/`, `.next/`, `out/`, and `.github/workflows/deploy.yml` with the emptied `.github/`. Everything is recoverable from Git history; the design lab is at `git show 99a3667:src/app/_design-lab/`.
+
+### Behaviour changes
+
+- **No client framework.** The six React client components became Astro markup plus processed scripts with identical thresholds, root margins, timings, easings, class names, ARIA and cleanup. Initial JavaScript fell from about 190-197 KiB gzip per route to 1.8-5.2 KiB.
+- **Host-owned delivery contract.** `_headers` supplies a hash-free CSP, `Permissions-Policy`, `Referrer-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, `text/plain; charset=utf-8` on discovery files and `public, max-age=31536000, immutable` on `/_astro/*`. None of this was possible on GitHub Pages.
+- **Negotiated Markdown.** `site/src/worker.ts` serves the same canonical URL as Markdown for `Accept: text/markdown`, always with `Vary: Accept` and a byte-identical HTML body when HTML is selected.
+- **Analytics survives real navigation.** The pre-adapter queue persists to `sessionStorage['fintrace-analytics-queue']` (capped at 50, cleared on read), and `Assessment CTA Clicked` uses Mixpanel's `sendBeacon` transport. Proved live: a click on `/about/` was delivered from the next document carrying `page: about`.
+- **`og:locale` corrected** from `en-AU` to `en_AU`, the form the Open Graph protocol requires. `<html lang>` and JSON-LD `inLanguage` keep `en-AU`.
+- **Privacy notice updated** to name Cloudflare as the host and disclose the session-storage queue.
+- **`always_use_https: on`** preserves the plain-HTTP redirect GitHub Pages provided, now applied at the edge before the Worker.
+- **`www` redirect** is a proxied placeholder plus one zone `308` preserving path and query.
+
+### Unplanned findings, resolved with the user's approval
+
+Proxying the zone exposed two Cloudflare edge features that rewrite responses after the Worker returns them. Both were off on `bulma.com.au` and `taxgenie.com.au`, and both were disabled here:
+
+1. **Managed `robots.txt`** (`is_robots_txt_managed`) replaced the file with a 1,905-byte document disallowing the major AI crawlers - the opposite of this site's agent-readiness contract.
+2. **Auto-injected Web Analytics beacon**, appended only to responses carrying a browser `Accept` header. It would have been CSP-blocked on every page view, added a forbidden runtime request class, broken byte-identical HTML and sent visitor data to an undisclosed provider. `auto_install: false` alone did not stop it; `ruleset.enabled: false` did, and Cloudflare only accepts `enabled` alongside `auto_install: true`.
+
+A read-only audit of all 94 zones found managed `robots.txt` on for six other zones and Web Analytics auto-injection live on eight, including `trackmytrail.com.au` and `sacino.au`. Nothing outside `fintrace.com.au` was changed.
+
+### Validation
+
+| Command | Result |
+| --- | --- |
+| `corepack pnpm check` (site) | 0 errors, 0 warnings, 0 hints |
+| `corepack pnpm build` (site) | 6 pages, Markdown generated for all five routes plus the recovery document |
+| `corepack pnpm test` (site) | 48 Node tests and 124 Playwright tests, 0 failures |
+| `corepack pnpm test:http` under `wrangler dev` | 19 of 19 |
+| `scripts/compare-text.mjs` | All six documents match the pre-migration manifest |
+| `scripts/compare-screenshots.mjs` | 18 of 18; maximum 0.361% differing pixels against a 1.0% gate |
+| `scripts/verify-hero-matrix.mjs` (headed, real GPU) | Seven viewports, live resize, forced WebGL failure - locally, on staging and on the apex |
+| `cutover.mjs verify` (apex) | 11 of 11, including all eight unrelated DNS records byte-identical to the pre-cutover snapshot |
+| `PLAYWRIGHT_BASE_URL=https://fintrace.com.au playwright test` | 124 passed |
+| Lighthouse matrix, 150 runs | Mobile medians 98-99 to 100, LCP down 36-46%, TBT to 0 on every route; desktop holds 100 with LCP down 24-29% |
+| Lighthouse on the apex after cutover, 3 mobile runs per route | 100 on every route, LCP about 1,300 ms, TBT 0, CLS 0 |
+| `verify-hosted-parity`, `-transport`, `-negotiated-content`, `-browser-runtime`, `-hosted-analytics`, `-contact-contract` | All pass against the apex |
+
+### Deferred, with reasons
+
+- **HSTS is not enabled.** Deliberately outside this plan; it needs its own decision because browsers cache the directive.
+- **`browser_cache_ttl` stays at `14400`.** Plan D-23's trigger did not fire: HTML returns `max-age=0, must-revalidate`.
+- **The `_github-pages-challenge-culpable` TXT record is left in place**, as the plan requires.
+- **The Bulma and TaxGenie plain-HTTP regression is reported, not fixed.** Both still serve `200` over plain HTTP because `always_use_https` is off on their zones. Out of scope here.
+- **The live Formspree success path remains unproven.** Every check intercepts the endpoint, so no real enquiry has been sent; this matches the pre-existing recorded position in `DESIGN.md`.
